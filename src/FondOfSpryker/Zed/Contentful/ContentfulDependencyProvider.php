@@ -7,21 +7,27 @@ use Spryker\Zed\Kernel\Container;
 /**
  * @author mnoerenberg
  */
-class ContentfulDependencyProvider extends AbstractBundleDependencyProvider {
-
-    public const KV_STORAGE = 'KV_STORE';
-    public const RENDERER  = 'twig';
+class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
+{
+    public const STORAGE_CLIENT = 'STORAGE_CLIENT';
+    public const RENDERER = 'twig';
+    public const LOCALE_FACADE = 'LOCALE_FACADE';
 
     /**
      * @param \Spryker\Zed\Kernel\Container $container
      *
      * @return \Spryker\Zed\Kernel\Container
      */
-    public function provideBusinessLayerDependencies(Container $container) {
-
+    public function provideBusinessLayerDependencies(Container $container)
+    {
         //storage client
-        $container[static::KV_STORAGE] = function (Container $container) {
+        $container[static::STORAGE_CLIENT] = function (Container $container) {
             return $container->getLocator()->storage()->client();
+        };
+
+        // locale facade
+        $container[static::LOCALE_FACADE] = function (Container $container) {
+            return $container->getLocator()->locale()->facade();
         };
 
         return $container;

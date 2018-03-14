@@ -6,5 +6,4 @@ namespace FondOfSpryker\Zed\Contentful\Business;
  */
 interface ContentfulFacadeInterface
 {
-
 }

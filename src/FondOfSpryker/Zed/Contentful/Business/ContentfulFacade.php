@@ -6,14 +6,15 @@ use Spryker\Zed\Kernel\Business\AbstractFacade;
 /**
  * @method \FondOfSpryker\Zed\Contentful\Business\ContentfulBusinessFactory getFactory()
  */
-class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterface  {
-
+class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterface
+{
     /**
      * @author mnoerenberg
-     * @return mixed
+     *
+     * @return void
      */
-    public function updateContent() {
-        return $this->getFactory()->createContentfulImporter()->import();
+    public function updateContent()
+    {
+        $this->getFactory()->createContentfulImporter()->import();
     }
-
 }

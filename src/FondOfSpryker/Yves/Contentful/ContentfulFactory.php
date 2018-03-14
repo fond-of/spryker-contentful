@@ -10,24 +10,36 @@ use Spryker\Yves\Kernel\AbstractFactory;
 /**
  * @author mnoerenberg
  */
-class ContentfulFactory extends AbstractFactory {
-
+class ContentfulFactory extends AbstractFactory
+{
     /**
      * @author mnoerenberg
-     * @throws \Exception
+     *
+     * @return \FondOfSpryker\Yves\Contentful\Model\StorageContentful
      */
-    public function createStorageContentful() {
+    public function createStorageContentful()
+    {
         return new StorageContentful(
             $this->getStorageClient()
         );
     }
 
     /**
-     * @author mnoerenberg
-     * @return ContentfulTwigExtension
-     * @throws \Exception
+     * @return \Spryker\Client\Product\Dependency\Client\ProductToLocaleInterface
      */
-    public function createContentfulTwigExtension() {
+    public function getLocale()
+    {
+        return $this->get
+        return $this->getProvidedDependency(ContentfulDependencyProvider::LOCALE);
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @return \FondOfSpryker\Yves\Contentful\Twig\ContentfulTwigExtension
+     */
+    public function createContentfulTwigExtension()
+    {
         return new ContentfulTwigExtension(
             $this->createStorageContentful(),
             $this->getApplication()
@@ -36,18 +48,19 @@ class ContentfulFactory extends AbstractFactory {
 
     /**
      * @author mnoerenberg
-     * @return StorageClientInterface
-     * @throws \Exception
+     *
+     * @return \Spryker\Client\Storage\StorageClientInterface
      */
-    public function getStorageClient() : StorageClientInterface {
+    public function getStorageClient(): StorageClientInterface
+    {
         return $this->getProvidedDependency(ContentfulDependencyProvider::KV_STORAGE);
     }
 
     /**
      * @return \Silex\Application
-     * @throws \Exception
      */
-    public function getApplication() : Application {
+    public function getApplication(): Application
+    {
         return $this->getProvidedDependency(ContentfulDependencyProvider::APPLICATION);
     }
 }

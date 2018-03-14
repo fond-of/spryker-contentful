@@ -10,41 +10,45 @@ use Twig_SimpleFunction;
 /**
  * @author mnoerenberg
  */
-class ContentfulTwigExtension extends TwigExtension {
-
+class ContentfulTwigExtension extends TwigExtension
+{
     const FUNCTION_NAME_CONTENTFUL_RENDER_ENTRY = 'contentfulEntry';
 
     /**
-     * @var StorageContentful
+     * @var \FondOfSpryker\Yves\Contentful\Model\StorageContentful
      */
     private $storageContentful;
 
     /**
-     * @var Application
+     * @var \Silex\Application
      */
     private $application;
 
     /**
-     * @param StorageContentful $storageClient
-     * @param Application $application
+     * @param \FondOfSpryker\Yves\Contentful\Model\StorageContentful $storageContentful
+     * @param \Silex\Application $application
      */
-    public function __construct(StorageContentful $storageContentful, Application $application) {
+    public function __construct(StorageContentful $storageContentful, Application $application)
+    {
         $this->storageContentful = $storageContentful;
         $this->application = $application;
     }
 
     /**
      * @author mnoerenberg
+     *
      * @return string
      */
-    private function getLocale() {
+    private function getLocale()
+    {
         return $this->application['locale'];
     }
 
     /**
      * @return array
      */
-    public function getFunctions() {
+    public function getFunctions()
+    {
         return [
             new Twig_SimpleFunction(static::FUNCTION_NAME_CONTENTFUL_RENDER_ENTRY, [$this, 'renderContentfulEntry'], ['is_safe' => ['html'], 'needs_environment' => true]),
         ];
@@ -52,28 +56,32 @@ class ContentfulTwigExtension extends TwigExtension {
 
     /**
      * TODO
+     *
      * @author mnoerenberg
+     *
      * @param string $contentfulEntryName
+     *
      * @return string
      */
-    private function findContentfulEntryTemplatePathByName(string $contentfulEntryName) {
+    private function findContentfulEntryTemplatePathByName(string $contentfulEntryName)
+    {
         return $contentfulEntryName;
     }
 
     /**
      * @param \Twig_Environment $twig
-     * @param int $idProductAbstract
-     * @param string $template
+     * @param string $contentfulEntryId
      *
      * @return string
      */
-    public function renderContentfulEntry(Twig_Environment $twig, string $contentfulEntryId) {
-        $contentfulValues = $this->storageContentful->findContentfulEntry($contentfulEntryId, $this->getLocale());
+    public function renderContentfulEntry(Twig_Environment $twig, string $contentfulEntryId)
+    {
+        $contentfulValues = $this->storageContentful->findContentfulEntryById($contentfulEntryId, $this->getLocale());
         if (empty($contentfulValues)) {
             return '';
         }
 
-        return $twig->render($this->findContentfulEntryTemplatePathByName(), [
+        return $twig->render($this->findContentfulEntryTemplatePathByName($contentfulEntryId), [
             'productGroupItems' => $productGroupItems,
         ]);
     }

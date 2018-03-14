@@ -4,19 +4,21 @@ namespace FondOfSpryker\Yves\Contentful\Controller;
 
 use Spryker\Yves\Kernel\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @method \FondOfSpryker\Yves\Contentful\ContentfulFactory getFactory()
  */
-class IndexController extends AbstractController {
-
+class IndexController extends AbstractController
+{
     /**
-     * @param Request $request
-     * @return Response
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @throws
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(Request $request) {
+    public function indexAction(Request $request)
+    {
         $storageContentful = $this->getFactory()->createStorageContentful();
         $contentfulEntry = $storageContentful->findContentfulPageByUrl($request->getUriForPath());
 
