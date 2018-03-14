@@ -6,4 +6,4 @@
 
 ```
 composer require fond-of-spryker/contentful
-```ll
+```
