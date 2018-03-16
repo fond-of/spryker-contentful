@@ -1,7 +1,6 @@
 <?php
 namespace FondOfSpryker\Zed\Contentful\Communication\Console;
 
-use Exception;
 use Spryker\Zed\Kernel\Communication\Console\Console;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -33,7 +32,8 @@ class ContentfulConsole extends Console
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->getFacade()->updateContent();
+        $numberOfUpdatedEntries = $this->getFacade()->updateContent();
+        $output->writeln('Updated entries: ' . $numberOfUpdatedEntries);
         return static::CODE_SUCCESS;
     }
 }

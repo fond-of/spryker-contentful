@@ -1,37 +1,16 @@
 <?php
 namespace FondOfSpryker\Yves\Contentful;
 
-use FondOfSpryker\Yves\Contentful\Model\StorageContentful;
+use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder;
 use FondOfSpryker\Yves\Contentful\Twig\ContentfulTwigExtension;
 use Silex\Application;
-use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Yves\Kernel\AbstractFactory;
 
 /**
- * @author mnoerenberg
+ * @method \FondOfSpryker\Client\Contentful\ContentfulClientInterface getClient()
  */
 class ContentfulFactory extends AbstractFactory
 {
-    /**
-     * @author mnoerenberg
-     *
-     * @return \FondOfSpryker\Yves\Contentful\Model\StorageContentful
-     */
-    public function createStorageContentful()
-    {
-        return new StorageContentful(
-            $this->getStorageClient()
-        );
-    }
-
-    /**
-     * @return \Spryker\Client\Product\Dependency\Client\ProductToLocaleInterface
-     */
-    public function getLocale()
-    {
-        return $this->get
-        return $this->getProvidedDependency(ContentfulDependencyProvider::LOCALE);
-    }
 
     /**
      * @author mnoerenberg
@@ -41,26 +20,18 @@ class ContentfulFactory extends AbstractFactory
     public function createContentfulTwigExtension()
     {
         return new ContentfulTwigExtension(
-            $this->createStorageContentful(),
-            $this->getApplication()
+            $this->getClient(),
+            $this->createContentfulKeyBuilder()
         );
     }
 
     /**
      * @author mnoerenberg
      *
-     * @return \Spryker\Client\Storage\StorageClientInterface
+     * @return \FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder
      */
-    public function getStorageClient(): StorageClientInterface
+    protected function createContentfulKeyBuilder()
     {
-        return $this->getProvidedDependency(ContentfulDependencyProvider::KV_STORAGE);
-    }
-
-    /**
-     * @return \Silex\Application
-     */
-    public function getApplication(): Application
-    {
-        return $this->getProvidedDependency(ContentfulDependencyProvider::APPLICATION);
+        return new ContentfulEntryKeyBuilder();
     }
 }

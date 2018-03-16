@@ -6,26 +6,22 @@ use Contentful\Delivery\Client;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder;
 use FondOfSpryker\Zed\Contentful\Business\Model\ContentfulImporter;
 use FondOfSpryker\Zed\Contentful\Business\Model\ContentfulMapper;
-use FondOfSpryker\Zed\Contentful\Business\Model\ContentfulMapperInterface;
-use FondOfSpryker\Zed\Contentful\Business\Model\ContentfulRepository;
 use FondOfSpryker\Zed\Contentful\ContentfulDependencyProvider;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
-use Spryker\Zed\Locale\Business\LocaleFacadeInterface;
-use Spryker\Zed\Storage\Business\StorageFacade;
-use Spryker\Zed\Storage\Business\StorageFacadeInterface;
 
 /**
  * @method \FondOfSpryker\Zed\Contentful\ContentfulConfig getConfig()
  */
-class ContentfulBusinessFactory extends AbstractBusinessFactory {
-
+class ContentfulBusinessFactory extends AbstractBusinessFactory
+{
     /**
      * @author mnoerenberg
      *
      * @return \FondOfSpryker\Zed\Contentful\Business\Model\ContentfulImporter
      */
-    public function createContentfulImporter(): ContentfulImporter {
+    public function createContentfulImporter(): ContentfulImporter
+    {
         return new ContentfulImporter(
             $this->getStorageClient(),
             $this->createContentfulMapper(),
@@ -37,17 +33,21 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory {
 
     /**
      * @author mnoerenberg
-     * @return ContentfulMapperInterface
+     *
+     * @return \FondOfSpryker\Zed\Contentful\Business\Model\ContentfulMapperInterface
      */
-    protected function createContentfulMapper() {
+    protected function createContentfulMapper()
+    {
         return new ContentfulMapper();
     }
 
     /**
      * @author mnoerenberg
-     * @return ContentfulEntryKeyBuilder
+     *
+     * @return \FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder
      */
-    protected function createContentfulKeyBuilder() {
+    protected function createContentfulKeyBuilder()
+    {
         return new ContentfulEntryKeyBuilder();
     }
 
@@ -56,7 +56,8 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory {
      *
      * @return \Contentful\Delivery\Client
      */
-    public function createContentfulClient(): Client {
+    public function createContentfulClient(): Client
+    {
         return new Client(
             $this->getConfig()->getAccessToken(),
             $this->getConfig()->getSpaceId()
@@ -66,17 +67,20 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory {
     /**
      * @author mnoerenberg
      *
-     * @return StorageClientInterface
+     * @return \Spryker\Client\Storage\StorageClientInterface
      */
-    protected function getStorageClient(): StorageClientInterface {
+    protected function getStorageClient(): StorageClientInterface
+    {
         return $this->getProvidedDependency(ContentfulDependencyProvider::STORAGE_CLIENT);
     }
 
     /**
      * @author mnoerenberg
-     * @return LocaleFacadeInterface
+     *
+     * @return \Spryker\Zed\Locale\Business\LocaleFacadeInterface
      */
-    protected function getLocaleFacade() {
+    protected function getLocaleFacade()
+    {
         return $this->getProvidedDependency(ContentfulDependencyProvider::LOCALE_FACADE);
     }
 }

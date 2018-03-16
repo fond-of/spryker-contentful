@@ -1,7 +1,10 @@
 <?php
 namespace FondOfSpryker\Yves\Contentful\Twig;
 
-use FondOfSpryker\Yves\Contentful\Model\StorageContentful;
+use FondOfSpryker\Client\Contentful\ContentfulClientInterface;
+use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder;
+use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
+use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 use Silex\Application;
 use Spryker\Shared\Twig\TwigExtension;
 use Twig_Environment;
@@ -12,36 +15,27 @@ use Twig_SimpleFunction;
  */
 class ContentfulTwigExtension extends TwigExtension
 {
-    const FUNCTION_NAME_CONTENTFUL_RENDER_ENTRY = 'contentfulEntry';
 
     /**
-     * @var \FondOfSpryker\Yves\Contentful\Model\StorageContentful
+     * @var ContentfulClientInterface
      */
-    private $storageContentful;
+    private $contentfulClient;
 
     /**
-     * @var \Silex\Application
+     * @var ContentfulEntryKeyBuilder
      */
-    private $application;
+    private $contentfulEntryKeyBuilder;
 
     /**
-     * @param \FondOfSpryker\Yves\Contentful\Model\StorageContentful $storageContentful
-     * @param \Silex\Application $application
+     * @param ContentfulClientInterface $contentfulClient
+     * @param ContentfulEntryKeyBuilder $contentfulEntryKeyBuilder
      */
-    public function __construct(StorageContentful $storageContentful, Application $application)
-    {
-        $this->storageContentful = $storageContentful;
-        $this->application = $application;
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @return string
-     */
-    private function getLocale()
-    {
-        return $this->application['locale'];
+    public function __construct(
+        ContentfulClientInterface $contentfulClient,
+        ContentfulEntryKeyBuilder $contentfulEntryKeyBuilder
+    ) {
+        $this->contentfulClient = $contentfulClient;
+        $this->contentfulEntryKeyBuilder = $contentfulEntryKeyBuilder;
     }
 
     /**
@@ -50,39 +44,38 @@ class ContentfulTwigExtension extends TwigExtension
     public function getFunctions()
     {
         return [
-            new Twig_SimpleFunction(static::FUNCTION_NAME_CONTENTFUL_RENDER_ENTRY, [$this, 'renderContentfulEntry'], ['is_safe' => ['html'], 'needs_environment' => true]),
+            new Twig_SimpleFunction('renderContentfulEntry', [$this, 'renderContentfulEntry'], ['is_safe' => ['html'], 'needs_environment' => true]),
         ];
     }
 
     /**
-     * TODO
-     *
-     * @author mnoerenberg
-     *
-     * @param string $contentfulEntryName
+     * @param \Twig_Environment $twig
+     * @param string $entryId
      *
      * @return string
      */
-    private function findContentfulEntryTemplatePathByName(string $contentfulEntryName)
+    public function renderContentfulEntry(Twig_Environment $twig, string $entryId)
     {
-        return $contentfulEntryName;
+        $request = new ContentfulEntryRequestTransfer();
+        $request->setId($entryId);
+
+        $response = $this->contentfulClient->getContentfulEntryFromStorageByEntryIdForCurrentLocale($request);
+        if ($response->getSuccessful() !== true) {
+            return $response->getErrorMessage();
+        }
+
+        return $twig->render($this->findContentfulEntryTemplatePathByName($response), [
+            'entry' => $response->getFields(),
+        ]);
     }
 
     /**
-     * @param \Twig_Environment $twig
-     * @param string $contentfulEntryId
-     *
+     * @author mnoerenberg
+     * @param ContentfulEntryResponseTransfer $response
      * @return string
      */
-    public function renderContentfulEntry(Twig_Environment $twig, string $contentfulEntryId)
+    private function findContentfulEntryTemplatePathByName(ContentfulEntryResponseTransfer $response) : string
     {
-        $contentfulValues = $this->storageContentful->findContentfulEntryById($contentfulEntryId, $this->getLocale());
-        if (empty($contentfulValues)) {
-            return '';
-        }
-
-        return $twig->render($this->findContentfulEntryTemplatePathByName($contentfulEntryId), [
-            'productGroupItems' => $productGroupItems,
-        ]);
+        return sprintf('@Contentful/contentful/%s.twig', $response->getContentType());
     }
 }

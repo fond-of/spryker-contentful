@@ -1,18 +1,20 @@
 <?php
 namespace FondOfSpryker\Client\Contentful\Storage;
 
-use Generated\Shared\Transfer\ContentfulEntryTransfer;
+use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
+use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 
 /**
  * @author mnoerenberg
  */
 interface ContentfulStorageReaderInterface
 {
-
     /**
      * @author mnoerenberg
-     * @param string $entryId
-     * @return ContentfulEntryTransfer
+     *
+     * @param ContentfulEntryRequestTransfer $request
+     *
+     * @return ContentfulEntryResponseTransfer
      */
-    public function getContentfulEntryById(string $entryId);
+    public function getContentfulEntryById(ContentfulEntryRequestTransfer $request);
 }

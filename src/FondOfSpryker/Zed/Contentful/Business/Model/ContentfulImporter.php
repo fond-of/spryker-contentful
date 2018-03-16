@@ -3,11 +3,9 @@
 namespace FondOfSpryker\Zed\Contentful\Business\Model;
 
 use Contentful\Delivery\Client;
-use Contentful\Delivery\DynamicEntry;
 use Contentful\Delivery\Query;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
-use Spryker\Zed\Storage\Business\StorageFacadeInterface;
 
 /**
  * @author mnoerenberg
@@ -17,11 +15,12 @@ class ContentfulImporter
     const STORAGE_KEY_CONTENTFUL = 'contentful';
 
     /**
-     * @var StorageFacadeInterface
+     * @var \Spryker\Zed\Storage\Business\StorageFacadeInterface
      */
     protected $storageClient;
+
     /**
-     * @var ContentfulMapperInterface
+     * @var \FondOfSpryker\Zed\Contentful\Business\Model\ContentfulMapperInterface
      */
     protected $contentfulMapper;
 
@@ -31,20 +30,20 @@ class ContentfulImporter
     protected $localeMapping;
 
     /**
-     * @var KeyBuilderInterface
+     * @var \Spryker\Shared\KeyBuilder\KeyBuilderInterface
      */
     protected $keyBuilder;
 
     /**
-     * @var Client
+     * @var \Contentful\Delivery\Client
      */
     protected $client;
 
     /**
-     * @param StorageClientInterface $storageClient
-     * @param ContentfulMapperInterface $contentfulMapper
-     * @param Client $client
-     * @param KeyBuilderInterface $keyBuilder
+     * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
+     * @param \FondOfSpryker\Zed\Contentful\Business\Model\ContentfulMapperInterface $contentfulMapper
+     * @param \Contentful\Delivery\Client $client
+     * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
      * @param string[] $localeMapping
      */
     public function __construct(
@@ -63,13 +62,13 @@ class ContentfulImporter
 
     /**
      * @author mnoerenberg
+     *
      * @return \Contentful\ResourceArray
      */
-    protected function getChangedEntries()
+    protected function getLastChangedEntries()
     {
         $query = new Query();
-        //$query->where('sys.updatedAt', (new \DateTime())->modify('-5 minutes'));
-        $query->where('sys.id', '1usXFoT6bSYe8IGiIEmuIq');
+        $query->where('sys.updatedAt', (new \DateTime())->modify('-5 minutes'), 'gte');
         $query->setLocale('*');
 
         return $this->client->getEntries($query);
@@ -78,15 +77,14 @@ class ContentfulImporter
     /**
      * @author mnoerenberg
      *
-     * @return mixed
+     * @return int
      */
     public function import()
     {
-        $entries = $this->getChangedEntries();
-
+        $entries = $this->getLastChangedEntries();
         foreach ($entries as $changedEntry) {
             foreach ($this->localeMapping as $contentfulLocale => $locale) {
-                /** @var DynamicEntry $changedEntry */
+                /** @var \Contentful\Delivery\DynamicEntry $changedEntry */
                 $changedEntry->setLocale($contentfulLocale);
 
                 $key = $this->keyBuilder->generateKey($changedEntry->getId(), $locale);
@@ -94,5 +92,7 @@ class ContentfulImporter
                 $this->storageClient->set($key, $value);
             }
         }
+
+        return count($entries);
     }
 }

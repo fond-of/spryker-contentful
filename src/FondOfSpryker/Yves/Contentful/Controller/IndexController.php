@@ -19,10 +19,6 @@ class IndexController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        $storageContentful = $this->getFactory()->createStorageContentful();
-        $contentfulEntry = $storageContentful->findContentfulPageByUrl($request->getUriForPath());
-
-        $template = 'page';
-        return $this->renderView('@Contentful/contentful/' . $template . '.twig');
+        return $this->viewResponse();
     }
 }

@@ -2,33 +2,40 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Model;
 
-use Contentful\Delivery\Asset;
 use Contentful\Delivery\ContentTypeField;
 use Contentful\Delivery\DynamicEntry;
-use Contentful\File\ImageFile;
+use Exception;
 
 /**
  * @author mnoerenberg
  */
 class ContentfulMapper implements ContentfulMapperInterface
 {
-
     private const CONTENTFUL_FIELD_TYPE_ARRAY = 'Array';
     private const CONTENTFUL_FIELD_TYPE_LINK = 'Link';
     private const CONTENTFUL_FIELD_TYPE_ASSET = 'Asset';
+    private const CONTENTFUL_FIELD_TYPE_BOOLEAN = 'Boolean';
+    private const CONTENTFUL_FIELD_TYPE_ENTRY = 'Entry';
+
+    private const STORAGE_TYPE_ARRAY = 'Array';
+    private const STORAGE_TYPE_REFERENCE = 'Reference';
+    private const STORAGE_TYPE_TEXT = 'Text';
+    private const STORAGE_TYPE_ASSET = 'Asset';
+    private const STORAGE_TYPE_BOOLEAN = 'Boolean';
 
     /**
      * @author mnoerenberg
-     * @param DynamicEntry $dynamicEntry
+     *
+     * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
+     *
      * @return string
-     * @throws \Exception
      */
     public function from(DynamicEntry $dynamicEntry)
     {
         $value = [
             'id' => $dynamicEntry->getId(),
             'contentType' => $dynamicEntry->getContentType()->getId(),
-            'fields' => $this->getFields($dynamicEntry)
+            'fields' => $this->getFields($dynamicEntry),
         ];
 
         return json_encode($value);
@@ -36,14 +43,15 @@ class ContentfulMapper implements ContentfulMapperInterface
 
     /**
      * @author mnoerenberg
-     * @param DynamicEntry $dynamicEntry
+     *
+     * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
+     *
      * @return string[]
      */
-    protected function getFields(DynamicEntry $dynamicEntry) {
+    private function getFields(DynamicEntry $dynamicEntry)
+    {
         $fields = [];
         foreach ($dynamicEntry->getContentType()->getFields() as $contentTypeField) {
-            /** @var ContentTypeField $contentTypeField */
-
             $fields[$contentTypeField->getId()] = $this->getField($dynamicEntry, $contentTypeField);
         }
 
@@ -52,70 +60,151 @@ class ContentfulMapper implements ContentfulMapperInterface
 
     /**
      * @author mnoerenberg
-     * @param DynamicEntry $dynamicEntry
-     * @param ContentTypeField $contentTypeField
+     *
+     * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
+     * @param \Contentful\Delivery\ContentTypeField $contentTypeField
+     *
+     * @return string[]
      */
-    protected function getField(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField)
+    private function getField(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField)
     {
         switch ($contentTypeField->getType()) {
             case static::CONTENTFUL_FIELD_TYPE_ARRAY:
-                $fieldValue = $this->getArrayFieldValue($dynamicEntry, $contentTypeField);
-                break;
+                return $this->getArrayField($dynamicEntry, $contentTypeField);
             case static::CONTENTFUL_FIELD_TYPE_LINK:
-                // TODO ASSET NEEDS A TITLE FIELD, each field value need to specify the return value
-                $fieldValue = $this->getLinkFieldValue($dynamicEntry, $contentTypeField);
-                break;
+                if ($contentTypeField->getLinkType() == static::CONTENTFUL_FIELD_TYPE_ASSET) {
+                    return $this->getAssetField($dynamicEntry, $contentTypeField);
+                }
+                return $this->getTextField($dynamicEntry, $contentTypeField);
+            case static::CONTENTFUL_FIELD_TYPE_BOOLEAN:
+                return $this->getBooleanField($dynamicEntry, $contentTypeField);
+            case static::CONTENTFUL_FIELD_TYPE_ASSET:
+                return $this->getAssetField($dynamicEntry, $contentTypeField);
+            case static::CONTENTFUL_FIELD_TYPE_ENTRY:
+                return $this->getEntryField($dynamicEntry);
             default:
-                $fieldValue = $this->getFieldValue($dynamicEntry, $contentTypeField);
+                return $this->getTextField($dynamicEntry, $contentTypeField);
         }
+    }
 
+    /**
+     * @author mnoerenberg
+     *
+     * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
+     * @param \Contentful\Delivery\ContentTypeField $contentTypeField
+     *
+     * @return string[]
+     */
+    private function getBooleanField(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField)
+    {
         return [
-            'type' => $contentTypeField->getType(), // TODO mapping type
-            'value' => $fieldValue,
+            'type' => static::STORAGE_TYPE_BOOLEAN,
+            'value' => $this->getFieldValue($dynamicEntry, $contentTypeField),
         ];
     }
 
     /**
      * @author mnoerenberg
-     * @param DynamicEntry $dynamicEntry
-     * @param ContentTypeField $contentTypeField
-     * @return array
+     *
+     * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
+     * @param \Contentful\Delivery\ContentTypeField $contentTypeField
+     *
+     * @return string[]
      */
-    protected function getArrayFieldValue(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField) {
-        $entryIds = [];
-        foreach ($this->getFieldValue($dynamicEntry, $contentTypeField) as $originalValueItem) {
-            /** @var DynamicEntry $originalValueItem */
-            $entryIds[] = $originalValueItem->getId();
-        }
-
-        return $entryIds;
-    }
-
-    /**
-     * @author mnoerenberg
-     * @param string $fieldId
-     * @param DynamicEntry $dynamicEntry
-     * @return string
-     */
-    protected function getLinkFieldValue(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField)
+    private function getAssetField(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField)
     {
-        $linkedFieldValue = $this->getFieldValue($dynamicEntry, $contentTypeField);
-        if ($linkedFieldValue instanceof Asset && $linkedFieldValue->getFile() instanceof ImageFile) {
-            return $linkedFieldValue->getFile()->getUrl();
+        $fieldValue = $this->getFieldValue($dynamicEntry, $contentTypeField);
+
+        $title = null;
+        $description = null;
+        if ($fieldValue !== null) {
+            $title = $fieldValue->getTitle();
+            $description = $fieldValue->getDescription();
         }
 
-        // TODO ENTRY
-        throw new \Exception('entry not implementd');
+        $value = null;
+        if ($fieldValue !== null && $fieldValue->getFile() !== null) {
+            $value = $fieldValue->getFile()->getUrl();
+        }
+
+        return [
+            'type' => static::STORAGE_TYPE_ASSET,
+            'value' => $value,
+            'title' => $title,
+            'description' => $description,
+        ];
     }
 
     /**
      * @author mnoerenberg
-     * @param string $fieldId
-     * @param DynamicEntry $dynamicEntry
+     *
+     * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
+     * @param \Contentful\Delivery\ContentTypeField $contentTypeField
+     *
+     * @return string[]
+     */
+    private function getTextField(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField)
+    {
+        return [
+            'type' => static::STORAGE_TYPE_TEXT,
+            'value' => $this->getFieldValue($dynamicEntry, $contentTypeField),
+        ];
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
+     *
+     * @return string[]
+     */
+    private function getEntryField(DynamicEntry $dynamicEntry)
+    {
+        return [
+            'type' => static::STORAGE_TYPE_REFERENCE,
+            'value' => $dynamicEntry->getId(),
+        ];
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
+     * @param \Contentful\Delivery\ContentTypeField $contentTypeField
+     *
+     * @return string[]
+     */
+    private function getArrayField(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField)
+    {
+        $valueArray = [];
+        $fieldValues = $this->getFieldValue($dynamicEntry, $contentTypeField);
+        foreach ($fieldValues as $fieldValue) {
+            if ($contentTypeField->getItemsLinkType() == static::CONTENTFUL_FIELD_TYPE_ENTRY) {
+                $valueArray[] = $this->getEntryField($fieldValue);
+                continue;
+            }
+
+            $valueArray[] = [
+                'type' => static::STORAGE_TYPE_TEXT,
+                'value' => $fieldValue,
+            ];
+        }
+
+        return [
+            'type' => static::STORAGE_TYPE_ARRAY,
+            'value' => $valueArray,
+        ];
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
+     * @param \Contentful\Delivery\ContentTypeField $contentTypeField
      *
      * @return mixed
      */
-    protected function getFieldValue(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField)
+    private function getFieldValue(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField)
     {
         $methodName = 'get' . ucfirst($contentTypeField->getId());
         return $dynamicEntry->{$methodName}();

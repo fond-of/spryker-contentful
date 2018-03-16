@@ -19,5 +19,10 @@ class ContentfulControllerProvider extends AbstractYvesControllerProvider
      */
     protected function defineControllers(Application $app)
     {
+        // test page, later page render
+        $allowedLocalesPattern = $this->getAllowedLocalesPattern();
+        $this->createGetController('/{contentful}', static::CONTENTFUL_INDEX, 'Contentful', 'Index', 'index')
+            ->assert('contentful', $allowedLocalesPattern . 'contentful|contentful')
+            ->value('contentful', 'contentful');
     }
 }

@@ -11,10 +11,10 @@ class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterfa
     /**
      * @author mnoerenberg
      *
-     * @return void
+     * @return int
      */
     public function updateContent()
     {
-        $this->getFactory()->createContentfulImporter()->import();
+        return $this->getFactory()->createContentfulImporter()->import();
     }
 }

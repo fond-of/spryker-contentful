@@ -1,18 +1,24 @@
 <?php
+
 namespace FondOfSpryker\Client\Contentful;
 
 use FondOfSpryker\Client\Contentful\Storage\ContentfulStorageReader;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder;
 use Spryker\Client\Kernel\AbstractFactory;
 
+/**
+ * @author mnoerenberg
+ */
 class ContentfulFactory extends AbstractFactory
 {
 
     /**
      * @author mnoerenberg
-     * @return ContentfulStorageReader
+     *
+     * @return \FondOfSpryker\Client\Contentful\Storage\ContentfulStorageReader
      */
-    protected function createContentfulStorageReader() {
+    public function createContentfulStorageReader()
+    {
         return new ContentfulStorageReader(
             $this->getStorage(),
             $this->createContentfulEntryKeyBuilder(),
@@ -22,9 +28,11 @@ class ContentfulFactory extends AbstractFactory
 
     /**
      * @author mnoerenberg
-     * @return ContentfulEntryKeyBuilder
+     *
+     * @return \FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder
      */
-    public function createContentfulEntryKeyBuilder() {
+    public function createContentfulEntryKeyBuilder()
+    {
         return new ContentfulEntryKeyBuilder();
     }
 

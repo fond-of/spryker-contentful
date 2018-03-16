@@ -1,6 +1,8 @@
 <?php
 namespace FondOfSpryker\Client\Contentful\Storage;
 
+use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
+use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 use Generated\Shared\Transfer\ContentfulEntryTransfer;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
@@ -10,32 +12,33 @@ use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
  */
 class ContentfulStorageReader implements ContentfulStorageReaderInterface
 {
-
     /**
      * @var \Spryker\Client\Storage\StorageClientInterface
      */
-    protected $storageClient;
+    private $storageClient;
 
     /**
-     * @var KeyBuilderInterface
+     * @var \Spryker\Shared\KeyBuilder\KeyBuilderInterface
      */
-    protected $keyBuilder;
+    private $keyBuilder;
 
     /**
      * @var string
      */
-    protected $localeName;
+    private $localeName;
 
     /**
      * @author mnoerenberg
-     * @param StorageClientInterface $storageClient
-     * @param KeyBuilderInterface $keyBuilder
+     *
+     * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
+     * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
      * @param string $localeName
      */
-    public function __construct(StorageClientInterface $storageClient,
-                                KeyBuilderInterface $keyBuilder,
-                                string $localeName)
-    {
+    public function __construct(
+        StorageClientInterface $storageClient,
+        KeyBuilderInterface $keyBuilder,
+        string $localeName
+    ) {
         $this->storageClient = $storageClient;
         $this->keyBuilder = $keyBuilder;
         $this->localeName = $localeName;
@@ -44,24 +47,24 @@ class ContentfulStorageReader implements ContentfulStorageReaderInterface
     /**
      * @author mnoerenberg
      *
-     * @param string $entryId
+     * @param ContentfulEntryRequestTransfer $request
      *
-     * @return ContentfulEntryTransfer
+     * @return ContentfulEntryRequestTransfer
      */
-    public function getContentfulEntryById(string $entryId)
+    public function getContentfulEntryById(ContentfulEntryRequestTransfer $request) : ContentfulEntryResponseTransfer
     {
-        $storageKey = $this->keyBuilder->generateKey($entryId, $this->localeName);
-        return $this->mapContentfulEntryData($this->storageClient->get($storageKey));
-    }
+        $storageKey = $this->keyBuilder->generateKey($request->getId(), $this->localeName);
+        $storageData = $this->storageClient->get($storageKey);
 
-    /**
-     * @author mnoerenberg
-     * @param array $contentfulEntryData
-     * @return ContentfulEntryTransfer
-     */
-    protected function mapContentfulEntryData(array $contentfulEntryData) {
-        $contentfulEntryTransfer = new ContentfulEntryTransfer();
-        $contentfulEntryTransfer->fromArray($contentfulEntryData, true);
-        return $contentfulEntryTransfer;
+        $response = new ContentfulEntryResponseTransfer();
+        if (empty($storageData)) {
+            $response->setSuccessful(false);
+            $response->setErrorMessage(sprintf('ContentfulEntry not found: "%s"', $storageKey));
+            return $response;
+        }
+
+        $response->setSuccessful(true);
+        $response->fromArray($storageData, true);
+        return $response;
     }
 }

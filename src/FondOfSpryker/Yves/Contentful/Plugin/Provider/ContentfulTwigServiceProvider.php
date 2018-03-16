@@ -20,7 +20,6 @@ class ContentfulTwigServiceProvider extends AbstractPlugin implements ServicePro
     public function register(Application $app)
     {
         $twigExtension = $this->getFactory()->createContentfulTwigExtension();
-
         $app['twig'] = $app->share(
             $app->extend('twig', function (\Twig_Environment $twig) use ($twigExtension) {
                 $twig->addExtension($twigExtension);

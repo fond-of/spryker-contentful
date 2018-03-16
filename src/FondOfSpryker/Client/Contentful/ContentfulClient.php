@@ -2,23 +2,25 @@
 
 namespace FondOfSpryker\Client\Contentful;
 
-use Generated\Shared\Transfer\ContentfulEntryTransfer;
+use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
+use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 use Spryker\Client\Kernel\AbstractClient;
 
 /**
  * @method \FondOfSpryker\Client\Contentful\ContentfulFactory getFactory()
  */
-class ContentfulClient extends AbstractClient implements ContentfulClientInterface {
+class ContentfulClient extends AbstractClient implements ContentfulClientInterface
+{
 
     /**
      * @author mnoerenberg
-     * @param string $entryId
-     * @return mixed
+     *
+     * @param ContentfulEntryRequestTransfer $request
+     *
+     * @return ContentfulEntryResponseTransfer
      */
-    public function getContentfulEntryFromStorageByEntryIdForCurrentLocale(string $entryId) : ContentfulEntryTransfer
+    public function getContentfulEntryFromStorageByEntryIdForCurrentLocale(ContentfulEntryRequestTransfer $request): ContentfulEntryResponseTransfer
     {
-        $locale = $this->getFactory()->getLocaleClient()->getCurrentLocale();
-        $productStorage = $this->getFactory()->createProductAbstractStorage($locale);
-        return $productStorage->getProductAbstractFromStorageById($idProductAbstract);
+        return $this->getFactory()->createContentfulStorageReader()->getContentfulEntryById($request);
     }
 }
