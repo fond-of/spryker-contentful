@@ -4,7 +4,7 @@ namespace FondOfSpryker\Zed\Contentful\Business\Model;
 
 use Contentful\Delivery\ContentTypeField;
 use Contentful\Delivery\DynamicEntry;
-use Exception;
+use Throwable;
 
 /**
  * @author mnoerenberg
@@ -23,14 +23,16 @@ class ContentfulMapper implements ContentfulMapperInterface
     private const STORAGE_TYPE_ASSET = 'Asset';
     private const STORAGE_TYPE_BOOLEAN = 'Boolean';
 
+    public const CONTENTFUL_FIELD_PAGE_URL = 'identifier';
+
     /**
      * @author mnoerenberg
      *
      * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
      *
-     * @return string
+     * @return string[]
      */
-    public function from(DynamicEntry $dynamicEntry)
+    public function from(DynamicEntry $dynamicEntry): array
     {
         $value = [
             'id' => $dynamicEntry->getId(),
@@ -38,7 +40,57 @@ class ContentfulMapper implements ContentfulMapperInterface
             'fields' => $this->getFields($dynamicEntry),
         ];
 
-        return json_encode($value);
+        return $value;
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param string[] $entryArray
+     *
+     * @return string[]
+     */
+    public function mapPageFromEntryArray(array $entryArray): array
+    {
+        return [
+            'type' => static::STORAGE_TYPE_REFERENCE,
+            'value' => $entryArray['id'],
+        ];
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param string[] $entryArray
+     *
+     * @return string
+     */
+    public function getPageUrlFromEntryArray(array $entryArray): string
+    {
+        $url = trim($entryArray['fields'][static::CONTENTFUL_FIELD_PAGE_URL]['value']);
+        if (strpos($url, '/') !== 0) {
+            // add slash in front
+            $url = '/' . $url;
+        }
+
+        if (substr($url, -1) == '/') {
+            // cut last slash
+            $url = substr($url, 0, -1);
+        }
+
+        return $url;
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param string[] $entryArray
+     *
+     * @return boolean
+     */
+    public function isPageFromEntryArray(array $entryArray): bool
+    {
+        return array_key_exists(static::CONTENTFUL_FIELD_PAGE_URL, $entryArray['fields']) === true;
     }
 
     /**
@@ -48,7 +100,7 @@ class ContentfulMapper implements ContentfulMapperInterface
      *
      * @return string[]
      */
-    private function getFields(DynamicEntry $dynamicEntry)
+    private function getFields(DynamicEntry $dynamicEntry): array
     {
         $fields = [];
         foreach ($dynamicEntry->getContentType()->getFields() as $contentTypeField) {
@@ -95,7 +147,7 @@ class ContentfulMapper implements ContentfulMapperInterface
      *
      * @return string[]
      */
-    private function getBooleanField(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField)
+    private function getBooleanField(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField): array
     {
         return [
             'type' => static::STORAGE_TYPE_BOOLEAN,
@@ -111,7 +163,7 @@ class ContentfulMapper implements ContentfulMapperInterface
      *
      * @return string[]
      */
-    private function getAssetField(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField)
+    private function getAssetField(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField): array
     {
         $fieldValue = $this->getFieldValue($dynamicEntry, $contentTypeField);
 
@@ -143,7 +195,7 @@ class ContentfulMapper implements ContentfulMapperInterface
      *
      * @return string[]
      */
-    private function getTextField(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField)
+    private function getTextField(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField): array
     {
         return [
             'type' => static::STORAGE_TYPE_TEXT,
@@ -158,7 +210,7 @@ class ContentfulMapper implements ContentfulMapperInterface
      *
      * @return string[]
      */
-    private function getEntryField(DynamicEntry $dynamicEntry)
+    private function getEntryField(DynamicEntry $dynamicEntry): array
     {
         return [
             'type' => static::STORAGE_TYPE_REFERENCE,
@@ -174,7 +226,7 @@ class ContentfulMapper implements ContentfulMapperInterface
      *
      * @return string[]
      */
-    private function getArrayField(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField)
+    private function getArrayField(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField): array
     {
         $valueArray = [];
         $fieldValues = $this->getFieldValue($dynamicEntry, $contentTypeField);
@@ -207,6 +259,13 @@ class ContentfulMapper implements ContentfulMapperInterface
     private function getFieldValue(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField)
     {
         $methodName = 'get' . ucfirst($contentTypeField->getId());
-        return $dynamicEntry->{$methodName}();
+
+        try {
+            $value = $dynamicEntry->{$methodName}();
+        } catch (Throwable $e) {
+            return null;
+        }
+
+        return $value;
     }
 }

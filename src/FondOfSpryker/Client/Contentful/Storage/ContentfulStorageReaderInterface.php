@@ -2,7 +2,6 @@
 namespace FondOfSpryker\Client\Contentful\Storage;
 
 use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
-use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 
 /**
  * @author mnoerenberg
@@ -12,9 +11,9 @@ interface ContentfulStorageReaderInterface
     /**
      * @author mnoerenberg
      *
-     * @param ContentfulEntryRequestTransfer $request
+     * @param \Generated\Shared\Transfer\ContentfulEntryRequestTransfer $request
      *
-     * @return ContentfulEntryResponseTransfer
+     * @return \Generated\Shared\Transfer\ContentfulEntryResponseTransfer
      */
     public function getContentfulEntryById(ContentfulEntryRequestTransfer $request);
 }

@@ -11,16 +11,28 @@ use Spryker\Client\Kernel\AbstractClient;
  */
 class ContentfulClient extends AbstractClient implements ContentfulClientInterface
 {
-
     /**
      * @author mnoerenberg
      *
-     * @param ContentfulEntryRequestTransfer $request
+     * @param \Generated\Shared\Transfer\ContentfulEntryRequestTransfer $request
      *
-     * @return ContentfulEntryResponseTransfer
+     * @return \Generated\Shared\Transfer\ContentfulEntryResponseTransfer
      */
     public function getContentfulEntryFromStorageByEntryIdForCurrentLocale(ContentfulEntryRequestTransfer $request): ContentfulEntryResponseTransfer
     {
         return $this->getFactory()->createContentfulStorageReader()->getContentfulEntryById($request);
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param string $url
+     * @param string $localeName
+     *
+     * @return string[]|bool
+     */
+    public function matchUrl(string $url, string $localeName)
+    {
+        return $this->getFactory()->createUrlMatcher()->matchUrl($url, $localeName);
     }
 }

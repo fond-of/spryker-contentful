@@ -4,6 +4,7 @@ namespace FondOfSpryker\Zed\Contentful\Business;
 
 use Contentful\Delivery\Client;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder;
+use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulPageKeyBuilder;
 use FondOfSpryker\Zed\Contentful\Business\Model\ContentfulImporter;
 use FondOfSpryker\Zed\Contentful\Business\Model\ContentfulMapper;
 use FondOfSpryker\Zed\Contentful\ContentfulDependencyProvider;
@@ -26,7 +27,8 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
             $this->getStorageClient(),
             $this->createContentfulMapper(),
             $this->createContentfulClient(),
-            $this->createContentfulKeyBuilder(),
+            $this->createContentfulEntryKeyBuilder(),
+            $this->createContentfulPageKeyBuilder(),
             $this->getConfig()->getLocaleMapping()
         );
     }
@@ -46,9 +48,19 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
      *
      * @return \FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder
      */
-    protected function createContentfulKeyBuilder()
+    protected function createContentfulEntryKeyBuilder()
     {
         return new ContentfulEntryKeyBuilder();
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @return \FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulPageKeyBuilder
+     */
+    protected function createContentfulPageKeyBuilder()
+    {
+        return new ContentfulPageKeyBuilder();
     }
 
     /**

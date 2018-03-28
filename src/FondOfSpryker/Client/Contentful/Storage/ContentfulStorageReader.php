@@ -3,7 +3,6 @@ namespace FondOfSpryker\Client\Contentful\Storage;
 
 use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
-use Generated\Shared\Transfer\ContentfulEntryTransfer;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
@@ -47,11 +46,11 @@ class ContentfulStorageReader implements ContentfulStorageReaderInterface
     /**
      * @author mnoerenberg
      *
-     * @param ContentfulEntryRequestTransfer $request
+     * @param \Generated\Shared\Transfer\ContentfulEntryRequestTransfer $request
      *
-     * @return ContentfulEntryRequestTransfer
+     * @return \Generated\Shared\Transfer\ContentfulEntryRequestTransfer
      */
-    public function getContentfulEntryById(ContentfulEntryRequestTransfer $request) : ContentfulEntryResponseTransfer
+    public function getContentfulEntryById(ContentfulEntryRequestTransfer $request): ContentfulEntryResponseTransfer
     {
         $storageKey = $this->keyBuilder->generateKey($request->getId(), $this->localeName);
         $storageData = $this->storageClient->get($storageKey);

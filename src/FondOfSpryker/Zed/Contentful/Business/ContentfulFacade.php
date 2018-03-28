@@ -13,8 +13,30 @@ class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterfa
      *
      * @return int
      */
-    public function updateContent()
+    public function importLastChangedEntries(): int
     {
-        return $this->getFactory()->createContentfulImporter()->import();
+        return $this->getFactory()->createContentfulImporter()->importLastChangedEntries();
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @return int
+     */
+    public function importAllEntries(): int
+    {
+        return $this->getFactory()->createContentfulImporter()->importAllEntries();
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param string $entryId
+     *
+     * @return int
+     */
+    public function importEntry(string $entryId): int
+    {
+        return $this->getFactory()->createContentfulImporter()->importEntry($entryId);
     }
 }

@@ -2,7 +2,9 @@
 namespace FondOfSpryker\Zed\Contentful\Communication\Console;
 
 use Spryker\Zed\Kernel\Communication\Console\Console;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -10,8 +12,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ContentfulConsole extends Console
 {
-    const COMMAND_NAME = 'contentful:update';
-    const DESCRIPTION = 'Receives the contentful content and exports it to the storage.';
+    private const COMMAND_NAME = 'contentful:import';
+    private const DESCRIPTION = 'Imports the contentful entries and saves it in the spryker storage.';
+
+    private const OPTION_IMPORT_ALL = 'all';
+    private const ARGUMENT_ENTRY_ID = 'entryId';
 
     /**
      * @return void
@@ -20,6 +25,8 @@ class ContentfulConsole extends Console
     {
         $this->setName(static::COMMAND_NAME);
         $this->setDescription(static::DESCRIPTION);
+        $this->addArgument(static::ARGUMENT_ENTRY_ID, InputArgument::OPTIONAL, 'update a single entry by id');
+        $this->addOption(static::OPTION_IMPORT_ALL, null, InputOption::VALUE_NONE, 'import all entries');
     }
 
     /**
@@ -32,7 +39,14 @@ class ContentfulConsole extends Console
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $numberOfUpdatedEntries = $this->getFacade()->updateContent();
+        if ($input->getOption(static::OPTION_IMPORT_ALL) === true) {
+            $numberOfUpdatedEntries = $this->getFacade()->importAllEntries();
+        } elseif (!empty(trim($input->getArgument(static::ARGUMENT_ENTRY_ID)))) {
+            $numberOfUpdatedEntries = $this->getFacade()->importEntry($input->getArgument(static::ARGUMENT_ENTRY_ID));
+        } else {
+            $numberOfUpdatedEntries = $this->getFacade()->importLastChangedEntries();
+        }
+
         $output->writeln('Updated entries: ' . $numberOfUpdatedEntries);
         return static::CODE_SUCCESS;
     }

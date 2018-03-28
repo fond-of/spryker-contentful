@@ -2,8 +2,10 @@
 
 namespace FondOfSpryker\Client\Contentful;
 
+use FondOfSpryker\Client\Contentful\Matcher\UrlMatcher;
 use FondOfSpryker\Client\Contentful\Storage\ContentfulStorageReader;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder;
+use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulPageKeyBuilder;
 use Spryker\Client\Kernel\AbstractFactory;
 
 /**
@@ -11,7 +13,6 @@ use Spryker\Client\Kernel\AbstractFactory;
  */
 class ContentfulFactory extends AbstractFactory
 {
-
     /**
      * @author mnoerenberg
      *
@@ -34,6 +35,29 @@ class ContentfulFactory extends AbstractFactory
     public function createContentfulEntryKeyBuilder()
     {
         return new ContentfulEntryKeyBuilder();
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @return \FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulPageKeyBuilder
+     */
+    public function createContentfulPageKeyBuilder()
+    {
+        return new ContentfulPageKeyBuilder();
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @return \FondOfSpryker\Client\Contentful\Matcher\UrlMatcher
+     */
+    public function createUrlMatcher()
+    {
+        return new UrlMatcher(
+            $this->createContentfulPageKeyBuilder(),
+            $this->getStorage()
+        );
     }
 
     /**

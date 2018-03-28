@@ -13,7 +13,34 @@ interface ContentfulMapperInterface
      *
      * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
      *
+     * @return string[]
+     */
+    public function from(DynamicEntry $dynamicEntry): array;
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param string[] $entryArray
+     *
+     * @return string[]
+     */
+    public function mapPageFromEntryArray(array $entryArray): array;
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param string[] $entryArray
+     *
      * @return string
      */
-    public function from(DynamicEntry $dynamicEntry);
+    public function getPageUrlFromEntryArray(array $entryArray): string;
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param string[] $entryArray
+     *
+     * @return bool
+     */
+    public function isPageFromEntryArray(array $entryArray): bool;
 }

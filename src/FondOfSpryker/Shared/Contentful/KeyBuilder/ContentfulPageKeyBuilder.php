@@ -7,22 +7,21 @@ use Spryker\Shared\KeyBuilder\KeyBuilderTrait;
 /**
  * @author mnoerenberg
  */
-class ContentfulEntryKeyBuilder implements KeyBuilderInterface
+class ContentfulPageKeyBuilder implements KeyBuilderInterface
 {
     use KeyBuilderTrait;
 
     /**
-     * @param string $contentfulEntryId
+     * @param string $url
      *
      * @return string
      */
-    protected function buildKey($contentfulEntryId)
+    protected function buildKey($url)
     {
-        return 'entry.' . $contentfulEntryId;
+        return 'page.' . $url;
     }
 
-    /**a
-     *
+    /**
      * @return string
      */
     public function getBundleName()
