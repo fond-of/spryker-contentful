@@ -64,6 +64,7 @@ class ContentfulStorageReader implements ContentfulStorageReaderInterface
 
         $response->setSuccessful(true);
         $response->fromArray($storageData, true);
+
         return $response;
     }
 }

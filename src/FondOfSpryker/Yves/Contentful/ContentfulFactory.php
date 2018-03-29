@@ -1,10 +1,18 @@
 <?php
 namespace FondOfSpryker\Yves\Contentful;
 
+use Aptoma\Twig\Extension\MarkdownExtension;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulPageKeyBuilder;
-use FondOfSpryker\Yves\Contentful\ResourceCreator\ContentfulResourceCreator;
+use FondOfSpryker\Yves\Contentful\ResourceCreator\ContentfulReferenceResourceCreator;
+use FondOfSpryker\Yves\Contentful\Builder\ContentfulBuilder;
+use FondOfSpryker\Yves\Contentful\Builder\ContentfulBuilderInterface;
+use FondOfSpryker\Yves\Contentful\ResourceCreator\ContentfulResourceCreatorInterface;
+use FondOfSpryker\Yves\Contentful\Twig\ContentfulRenderer;
+use FondOfSpryker\Yves\Contentful\Twig\ContentfulRendererInterface;
 use FondOfSpryker\Yves\Contentful\Twig\ContentfulTwigExtension;
+use Silex\Application;
+use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 use Spryker\Yves\Kernel\AbstractFactory;
 
 /**
@@ -17,30 +25,59 @@ class ContentfulFactory extends AbstractFactory
      *
      * @return \FondOfSpryker\Yves\Contentful\Twig\ContentfulTwigExtension
      */
-    public function createContentfulTwigExtension()
+    public function createContentfulTwigExtension(): ContentfulTwigExtension
     {
-        return new ContentfulTwigExtension(
-            $this->getClient(),
-            $this->createContentfulEntryKeyBuilder()
-        );
+        return new ContentfulTwigExtension($this->createContentfulBuilder());
     }
 
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Yves\Contentful\ResourceCreator\ContentfulResourceCreator
+     * @return \FondOfSpryker\Yves\Contentful\Builder\ContentfulBuilderInterface
      */
-    public function createContentfulResourceCreator()
+    public function createContentfulBuilder(): ContentfulBuilderInterface
     {
-        return new ContentfulResourceCreator();
+        return new ContentfulBuilder($this->getClient(), $this->createContentfulRenderer());
     }
 
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder
+     * @return \FondOfSpryker\Yves\Contentful\Twig\ContentfulRendererInterface
      */
-    protected function createContentfulEntryKeyBuilder()
+    private function createContentfulRenderer(): ContentfulRendererInterface
+    {
+        return new ContentfulRenderer($this->getApplication());
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @return \FondOfSpryker\Yves\Contentful\ResourceCreator\ContentfulResourceCreatorInterface[]
+     */
+    public function getContentfulResourceCreator(): array
+    {
+        return [
+            $this->createContentfulReferenceResourceCreator(),
+        ];
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @return \FondOfSpryker\Yves\Contentful\ResourceCreator\ContentfulResourceCreatorInterface
+     */
+    private function createContentfulReferenceResourceCreator(): ContentfulResourceCreatorInterface
+    {
+        return new ContentfulReferenceResourceCreator();
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @return \Spryker\Shared\KeyBuilder\KeyBuilderInterface
+     */
+    protected function createContentfulEntryKeyBuilder(): KeyBuilderInterface
     {
         return new ContentfulEntryKeyBuilder();
     }
@@ -48,9 +85,9 @@ class ContentfulFactory extends AbstractFactory
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulPageKeyBuilder
+     * @return \Spryker\Shared\KeyBuilder\KeyBuilderInterface
      */
-    protected function createContentfulPageKeyBuilder()
+    protected function createContentfulPageKeyBuilder(): KeyBuilderInterface
     {
         return new ContentfulPageKeyBuilder();
     }
@@ -58,19 +95,9 @@ class ContentfulFactory extends AbstractFactory
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Client\Contentful\ContentfulClientInterface
-     */
-    public function getContentfulClient()
-    {
-        return $this->getClient();
-    }
-
-    /**
-     * @author mnoerenberg
-     *
      * @return \Aptoma\Twig\Extension\MarkdownExtension
      */
-    public function createMarkdownTwigExtension()
+    public function getMarkdownTwigExtension(): MarkdownExtension
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::TWIG_MARKDOWN);
     }
@@ -78,7 +105,7 @@ class ContentfulFactory extends AbstractFactory
     /**
      * @return \Silex\Application
      */
-    public function getApplication()
+    public function getApplication(): Application
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::PLUGIN_APPLICATION);
     }

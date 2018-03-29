@@ -10,22 +10,17 @@
 composer require fond-of-spryker/contentful
 ```
 
-### 1. Add controller provider to YvesBootstrap.php in getControllerProviderStack()
-```
- new ContentfulControllerProvider($isSsl),
-```
-
-### 2. Add twig service provider to YvesBootstrap.php in registerServiceProviders()
+### 1. Add twig service provider to YvesBootstrap.php in registerServiceProviders()
 ```
 $this->application->register(new ContentfulTwigServiceProvider());
 ```
 
-### 3. Add console command to ConsoleDependencyProvider.php in getConsoleCommands()
+### 2. Add console command to ConsoleDependencyProvider.php in getConsoleCommands()
 ```
 new ContentfulConsole()
 ```
 
-### 4. Add configs to your shop config file or in config/Shared/config_default.php 
+### 3. Add configs to your shop config file or in config/Shared/config_default.php 
 ```
 // Contentful configuration
 //
@@ -45,7 +40,7 @@ $config[\FondOfSpryker\Shared\Contentful\ContentfulConstants::CONTENTFUL_LOCALE_
 ];
 ```
 
-### 5. Add cronjob in jobs.php
+### 4. Add cronjob in jobs.php
 Retrieve updated contentful entries every 5min.
 ```
 $jobs[] = [
@@ -58,16 +53,37 @@ $jobs[] = [
 ];
 ```
 
-### 6. Run
+### 5. Run
 ```
 vendor/bin/console transfer:generate
-vendor/bin/console contentful:update
+vendor/bin/console contentful:import
 ```
+
+# Commands
+
+Import last updated entries (last 5min)
+```
+vendor/bin/console contentful:import
+```
+
+Import all
+```
+vendor/bin/console contentful:import --all
+```
+
+Import entry
+```
+vendor/bin/console contentful:import [entryId]
+```
+
+# Pages
+If the contentful entry has a "Indentifier" field (URL) it will be imported as page with the given route.
+Add an additional ResourceCreator to add custom logic to a special contentful entry type.
 
 # Usage in twig templates
 Template path is Theme/default/contentful/[contentType].twig
 ```
- {{ contentful('contentfulEntryId') }}
+ {{ contentfulEntry('contentfulEntryId') }}
 ```
 
 Access contentful properties in twig templates like the following example:
@@ -82,7 +98,7 @@ Markdown to html
 
 Image resize
 ```
-{{ contentfulImageResize(entry.[assetFieldName].value, width, height) }}
+{{ contentfulImage(entry.[assetFieldName].value, width, height) }}
 ```
 
 # Fields

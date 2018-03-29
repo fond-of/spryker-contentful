@@ -29,9 +29,9 @@ class ContentfulClient extends AbstractClient implements ContentfulClientInterfa
      * @param string $url
      * @param string $localeName
      *
-     * @return string[]|bool
+     * @return string[]|null
      */
-    public function matchUrl(string $url, string $localeName)
+    public function matchUrl(string $url, string $localeName): array
     {
         return $this->getFactory()->createUrlMatcher()->matchUrl($url, $localeName);
     }

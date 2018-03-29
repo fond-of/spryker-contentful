@@ -19,12 +19,10 @@ class ContentfulDependencyProvider extends AbstractDependencyProvider
      */
     public function provideServiceLayerDependencies(Container $container)
     {
-        // storage
         $container[static::KV_STORAGE] = function (Container $container) {
             return $container->getLocator()->storage()->client();
         };
 
-        // locale
         $container[static::CLIENT_LOCALE] = function (Container $container) {
             return $container->getLocator()->locale()->client();
         };

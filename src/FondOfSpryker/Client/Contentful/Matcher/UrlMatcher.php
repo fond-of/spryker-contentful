@@ -36,18 +36,11 @@ class UrlMatcher implements UrlMatcherInterface
      * @param string $url
      * @param string $localeName
      *
-     * @return string[]|bool
+     * @return string[]|null
      */
-    public function matchUrl(string $url, string $localeName)
+    public function matchUrl(string $url, string $localeName): array
     {
-        $url = rawurldecode($url);
-        $urlKey = $this->pageKeyBuilder->generateKey($url, $localeName);
-        $data = $this->storageClient->get($urlKey);
-
-        if ($data) {
-            return $data;
-        }
-
-        return false;
+        $storageKey = $this->pageKeyBuilder->generateKey(rawurldecode($url), $localeName);
+        return $this->storageClient->get($storageKey);
     }
 }

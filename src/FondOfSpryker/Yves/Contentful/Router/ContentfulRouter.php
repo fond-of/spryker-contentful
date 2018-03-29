@@ -8,39 +8,37 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 /**
  * @method \FondOfSpryker\Yves\Contentful\ContentfulFactory getFactory()
+ * @method \FondOfSpryker\Client\Contentful\ContentfulClientInterface getClient()()
  */
 class ContentfulRouter extends AbstractRouter
 {
+
     /**
-     * {@inheritdoc}
-     * @throws \Symfony\Component\Routing\Exception\RouteNotFoundException
+     * @author mnoerenberg
+     * @inheritdoc
      */
     public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
-        throw new RouteNotFoundException('NOT IMPLEMENTD');
+        throw new RouteNotFoundException('YET NOT IMPLEMENTED');
     }
 
     /**
-     * {@inheritdoc}
-     * @throws \Symfony\Component\Routing\Exception\ResourceNotFoundException
+     * @author mnoerenberg
+     * @inheritdoc
      */
     public function match($pathinfo)
     {
-        $defaultLocalePrefix = '/' . mb_substr($this->getApplication()['locale'], 0, 2);
-        if ($defaultLocalePrefix === $pathinfo || $defaultLocalePrefix . '/' === $pathinfo) {
+        $data = $this->getClient()->matchUrl($pathinfo, $this->getApplication()['locale']);
+        if (empty($data)) {
+            $data = $this->getClient()->matchUrl($this->getDefaultLocalePrefix() . $pathinfo, $this->getApplication()['locale']);
+        }
+
+        if (empty($data)) {
             throw new ResourceNotFoundException();
         }
 
-        if ($pathinfo !== '/') {
-            $client = $this->getFactory()->getContentfulClient();
-
-            $data = $client->matchUrl($pathinfo, $this->getApplication()['locale']);
-            if ($data === false) {
-                $data = $client->matchUrl($defaultLocalePrefix . $pathinfo, $this->getApplication()['locale']);
-            }
-
-            if ($data !== false) {
-                $resourceCreator = $this->getFactory()->createContentfulResourceCreator();
+        foreach ($this->getFactory()->getContentfulResourceCreator() as $resourceCreator) {
+            if ($resourceCreator->getType() == $data['type']) {
                 return $resourceCreator->createResource($this->getApplication(), $data);
             }
         }
@@ -49,10 +47,11 @@ class ContentfulRouter extends AbstractRouter
     }
 
     /**
-     * @return \Silex\Application
+     * @author mnoerenberg
+     *
+     * @return string
      */
-    protected function getApplication()
-    {
-        return $this->getFactory()->getApplication();
+    private function getDefaultLocalePrefix() {
+        return '/' . mb_substr($this->getApplication()['locale'], 0, 2);
     }
 }

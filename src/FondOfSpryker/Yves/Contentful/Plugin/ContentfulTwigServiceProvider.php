@@ -1,5 +1,5 @@
 <?php
-namespace FondOfSpryker\Yves\Contentful\Plugin\Provider;
+namespace FondOfSpryker\Yves\Contentful\Plugin;
 
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -13,17 +13,17 @@ class ContentfulTwigServiceProvider extends AbstractPlugin implements ServicePro
     /**
      * @param \Silex\Application $app
      *
-     * @throws
-     *
      * @return void
      */
-    public function register(Application $app)
+    public function register(Application $app): void
     {
         $factory = $this->getFactory();
+
         $app['twig'] = $app->share(
             $app->extend('twig', function (\Twig_Environment $twig) use ($factory) {
-                $twig->addExtension($factory->createContentfulTwigExtension());
-                $twig->addExtension($factory->createMarkdownTwigExtension());
+                $twig->addExtension($factory->createContentfulTwigExtension($twig));
+                $twig->addExtension($factory->getMarkdownTwigExtension());
+
                 return $twig;
             })
         );
@@ -34,7 +34,7 @@ class ContentfulTwigServiceProvider extends AbstractPlugin implements ServicePro
      *
      * @return void
      */
-    public function boot(Application $app)
+    public function boot(Application $app): void
     {
     }
 }

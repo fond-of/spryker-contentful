@@ -3,10 +3,15 @@
 namespace FondOfSpryker\Client\Contentful;
 
 use FondOfSpryker\Client\Contentful\Matcher\UrlMatcher;
+use FondOfSpryker\Client\Contentful\Matcher\UrlMatcherInterface;
 use FondOfSpryker\Client\Contentful\Storage\ContentfulStorageReader;
+use FondOfSpryker\Client\Contentful\Storage\ContentfulStorageReaderInterface;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulPageKeyBuilder;
 use Spryker\Client\Kernel\AbstractFactory;
+use Spryker\Client\Locale\LocaleClientInterface;
+use Spryker\Client\Storage\StorageClientInterface;
+use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
 /**
  * @author mnoerenberg
@@ -16,9 +21,9 @@ class ContentfulFactory extends AbstractFactory
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Client\Contentful\Storage\ContentfulStorageReader
+     * @return \FondOfSpryker\Client\Contentful\Storage\ContentfulStorageReaderInterface
      */
-    public function createContentfulStorageReader()
+    public function createContentfulStorageReader(): ContentfulStorageReaderInterface
     {
         return new ContentfulStorageReader(
             $this->getStorage(),
@@ -30,9 +35,9 @@ class ContentfulFactory extends AbstractFactory
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder
+     * @return \Spryker\Shared\KeyBuilder\KeyBuilderInterface
      */
-    public function createContentfulEntryKeyBuilder()
+    private function createContentfulEntryKeyBuilder(): KeyBuilderInterface
     {
         return new ContentfulEntryKeyBuilder();
     }
@@ -40,9 +45,9 @@ class ContentfulFactory extends AbstractFactory
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulPageKeyBuilder
+     * @return \Spryker\Shared\KeyBuilder\KeyBuilderInterface
      */
-    public function createContentfulPageKeyBuilder()
+    private function createContentfulPageKeyBuilder(): KeyBuilderInterface
     {
         return new ContentfulPageKeyBuilder();
     }
@@ -50,20 +55,17 @@ class ContentfulFactory extends AbstractFactory
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Client\Contentful\Matcher\UrlMatcher
+     * @return \FondOfSpryker\Client\Contentful\Matcher\UrlMatcherInterface
      */
-    public function createUrlMatcher()
+    public function createUrlMatcher(): UrlMatcherInterface
     {
-        return new UrlMatcher(
-            $this->createContentfulPageKeyBuilder(),
-            $this->getStorage()
-        );
+        return new UrlMatcher($this->createContentfulPageKeyBuilder(), $this->getStorage());
     }
 
     /**
      * @return \Spryker\Client\Storage\StorageClientInterface;
      */
-    protected function getStorage()
+    private function getStorage(): StorageClientInterface
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::KV_STORAGE);
     }
@@ -71,7 +73,7 @@ class ContentfulFactory extends AbstractFactory
     /**
      * @return \Spryker\Client\Locale\LocaleClientInterface
      */
-    public function getLocaleClient()
+    private function getLocaleClient(): LocaleClientInterface
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::CLIENT_LOCALE);
     }

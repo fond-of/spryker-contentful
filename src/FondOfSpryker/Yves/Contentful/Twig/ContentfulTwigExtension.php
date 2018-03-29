@@ -1,12 +1,8 @@
 <?php
 namespace FondOfSpryker\Yves\Contentful\Twig;
 
-use FondOfSpryker\Client\Contentful\ContentfulClientInterface;
-use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder;
-use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
-use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
+use FondOfSpryker\Yves\Contentful\Builder\ContentfulBuilderInterface;
 use Spryker\Shared\Twig\TwigExtension;
-use Twig_Environment;
 use Twig_SimpleFunction;
 
 /**
@@ -15,60 +11,43 @@ use Twig_SimpleFunction;
 class ContentfulTwigExtension extends TwigExtension
 {
     private const IMAGE_MAX_WIDTH = 2000;
-    private const JPEG_QUALITY = 90;
 
     /**
-     * @var \FondOfSpryker\Client\Contentful\ContentfulClientInterface
+     * @var \FondOfSpryker\Yves\Contentful\Builder\ContentfulBuilderInterface
      */
-    private $contentfulClient;
+    private $contentfulBuilder;
 
     /**
-     * @var \FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder
+     * @param \FondOfSpryker\Yves\Contentful\Builder\ContentfulBuilderInterface $contentfulBuilder
      */
-    private $contentfulEntryKeyBuilder;
-
-    /**
-     * @param \FondOfSpryker\Client\Contentful\ContentfulClientInterface $contentfulClient
-     * @param \FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder $contentfulEntryKeyBuilder
-     */
-    public function __construct(ContentfulClientInterface $contentfulClient, ContentfulEntryKeyBuilder $contentfulEntryKeyBuilder)
+    public function __construct(ContentfulBuilderInterface $contentfulBuilder)
     {
-        $this->contentfulClient = $contentfulClient;
-        $this->contentfulEntryKeyBuilder = $contentfulEntryKeyBuilder;
+        $this->contentfulBuilder = $contentfulBuilder;
     }
 
     /**
-     * @return array
+     * @author mnoerenberg
+     *
+     * @inheritdoc
      */
     public function getFunctions()
     {
         return [
-            new Twig_SimpleFunction('renderContentfulEntry', [$this, 'renderContentfulEntry'], ['is_safe' => ['html'], 'needs_environment' => true]),
-            new Twig_SimpleFunction('contentfulImageResize', [$this, 'contentfulImageResize']),
+            new Twig_SimpleFunction('contentfulEntry', [$this, 'renderContentfulEntry'], ['is_safe' => ['html']]),
+            new Twig_SimpleFunction('contentfulImage', [$this, 'resizeContentfulImage']),
         ];
     }
 
     /**
-     * @param \Twig_Environment $twig
+     * @author mnoerenberg
+     *
      * @param string $entryId
      *
      * @return string
      */
-    public function renderContentfulEntry(Twig_Environment $twig, string $entryId)
+    public function renderContentfulEntry(string $entryId)
     {
-        $request = new ContentfulEntryRequestTransfer();
-        $request->setId($entryId);
-
-        $response = $this->contentfulClient->getContentfulEntryFromStorageByEntryIdForCurrentLocale($request);
-        if ($response->getSuccessful() !== true) {
-            return $response->getErrorMessage();
-        }
-
-        return $twig->render($this->findContentfulEntryTemplatePathByName($response), [
-            'entryId' => $response->getId(),
-            'entryContentType' => $response->getContentType(),
-            'entry' => $response->getFields(),
-        ]);
+        return $this->contentfulBuilder->build($entryId);
     }
 
     /**
@@ -80,7 +59,7 @@ class ContentfulTwigExtension extends TwigExtension
      *
      * @return string
      */
-    public function contentfulImageResize($url, int $width = null, int $height = null): string
+    public function resizeContentfulImage($url, int $width = null, int $height = null): string
     {
         if (empty($url)) {
             return '';
@@ -97,31 +76,6 @@ class ContentfulTwigExtension extends TwigExtension
             $parameter[] = sprintf('h=%s', $height);
         }
 
-        return $this->urlFormat($url, $parameter);
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @param string $url
-     * @param array $parameter
-     *
-     * @return string
-     */
-    private function urlFormat(string $url, array $parameter = []): string
-    {
         return $url . '?' . implode('&', $parameter);
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
-     *
-     * @return string
-     */
-    private function findContentfulEntryTemplatePathByName(ContentfulEntryResponseTransfer $response): string
-    {
-        return sprintf('@Contentful/contentful/%s.twig', $response->getContentType());
     }
 }

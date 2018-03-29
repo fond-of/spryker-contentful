@@ -10,6 +10,4 @@ interface ContentfulConstants
     public const CONTENTFUL_SPACE_ID = 'CONTENTFUL_SPACE_ID';
     public const CONTENTFUL_LOCALE_TO_STORE_LOCALE = 'CONTENTFUL_LOCALE_TO_STORE_LOCALE';
     public const CONTENTFUL_DEFAULT_LOCALE = 'CONTENTFUL_DEFAULT_LOCALE';
-
-    public const RESOURCE_TYPE_CONTENTFUL_PAGE = 'contentful_page';
 }
