@@ -11,9 +11,9 @@ use Spryker\Yves\Kernel\Controller\BundleControllerActionRouteNameResolver;
 /**
  * @author mnoerenberg
  */
-class ContentfulPageResourceCreator implements ContentfulResourceCreatorInterface
+class ContentfulIdentifierResourceCreator implements ContentfulResourceCreatorInterface
 {
-    private const RESOURCE_TYPE_PAGE = 'Page';
+    private const RESOURCE_TYPE_IDENTIFIER = 'Identifier';
 
     /**
      * @author mnoerenberg
@@ -22,7 +22,7 @@ class ContentfulPageResourceCreator implements ContentfulResourceCreatorInterfac
      */
     public function getType(): string
     {
-        return static::RESOURCE_TYPE_PAGE;
+        return static::RESOURCE_TYPE_IDENTIFIER;
     }
 
     /**
@@ -35,7 +35,7 @@ class ContentfulPageResourceCreator implements ContentfulResourceCreatorInterfac
      */
     public function createResource(Application $application, array $data): array
     {
-        $bundleControllerAction = new BundleControllerAction('Contentful', $data['type'], 'index');
+        $bundleControllerAction = new BundleControllerAction('Contentful', ucfirst($data['type']), 'index');
         $routeNameResolver = new BundleControllerActionRouteNameResolver($bundleControllerAction);
         $controllerResolver = new ControllerResolver();
         $controllerServiceBuilder = new ControllerServiceBuilder();

@@ -12,6 +12,8 @@ use DateTime;
  */
 class ContentfulImporter implements ContentfulImporterInterface
 {
+    private const FIELD_IS_ACTIVE = 'isActive';
+
     /**
      * @var \FondOfSpryker\Zed\Contentful\Business\Model\ContentfulMapperInterface
      */

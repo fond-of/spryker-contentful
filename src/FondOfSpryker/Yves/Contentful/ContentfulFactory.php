@@ -1,21 +1,23 @@
 <?php
+
 namespace FondOfSpryker\Yves\Contentful;
 
 use Aptoma\Twig\Extension\MarkdownExtension;
-use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder;
-use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulPageKeyBuilder;
 use FondOfSpryker\Yves\Contentful\Builder\ContentfulBuilder;
 use FondOfSpryker\Yves\Contentful\Builder\ContentfulBuilderInterface;
-use FondOfSpryker\Yves\Contentful\ResourceCreator\ContentfulPageResourceCreator;
+use FondOfSpryker\Yves\Contentful\ResourceCreator\ContentfulIdentifierResourceCreator;
 use FondOfSpryker\Yves\Contentful\ResourceCreator\ContentfulResourceCreatorInterface;
+use FondOfSpryker\Yves\Contentful\Twig\ContentfulDefaultRenderer;
+use FondOfSpryker\Yves\Contentful\Twig\ContentfulNavigationRenderer;
 use FondOfSpryker\Yves\Contentful\Twig\ContentfulRenderer;
 use FondOfSpryker\Yves\Contentful\Twig\ContentfulRendererInterface;
 use FondOfSpryker\Yves\Contentful\Twig\ContentfulTwigExtension;
 use Spryker\Shared\Kernel\Communication\Application;
-use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 use Spryker\Yves\Kernel\AbstractFactory;
 
 /**
+ * @author mnoerenberg
+ *
  * @method \FondOfSpryker\Client\Contentful\ContentfulClientInterface getClient()
  */
 class ContentfulFactory extends AbstractFactory
@@ -37,7 +39,23 @@ class ContentfulFactory extends AbstractFactory
      */
     public function createContentfulBuilder(): ContentfulBuilderInterface
     {
-        return new ContentfulBuilder($this->getClient(), $this->createContentfulRenderer());
+        return new ContentfulBuilder(
+            $this->getClient(),
+            $this->getContentfulRenderer(),
+            $this->createContentfulDefaultRenderer()
+        );
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @return \FondOfSpryker\Yves\Contentful\Twig\ContentfulRendererInterface[]
+     */
+    protected function getContentfulRenderer(): array
+    {
+        return [
+            $this->createContentfulNavigationRenderer(),
+        ];
     }
 
     /**
@@ -45,9 +63,19 @@ class ContentfulFactory extends AbstractFactory
      *
      * @return \FondOfSpryker\Yves\Contentful\Twig\ContentfulRendererInterface
      */
-    private function createContentfulRenderer(): ContentfulRendererInterface
+    protected function createContentfulDefaultRenderer(): ContentfulRendererInterface
     {
-        return new ContentfulRenderer($this->getApplication());
+        return new ContentfulDefaultRenderer($this->getApplication());
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @return \FondOfSpryker\Yves\Contentful\Twig\ContentfulRendererInterface
+     */
+    protected function createContentfulNavigationRenderer(): ContentfulRendererInterface
+    {
+        return new ContentfulNavigationRenderer($this->getApplication());
     }
 
     /**
@@ -57,9 +85,7 @@ class ContentfulFactory extends AbstractFactory
      */
     public function getContentfulResourceCreator(): array
     {
-        return [
-            $this->createContentfulPageResourceCreator(),
-        ];
+        return [];
     }
 
     /**
@@ -67,29 +93,9 @@ class ContentfulFactory extends AbstractFactory
      *
      * @return \FondOfSpryker\Yves\Contentful\ResourceCreator\ContentfulResourceCreatorInterface
      */
-    private function createContentfulPageResourceCreator(): ContentfulResourceCreatorInterface
+    public function createContentfulIdentifierResourceCreator(): ContentfulResourceCreatorInterface
     {
-        return new ContentfulPageResourceCreator();
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @return \Spryker\Shared\KeyBuilder\KeyBuilderInterface
-     */
-    protected function createContentfulEntryKeyBuilder(): KeyBuilderInterface
-    {
-        return new ContentfulEntryKeyBuilder();
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @return \Spryker\Shared\KeyBuilder\KeyBuilderInterface
-     */
-    protected function createContentfulPageKeyBuilder(): KeyBuilderInterface
-    {
-        return new ContentfulPageKeyBuilder();
+        return new ContentfulIdentifierResourceCreator();
     }
 
     /**
@@ -103,6 +109,8 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
+     * @author mnoerenberg
+     *
      * @return \Spryker\Shared\Kernel\Communication\Application
      */
     public function getApplication(): Application

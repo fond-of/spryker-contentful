@@ -4,7 +4,7 @@ namespace FondOfSpryker\Zed\Contentful\Business;
 
 use Contentful\Delivery\Client;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder;
-use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulPageKeyBuilder;
+use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulIdentifierKeyBuilder;
 use FondOfSpryker\Zed\Contentful\Business\Model\ContentfulImporter;
 use FondOfSpryker\Zed\Contentful\Business\Model\ContentfulMapper;
 use FondOfSpryker\Zed\Contentful\Business\Model\ContentfulMapperInterface;
@@ -59,7 +59,8 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     {
         return new ContentfulStorageImporterPlugin(
             $this->createContentfulEntryKeyBuilder(),
-            $this->getStorageClient()
+            $this->getStorageClient(),
+            $this->getConfig()->getFieldNameActive()
         );
     }
 
@@ -71,8 +72,10 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     private function createContentfulIdentifierImporterPlugin(): ContentfulImporterPluginInterface
     {
         return new ContentfulIdentifierImporterPlugin(
-            $this->createContentfulPageKeyBuilder(),
-            $this->getStorageClient()
+            $this->createContentfulIdentifierKeyBuilder(),
+            $this->getStorageClient(),
+            $this->getConfig()->getFieldNameActive(),
+            $this->getConfig()->getFieldNameIdentifier()
         );
     }
 
@@ -101,9 +104,9 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
      *
      * @return \Spryker\Shared\KeyBuilder\KeyBuilderInterface
      */
-    private function createContentfulPageKeyBuilder(): KeyBuilderInterface
+    private function createContentfulIdentifierKeyBuilder(): KeyBuilderInterface
     {
-        return new ContentfulPageKeyBuilder();
+        return new ContentfulIdentifierKeyBuilder();
     }
 
     /**

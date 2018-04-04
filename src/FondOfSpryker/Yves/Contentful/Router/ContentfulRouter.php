@@ -38,13 +38,15 @@ class ContentfulRouter extends AbstractRouter
             throw new ResourceNotFoundException();
         }
 
+        // plug in custom handling for special cases
         foreach ($this->getFactory()->getContentfulResourceCreator() as $resourceCreator) {
             if ($resourceCreator->getType() == $data['type']) {
                 return $resourceCreator->createResource($this->getApplication(), $data);
             }
         }
 
-        throw new ResourceNotFoundException();
+        // default resource creator
+        return $this->getFactory()->createContentfulIdentifierResourceCreator()->createResource($this->getApplication(), $data);
     }
 
     /**

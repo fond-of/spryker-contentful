@@ -12,6 +12,13 @@ interface ContentfulRendererInterface
     /**
      * @author mnoerenberg
      *
+     * @return string
+     */
+    public function getType(): string;
+
+    /**
+     * @author mnoerenberg
+     *
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
      *
      * @return string

@@ -9,6 +9,9 @@ use Spryker\Zed\Kernel\AbstractBundleConfig;
  */
 class ContentfulConfig extends AbstractBundleConfig
 {
+    private const DEFAULT_FIELD_NAME_ACTIVE = 'isActive';
+    private const DEFAULT_FIELD_NAME_IDENTIFIER = 'identifier';
+
     /**
      * @author mnoerenberg
      *
@@ -47,5 +50,33 @@ class ContentfulConfig extends AbstractBundleConfig
     public function getLocaleMapping(): array
     {
         return $this->get(ContentfulConstants::CONTENTFUL_LOCALE_TO_STORE_LOCALE);
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @return string
+     */
+    public function getFieldNameActive(): string
+    {
+        if ($this->getConfig()->hasValue(ContentfulConstants::CONTENTFUL_FIELD_NAME_ACTIVE) == false) {
+            return static::DEFAULT_FIELD_NAME_ACTIVE;
+        }
+
+        return $this->getConfig()->get(ContentfulConstants::CONTENTFUL_FIELD_NAME_ACTIVE);
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @return string
+     */
+    public function getFieldNameIdentifier(): string
+    {
+        if ($this->getConfig()->hasValue(ContentfulConstants::CONTENTFUL_FIELD_NAME_IDENTIFIER) == false) {
+            return static::DEFAULT_FIELD_NAME_IDENTIFIER;
+        }
+
+        return $this->getConfig()->get(ContentfulConstants::CONTENTFUL_FIELD_NAME_IDENTIFIER);
     }
 }

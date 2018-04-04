@@ -204,16 +204,14 @@ class ContentfulMapper implements ContentfulMapperInterface
      *
      * @return mixed
      */
-    private function getFieldValue(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField): array
+    private function getFieldValue(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField)
     {
         $methodName = 'get' . ucfirst($contentTypeField->getId());
 
         try {
-            $value = $dynamicEntry->{$methodName}();
+            return $dynamicEntry->{$methodName}();
         } catch (Throwable $e) {
             return null;
         }
-
-        return $value;
     }
 }

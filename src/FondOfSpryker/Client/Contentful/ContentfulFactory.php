@@ -7,7 +7,7 @@ use FondOfSpryker\Client\Contentful\Matcher\UrlMatcherInterface;
 use FondOfSpryker\Client\Contentful\Storage\ContentfulStorageReader;
 use FondOfSpryker\Client\Contentful\Storage\ContentfulStorageReaderInterface;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder;
-use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulPageKeyBuilder;
+use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulIdentifierKeyBuilder;
 use Spryker\Client\Kernel\AbstractFactory;
 use Spryker\Client\Locale\LocaleClientInterface;
 use Spryker\Client\Storage\StorageClientInterface;
@@ -47,9 +47,9 @@ class ContentfulFactory extends AbstractFactory
      *
      * @return \Spryker\Shared\KeyBuilder\KeyBuilderInterface
      */
-    private function createContentfulPageKeyBuilder(): KeyBuilderInterface
+    private function createContentfulIdentifierKeyBuilder(): KeyBuilderInterface
     {
-        return new ContentfulPageKeyBuilder();
+        return new ContentfulIdentifierKeyBuilder();
     }
 
     /**
@@ -59,7 +59,7 @@ class ContentfulFactory extends AbstractFactory
      */
     public function createUrlMatcher(): UrlMatcherInterface
     {
-        return new UrlMatcher($this->createContentfulPageKeyBuilder(), $this->getStorage());
+        return new UrlMatcher($this->createContentfulIdentifierKeyBuilder(), $this->getStorage());
     }
 
     /**

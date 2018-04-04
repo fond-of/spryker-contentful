@@ -9,9 +9,9 @@ use Throwable;
 /**
  * @author mnoerenberg
  */
-class ContentfulRenderer implements ContentfulRendererInterface
+class ContentfulDefaultRenderer implements ContentfulRendererInterface
 {
-    private const FIELD_IS_ACTIVE = 'isActive';
+    protected const RENDERER_TYPE_DEFAULT = 'ContentfulDefaultRenderer';
 
     /**
      * @var \Spryker\Shared\Kernel\Communication\Application
@@ -31,6 +31,16 @@ class ContentfulRenderer implements ContentfulRendererInterface
     /**
      * @author mnoerenberg
      *
+     * @inheritdoc
+     */
+    public function getType(): string
+    {
+        return static::RENDERER_TYPE_DEFAULT;
+    }
+
+    /**
+     * @author mnoerenberg
+     *
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
      *
      * @return string
@@ -39,10 +49,6 @@ class ContentfulRenderer implements ContentfulRendererInterface
     {
         if ($response->getSuccessful() !== true) {
             return $response->getErrorMessage();
-        }
-
-        if ($this->isActive($response->getFields()) === false) {
-            return '';
         }
 
         $templatePath = sprintf('@Contentful/contentful/%s.twig', $response->getContentType());
@@ -57,25 +63,5 @@ class ContentfulRenderer implements ContentfulRendererInterface
         } catch (Throwable $throwable) {
             return '';
         }
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @param string[] $fields
-     *
-     * @return bool
-     */
-    private function isActive(array $fields): bool
-    {
-        if (array_key_exists(static::FIELD_IS_ACTIVE, $fields) == false) {
-            return true;
-        }
-
-        if ($fields[static::FIELD_IS_ACTIVE] == true) {
-            return true;
-        }
-
-        return false;
     }
 }

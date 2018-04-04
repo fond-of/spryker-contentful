@@ -11,7 +11,6 @@ use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
  */
 class ContentfulIdentifierImporterPlugin implements ContentfulImporterPluginInterface
 {
-    public const FIELD_IDENTIFIER = 'identifier';
 
     /**
      * @var \Spryker\Shared\KeyBuilder\KeyBuilderInterface
@@ -24,15 +23,29 @@ class ContentfulIdentifierImporterPlugin implements ContentfulImporterPluginInte
     private $storageClient;
 
     /**
+     * @var string
+     */
+    private $activeFieldName;
+
+    /**
+     * @var string
+     */
+    private $identifierFieldName;
+
+    /**
      * @author mnoerenberg
      *
      * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
      * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
+     * @param string $activeFieldName
+     * @param string $identifierFieldName
      */
-    public function __construct(KeyBuilderInterface $keyBuilder, StorageClientInterface $storageClient)
+    public function __construct(KeyBuilderInterface $keyBuilder, StorageClientInterface $storageClient, string $activeFieldName, string $identifierFieldName)
     {
         $this->keyBuilder = $keyBuilder;
         $this->storageClient = $storageClient;
+        $this->activeFieldName = $activeFieldName;
+        $this->identifierFieldName = $identifierFieldName;
     }
 
     /**
@@ -42,14 +55,65 @@ class ContentfulIdentifierImporterPlugin implements ContentfulImporterPluginInte
      */
     public function handle(DynamicEntry $dynamicEntry, array $entryArray, string $locale): void
     {
-        if ($this->hasIdentifierField($entryArray) === false) {
+        if ($this->hasField($this->identifierFieldName, $entryArray) === false) {
             return;
         }
 
+        if ($this->isEntryActive($entryArray) === false) {
+            $this->deleteEntryFromStorage($entryArray, $locale);
+            return;
+        }
+
+        $this->addEntryToStorage($entryArray, $locale);
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param string[] $entryArray
+     * @param string $locale
+     *
+     * @return void
+     */
+    private function addEntryToStorage(array $entryArray, string $locale): void
+    {
         $key = $this->createStorageKey($entryArray, $locale);
         $value = $this->createStorageValue($entryArray);
-
         $this->storageClient->set($key, json_encode($value));
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param string[] $entryArray
+     * @param string $locale
+     *
+     * @return void
+     */
+    private function deleteEntryFromStorage(array $entryArray, string $locale): void
+    {
+        $key = $this->createStorageKey($entryArray, $locale);
+        $this->storageClient->delete($key);
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param string[] $entryArray
+     *
+     * @return bool
+     */
+    private function isEntryActive(array $entryArray): bool
+    {
+        if ($this->hasField($this->activeFieldName, $entryArray) === false) {
+            return true;
+        }
+
+        if ($this->getFieldValue($this->activeFieldName, $entryArray) == true) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -77,53 +141,33 @@ class ContentfulIdentifierImporterPlugin implements ContentfulImporterPluginInte
      */
     protected function createStorageKey(array $entryArray, string $locale): string
     {
-        $identifier = $this->getIdentifierFieldValue($entryArray);
-        $identifier = $this->escapeIdentifier($identifier);
+        $identifier = $this->getFieldValue($this->identifierFieldName, $entryArray);
         return $this->keyBuilder->generateKey($identifier, $locale);
     }
 
     /**
      * @author mnoerenberg
      *
+     * @param string $fieldName
      * @param string[] $entryArray
      *
      * @return boolean
      */
-    protected function hasIdentifierField(array $entryArray): bool
+    protected function hasField(string $fieldName, array $entryArray): bool
     {
-        return array_key_exists(static::FIELD_IDENTIFIER, $entryArray['fields']) === true;
+        return array_key_exists($fieldName, $entryArray['fields']) === true;
     }
 
     /**
      * @author mnoerenberg
      *
+     * @param string $fieldName
      * @param string[] $entryArray
      *
      * @return string
      */
-    private function getIdentifierFieldValue(array $entryArray): string
+    private function getFieldValue(string $fieldName, array $entryArray): string
     {
-        return $entryArray['fields'][static::FIELD_IDENTIFIER]['value'];
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @param string $identifier
-     *
-     * @return string
-     */
-    private function escapeIdentifier(string $identifier): string
-    {
-        $identifier = trim($identifier);
-        if (strpos($identifier, '/') !== 0) {
-            $identifier = '/' . $identifier;
-        }
-
-        if (substr($identifier, -1) == '/') {
-            $identifier = substr($identifier, 0, -1);
-        }
-
-        return rawurlencode($identifier);
+        return $entryArray['fields'][$fieldName]['value'];
     }
 }

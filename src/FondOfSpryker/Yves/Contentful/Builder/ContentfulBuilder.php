@@ -19,18 +19,25 @@ class ContentfulBuilder implements ContentfulBuilderInterface
     /**
      * @var \FondOfSpryker\Yves\Contentful\Twig\ContentfulRendererInterface
      */
+    private $contentfulDefaultRenderer;
+
+    /**
+     * @var \FondOfSpryker\Yves\Contentful\Twig\ContentfulRendererInterface[]
+     */
     private $contentfulRenderer;
 
     /**
      * @author mnoerenberg
      *
      * @param \FondOfSpryker\Client\Contentful\ContentfulClientInterface $contentfulClient
-     * @param \FondOfSpryker\Yves\Contentful\Twig\ContentfulRendererInterface $contentfulRenderer
+     * @param \FondOfSpryker\Yves\Contentful\Twig\ContentfulRendererInterface[] $contentfulRenderer
+     * @param \FondOfSpryker\Yves\Contentful\Twig\ContentfulRendererInterface $contentfulDefaultRenderer
      */
-    public function __construct(ContentfulClientInterface $contentfulClient, ContentfulRendererInterface $contentfulRenderer)
+    public function __construct(ContentfulClientInterface $contentfulClient, array $contentfulRenderer, ContentfulRendererInterface $contentfulDefaultRenderer)
     {
         $this->contentfulClient = $contentfulClient;
         $this->contentfulRenderer = $contentfulRenderer;
+        $this->contentfulDefaultRenderer = $contentfulDefaultRenderer;
     }
 
     /**
@@ -42,7 +49,14 @@ class ContentfulBuilder implements ContentfulBuilderInterface
     {
         $request = $this->createRequest($entryId);
         $response = $this->contentfulClient->getContentfulEntryFromStorageByEntryIdForCurrentLocale($request);
-        return $this->contentfulRenderer->render($response);
+
+        foreach ($this->contentfulRenderer as $renderer) {
+            if ($renderer->getType() == $response->getContentType()) {
+                return $renderer->render($response);
+            }
+        }
+
+        return $this->contentfulDefaultRenderer->render($response);
     }
 
     /**
@@ -56,7 +70,6 @@ class ContentfulBuilder implements ContentfulBuilderInterface
     {
         $requestTransfer = new ContentfulEntryRequestTransfer();
         $requestTransfer->setId($entryId);
-
         return $requestTransfer;
     }
 }

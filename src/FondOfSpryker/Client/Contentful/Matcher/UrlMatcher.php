@@ -13,7 +13,7 @@ class UrlMatcher implements UrlMatcherInterface
     /**
      * @var \Spryker\Shared\KeyBuilder\KeyBuilderInterface
      */
-    protected $pageKeyBuilder;
+    protected $keyBuilder;
 
     /**
      * @var \Spryker\Client\Storage\StorageClientInterface
@@ -21,12 +21,12 @@ class UrlMatcher implements UrlMatcherInterface
     protected $storageClient;
 
     /**
-     * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $pageKeyBuilder
+     * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
      * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
      */
-    public function __construct(KeyBuilderInterface $pageKeyBuilder, StorageClientInterface $storageClient)
+    public function __construct(KeyBuilderInterface $keyBuilder, StorageClientInterface $storageClient)
     {
-        $this->pageKeyBuilder = $pageKeyBuilder;
+        $this->keyBuilder = $keyBuilder;
         $this->storageClient = $storageClient;
     }
 
@@ -35,9 +35,9 @@ class UrlMatcher implements UrlMatcherInterface
      *
      * @inheritdoc
      */
-    public function matchUrl(string $url, string $localeName): array
+    public function matchUrl(string $url, string $localeName): ?array
     {
-        $storageKey = $this->pageKeyBuilder->generateKey(rawurldecode($url), $localeName);
-        return $this->storageClient->get($storageKey);
+        $key = $this->keyBuilder->generateKey(rawurldecode($url), $localeName);
+        return $this->storageClient->get($key);
     }
 }
