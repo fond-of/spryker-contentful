@@ -3,18 +3,17 @@
 namespace FondOfSpryker\Yves\Contentful\ResourceCreator;
 
 use Silex\Application;
-use Spryker\Yves\Kernel\BundleControllerAction;
-use Spryker\Yves\Kernel\Controller\BundleControllerActionRouteNameResolver;
-use Spryker\Yves\Kernel\ClassResolver\Controller\ControllerResolver;
 use Spryker\Shared\Application\Communication\ControllerServiceBuilder;
+use Spryker\Yves\Kernel\BundleControllerAction;
+use Spryker\Yves\Kernel\ClassResolver\Controller\ControllerResolver;
+use Spryker\Yves\Kernel\Controller\BundleControllerActionRouteNameResolver;
 
 /**
  * @author mnoerenberg
  */
-class ContentfulReferenceResourceCreator implements ContentfulResourceCreatorInterface
+class ContentfulPageResourceCreator implements ContentfulResourceCreatorInterface
 {
-
-    private const RESOURCE_TYPE_REFERENCE = 'Reference';
+    private const RESOURCE_TYPE_PAGE = 'Page';
 
     /**
      * @author mnoerenberg
@@ -23,7 +22,7 @@ class ContentfulReferenceResourceCreator implements ContentfulResourceCreatorInt
      */
     public function getType(): string
     {
-        return static::RESOURCE_TYPE_REFERENCE;
+        return static::RESOURCE_TYPE_PAGE;
     }
 
     /**
@@ -36,7 +35,7 @@ class ContentfulReferenceResourceCreator implements ContentfulResourceCreatorInt
      */
     public function createResource(Application $application, array $data): array
     {
-        $bundleControllerAction = new BundleControllerAction('Contentful', 'Index', 'index');
+        $bundleControllerAction = new BundleControllerAction('Contentful', $data['type'], 'index');
         $routeNameResolver = new BundleControllerActionRouteNameResolver($bundleControllerAction);
         $controllerResolver = new ControllerResolver();
         $controllerServiceBuilder = new ControllerServiceBuilder();

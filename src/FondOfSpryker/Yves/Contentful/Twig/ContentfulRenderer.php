@@ -4,6 +4,7 @@ namespace FondOfSpryker\Yves\Contentful\Twig;
 
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 use Spryker\Shared\Kernel\Communication\Application;
+use Throwable;
 
 /**
  * @author mnoerenberg
@@ -53,7 +54,7 @@ class ContentfulRenderer implements ContentfulRendererInterface
 
         try {
             return $this->application['twig']->render($templatePath, $parameters);
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             return '';
         }
     }

@@ -17,7 +17,7 @@ class ContentfulDependencyProvider extends AbstractDependencyProvider
      *
      * @return \Spryker\Client\Kernel\Container
      */
-    public function provideServiceLayerDependencies(Container $container)
+    public function provideServiceLayerDependencies(Container $container): Container
     {
         $container[static::KV_STORAGE] = function (Container $container) {
             return $container->getLocator()->storage()->client();

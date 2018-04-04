@@ -14,6 +14,4 @@
         <property name="errorMessage" type="string" />
         <property name="successful" type="bool" default="true" />
     </transfer>
-
 </transfers>
-

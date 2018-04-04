@@ -11,7 +11,7 @@ class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterfa
     /**
      * @author mnoerenberg
      *
-     * @return int
+     * @inheritdoc
      */
     public function importLastChangedEntries(): int
     {
@@ -21,7 +21,7 @@ class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterfa
     /**
      * @author mnoerenberg
      *
-     * @return int
+     * @inheritdoc
      */
     public function importAllEntries(): int
     {
@@ -31,9 +31,7 @@ class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterfa
     /**
      * @author mnoerenberg
      *
-     * @param string $entryId
-     *
-     * @return int
+     * @inheritdoc
      */
     public function importEntry(string $entryId): int
     {

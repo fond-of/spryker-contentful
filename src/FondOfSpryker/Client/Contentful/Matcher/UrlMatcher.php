@@ -33,10 +33,7 @@ class UrlMatcher implements UrlMatcherInterface
     /**
      * @author mnoerenberg
      *
-     * @param string $url
-     * @param string $localeName
-     *
-     * @return string[]|null
+     * @inheritdoc
      */
     public function matchUrl(string $url, string $localeName): array
     {

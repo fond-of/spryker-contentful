@@ -18,7 +18,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
      *
      * @return \Spryker\Zed\Kernel\Container
      */
-    public function provideBusinessLayerDependencies(Container $container)
+    public function provideBusinessLayerDependencies(Container $container): Container
     {
         //storage client
         $container[static::STORAGE_CLIENT] = function (Container $container) {

@@ -48,7 +48,7 @@ class ContentfulStorageReader implements ContentfulStorageReaderInterface
      *
      * @param \Generated\Shared\Transfer\ContentfulEntryRequestTransfer $request
      *
-     * @return \Generated\Shared\Transfer\ContentfulEntryRequestTransfer
+     * @return \Generated\Shared\Transfer\ContentfulEntryResponseTransfer
      */
     public function getContentfulEntryById(ContentfulEntryRequestTransfer $request): ContentfulEntryResponseTransfer
     {

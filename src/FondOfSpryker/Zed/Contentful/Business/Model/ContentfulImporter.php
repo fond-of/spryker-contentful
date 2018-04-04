@@ -3,23 +3,15 @@
 namespace FondOfSpryker\Zed\Contentful\Business\Model;
 
 use Contentful\Delivery\Client;
-use Contentful\Delivery\DynamicEntry;
 use Contentful\Delivery\Query;
 use Contentful\ResourceArray;
 use DateTime;
-use Spryker\Client\Storage\StorageClientInterface;
-use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
 /**
  * @author mnoerenberg
  */
-class ContentfulImporter
+class ContentfulImporter implements ContentfulImporterInterface
 {
-    /**
-     * @var \Spryker\Zed\Storage\Business\StorageFacadeInterface
-     */
-    protected $storageClient;
-
     /**
      * @var \FondOfSpryker\Zed\Contentful\Business\Model\ContentfulMapperInterface
      */
@@ -31,14 +23,9 @@ class ContentfulImporter
     protected $localeMapping;
 
     /**
-     * @var \Spryker\Shared\KeyBuilder\KeyBuilderInterface
+     * @var \FondOfSpryker\Zed\Contentful\Communication\Plugin\ContentfulImporterPluginInterface[]
      */
-    protected $entryKeyBuilder;
-
-    /**
-     * @var \Spryker\Shared\KeyBuilder\KeyBuilderInterface
-     */
-    protected $pageKeyBuilder;
+    protected $plugins;
 
     /**
      * @var \Contentful\Delivery\Client
@@ -46,33 +33,23 @@ class ContentfulImporter
     protected $client;
 
     /**
-     * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
-     * @param \FondOfSpryker\Zed\Contentful\Business\Model\ContentfulMapperInterface $contentfulMapper
      * @param \Contentful\Delivery\Client $client
-     * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $entryKeyBuilder
-     * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $pageKeyBuilder
+     * @param \FondOfSpryker\Zed\Contentful\Business\Model\ContentfulMapperInterface $contentfulMapper
+     * @param \FondOfSpryker\Zed\Contentful\Communication\Plugin\ContentfulImporterPluginInterface[] $plugins
      * @param string[] $localeMapping
      */
-    public function __construct(
-        StorageClientInterface $storageClient,
-        ContentfulMapperInterface $contentfulMapper,
-        Client $client,
-        KeyBuilderInterface $entryKeyBuilder,
-        KeyBuilderInterface $pageKeyBuilder,
-        array $localeMapping
-    ) {
-        $this->storageClient = $storageClient;
-        $this->contentfulMapper = $contentfulMapper;
+    public function __construct(Client $client, ContentfulMapperInterface $contentfulMapper, array $plugins, array $localeMapping)
+    {
         $this->client = $client;
-        $this->entryKeyBuilder = $entryKeyBuilder;
-        $this->pageKeyBuilder = $pageKeyBuilder;
+        $this->contentfulMapper = $contentfulMapper;
+        $this->plugins = $plugins;
         $this->localeMapping = $localeMapping;
     }
 
     /**
      * @author mnoerenberg
      *
-     * @return int
+     * @inheritdoc
      */
     public function importLastChangedEntries(): int
     {
@@ -87,7 +64,7 @@ class ContentfulImporter
     /**
      * @author mnoerenberg
      *
-     * @return int
+     * @inheritdoc
      */
     public function importAllEntries(): int
     {
@@ -102,9 +79,7 @@ class ContentfulImporter
     /**
      * @author mnoerenberg
      *
-     * @param string $entryId
-     *
-     * @return int
+     * @inheritdoc
      */
     public function importEntry($entryId): int
     {
@@ -123,54 +98,21 @@ class ContentfulImporter
      *
      * @return int
      */
-    protected function import(ResourceArray $entries): int
+    private function import(ResourceArray $entries): int
     {
-        foreach ($entries as $changedEntry) {
+        foreach ($entries as $dynamicEntry) {
             foreach ($this->localeMapping as $contentfulLocale => $locale) {
-                /** @var \Contentful\Delivery\DynamicEntry $changedEntry */
+                /** @var \Contentful\Delivery\DynamicEntry $dynamicEntry */
 
-                $changedEntry->setLocale($contentfulLocale, $locale);
-                $entryArray = $this->addEntry($changedEntry, $locale);
+                $dynamicEntry->setLocale($contentfulLocale);
+                $entryArray = $this->contentfulMapper->from($dynamicEntry);
 
-                if ($this->contentfulMapper->isPageFromEntryArray($entryArray)) {
-                    $this->addPage($entryArray, $locale);
+                foreach ($this->plugins as $plugin) {
+                    $plugin->handle($dynamicEntry, $entryArray, $locale);
                 }
             }
         }
 
         return count($entries);
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @param \Contentful\Delivery\DynamicEntry $changedEntry
-     * @param string $locale
-     *
-     * @return string[]
-     */
-    protected function addEntry(DynamicEntry $changedEntry, string $locale)
-    {
-        $key = $this->entryKeyBuilder->generateKey($changedEntry->getId(), $locale);
-        $entryArray = $this->contentfulMapper->from($changedEntry);
-        $this->storageClient->set($key, json_encode($entryArray));
-
-        return $entryArray;
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @param string[] $entryArray
-     * @param string $locale
-     *
-     * @return void
-     */
-    protected function addPage(array $entryArray, string $locale)
-    {
-        $urlIdentifier = $this->contentfulMapper->getPageUrlFromEntryArray($entryArray);
-        $key = $this->pageKeyBuilder->generateKey($urlIdentifier, $locale);
-        $referenceArray = $this->contentfulMapper->mapPageFromEntryArray($entryArray);
-        $this->storageClient->set($key, json_encode($referenceArray));
     }
 }

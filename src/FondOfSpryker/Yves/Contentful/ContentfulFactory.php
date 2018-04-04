@@ -4,14 +4,14 @@ namespace FondOfSpryker\Yves\Contentful;
 use Aptoma\Twig\Extension\MarkdownExtension;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulPageKeyBuilder;
-use FondOfSpryker\Yves\Contentful\ResourceCreator\ContentfulReferenceResourceCreator;
 use FondOfSpryker\Yves\Contentful\Builder\ContentfulBuilder;
 use FondOfSpryker\Yves\Contentful\Builder\ContentfulBuilderInterface;
+use FondOfSpryker\Yves\Contentful\ResourceCreator\ContentfulPageResourceCreator;
 use FondOfSpryker\Yves\Contentful\ResourceCreator\ContentfulResourceCreatorInterface;
 use FondOfSpryker\Yves\Contentful\Twig\ContentfulRenderer;
 use FondOfSpryker\Yves\Contentful\Twig\ContentfulRendererInterface;
 use FondOfSpryker\Yves\Contentful\Twig\ContentfulTwigExtension;
-use Silex\Application;
+use Spryker\Shared\Kernel\Communication\Application;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 use Spryker\Yves\Kernel\AbstractFactory;
 
@@ -58,7 +58,7 @@ class ContentfulFactory extends AbstractFactory
     public function getContentfulResourceCreator(): array
     {
         return [
-            $this->createContentfulReferenceResourceCreator(),
+            $this->createContentfulPageResourceCreator(),
         ];
     }
 
@@ -67,9 +67,9 @@ class ContentfulFactory extends AbstractFactory
      *
      * @return \FondOfSpryker\Yves\Contentful\ResourceCreator\ContentfulResourceCreatorInterface
      */
-    private function createContentfulReferenceResourceCreator(): ContentfulResourceCreatorInterface
+    private function createContentfulPageResourceCreator(): ContentfulResourceCreatorInterface
     {
-        return new ContentfulReferenceResourceCreator();
+        return new ContentfulPageResourceCreator();
     }
 
     /**
@@ -103,7 +103,7 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @return \Silex\Application
+     * @return \Spryker\Shared\Kernel\Communication\Application
      */
     public function getApplication(): Application
     {

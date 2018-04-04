@@ -45,7 +45,7 @@ class ContentfulTwigExtension extends TwigExtension
      *
      * @return string
      */
-    public function renderContentfulEntry(string $entryId)
+    public function renderContentfulEntry(string $entryId): string
     {
         return $this->contentfulBuilder->build($entryId);
     }

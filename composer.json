@@ -23,6 +23,8 @@
   "require": {
     "php": ">=7.1",
     "spryker/twig": "^3.0.0",
+    "spryker/storage": "^3.0.0",
+    "spryker/locale": "^3.0.0",
     "contentful/contentful": "2.4.1",
     "aptoma/twig-markdown": "2.0.0",
     "michelf/php-markdown": "1.3"

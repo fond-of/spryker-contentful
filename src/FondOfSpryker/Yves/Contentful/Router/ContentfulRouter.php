@@ -12,10 +12,10 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
  */
 class ContentfulRouter extends AbstractRouter
 {
-
     /**
      * @author mnoerenberg
      * @inheritdoc
+     * @throws \Symfony\Component\Routing\Exception\RouteNotFoundException
      */
     public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
@@ -25,8 +25,9 @@ class ContentfulRouter extends AbstractRouter
     /**
      * @author mnoerenberg
      * @inheritdoc
+     * @throws \Symfony\Component\Routing\Exception\ResourceNotFoundException
      */
-    public function match($pathinfo)
+    public function match($pathinfo): array
     {
         $data = $this->getClient()->matchUrl($pathinfo, $this->getApplication()['locale']);
         if (empty($data)) {
@@ -51,7 +52,8 @@ class ContentfulRouter extends AbstractRouter
      *
      * @return string
      */
-    private function getDefaultLocalePrefix() {
+    private function getDefaultLocalePrefix(): string
+    {
         return '/' . mb_substr($this->getApplication()['locale'], 0, 2);
     }
 }

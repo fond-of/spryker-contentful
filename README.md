@@ -2,9 +2,10 @@
 [![PHP from Travis config](https://img.shields.io/travis/php-v/symfony/symfony.svg)](https://php.net/)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://packagist.org/packages/fond-of-spryker/contentful)
 
+A Spryker-Contentful connector. 
+Import content from contentful to storage and updates it via cronjob.
 
-
-## Installation
+## Install
 
 ```
 composer require fond-of-spryker/contentful
@@ -15,20 +16,25 @@ composer require fond-of-spryker/contentful
 $this->application->register(new ContentfulTwigServiceProvider());
 ```
 
-### 2. Add console command to ConsoleDependencyProvider.php in getConsoleCommands()
+### 2. Add ContentfulRouter YvesBootstrap.php in registerRouters()
+```
+$this->application->addRouter((new ContentfulRouter())->setSsl(false));
+```
+
+### 3. Add console command to ConsoleDependencyProvider.php in getConsoleCommands()
 ```
 new ContentfulConsole()
 ```
 
-### 3. Add configs to your shop config file or in config/Shared/config_default.php 
+### 4. Add configs to your shop config file or in config/Shared/config_default.php 
 ```
-// Contentful configuration
+// Example configuration
 //
 // access token/api key
-$config[\FondOfSpryker\Shared\Contentful\ContentfulConstants::CONTENTFUL_ACCESS_TOKEN] = '';
+$config[\FondOfSpryker\Shared\Contentful\ContentfulConstants::CONTENTFUL_ACCESS_TOKEN] = 'fu';
 //
 // Space id
-$config[\FondOfSpryker\Shared\Contentful\ContentfulConstants::CONTENTFUL_SPACE_ID] = '';
+$config[\FondOfSpryker\Shared\Contentful\ContentfulConstants::CONTENTFUL_SPACE_ID] = 'bar';
 //
 // Space default locale
 $config[\FondOfSpryker\Shared\Contentful\ContentfulConstants::CONTENTFUL_DEFAULT_LOCALE] = 'en';
@@ -40,7 +46,7 @@ $config[\FondOfSpryker\Shared\Contentful\ContentfulConstants::CONTENTFUL_LOCALE_
 ];
 ```
 
-### 4. Add cronjob in jobs.php
+### 5. Add cronjob in jobs.php
 Retrieve updated contentful entries every 5min.
 ```
 $jobs[] = [
@@ -53,13 +59,13 @@ $jobs[] = [
 ];
 ```
 
-### 5. Run
+### 6. Run
 ```
 vendor/bin/console transfer:generate
-vendor/bin/console contentful:import
+vendor/bin/console contentful:import --all
 ```
 
-# Commands
+# Console commands
 
 Import last updated entries (last 5min)
 ```
@@ -71,7 +77,7 @@ Import all
 vendor/bin/console contentful:import --all
 ```
 
-Import entry
+Import entry by id
 ```
 vendor/bin/console contentful:import [entryId]
 ```

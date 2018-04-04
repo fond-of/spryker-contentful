@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @method \FondOfSpryker\Yves\Contentful\ContentfulFactory getFactory()
  */
-class IndexController extends AbstractController
+class PageController extends AbstractController
 {
     /**
      * @param string $entryId

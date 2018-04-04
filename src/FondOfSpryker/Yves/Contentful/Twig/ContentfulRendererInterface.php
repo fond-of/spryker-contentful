@@ -9,7 +9,6 @@ use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
  */
 interface ContentfulRendererInterface
 {
-
     /**
      * @author mnoerenberg
      *
