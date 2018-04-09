@@ -3,7 +3,7 @@
 namespace FondOfSpryker\Yves\Contentful\Builder;
 
 use FondOfSpryker\Client\Contentful\ContentfulClientInterface;
-use FondOfSpryker\Yves\Contentful\Twig\ContentfulRendererInterface;
+use FondOfSpryker\Yves\Contentful\Renderer\ContentfulRendererInterface;
 use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
 
 /**
@@ -17,12 +17,12 @@ class ContentfulBuilder implements ContentfulBuilderInterface
     private $contentfulClient;
 
     /**
-     * @var \FondOfSpryker\Yves\Contentful\Twig\ContentfulRendererInterface
+     * @var \FondOfSpryker\Yves\Contentful\Renderer\ContentfulRendererInterface
      */
     private $contentfulDefaultRenderer;
 
     /**
-     * @var \FondOfSpryker\Yves\Contentful\Twig\ContentfulRendererInterface[]
+     * @var \FondOfSpryker\Yves\Contentful\Renderer\ContentfulRendererInterface[]
      */
     private $contentfulRenderer;
 
@@ -30,8 +30,8 @@ class ContentfulBuilder implements ContentfulBuilderInterface
      * @author mnoerenberg
      *
      * @param \FondOfSpryker\Client\Contentful\ContentfulClientInterface $contentfulClient
-     * @param \FondOfSpryker\Yves\Contentful\Twig\ContentfulRendererInterface[] $contentfulRenderer
-     * @param \FondOfSpryker\Yves\Contentful\Twig\ContentfulRendererInterface $contentfulDefaultRenderer
+     * @param \FondOfSpryker\Yves\Contentful\Renderer\ContentfulRendererInterface[] $contentfulRenderer
+     * @param \FondOfSpryker\Yves\Contentful\Renderer\ContentfulRendererInterface $contentfulDefaultRenderer
      */
     public function __construct(ContentfulClientInterface $contentfulClient, array $contentfulRenderer, ContentfulRendererInterface $contentfulDefaultRenderer)
     {

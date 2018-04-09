@@ -18,7 +18,7 @@ class ContentfulIdentifierKeyBuilder implements KeyBuilderInterface
      */
     protected function buildKey($identifier)
     {
-        return 'identifier.' . $this->escapeIdentifier($identifier);
+        return 'identifier.' . $this->formatIdentifier($identifier);
     }
 
     /**
@@ -36,7 +36,7 @@ class ContentfulIdentifierKeyBuilder implements KeyBuilderInterface
      *
      * @return string
      */
-    private function escapeIdentifier(string $identifier): string
+    private function formatIdentifier(string $identifier): string
     {
         $identifier = trim($identifier);
         if (strpos($identifier, '/') !== 0) {

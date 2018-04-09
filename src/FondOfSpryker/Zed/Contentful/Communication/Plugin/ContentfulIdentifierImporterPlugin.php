@@ -11,7 +11,6 @@ use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
  */
 class ContentfulIdentifierImporterPlugin implements ContentfulImporterPluginInterface
 {
-
     /**
      * @var \Spryker\Shared\KeyBuilder\KeyBuilderInterface
      */

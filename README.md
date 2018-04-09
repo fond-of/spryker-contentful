@@ -16,32 +16,27 @@ composer require fond-of-spryker/contentful
 $this->application->register(new ContentfulTwigServiceProvider());
 ```
 
-### 2. Add ContentfulRouter YvesBootstrap.php in registerRouters()
+### 2. Add ContentfulRouter to YvesBootstrap.php in registerRouters()
 ```
 $this->application->addRouter((new ContentfulRouter())->setSsl(false));
 ```
 
 ### 3. Add console command to ConsoleDependencyProvider.php in getConsoleCommands()
 ```
-new ContentfulConsole()
+new ContentfulConsole(),
 ```
 
 ### 4. Add configs to your shop config file or in config/Shared/config_default.php 
+Example configuration
 ```
-// Example configuration
-//
-// access token/api key
+// API-Key
 $config[\FondOfSpryker\Shared\Contentful\ContentfulConstants::CONTENTFUL_ACCESS_TOKEN] = 'fu';
-//
 // Space id
 $config[\FondOfSpryker\Shared\Contentful\ContentfulConstants::CONTENTFUL_SPACE_ID] = 'bar';
-//
 // Space default locale
 $config[\FondOfSpryker\Shared\Contentful\ContentfulConstants::CONTENTFUL_DEFAULT_LOCALE] = 'en';
-//
 // Optional: To deactivate an entry. If Field doesn't exists entry is always shown. Default is "isActive"
 $config[\FondOfSpryker\Shared\Contentful\ContentfulConstants::CONTENTFUL_FIELD_NAME_IDENTIFIER] = 'isActive';
-//
 // Optional: If entry is a page, this is the field where the url is stored. Default is "identifier"
 $config[\FondOfSpryker\Shared\Contentful\ContentfulConstants::CONTENTFUL_FIELD_NAME_IDENTIFIER] = 'identifier';
 // Mapping of contentful locales to available shop locales
@@ -87,10 +82,6 @@ Import entry by id
 vendor/bin/console contentful:import [entryId]
 ```
 
-# Pages
-If the contentful entry has a "Indentifier" field (URL) it will be imported as page with the given route.
-Add an additional ResourceCreator to add custom logic to a special contentful entry type.
-
 # Usage in twig templates
 Template path is Theme/default/contentful/[contentType].twig
 ```
@@ -109,14 +100,20 @@ Markdown to html
 
 Image resize
 ```
-{{ contentfulImage(entry.[assetFieldName].value, width, height) }}
+{{ contentfulImage(entry.[assetFieldName].value, int width, int height) }}
 ```
 
 # Fields
 
-Default
+Text
 ```
-{{ entry.[assetFieldName].type }} // Possible Values: 'Boolean', 'Text'
+{{ entry.[assetFieldName].type }} // 'Text'
+{{ entry.[assetFieldName].value }} // Value
+```
+
+Boolean
+```
+{{ entry.[assetFieldName].type }} // 'Boolean'
 {{ entry.[assetFieldName].value }} // Value
 ```
 
@@ -139,3 +136,8 @@ Reference
 {{ entry.[assetFieldName].type }} // 'Reference'
 {{ entry.[assetFieldName].value }} // ContentfulEntryId
 ```
+
+# Pages
+- If the contentful entry has a "Indentifier" field (URL) it will be imported as page with the given route via IdentifierImporterPlugin.
+- Add an additional ResourceCreator to add custom logic to a special contentful entry type.
+- More documentation soon

@@ -1,6 +1,6 @@
 <?php
 
-namespace FondOfSpryker\Yves\Contentful\Twig;
+namespace FondOfSpryker\Yves\Contentful\Renderer;
 
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 use Spryker\Shared\Kernel\Communication\Application;
@@ -47,7 +47,7 @@ class ContentfulDefaultRenderer implements ContentfulRendererInterface
      */
     public function render(ContentfulEntryResponseTransfer $response): string
     {
-        if ($response->getSuccessful() !== true) {
+        if ($response->getSuccessful() === false) {
             return $response->getErrorMessage();
         }
 
@@ -59,9 +59,19 @@ class ContentfulDefaultRenderer implements ContentfulRendererInterface
         ];
 
         try {
-            return $this->application['twig']->render($templatePath, $parameters);
+            return $this->getTwigEnvironment()->render($templatePath, $parameters);
         } catch (Throwable $throwable) {
             return '';
         }
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @return \Twig_Environment
+     */
+    private function getTwigEnvironment(): \Twig_Environment
+    {
+        return $this->application['twig'];
     }
 }
