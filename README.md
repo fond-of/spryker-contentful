@@ -36,7 +36,7 @@ $config[\FondOfSpryker\Shared\Contentful\ContentfulConstants::CONTENTFUL_SPACE_I
 // Space default locale
 $config[\FondOfSpryker\Shared\Contentful\ContentfulConstants::CONTENTFUL_DEFAULT_LOCALE] = 'en';
 // Optional: To deactivate an entry. If Field doesn't exists entry is always shown. Default is "isActive"
-$config[\FondOfSpryker\Shared\Contentful\ContentfulConstants::CONTENTFUL_FIELD_NAME_IDENTIFIER] = 'isActive';
+$config[\FondOfSpryker\Shared\Contentful\ContentfulConstants::CONTENTFUL_FIELD_NAME_ACTIVE] = 'isActive';
 // Optional: If entry is a page, this is the field where the url is stored. Default is "identifier"
 $config[\FondOfSpryker\Shared\Contentful\ContentfulConstants::CONTENTFUL_FIELD_NAME_IDENTIFIER] = 'identifier';
 // Mapping of contentful locales to available shop locales

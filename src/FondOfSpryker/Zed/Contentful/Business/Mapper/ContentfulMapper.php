@@ -5,7 +5,7 @@ namespace FondOfSpryker\Zed\Contentful\Business\Mapper;
 use Contentful\Delivery\DynamicEntry;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Content\Content;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperCollectionInterface;
+use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface;
 
 /**
  * @author mnoerenberg
@@ -13,18 +13,18 @@ use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperCollectionInte
 class ContentfulMapper implements ContentfulMapperInterface
 {
     /**
-     * @var \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperCollectionInterface
+     * @var \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface
      */
-    private $fieldMapperCollection;
+    private $fieldMapperLocator;
 
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperCollectionInterface $fieldMapperCollection
+     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface $fieldMapperLocator
      */
-    public function __construct(FieldMapperCollectionInterface $fieldMapperCollection)
+    public function __construct(FieldMapperLocatorInterface $fieldMapperLocator)
     {
-        $this->fieldMapperCollection = $fieldMapperCollection;
+        $this->fieldMapperLocator = $fieldMapperLocator;
     }
 
     /**
@@ -36,12 +36,8 @@ class ContentfulMapper implements ContentfulMapperInterface
      */
     public function map(DynamicEntry $dynamicEntry): ContentInterface
     {
-        $contentType = $dynamicEntry->getContentType()->getId();
-        $contentId = $dynamicEntry->getId();
-
-        $content = $this->createContent($contentId, $contentType);
+        $content = $this->createContent($dynamicEntry->getId(), $dynamicEntry->getContentType()->getId());
         $this->createFields($content, $dynamicEntry);
-
         return $content;
     }
 
@@ -68,11 +64,9 @@ class ContentfulMapper implements ContentfulMapperInterface
      */
     protected function createFields(ContentInterface $content, DynamicEntry $dynamicEntry): void
     {
-        $fieldMapperCollection = $this->fieldMapperCollection;
         foreach ($dynamicEntry->getContentType()->getFields() as $contentTypeField) {
-            $mapper = $fieldMapperCollection->getByContentfulType($contentTypeField->getType());
-            $field = $mapper->createField($dynamicEntry, $contentTypeField, $fieldMapperCollection);
-            $content->addField($field);
+            $mapper = $this->fieldMapperLocator->locateBy($dynamicEntry, $contentTypeField);
+            $content->addField($mapper->createField($dynamicEntry, $contentTypeField, $this->fieldMapperLocator));
         }
     }
 }

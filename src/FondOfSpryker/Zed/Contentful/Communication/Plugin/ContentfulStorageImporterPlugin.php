@@ -4,7 +4,6 @@ namespace FondOfSpryker\Zed\Contentful\Communication\Plugin;
 
 use Contentful\Delivery\DynamicEntry;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Boolean\BooleanField;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
@@ -49,7 +48,6 @@ class ContentfulStorageImporterPlugin extends AbstractContentfulImporterPlugin
      */
     public function handle(DynamicEntry $dynamicEntry, ContentInterface $content, string $locale): void
     {
-
         $key = $this->keyBuilder->generateKey($content->getId(), $locale);
         if ($this->isContentActive($content, $this->activeFieldName) === false) {
             $this->storageClient->delete($key);

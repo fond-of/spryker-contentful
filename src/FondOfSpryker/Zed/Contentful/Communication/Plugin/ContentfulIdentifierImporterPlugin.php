@@ -61,7 +61,7 @@ class ContentfulIdentifierImporterPlugin extends AbstractContentfulImporterPlugi
             return;
         }
 
-        $key = $this->createStorageKey($identifierField->getContent(), $locale);
+        $key = $this->createStorageKey(mb_substr($locale, 0, 2) . '/' . $identifierField->getContent(), $locale);
         if ($this->isContentActive($content, $this->activeFieldName) === false) {
             $this->deleteFromStorage($key);
             return;

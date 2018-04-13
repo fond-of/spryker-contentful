@@ -7,6 +7,6 @@ use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Text\TextFieldMapper;
 /**
  * @author mnoerenberg
  */
-class DefaultFieldMapper extends TextFieldMapper
+class FieldMapperDefault extends TextFieldMapper
 {
 }

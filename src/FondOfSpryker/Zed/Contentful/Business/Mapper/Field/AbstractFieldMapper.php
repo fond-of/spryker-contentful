@@ -9,7 +9,7 @@ use Throwable;
 /**
  * @author mnoerenberg
  */
-abstract class AbstractFieldMapper implements FieldMapperInterface
+abstract class AbstractFieldMapper
 {
     /**
      * @author mnoerenberg
