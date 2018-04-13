@@ -3,13 +3,15 @@
 namespace FondOfSpryker\Zed\Contentful\Communication\Plugin;
 
 use Contentful\Delivery\DynamicEntry;
+use FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface;
+use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Text\TextField;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
 /**
  * @author mnoerenberg
  */
-class ContentfulIdentifierImporterPlugin implements ContentfulImporterPluginInterface
+class ContentfulIdentifierImporterPlugin extends AbstractContentfulImporterPlugin
 {
     /**
      * @var \Spryker\Shared\KeyBuilder\KeyBuilderInterface
@@ -52,121 +54,93 @@ class ContentfulIdentifierImporterPlugin implements ContentfulImporterPluginInte
      *
      * @inheritdoc
      */
-    public function handle(DynamicEntry $dynamicEntry, array $entryArray, string $locale): void
+    public function handle(DynamicEntry $dynamicEntry, ContentInterface $content, string $locale): void
     {
-        if ($this->hasField($this->identifierFieldName, $entryArray) === false) {
+        $identifierField = $this->getIdentifierField($content);
+        if ($identifierField === null) {
             return;
         }
 
-        if ($this->isEntryActive($entryArray) === false) {
-            $this->deleteEntryFromStorage($entryArray, $locale);
+        $key = $this->createStorageKey($identifierField->getContent(), $locale);
+        if ($this->isContentActive($content, $this->activeFieldName) === false) {
+            $this->deleteFromStorage($key);
             return;
         }
 
-        $this->addEntryToStorage($entryArray, $locale);
+        $this->addToStorage($key, $this->createStorageValue($content));
     }
 
     /**
      * @author mnoerenberg
      *
-     * @param string[] $entryArray
-     * @param string $locale
-     *
-     * @return void
-     */
-    private function addEntryToStorage(array $entryArray, string $locale): void
-    {
-        $key = $this->createStorageKey($entryArray, $locale);
-        $value = $this->createStorageValue($entryArray);
-        $this->storageClient->set($key, json_encode($value));
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @param string[] $entryArray
-     * @param string $locale
-     *
-     * @return void
-     */
-    private function deleteEntryFromStorage(array $entryArray, string $locale): void
-    {
-        $key = $this->createStorageKey($entryArray, $locale);
-        $this->storageClient->delete($key);
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @param string[] $entryArray
-     *
-     * @return bool
-     */
-    private function isEntryActive(array $entryArray): bool
-    {
-        if ($this->hasField($this->activeFieldName, $entryArray) === false) {
-            return true;
-        }
-
-        if ($this->getFieldValue($this->activeFieldName, $entryArray) == true) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @param string[] $entryArray
+     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface $content
      *
      * @return string[]
      */
-    protected function createStorageValue(array $entryArray): array
+    protected function createStorageValue(ContentInterface $content): array
     {
         return [
-            'type' => $entryArray['contentType'],
-            'value' => $entryArray['id'],
+            'type' => $content->getContentType(),
+            'value' => $content->getId(),
         ];
     }
 
     /**
      * @author mnoerenberg
      *
-     * @param string[] $entryArray
+     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface $content
+     *
+     * @return null|\FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Text\TextField
+     */
+    private function getIdentifierField(ContentInterface $content): ?TextField
+    {
+        if ($content->hasField($this->identifierFieldName) === false) {
+            return null;
+        }
+
+        $field = $content->getField($this->identifierFieldName);
+        if ($field instanceof TextField) {
+            return $field;
+        }
+
+        return null;
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param string $key
+     * @param string[] $value
+     *
+     * @return void
+     */
+    private function addToStorage(string $key, array $value): void
+    {
+        $this->storageClient->set($key, json_encode($value));
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param string $key
+     *
+     * @return void
+     */
+    protected function deleteFromStorage($key): void
+    {
+        $this->storageClient->delete($key);
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param string $url
      * @param string $locale
      *
      * @return string
      */
-    protected function createStorageKey(array $entryArray, string $locale): string
+    protected function createStorageKey(string $url, string $locale): string
     {
-        $identifier = $this->getFieldValue($this->identifierFieldName, $entryArray);
-        return $this->keyBuilder->generateKey($identifier, $locale);
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @param string $fieldName
-     * @param string[] $entryArray
-     *
-     * @return boolean
-     */
-    protected function hasField(string $fieldName, array $entryArray): bool
-    {
-        return array_key_exists($fieldName, $entryArray['fields']) === true;
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @param string $fieldName
-     * @param string[] $entryArray
-     *
-     * @return string
-     */
-    private function getFieldValue(string $fieldName, array $entryArray): string
-    {
-        return $entryArray['fields'][$fieldName]['value'];
+        return $this->keyBuilder->generateKey($url, $locale);
     }
 }

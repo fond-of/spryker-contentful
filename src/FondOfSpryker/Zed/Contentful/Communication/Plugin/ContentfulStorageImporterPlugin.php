@@ -3,13 +3,15 @@
 namespace FondOfSpryker\Zed\Contentful\Communication\Plugin;
 
 use Contentful\Delivery\DynamicEntry;
+use FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface;
+use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Boolean\BooleanField;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
 /**
  * @author mnoerenberg
  */
-class ContentfulStorageImporterPlugin implements ContentfulImporterPluginInterface
+class ContentfulStorageImporterPlugin extends AbstractContentfulImporterPlugin
 {
     /**
      * @var \Spryker\Shared\KeyBuilder\KeyBuilderInterface
@@ -45,61 +47,15 @@ class ContentfulStorageImporterPlugin implements ContentfulImporterPluginInterfa
      *
      * @inheritdoc
      */
-    public function handle(DynamicEntry $dynamicEntry, array $entryArray, string $locale): void
+    public function handle(DynamicEntry $dynamicEntry, ContentInterface $content, string $locale): void
     {
 
-        $key = $this->keyBuilder->generateKey($entryArray['id'], $locale);
-        if ($this->isEntryActive($entryArray) === false) {
+        $key = $this->keyBuilder->generateKey($content->getId(), $locale);
+        if ($this->isContentActive($content, $this->activeFieldName) === false) {
             $this->storageClient->delete($key);
             return;
         }
 
-        $this->storageClient->set($key, json_encode($entryArray));
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @param string[] $entryArray
-     *
-     * @return bool
-     */
-    private function isEntryActive(array $entryArray): bool
-    {
-        if ($this->hasField($this->activeFieldName, $entryArray) === false) {
-            return true;
-        }
-
-        if ($this->getFieldValue($this->activeFieldName, $entryArray) == true) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @param string $fieldName
-     * @param string[] $entryArray
-     *
-     * @return boolean
-     */
-    protected function hasField(string $fieldName, array $entryArray): bool
-    {
-        return array_key_exists($fieldName, $entryArray['fields']) === true;
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @param string $fieldName
-     * @param string[] $entryArray
-     *
-     * @return string
-     */
-    private function getFieldValue(string $fieldName, array $entryArray): string
-    {
-        return $entryArray['fields'][$fieldName]['value'];
+        $this->storageClient->set($key, json_encode($content->jsonSerialize()));
     }
 }

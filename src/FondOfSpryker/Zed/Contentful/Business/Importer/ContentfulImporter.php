@@ -1,11 +1,12 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Model;
+namespace FondOfSpryker\Zed\Contentful\Business\Importer;
 
 use Contentful\Delivery\Client;
 use Contentful\Delivery\Query;
 use Contentful\ResourceArray;
 use DateTime;
+use FondOfSpryker\Zed\Contentful\Business\Mapper\ContentfulMapperInterface;
 
 /**
  * @author mnoerenberg
@@ -15,7 +16,7 @@ class ContentfulImporter implements ContentfulImporterInterface
     private const FIELD_IS_ACTIVE = 'isActive';
 
     /**
-     * @var \FondOfSpryker\Zed\Contentful\Business\Model\ContentfulMapperInterface
+     * @var \FondOfSpryker\Zed\Contentful\Business\Mapper\ContentfulMapperInterface
      */
     protected $contentfulMapper;
 
@@ -36,7 +37,7 @@ class ContentfulImporter implements ContentfulImporterInterface
 
     /**
      * @param \Contentful\Delivery\Client $client
-     * @param \FondOfSpryker\Zed\Contentful\Business\Model\ContentfulMapperInterface $contentfulMapper
+     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\ContentfulMapperInterface $contentfulMapper
      * @param \FondOfSpryker\Zed\Contentful\Communication\Plugin\ContentfulImporterPluginInterface[] $plugins
      * @param string[] $localeMapping
      */
@@ -107,10 +108,10 @@ class ContentfulImporter implements ContentfulImporterInterface
                 /** @var \Contentful\Delivery\DynamicEntry $dynamicEntry */
 
                 $dynamicEntry->setLocale($contentfulLocale);
-                $entryArray = $this->contentfulMapper->from($dynamicEntry);
+                $content = $this->contentfulMapper->map($dynamicEntry);
 
                 foreach ($this->plugins as $plugin) {
-                    $plugin->handle($dynamicEntry, $entryArray, $locale);
+                    $plugin->handle($dynamicEntry, $content, $locale);
                 }
             }
         }

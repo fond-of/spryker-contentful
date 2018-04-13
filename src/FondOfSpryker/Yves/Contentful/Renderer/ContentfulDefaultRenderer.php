@@ -5,6 +5,7 @@ namespace FondOfSpryker\Yves\Contentful\Renderer;
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 use Spryker\Shared\Kernel\Communication\Application;
 use Throwable;
+use Twig_Environment;
 
 /**
  * @author mnoerenberg
@@ -70,7 +71,7 @@ class ContentfulDefaultRenderer implements ContentfulRendererInterface
      *
      * @return \Twig_Environment
      */
-    private function getTwigEnvironment(): \Twig_Environment
+    private function getTwigEnvironment(): Twig_Environment
     {
         return $this->application['twig'];
     }

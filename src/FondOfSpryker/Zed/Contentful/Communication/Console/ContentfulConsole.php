@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @method \FondOfSpryker\Zed\Contentful\Business\ContentfulFacade getFacade()
+ * @method \FondOfSpryker\Zed\Contentful\Business\ContentfulFacadeInterface getFacade()
  */
 class ContentfulConsole extends Console
 {

@@ -3,6 +3,7 @@
 namespace FondOfSpryker\Zed\Contentful\Communication\Plugin;
 
 use Contentful\Delivery\DynamicEntry;
+use FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface;
 
 /**
  * @author mnoerenberg
@@ -13,10 +14,10 @@ interface ContentfulImporterPluginInterface
      * @author mnoerenberg
      *
      * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
-     * @param string[] $entryArray
+     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface $content
      * @param string $locale
      *
      * @return void
      */
-    public function handle(DynamicEntry $dynamicEntry, array $entryArray, string $locale): void;
+    public function handle(DynamicEntry $dynamicEntry, ContentInterface $content, string $locale): void;
 }

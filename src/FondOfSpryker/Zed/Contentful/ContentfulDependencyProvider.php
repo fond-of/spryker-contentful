@@ -30,6 +30,11 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
             return $container->getLocator()->locale()->facade();
         };
 
+        // locale facade
+        $container[static::LOCALE_FACADE] = function (Container $container) {
+            return $container->getLocator()->locale()->facade();
+        };
+
         return $container;
     }
 }

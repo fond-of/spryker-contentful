@@ -1,6 +1,6 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Model;
+namespace FondOfSpryker\Zed\Contentful\Business\Importer;
 
 /**
  * @author mnoerenberg
