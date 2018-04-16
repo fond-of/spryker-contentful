@@ -38,18 +38,18 @@ class CollectionFieldMapper extends AbstractFieldMapper implements FieldMapperTy
      */
     public function createField(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField, FieldMapperLocatorInterface $fieldMapperLocator): FieldInterface
     {
-        $fields = [];
+        $field = new CollectionField($contentTypeField->getId());
         $fieldValues = $this->getFieldValue($dynamicEntry, $contentTypeField);
 
         foreach ($fieldValues as $fieldValue) {
             if ($contentTypeField->getItemsLinkType() == static::CONTENTFUL_COLLECTION_FIELD_TYPE_ENTRY && $fieldValue instanceof DynamicEntry) {
-                $fields[] = new CollectionReferenceField($fieldValue->getId());
+                $field->addField(new CollectionReferenceField($fieldValue->getId()));
                 continue;
             }
 
-            $fields[] = new CollectionTextField($fieldValue);
+            $field->addField(new CollectionTextField($fieldValue));
         }
 
-        return new CollectionField($contentTypeField->getId(), $fields);
+        return $field;
     }
 }

@@ -51,7 +51,7 @@ class ContentfulBuilder implements ContentfulBuilderInterface
         $response = $this->contentfulClient->getContentfulEntryFromStorageByEntryIdForCurrentLocale($request);
 
         foreach ($this->contentfulRenderer as $renderer) {
-            if ($renderer->getType() == $response->getContentType()) {
+            if (strtolower(trim($renderer->getType())) == strtolower(trim($response->getContentType()))) {
                 return $renderer->render($response);
             }
         }

@@ -22,7 +22,7 @@ class CollectionField extends AbstractField
      * @param string $name
      * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Collection\CollectionFieldInterface[] $fields
      */
-    public function __construct(string $name, array $fields)
+    public function __construct(string $name, array $fields = [])
     {
         $this->name = $name;
         $this->fields = $fields;
@@ -46,6 +46,18 @@ class CollectionField extends AbstractField
     public function getFields(): array
     {
         return $this->fields;
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Collection\CollectionFieldInterface $field
+     *
+     * @return void
+     */
+    public function addField(CollectionFieldInterface $field): void
+    {
+        $this->fields[] = $field;
     }
 
     /**

@@ -105,7 +105,7 @@ Image resize
 
 # Fields
 
-Text
+Text (Default)
 ```
 {{ entry.[assetFieldName].type }} // 'Text'
 {{ entry.[assetFieldName].value }} // Value
@@ -136,6 +136,11 @@ Reference
 {{ entry.[assetFieldName].type }} // 'Reference'
 {{ entry.[assetFieldName].value }} // ContentfulEntryId
 ```
+
+Object (Json)
+```
+{{ entry.[assetFieldName].type }} // 'Object'
+{{ entry.[assetFieldName].value }} // ContentfulEntryId
 
 # Pages
 - If the contentful entry has a "Indentifier" field (URL) it will be imported as page with the given route via IdentifierImporterPlugin.

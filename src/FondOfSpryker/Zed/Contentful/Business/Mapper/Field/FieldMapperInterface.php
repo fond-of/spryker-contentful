@@ -13,13 +13,6 @@ interface FieldMapperInterface
     /**
      * @author mnoerenberg
      *
-     * @return string
-     */
-    public function getContentfulType(): string;
-
-    /**
-     * @author mnoerenberg
-     *
      * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
      * @param \Contentful\Delivery\ContentTypeField $contentTypeField
      * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface $fieldMapperLocator

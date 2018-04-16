@@ -71,7 +71,7 @@ class FieldMapperLocator implements FieldMapperLocatorInterface
      */
     public function locateBy(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField): FieldMapperInterface
     {
-        $mapper = $this->locateByNameAndContentType($contentTypeField->getName(), $dynamicEntry->getContentType()->getName());
+        $mapper = $this->locateByNameAndContentType($contentTypeField->getName(), $dynamicEntry->getContentType()->getId());
         if ($mapper !== null) {
             return $mapper;
         }
@@ -94,7 +94,7 @@ class FieldMapperLocator implements FieldMapperLocatorInterface
     public function locateByFieldType(string $fieldType): ?FieldMapperInterface
     {
         foreach ($this->fieldMapperTypeCollection->getAll() as $fieldMapperType) {
-            if ($fieldMapperType->getContentfulType() == $fieldType) {
+            if (strtolower(trim($fieldMapperType->getContentfulType())) == strtolower(trim($fieldType))) {
                 return $fieldMapperType;
             }
         }
@@ -113,7 +113,7 @@ class FieldMapperLocator implements FieldMapperLocatorInterface
     public function locateByNameAndContentType(string $fieldName, string $contentType): ?FieldMapperInterface
     {
         foreach ($this->fieldMapperCustomCollection->getAll() as $fieldMapperCustom) {
-            if ($fieldMapperCustom->getFieldName() == $fieldName && $fieldMapperCustom->getContentType() == $contentType) {
+            if (strtolower(trim($fieldMapperCustom->getFieldName())) == strtolower(trim($fieldName)) && strtolower(trim($fieldMapperCustom->getContentType())) == strtolower(trim($contentType))) {
                 return $fieldMapperCustom;
             }
         }

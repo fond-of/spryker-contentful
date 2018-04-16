@@ -10,8 +10,8 @@ use Spryker\Zed\Kernel\Container;
 class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
 {
     public const STORAGE_CLIENT = 'STORAGE_CLIENT';
-    public const RENDERER = 'twig';
     public const LOCALE_FACADE = 'LOCALE_FACADE';
+    public const RENDERER = 'TWIG';
 
     /**
      * @param \Spryker\Zed\Kernel\Container $container
@@ -23,11 +23,6 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
         //storage client
         $container[static::STORAGE_CLIENT] = function (Container $container) {
             return $container->getLocator()->storage()->client();
-        };
-
-        // locale facade
-        $container[static::LOCALE_FACADE] = function (Container $container) {
-            return $container->getLocator()->locale()->facade();
         };
 
         // locale facade
