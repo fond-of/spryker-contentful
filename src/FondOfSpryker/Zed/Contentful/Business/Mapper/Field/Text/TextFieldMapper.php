@@ -2,9 +2,9 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Text;
 
-use Contentful\Delivery\ContentTypeField;
-use Contentful\Delivery\DynamicEntry;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\AbstractFieldMapper;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulField;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface;
@@ -12,10 +12,8 @@ use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface;
 /**
  * @author mnoerenberg
  */
-class TextFieldMapper extends AbstractFieldMapper implements FieldMapperTypeInterface
+class TextFieldMapper implements FieldMapperTypeInterface
 {
-    public const CONTENTFUL_TYPE = 'Text';
-
     /**
      * @author mnoerenberg
      *
@@ -23,25 +21,25 @@ class TextFieldMapper extends AbstractFieldMapper implements FieldMapperTypeInte
      */
     public function getContentfulType(): string
     {
-        return static::CONTENTFUL_TYPE;
+        return ContentfulField::FIELD_TYPE_TEXT;
     }
 
     /**
      * @author mnoerenberg
      *
-     * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
-     * @param \Contentful\Delivery\ContentTypeField $contentTypeField
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface $contentfulField
      * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface $fieldMapperLocator
      *
      * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface
      */
-    public function createField(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField, FieldMapperLocatorInterface $fieldMapperLocator): FieldInterface
+    public function createField(ContentfulEntryInterface $contentfulEntry, ContentfulFieldInterface $contentfulField, FieldMapperLocatorInterface $fieldMapperLocator): FieldInterface
     {
-        $content = $this->getFieldValue($dynamicEntry, $contentTypeField);
+        $content = $contentfulField->getValue();
         if ($content === null) {
             $content = '';
         }
 
-        return new TextField($contentTypeField->getId(), $content);
+        return new TextField($contentfulField->getId(), $content);
     }
 }

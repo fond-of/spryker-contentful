@@ -2,10 +2,10 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Importer;
 
-use Contentful\Delivery\Client;
-use Contentful\Delivery\Query;
-use Contentful\ResourceArray;
-use DateTime;
+use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryCollectionInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface;
+use FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\ContentfulMapperInterface;
 
 /**
@@ -13,7 +13,10 @@ use FondOfSpryker\Zed\Contentful\Business\Mapper\ContentfulMapperInterface;
  */
 class ContentfulImporter implements ContentfulImporterInterface
 {
-    private const FIELD_IS_ACTIVE = 'isActive';
+    /**
+     * @var \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientInterface
+     */
+    protected $contentfulAPIClient;
 
     /**
      * @var \FondOfSpryker\Zed\Contentful\Business\Mapper\ContentfulMapperInterface
@@ -21,29 +24,24 @@ class ContentfulImporter implements ContentfulImporterInterface
     protected $contentfulMapper;
 
     /**
-     * @var string[]
-     */
-    protected $localeMapping;
-
-    /**
      * @var \FondOfSpryker\Zed\Contentful\Communication\Plugin\ContentfulImporterPluginInterface[]
      */
     protected $plugins;
 
     /**
-     * @var \Contentful\Delivery\Client
+     * @var string[]
      */
-    protected $client;
+    protected $localeMapping;
 
     /**
-     * @param \Contentful\Delivery\Client $client
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientInterface $contentfulAPIClient
      * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\ContentfulMapperInterface $contentfulMapper
      * @param \FondOfSpryker\Zed\Contentful\Communication\Plugin\ContentfulImporterPluginInterface[] $plugins
      * @param string[] $localeMapping
      */
-    public function __construct(Client $client, ContentfulMapperInterface $contentfulMapper, array $plugins, array $localeMapping)
+    public function __construct(ContentfulAPIClientInterface $contentfulAPIClient, ContentfulMapperInterface $contentfulMapper, array $plugins, array $localeMapping)
     {
-        $this->client = $client;
+        $this->contentfulAPIClient = $contentfulAPIClient;
         $this->contentfulMapper = $contentfulMapper;
         $this->plugins = $plugins;
         $this->localeMapping = $localeMapping;
@@ -52,70 +50,84 @@ class ContentfulImporter implements ContentfulImporterInterface
     /**
      * @author mnoerenberg
      *
-     * @inheritdoc
+     * @return int
      */
     public function importLastChangedEntries(): int
     {
-        $query = new Query();
-        $query->where('sys.updatedAt', (new DateTime())->modify('-5 minutes'), 'gte');
-        $query->setLimit(1000);
-        $query->setLocale('*');
-
-        return $this->import($this->client->getEntries($query));
+        $collection = $this->contentfulAPIClient->findLastChangedEntries();
+        $this->importCollection($collection);
+        return $collection->count();
     }
 
     /**
      * @author mnoerenberg
-     *
-     * @inheritdoc
-     */
-    public function importAllEntries(): int
-    {
-        $query = new Query();
-        $query->where('sys.createdAt', new DateTime('2010-01-01 00:00:00'), 'gte');
-        $query->setLimit(1000);
-        $query->setLocale('*');
-
-        return $this->import($this->client->getEntries($query));
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @inheritdoc
-     */
-    public function importEntry($entryId): int
-    {
-        $query = new Query();
-        $query->where('sys.id', $entryId, 'match');
-        $query->setLimit(10);
-        $query->setLocale('*');
-
-        return $this->import($this->client->getEntries($query));
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @param \Contentful\ResourceArray $entries
      *
      * @return int
      */
-    private function import(ResourceArray $entries): int
+    public function importAllEntries(): int
     {
-        foreach ($entries as $dynamicEntry) {
-            foreach ($this->localeMapping as $contentfulLocale => $locale) {
-                /** @var \Contentful\Delivery\DynamicEntry $dynamicEntry */
+        $collection = $this->contentfulAPIClient->findAllEntries();
+        $this->importCollection($collection);
+        return $collection->count();
+    }
 
-                $dynamicEntry->setLocale($contentfulLocale);
-                $content = $this->contentfulMapper->map($dynamicEntry);
+    /**
+     * @author mnoerenberg
+     *
+     * @param string $entryId
+     *
+     * @return int
+     */
+    public function importEntry(string $entryId): int
+    {
+        $collection = $this->contentfulAPIClient->findEntryById($entryId);
+        $this->importCollection($collection);
+        return $collection->count();
+    }
 
-                foreach ($this->plugins as $plugin) {
-                    $plugin->handle($dynamicEntry, $content, $locale);
-                }
-            }
+    /**
+     * @author mnoerenberg
+     *
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryCollectionInterface $collection
+     *
+     * @return void
+     */
+    protected function importCollection(ContentfulEntryCollectionInterface $collection): void
+    {
+        foreach ($collection->getAll() as $contentfulEntry) {
+            $this->import($contentfulEntry);
         }
+    }
 
-        return count($entries);
+    /**
+     * @author mnoerenberg
+     *
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
+     *
+     * @return void
+     */
+    protected function import(ContentfulEntryInterface $contentfulEntry): void
+    {
+        foreach ($this->localeMapping as $contentfulLocale => $locale) {
+            $contentfulEntry->setLocale($contentfulLocale);
+            $storageContent = $this->contentfulMapper->map($contentfulEntry);
+            $this->executePlugins($contentfulEntry, $storageContent, $locale);
+        }
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface $content
+     * @param string $locale
+     *
+     * @return void
+     */
+    protected function executePlugins(ContentfulEntryInterface $contentfulEntry, ContentInterface $content, string $locale): void
+    {
+        foreach ($this->plugins as $plugin) {
+            $plugin->handle($contentfulEntry, $content, $locale);
+        }
     }
 }

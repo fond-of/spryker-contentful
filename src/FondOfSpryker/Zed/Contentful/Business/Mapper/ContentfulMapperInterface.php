@@ -1,7 +1,7 @@
 <?php
 namespace FondOfSpryker\Zed\Contentful\Business\Mapper;
 
-use Contentful\Delivery\DynamicEntry;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface;
 
 /**
@@ -12,9 +12,9 @@ interface ContentfulMapperInterface
     /**
      * @author mnoerenberg
      *
-     * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
      *
      * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface
      */
-    public function map(DynamicEntry $dynamicEntry): ContentInterface;
+    public function map(ContentfulEntryInterface $contentfulEntry): ContentInterface;
 }

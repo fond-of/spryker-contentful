@@ -28,5 +28,5 @@ interface ContentfulImporterInterface
      *
      * @return int
      */
-    public function importEntry($entryId): int;
+    public function importEntry(string $entryId): int;
 }

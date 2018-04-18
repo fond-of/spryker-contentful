@@ -2,8 +2,8 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Mapper\Field;
 
-use Contentful\Delivery\ContentTypeField;
-use Contentful\Delivery\DynamicEntry;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface;
 
 /**
  * @author mnoerenberg
@@ -22,12 +22,12 @@ interface FieldMapperLocatorInterface
     /**
      * @author mnoerenberg
      *
-     * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
-     * @param \Contentful\Delivery\ContentTypeField $contentTypeField
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface $contentfulField
      *
      * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperInterface
      */
-    public function locateBy(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField): FieldMapperInterface;
+    public function locateBy(ContentfulEntryInterface $contentfulEntry, ContentfulFieldInterface $contentfulField): FieldMapperInterface;
 
     /**
      * @author mnoerenberg

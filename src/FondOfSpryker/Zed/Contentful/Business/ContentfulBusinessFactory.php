@@ -5,6 +5,10 @@ namespace FondOfSpryker\Zed\Contentful\Business;
 use Contentful\Delivery\Client;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulIdentifierKeyBuilder;
+use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClient;
+use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientMapper;
+use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientMapperInterface;
 use FondOfSpryker\Zed\Contentful\Business\Importer\ContentfulImporter;
 use FondOfSpryker\Zed\Contentful\Business\Importer\ContentfulImporterInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\ContentfulMapper;
@@ -46,7 +50,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     public function createContentfulImporter(): ContentfulImporterInterface
     {
         return new ContentfulImporter(
-            $this->createContentfulClient(),
+            $this->createContentfulAPIClient(),
             $this->createContentfulMapper(),
             $this->getContentfulImporterPlugins(),
             $this->getConfig()->getLocaleMapping()
@@ -150,7 +154,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface
      */
     protected function createFieldMapperDefault(): FieldMapperTypeInterface
     {
@@ -245,6 +249,26 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     protected function createObjectFieldMapper(): FieldMapperTypeInterface
     {
         return new ObjectFieldMapper();
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @return \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientInterface
+     */
+    protected function createContentfulAPIClient(): ContentfulAPIClientInterface
+    {
+        return new ContentfulAPIClient($this->createContentfulClient(), $this->createContentfulAPIClientMapper());
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @return \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientMapperInterface
+     */
+    protected function createContentfulAPIClientMapper(): ContentfulAPIClientMapperInterface
+    {
+        return new ContentfulAPIClientMapper();
     }
 
     /**

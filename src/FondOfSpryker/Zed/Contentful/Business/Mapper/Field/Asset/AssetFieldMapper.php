@@ -2,9 +2,11 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Asset;
 
-use Contentful\Delivery\ContentTypeField;
-use Contentful\Delivery\DynamicEntry;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\AbstractFieldMapper;
+use Exception;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulAssetInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulField;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface;
@@ -12,10 +14,8 @@ use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface;
 /**
  * @author mnoerenberg
  */
-class AssetFieldMapper extends AbstractFieldMapper implements FieldMapperTypeInterface
+class AssetFieldMapper implements FieldMapperTypeInterface
 {
-    public const CONTENTFUL_TYPE = 'Asset';
-
     /**
      * @author mnoerenberg
      *
@@ -23,35 +23,26 @@ class AssetFieldMapper extends AbstractFieldMapper implements FieldMapperTypeInt
      */
     public function getContentfulType(): string
     {
-        return static::CONTENTFUL_TYPE;
+        return ContentfulField::FIELD_TYPE_ASSET;
     }
 
     /**
      * @author mnoerenberg
      *
-     * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
-     * @param \Contentful\Delivery\ContentTypeField $contentTypeField
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface $contentfulField
      * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface $fieldMapperLocator
+     *
+     * @throws \Exception
      *
      * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface
      */
-    public function createField(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField, FieldMapperLocatorInterface $fieldMapperLocator): FieldInterface
+    public function createField(ContentfulEntryInterface $contentfulEntry, ContentfulFieldInterface $contentfulField, FieldMapperLocatorInterface $fieldMapperLocator): FieldInterface
     {
-        $fieldValue = $this->getFieldValue($dynamicEntry, $contentTypeField);
-
-        $title = null;
-        $description = null;
-
-        if ($fieldValue !== null) {
-            $title = $fieldValue->getTitle();
-            $description = $fieldValue->getDescription();
+        if ($contentfulField instanceof ContentfulAssetInterface) {
+            return new AssetField($contentfulField->getId(), $contentfulField->getValue(), $contentfulField->getTitle(), $contentfulField->getDescription());
         }
 
-        $url = null;
-        if ($fieldValue !== null && $fieldValue->getFile() !== null) {
-            $url = $fieldValue->getFile()->getUrl();
-        }
-
-        return new AssetField($contentTypeField->getId(), $url, $title, $description);
+        throw new Exception('Its not an asset field');
     }
 }

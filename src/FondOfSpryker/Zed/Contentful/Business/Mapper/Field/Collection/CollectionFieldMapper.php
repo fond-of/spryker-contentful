@@ -2,9 +2,9 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Collection;
 
-use Contentful\Delivery\ContentTypeField;
-use Contentful\Delivery\DynamicEntry;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\AbstractFieldMapper;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulField;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface;
@@ -12,11 +12,8 @@ use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface;
 /**
  * @author mnoerenberg
  */
-class CollectionFieldMapper extends AbstractFieldMapper implements FieldMapperTypeInterface
+class CollectionFieldMapper implements FieldMapperTypeInterface
 {
-    public const CONTENTFUL_TYPE = 'Array';
-    public const CONTENTFUL_COLLECTION_FIELD_TYPE_ENTRY = 'Entry';
-
     /**
      * @author mnoerenberg
      *
@@ -24,25 +21,25 @@ class CollectionFieldMapper extends AbstractFieldMapper implements FieldMapperTy
      */
     public function getContentfulType(): string
     {
-        return static::CONTENTFUL_TYPE;
+        return ContentfulField::FIELD_TYPE_ARRAY;
     }
 
     /**
      * @author mnoerenberg
      *
-     * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
-     * @param \Contentful\Delivery\ContentTypeField $contentTypeField
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface $contentfulField
      * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface $fieldMapperLocator
      *
      * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface
      */
-    public function createField(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField, FieldMapperLocatorInterface $fieldMapperLocator): FieldInterface
+    public function createField(ContentfulEntryInterface $contentfulEntry, ContentfulFieldInterface $contentfulField, FieldMapperLocatorInterface $fieldMapperLocator): FieldInterface
     {
-        $field = new CollectionField($contentTypeField->getId());
-        $fieldValues = $this->getFieldValue($dynamicEntry, $contentTypeField);
+        $field = new CollectionField($contentfulField->getId());
+        $fieldValues = $contentfulField->getValue();
 
         foreach ($fieldValues as $fieldValue) {
-            if ($contentTypeField->getItemsLinkType() == static::CONTENTFUL_COLLECTION_FIELD_TYPE_ENTRY && $fieldValue instanceof DynamicEntry) {
+            if ($contentfulField->getItemsLinkType() == ContentfulField::FIELD_TYPE_ENTRY && $fieldValue instanceof ContentfulEntryInterface) {
                 $field->addField(new CollectionReferenceField($fieldValue->getId()));
                 continue;
             }

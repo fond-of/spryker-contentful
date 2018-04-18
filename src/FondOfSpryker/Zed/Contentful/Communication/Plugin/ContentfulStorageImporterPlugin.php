@@ -2,15 +2,16 @@
 
 namespace FondOfSpryker\Zed\Contentful\Communication\Plugin;
 
-use Contentful\Delivery\DynamicEntry;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface;
+use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Boolean\BooleanField;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
 /**
  * @author mnoerenberg
  */
-class ContentfulStorageImporterPlugin extends AbstractContentfulImporterPlugin
+class ContentfulStorageImporterPlugin implements ContentfulImporterPluginInterface
 {
     /**
      * @var \Spryker\Shared\KeyBuilder\KeyBuilderInterface
@@ -44,9 +45,13 @@ class ContentfulStorageImporterPlugin extends AbstractContentfulImporterPlugin
     /**
      * @author mnoerenberg
      *
-     * @inheritdoc
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface $content
+     * @param string $locale
+     *
+     * @return void
      */
-    public function handle(DynamicEntry $dynamicEntry, ContentInterface $content, string $locale): void
+    public function handle(ContentfulEntryInterface $contentfulEntry, ContentInterface $content, string $locale): void
     {
         $key = $this->keyBuilder->generateKey($content->getId(), $locale);
         if ($this->isContentActive($content, $this->activeFieldName) === false) {
@@ -55,5 +60,23 @@ class ContentfulStorageImporterPlugin extends AbstractContentfulImporterPlugin
         }
 
         $this->storageClient->set($key, json_encode($content->jsonSerialize()));
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface $content
+     * @param string $activeFieldName
+     *
+     * @return bool
+     */
+    protected function isContentActive(ContentInterface $content, string $activeFieldName): bool
+    {
+        $field = $content->getField($activeFieldName);
+        if ($field instanceof BooleanField) {
+            return $field->getBoolean();
+        }
+
+        return true;
     }
 }

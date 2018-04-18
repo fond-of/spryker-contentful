@@ -2,22 +2,19 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Link;
 
-use Contentful\Delivery\ContentTypeField;
-use Contentful\Delivery\DynamicEntry;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\AbstractFieldMapper;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Asset\AssetField;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulAssetInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulField;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Text\TextField;
 
 /**
  * @author mnoerenberg
  */
-class LinkFieldMapper extends AbstractFieldMapper implements FieldMapperTypeInterface
+class LinkFieldMapper implements FieldMapperTypeInterface
 {
-    public const CONTENTFUL_TYPE = 'Link';
-
     /**
      * @author mnoerenberg
      *
@@ -25,26 +22,26 @@ class LinkFieldMapper extends AbstractFieldMapper implements FieldMapperTypeInte
      */
     public function getContentfulType(): string
     {
-        return static::CONTENTFUL_TYPE;
+        return ContentfulField::FIELD_TYPE_LINK;
     }
 
     /**
      * @author mnoerenberg
      *
-     * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
-     * @param \Contentful\Delivery\ContentTypeField $contentTypeField
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface $contentfulField
      * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface $fieldMapperLocator
      *
      * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface
      */
-    public function createField(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField, FieldMapperLocatorInterface $fieldMapperLocator): FieldInterface
+    public function createField(ContentfulEntryInterface $contentfulEntry, ContentfulFieldInterface $contentfulField, FieldMapperLocatorInterface $fieldMapperLocator): FieldInterface
     {
-        if ($contentTypeField->getLinkType() == AssetField::TYPE) {
-            $mapper = $fieldMapperLocator->locateByFieldType(AssetField::TYPE);
-            return $mapper->createField($dynamicEntry, $contentTypeField, $fieldMapperLocator);
+        if ($contentfulField instanceof ContentfulAssetInterface) {
+            $mapper = $fieldMapperLocator->locateByFieldType(ContentfulField::FIELD_TYPE_ASSET);
+            return $mapper->createField($contentfulEntry, $contentfulField, $fieldMapperLocator);
         }
 
-        $mapper = $fieldMapperLocator->locateByFieldType(TextField::TYPE);
-        return $mapper->createField($dynamicEntry, $contentTypeField, $fieldMapperLocator);
+        $mapper = $fieldMapperLocator->locateByFieldType(ContentfulField::FIELD_TYPE_TEXT);
+        return $mapper->createField($contentfulEntry, $contentfulField, $fieldMapperLocator);
     }
 }

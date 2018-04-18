@@ -2,8 +2,9 @@
 
 namespace FondOfSpryker\Zed\Contentful\Communication\Plugin;
 
-use Contentful\Delivery\DynamicEntry;
+use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface;
+use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Boolean\BooleanField;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Text\TextField;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
@@ -11,7 +12,7 @@ use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 /**
  * @author mnoerenberg
  */
-class ContentfulIdentifierImporterPlugin extends AbstractContentfulImporterPlugin
+class ContentfulIdentifierImporterPlugin implements ContentfulImporterPluginInterface
 {
     /**
      * @var \Spryker\Shared\KeyBuilder\KeyBuilderInterface
@@ -52,22 +53,44 @@ class ContentfulIdentifierImporterPlugin extends AbstractContentfulImporterPlugi
     /**
      * @author mnoerenberg
      *
-     * @inheritdoc
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface $content
+     * @param string $locale
+     *
+     * @return void
      */
-    public function handle(DynamicEntry $dynamicEntry, ContentInterface $content, string $locale): void
+    public function handle(ContentfulEntryInterface $contentfulEntry, ContentInterface $content, string $locale): void
     {
         $identifierField = $this->getIdentifierField($content);
         if ($identifierField === null) {
             return;
         }
 
-        $key = $this->createStorageKey(mb_substr($locale, 0, 2) . '/' . $identifierField->getContent(), $locale);
+        $key = $this->createStorageKey($identifierField->getContent(), $locale);
         if ($this->isContentActive($content, $this->activeFieldName) === false) {
             $this->deleteFromStorage($key);
             return;
         }
 
         $this->addToStorage($key, $this->createStorageValue($content));
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface $content
+     * @param string $activeFieldName
+     *
+     * @return bool
+     */
+    protected function isContentActive(ContentInterface $content, string $activeFieldName): bool
+    {
+        $field = $content->getField($activeFieldName);
+        if ($field instanceof BooleanField) {
+            return $field->getBoolean();
+        }
+
+        return true;
     }
 
     /**
@@ -141,6 +164,6 @@ class ContentfulIdentifierImporterPlugin extends AbstractContentfulImporterPlugi
      */
     protected function createStorageKey(string $url, string $locale): string
     {
-        return $this->keyBuilder->generateKey($url, $locale);
+        return $this->keyBuilder->generateKey(mb_substr($locale, 0, 2) . '/' . $url, $locale);
     }
 }
