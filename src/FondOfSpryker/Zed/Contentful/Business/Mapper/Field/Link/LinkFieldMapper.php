@@ -9,6 +9,7 @@ use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface;
+use PHPUnit\Runner\Exception;
 
 /**
  * @author mnoerenberg
@@ -36,12 +37,19 @@ class LinkFieldMapper implements FieldMapperTypeInterface
      */
     public function createField(ContentfulEntryInterface $contentfulEntry, ContentfulFieldInterface $contentfulField, FieldMapperLocatorInterface $fieldMapperLocator): FieldInterface
     {
+        $mapper = null;
         if ($contentfulField instanceof ContentfulAssetInterface) {
             $mapper = $fieldMapperLocator->locateByFieldType(ContentfulField::FIELD_TYPE_ASSET);
-            return $mapper->createField($contentfulEntry, $contentfulField, $fieldMapperLocator);
         }
 
-        $mapper = $fieldMapperLocator->locateByFieldType(ContentfulField::FIELD_TYPE_TEXT);
+        if ($contentfulField->getLinkType() == ContentfulField::FIELD_TYPE_ENTRY) {
+            $mapper = $fieldMapperLocator->locateByFieldType(ContentfulField::FIELD_TYPE_ENTRY);
+        }
+
+        if ($mapper === null) {
+            $mapper = $fieldMapperLocator->locateByFieldType(ContentfulField::FIELD_TYPE_TEXT);
+        }
+
         return $mapper->createField($contentfulEntry, $contentfulField, $fieldMapperLocator);
     }
 }

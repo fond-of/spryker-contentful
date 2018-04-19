@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Text;
 
+use DateTimeInterface;
 use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulField;
 use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface;
@@ -38,6 +39,10 @@ class TextFieldMapper implements FieldMapperTypeInterface
         $content = $contentfulField->getValue();
         if ($content === null) {
             $content = '';
+        }
+
+        if ($content instanceof DateTimeInterface) {
+            $content = $content->format('Y-m-d H:i:s');
         }
 
         return new TextField($contentfulField->getId(), $content);

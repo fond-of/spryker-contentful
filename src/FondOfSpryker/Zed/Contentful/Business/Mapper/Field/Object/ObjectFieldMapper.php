@@ -40,6 +40,10 @@ class ObjectFieldMapper implements FieldMapperTypeInterface
             $content = json_encode($content);
         }
 
+        if ($content == null) {
+            $content = '';
+        }
+
         return new ObjectField($contentfulField->getId(), $content);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Mapper\Content;
 
+use DateTime;
+use DateTimeInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface;
 
 /**
@@ -25,6 +27,11 @@ class Content implements ContentInterface
     private $fields;
 
     /**
+     * @var \DateTimeInterface
+     */
+    private $modifiedAt;
+
+    /**
      * @author mnoerenberg
      *
      * @param string $id
@@ -35,6 +42,7 @@ class Content implements ContentInterface
         $this->id = $id;
         $this->contentType = $contentType;
         $this->fields = [];
+        $this->modifiedAt = new DateTime();
     }
 
     /**
@@ -110,6 +118,28 @@ class Content implements ContentInterface
     /**
      * @author mnoerenberg
      *
+     * @return \DateTimeInterface
+     */
+    public function getModifiedAt(): DateTimeInterface
+    {
+        return $this->modifiedAt;
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param \DateTimeInterface $modifiedAt
+     *
+     * @return void
+     */
+    public function setModifiedAt(DateTimeInterface $modifiedAt): void
+    {
+        $this->modifiedAt = $modifiedAt;
+    }
+
+    /**
+     * @author mnoerenberg
+     *
      * @return string[]
      */
     public function jsonSerialize()
@@ -122,6 +152,7 @@ class Content implements ContentInterface
         return [
             'id' => $this->getId(),
             'contentType' => $this->getContentType(),
+            'modifiedAt' => $this->getModifiedAt()->format('Y-m-d H:i:s'),
             'fields' => $fields,
         ];
     }

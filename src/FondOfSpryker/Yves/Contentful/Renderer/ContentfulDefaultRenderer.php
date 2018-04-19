@@ -3,6 +3,7 @@
 namespace FondOfSpryker\Yves\Contentful\Renderer;
 
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
+use Spryker\Shared\Config\Environment;
 use Spryker\Shared\Kernel\Communication\Application;
 use Throwable;
 use Twig_Environment;
@@ -62,7 +63,10 @@ class ContentfulDefaultRenderer implements ContentfulRendererInterface
         try {
             return $this->getTwigEnvironment()->render($templatePath, $parameters);
         } catch (Throwable $throwable) {
-            return '';
+            if (Environment::getInstance()->isProduction()) {
+                return '';
+            }
+            throw $throwable;
         }
     }
 

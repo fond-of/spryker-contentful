@@ -4,6 +4,7 @@ namespace FondOfSpryker\Zed\Contentful\Business\Mapper\Content;
 
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface;
 use JsonSerializable;
+use DateTimeInterface;
 
 /**
  * @author mnoerenberg
@@ -57,4 +58,20 @@ interface ContentInterface extends JsonSerializable
      * @return void
      */
     public function addField(FieldInterface $field): void;
+
+    /**
+     * @author mnoerenberg
+     *
+     * @return \DateTimeInterface
+     */
+    public function getModifiedAt(): DateTimeInterface;
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param \DateTimeInterface $modifiedAt
+     *
+     * @return void
+     */
+    public function setModifiedAt(DateTimeInterface $modifiedAt): void;
 }
