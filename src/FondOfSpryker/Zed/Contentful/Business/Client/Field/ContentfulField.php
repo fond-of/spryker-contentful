@@ -1,69 +1,42 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Client\Model;
+namespace FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Field;
 
-use Contentful\Delivery\Asset;
 use Contentful\Delivery\ContentTypeField;
 
 /**
  * @author mnoerenberg
  */
-class ContentfulAsset implements ContentfulAssetInterface
+class ContentfulField implements ContentfulFieldInterface
 {
+    public const FIELD_TYPE_LINK = 'Link';
+    public const FIELD_TYPE_ASSET = 'Asset';
+    public const FIELD_TYPE_TEXT = 'Text';
+    public const FIELD_TYPE_BOOLEAN = 'Boolean';
+    public const FIELD_TYPE_ENTRY = 'Entry';
+    public const FIELD_TYPE_OBJECT = 'Object';
+    public const FIELD_TYPE_ARRAY = 'Array';
+
     /**
      * @var \Contentful\Delivery\ContentTypeField
      */
     private $contentTypeField;
 
     /**
-     * @var \Contentful\Delivery\Asset
+     * @var mixed
      */
-    private $asset;
-
-    /**
-     * @var null|string
-     */
-    private $description;
-
-    /**
-     * @var null|string
-     */
-    private $title;
+    private $value;
 
     /**
      * @author mnoerenberg
      *
      * @param \Contentful\Delivery\ContentTypeField $contentTypeField
-     * @param null|\Contentful\Delivery\Asset $asset
-     * @param null|string $description
-     * @param null|string $title
+     * @param mixed $value
      */
-    public function __construct(ContentTypeField $contentTypeField, Asset $asset = null, string $description = null, string $title = null)
+    public function __construct(ContentTypeField $contentTypeField, $value)
     {
         $this->contentTypeField = $contentTypeField;
-        $this->asset = $asset;
-        $this->description = $description;
-        $this->title = $title;
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @return null|string
-     */
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @return null|string
-     */
-    public function getDescription(): ?string
-    {
-        return $this->description;
+        $this->value = $value;
     }
 
     /**
@@ -103,11 +76,7 @@ class ContentfulAsset implements ContentfulAssetInterface
      */
     public function getValue()
     {
-        if ($this->asset !== null && $this->asset->getFile() !== null) {
-            return $this->asset->getFile()->getUrl();
-        }
-
-        return null;
+        return $this->value;
     }
 
     /**

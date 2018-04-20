@@ -9,7 +9,6 @@ use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface;
-use PHPUnit\Runner\Exception;
 
 /**
  * @author mnoerenberg

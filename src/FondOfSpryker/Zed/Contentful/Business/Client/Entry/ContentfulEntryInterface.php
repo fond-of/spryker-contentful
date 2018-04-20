@@ -1,6 +1,8 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Client\Model;
+namespace FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Entry;
+
+use FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Field\ContentfulFieldInterface;
 
 /**
  * @author mnoerenberg
@@ -33,14 +35,14 @@ interface ContentfulEntryInterface
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface[]
+     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Field\ContentfulFieldInterface[]
      */
     public function getFields(): array;
 
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface[] $fields
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Field\ContentfulFieldInterface[] $fields
      *
      * @return void
      */
@@ -60,7 +62,7 @@ interface ContentfulEntryInterface
      *
      * @param string $name
      *
-     * @return null|\FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface
+     * @return null|\FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Field\ContentfulFieldInterface
      */
     public function getField(string $name): ?ContentfulFieldInterface;
 }

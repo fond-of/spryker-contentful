@@ -1,11 +1,11 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Mapper\Field;
+namespace FondOfSpryker\Zed\Contentful\Business\Storage;
 
 /**
  * @author mnoerenberg
  */
-interface FieldMapperTypeCollectionInterface
+interface TypeFieldMapperCollectionInterface
 {
     /**
      * @author mnoerenberg

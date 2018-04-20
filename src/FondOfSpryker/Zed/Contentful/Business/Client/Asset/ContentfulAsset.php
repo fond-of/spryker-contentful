@@ -1,42 +1,69 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Client\Model;
+namespace FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Asset;
 
+use Contentful\Delivery\Asset;
 use Contentful\Delivery\ContentTypeField;
 
 /**
  * @author mnoerenberg
  */
-class ContentfulField implements ContentfulFieldInterface
+class ContentfulAsset implements ContentfulAssetInterface
 {
-    public const FIELD_TYPE_LINK = 'Link';
-    public const FIELD_TYPE_ASSET = 'Asset';
-    public const FIELD_TYPE_TEXT = 'Text';
-    public const FIELD_TYPE_BOOLEAN = 'Boolean';
-    public const FIELD_TYPE_ENTRY = 'Entry';
-    public const FIELD_TYPE_OBJECT = 'Object';
-    public const FIELD_TYPE_ARRAY = 'Array';
-
     /**
      * @var \Contentful\Delivery\ContentTypeField
      */
     private $contentTypeField;
 
     /**
-     * @var mixed
+     * @var \Contentful\Delivery\Asset
      */
-    private $value;
+    private $asset;
+
+    /**
+     * @var null|string
+     */
+    private $description;
+
+    /**
+     * @var null|string
+     */
+    private $title;
 
     /**
      * @author mnoerenberg
      *
      * @param \Contentful\Delivery\ContentTypeField $contentTypeField
-     * @param mixed $value
+     * @param null|\Contentful\Delivery\Asset $asset
+     * @param null|string $description
+     * @param null|string $title
      */
-    public function __construct(ContentTypeField $contentTypeField, $value)
+    public function __construct(ContentTypeField $contentTypeField, Asset $asset = null, string $description = null, string $title = null)
     {
         $this->contentTypeField = $contentTypeField;
-        $this->value = $value;
+        $this->asset = $asset;
+        $this->description = $description;
+        $this->title = $title;
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @return null|string
+     */
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @return null|string
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
     }
 
     /**
@@ -76,7 +103,11 @@ class ContentfulField implements ContentfulFieldInterface
      */
     public function getValue()
     {
-        return $this->value;
+        if ($this->asset !== null && $this->asset->getFile() !== null) {
+            return $this->asset->getFile()->getUrl();
+        }
+
+        return null;
     }
 
     /**

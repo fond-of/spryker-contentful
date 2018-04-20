@@ -1,6 +1,6 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Client\Model;
+namespace FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Entry;
 
 /**
  * @author mnoerenberg
@@ -10,14 +10,14 @@ interface ContentfulEntryCollectionInterface
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface[]
+     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Entry\ContentfulEntryInterface[]
      */
     public function getAll(): array;
 
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface[] $contentfulEntries
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Entry\ContentfulEntryInterface[] $contentfulEntries
      *
      * @return void
      */
@@ -26,7 +26,7 @@ interface ContentfulEntryCollectionInterface
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Entry\ContentfulEntryInterface $contentfulEntry
      *
      * @return void
      */

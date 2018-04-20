@@ -45,6 +45,8 @@ class ContentfulDefaultRenderer implements ContentfulRendererInterface
      *
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
      *
+     * @throws \Throwable
+     *
      * @return string
      */
     public function render(ContentfulEntryResponseTransfer $response): string

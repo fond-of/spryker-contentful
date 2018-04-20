@@ -2,9 +2,9 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Mapper\Content;
 
+use DateTimeInterface;
 use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface;
 use JsonSerializable;
-use DateTimeInterface;
 
 /**
  * @author mnoerenberg
