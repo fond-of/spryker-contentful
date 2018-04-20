@@ -1,8 +1,6 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Storage;
-
-use FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperInterface;
+namespace FondOfSpryker\Zed\Contentful\Business\Storage\Field;
 
 /**
  * @author mnoerenberg

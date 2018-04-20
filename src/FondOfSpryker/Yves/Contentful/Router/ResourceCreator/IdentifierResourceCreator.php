@@ -1,6 +1,6 @@
 <?php
 
-namespace FondOfSpryker\Yves\Contentful\ResourceCreator;
+namespace FondOfSpryker\Yves\Contentful\Router\ResourceCreator;
 
 use Silex\Application;
 use Spryker\Shared\Application\Communication\ControllerServiceBuilder;
@@ -11,7 +11,7 @@ use Spryker\Yves\Kernel\Controller\BundleControllerActionRouteNameResolver;
 /**
  * @author mnoerenberg
  */
-class ContentfulIdentifierResourceCreator implements ContentfulResourceCreatorInterface
+class IdentifierResourceCreator implements ResourceCreatorInterface
 {
     private const RESOURCE_TYPE_IDENTIFIER = 'Identifier';
 

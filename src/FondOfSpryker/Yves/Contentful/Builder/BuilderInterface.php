@@ -5,7 +5,7 @@ namespace FondOfSpryker\Yves\Contentful\Builder;
 /**
  * @author mnoerenberg
  */
-interface ContentfulBuilderInterface
+interface BuilderInterface
 {
     /**
      * @author mnoerenberg

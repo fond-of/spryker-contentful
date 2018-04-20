@@ -1,6 +1,6 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Mapper\Field;
+namespace FondOfSpryker\Zed\Contentful\Business\Storage\Field;
 
 use JsonSerializable;
 

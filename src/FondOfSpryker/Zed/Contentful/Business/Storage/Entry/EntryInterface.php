@@ -1,15 +1,15 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Mapper\Content;
+namespace FondOfSpryker\Zed\Contentful\Business\Storage\Entry;
 
 use DateTimeInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface;
 use JsonSerializable;
 
 /**
  * @author mnoerenberg
  */
-interface ContentInterface extends JsonSerializable
+interface EntryInterface extends JsonSerializable
 {
     /**
      * @author mnoerenberg
@@ -28,7 +28,7 @@ interface ContentInterface extends JsonSerializable
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface[]
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface[]
      */
     public function getFields(): array;
 
@@ -46,14 +46,14 @@ interface ContentInterface extends JsonSerializable
      *
      * @param string $name
      *
-     * @return null|\FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface
+     * @return null|\FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface
      */
     public function getField(string $name): ?FieldInterface;
 
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface $field
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface $field
      *
      * @return void
      */

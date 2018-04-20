@@ -9,8 +9,8 @@ use Spryker\Client\Kernel\Container;
  */
 class ContentfulDependencyProvider extends AbstractDependencyProvider
 {
-    const CLIENT_LOCALE = 'client locale';
-    const KV_STORAGE = 'kv storage';
+    public const CLIENT_LOCALE = 'client locale';
+    public const KV_STORAGE = 'kv storage';
 
     /**
      * @param \Spryker\Client\Kernel\Container $container
@@ -19,10 +19,37 @@ class ContentfulDependencyProvider extends AbstractDependencyProvider
      */
     public function provideServiceLayerDependencies(Container $container): Container
     {
+        $container = $this->provideStorageClient($container);
+        $container = $this->provideLocaleClient($container);
+
+        return $container;
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function provideStorageClient(Container $container): Container
+    {
         $container[static::KV_STORAGE] = function (Container $container) {
             return $container->getLocator()->storage()->client();
         };
 
+        return $container;
+    }
+
+    /**
+     * @author mnoerenberg
+     *
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function provideLocaleClient(Container $container): Container
+    {
         $container[static::CLIENT_LOCALE] = function (Container $container) {
             return $container->getLocator()->locale()->client();
         };

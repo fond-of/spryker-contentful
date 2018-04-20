@@ -1,44 +1,44 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Storage;
+namespace FondOfSpryker\Zed\Contentful\Business\Storage\Field;
 
 /**
  * @author mnoerenberg
  */
-class TypeFieldMapperCollection implements FieldMapperTypeCollectionInterface
+class TypeFieldMapperCollection implements TypeFieldMapperCollectionInterface
 {
     /**
-     * @var \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface[]
+     * @var \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface[]
      */
-    private $fieldMapper;
+    private $typeFieldMapper;
 
     /**
      * @author mnoerenberg
      */
     public function __construct()
     {
-        $this->fieldMapper = [];
+        $this->typeFieldMapper = [];
     }
 
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface[]
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface[]
      */
     public function getAll(): array
     {
-        return $this->fieldMapper;
+        return $this->typeFieldMapper;
     }
 
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface $fieldMapper
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface $typeFieldMapper
      *
      * @return void
      */
-    public function add(FieldMapperTypeInterface $fieldMapper): void
+    public function add(TypeFieldMapperInterface $typeFieldMapper): void
     {
-        $this->fieldMapper[] = $fieldMapper;
+        $this->typeFieldMapper[] = $typeFieldMapper;
     }
 }

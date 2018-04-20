@@ -7,7 +7,7 @@ use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 /**
  * @author mnoerenberg
  */
-interface ContentfulRendererInterface
+interface RendererInterface
 {
     /**
      * @author mnoerenberg

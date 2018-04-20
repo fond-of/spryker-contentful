@@ -1,8 +1,8 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Object;
+namespace FondOfSpryker\Zed\Contentful\Business\Storage\Object;
 
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Text\TextField;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextField;
 
 /**
  * @author mnoerenberg

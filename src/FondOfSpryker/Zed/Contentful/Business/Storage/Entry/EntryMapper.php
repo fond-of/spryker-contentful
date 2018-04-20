@@ -1,72 +1,46 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Mapper;
+namespace FondOfSpryker\Zed\Contentful\Business\Storage\Entry;
 
-use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Content\Content;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperLocatorInterface;
 
 /**
  * @author mnoerenberg
  */
-class ContentfulMapper implements ContentfulMapperInterface
+class EntryMapper implements EntryMapperInterface
 {
     /**
-     * @var \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface
+     * @var \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperLocatorInterface
      */
-    private $fieldMapperLocator;
+    private $mapperLocator;
 
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface $fieldMapperLocator
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperLocatorInterface $mapperLocator
      */
-    public function __construct(FieldMapperLocatorInterface $fieldMapperLocator)
+    public function __construct(FieldMapperLocatorInterface $mapperLocator)
     {
-        $this->fieldMapperLocator = $fieldMapperLocator;
+        $this->mapperLocator = $mapperLocator;
     }
 
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface
      */
-    public function map(ContentfulEntryInterface $contentfulEntry): ContentInterface
+    public function createEntry(ContentfulEntryInterface $contentfulEntry): EntryInterface
     {
-        $content = $this->createContent($contentfulEntry);
-        $this->createFields($content, $contentfulEntry);
-        return $content;
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
-     *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface
-     */
-    protected function createContent(ContentfulEntryInterface $contentfulEntry): ContentInterface
-    {
-        return new Content($contentfulEntry->getId(), $contentfulEntry->getContentTypeId());
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface $content
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
-     *
-     * @return void
-     */
-    protected function createFields(ContentInterface $content, ContentfulEntryInterface $contentfulEntry): void
-    {
+        $entry = new Entry($contentfulEntry->getId(), $contentfulEntry->getContentTypeId());
         foreach ($contentfulEntry->getFields() as $contentfulField) {
-            $storageMapper = $this->fieldMapperLocator->locateBy($contentfulEntry, $contentfulField);
-            $storageField = $storageMapper->createField($contentfulEntry, $contentfulField, $this->fieldMapperLocator);
-            $content->addField($storageField);
+            $mapper = $this->mapperLocator->locateFieldMapperBy($contentfulEntry, $contentfulField);
+            $storageField = $mapper->createField($contentfulEntry, $contentfulField, $this->mapperLocator);
+            $entry->addField($storageField);
         }
+
+        return $entry;
     }
 }

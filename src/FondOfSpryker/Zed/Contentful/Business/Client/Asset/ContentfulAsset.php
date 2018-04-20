@@ -1,6 +1,6 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Asset;
+namespace FondOfSpryker\Zed\Contentful\Business\Client\Asset;
 
 use Contentful\Delivery\Asset;
 use Contentful\Delivery\ContentTypeField;

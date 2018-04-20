@@ -1,30 +1,19 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Storage;
+namespace FondOfSpryker\Zed\Contentful\Business\Storage\Field;
 
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface;
-use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryMapperInterface;
-use FondOfSpryker\Zed\Contentful\Business\Storage\Field\CustomFieldMapperCollectionInterface;
-use FondOfSpryker\Zed\Contentful\Business\Storage\Field\CustomFieldMapperInterface;
-use FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperInterface;
-use FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperCollectionInterface;
-use FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface;
 
 /**
  * @author mnoerenberg
  */
-class FieldMapperLocator implements MapperLocatorInterface
+class FieldMapperLocator implements FieldMapperLocatorInterface
 {
     /**
      * @var \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperInterface
      */
     private $defaultFieldMapper;
-
-    /**
-     * @var \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryMapperInterface
-     */
-    private $entryMapper;
 
     /**
      * @var \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperCollectionInterface
@@ -40,26 +29,14 @@ class FieldMapperLocator implements MapperLocatorInterface
      * @author mnoerenberg
      *
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperInterface $defaultFieldMapper
-     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryMapperInterface $entryMapper
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperCollectionInterface $typeFieldMapperCollection
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\CustomFieldMapperCollectionInterface $customFieldMapperCollection
      */
-    public function __construct(FieldMapperInterface $defaultFieldMapper, EntryMapperInterface $entryMapper, TypeFieldMapperCollectionInterface $typeFieldMapperCollection, CustomFieldMapperCollectionInterface $customFieldMapperCollection)
+    public function __construct(FieldMapperInterface $defaultFieldMapper, TypeFieldMapperCollectionInterface $typeFieldMapperCollection, CustomFieldMapperCollectionInterface $customFieldMapperCollection)
     {
         $this->defaultFieldMapper = $defaultFieldMapper;
-        $this->entryMapper = $entryMapper;
         $this->typeFieldMapperCollection = $typeFieldMapperCollection;
         $this->customFieldMapperCollection = $customFieldMapperCollection;
-    }
-
-    /**
-     * @author mnoerenberg
-     *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryMapperInterface
-     */
-    public function getEntryMapper(): EntryMapperInterface
-    {
-        return $this->entryMapper;
     }
 
     /**

@@ -1,18 +1,18 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Entry;
+namespace FondOfSpryker\Zed\Contentful\Business\Storage\Reference;
 
-use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface;
-use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulField;
-use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulField;
+use FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperLocatorInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface;
 
 /**
  * @author mnoerenberg
  */
-class EntryFieldMapper implements FieldMapperTypeInterface
+class ReferenceFieldMapper implements TypeFieldMapperInterface
 {
     /**
      * @author mnoerenberg
@@ -27,13 +27,13 @@ class EntryFieldMapper implements FieldMapperTypeInterface
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface $contentfulField
-     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface $fieldMapperLocator
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface $contentfulField
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperLocatorInterface $mapperLocator
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface
      */
-    public function createField(ContentfulEntryInterface $contentfulEntry, ContentfulFieldInterface $contentfulField, FieldMapperLocatorInterface $fieldMapperLocator): FieldInterface
+    public function createField(ContentfulEntryInterface $contentfulEntry, ContentfulFieldInterface $contentfulField, FieldMapperLocatorInterface $mapperLocator): FieldInterface
     {
         return new ReferenceField($contentfulField->getId(), $contentfulEntry->getId());
     }

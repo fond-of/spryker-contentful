@@ -1,9 +1,9 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Entry;
+namespace FondOfSpryker\Zed\Contentful\Business\Client\Entry;
 
 use Contentful\Delivery\DynamicEntry;
-use FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Field\ContentfulFieldInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface;
 
 /**
  * @author mnoerenberg
@@ -16,7 +16,7 @@ class ContentfulEntry implements ContentfulEntryInterface
     private $dynamicEntry;
 
     /**
-     * @var \FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Field\ContentfulFieldInterface[]
+     * @var \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface[]
      */
     private $fields;
 
@@ -65,7 +65,7 @@ class ContentfulEntry implements ContentfulEntryInterface
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Field\ContentfulFieldInterface[] $fields
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface[] $fields
      *
      * @return void
      */
@@ -77,7 +77,7 @@ class ContentfulEntry implements ContentfulEntryInterface
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Field\ContentfulFieldInterface[]
+     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface[]
      */
     public function getFields(): array
     {
@@ -107,7 +107,7 @@ class ContentfulEntry implements ContentfulEntryInterface
      *
      * @param string $name
      *
-     * @return null|\FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Field\ContentfulFieldInterface
+     * @return null|\FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface
      */
     public function getField(string $name): ?ContentfulFieldInterface
     {

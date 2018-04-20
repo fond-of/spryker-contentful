@@ -1,15 +1,15 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Mapper\Content;
+namespace FondOfSpryker\Zed\Contentful\Business\Storage\Entry;
 
 use DateTime;
 use DateTimeInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface;
 
 /**
  * @author mnoerenberg
  */
-class Content implements ContentInterface
+class Entry implements EntryInterface
 {
     /**
      * @var string
@@ -22,7 +22,7 @@ class Content implements ContentInterface
     private $contentType;
 
     /**
-     * @var \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface[]
+     * @var \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface[]
      */
     private $fields;
 
@@ -68,7 +68,7 @@ class Content implements ContentInterface
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface[]
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface[]
      */
     public function getFields(): array
     {
@@ -92,7 +92,7 @@ class Content implements ContentInterface
      *
      * @param string $name
      *
-     * @return null|\FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface
+     * @return null|\FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface
      */
     public function getField(string $name): ?FieldInterface
     {
@@ -106,7 +106,7 @@ class Content implements ContentInterface
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface $field
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface $field
      *
      * @return void
      */

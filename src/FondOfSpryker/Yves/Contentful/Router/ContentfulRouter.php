@@ -39,14 +39,14 @@ class ContentfulRouter extends AbstractRouter
         }
 
         // plug in custom handling for special cases
-        foreach ($this->getFactory()->getContentfulResourceCreator() as $resourceCreator) {
+        foreach ($this->getFactory()->getResourceCreator() as $resourceCreator) {
             if ($resourceCreator->getType() == $data['type']) {
                 return $resourceCreator->createResource($this->getApplication(), $data);
             }
         }
 
         // default resource creator
-        return $this->getFactory()->createContentfulIdentifierResourceCreator()->createResource($this->getApplication(), $data);
+        return $this->getFactory()->createIdentifierResourceCreator()->createResource($this->getApplication(), $data);
     }
 
     /**

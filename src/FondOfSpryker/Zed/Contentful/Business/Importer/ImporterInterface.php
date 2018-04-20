@@ -5,7 +5,7 @@ namespace FondOfSpryker\Zed\Contentful\Business\Importer;
 /**
  * @author mnoerenberg
  */
-interface ContentfulImporterInterface
+interface ImporterInterface
 {
     /**
      * @author mnoerenberg

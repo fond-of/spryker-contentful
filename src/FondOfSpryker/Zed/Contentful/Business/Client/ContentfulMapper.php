@@ -1,18 +1,18 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Client\Mapper;
+namespace FondOfSpryker\Zed\Contentful\Business\Client;
 
 use Contentful\Delivery\Asset;
 use Contentful\Delivery\ContentTypeField;
 use Contentful\Delivery\DynamicEntry;
 use Contentful\ResourceArray;
-use FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Asset\ContentfulAsset;
-use FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Entry\ContentfulEntry;
-use FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Entry\ContentfulEntryCollection;
-use FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Entry\ContentfulEntryCollectionInterface;
-use FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Entry\ContentfulEntryInterface;
-use FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Field\ContentfulField;
-use FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Field\ContentfulFieldInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Asset\ContentfulAsset;
+use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntry;
+use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollection;
+use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulField;
+use FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface;
 use Throwable;
 
 /**
@@ -23,7 +23,7 @@ class ContentfulMapper implements ContentfulMapperInterface
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Entry\ContentfulEntryCollectionInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface
      */
     protected function createContentfulEntryCollection(): ContentfulEntryCollectionInterface
     {
@@ -35,7 +35,7 @@ class ContentfulMapper implements ContentfulMapperInterface
      *
      * @param \Contentful\ResourceArray $resourceArray
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Entry\ContentfulEntryCollectionInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface
      */
     public function createContentfulEntries(ResourceArray $resourceArray): ContentfulEntryCollectionInterface
     {
@@ -57,7 +57,7 @@ class ContentfulMapper implements ContentfulMapperInterface
      *
      * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Entry\ContentfulEntryInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface
      */
     protected function createContentfulEntry(DynamicEntry $dynamicEntry): ContentfulEntryInterface
     {
@@ -69,7 +69,7 @@ class ContentfulMapper implements ContentfulMapperInterface
      *
      * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Field\ContentfulFieldInterface[]
+     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface[]
      */
     protected function createContentfulFields(DynamicEntry $dynamicEntry): array
     {
@@ -89,7 +89,7 @@ class ContentfulMapper implements ContentfulMapperInterface
      * @param \Contentful\Delivery\ContentTypeField $contentTypeField
      * @param mixed $fieldValue
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Field\ContentfulFieldInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface
      */
     protected function createContentfulFieldByValue(ContentTypeField $contentTypeField, $fieldValue): ContentfulFieldInterface
     {

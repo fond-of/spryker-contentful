@@ -3,34 +3,34 @@
 namespace FondOfSpryker\Zed\Contentful\Business;
 
 use Contentful\Delivery\Client;
-use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder;
-use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulIdentifierKeyBuilder;
+use FondOfSpryker\Shared\Contentful\KeyBuilder\EntryKeyBuilder;
+use FondOfSpryker\Shared\Contentful\KeyBuilder\IdentifierKeyBuilder;
 use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClient;
 use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientInterface;
-use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientMapper;
-use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientMapperInterface;
-use FondOfSpryker\Zed\Contentful\Business\Importer\ContentfulImporter;
-use FondOfSpryker\Zed\Contentful\Business\Importer\ContentfulImporterInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\ContentfulMapper;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\ContentfulMapperInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Asset\AssetFieldMapper;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Boolean\BooleanFieldMapper;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Collection\CollectionFieldMapper;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Entry\EntryFieldMapper;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperCustomCollection;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperCustomCollectionInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperDefault;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocator;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeCollection;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeCollectionInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Link\LinkFieldMapper;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Object\ObjectFieldMapper;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Text\TextFieldMapper;
-use FondOfSpryker\Zed\Contentful\Communication\Plugin\ContentfulIdentifierImporterPlugin;
-use FondOfSpryker\Zed\Contentful\Communication\Plugin\ContentfulImporterPluginInterface;
-use FondOfSpryker\Zed\Contentful\Communication\Plugin\ContentfulStorageImporterPlugin;
+use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulMapper;
+use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulMapperInterface;
+use FondOfSpryker\Zed\Contentful\Business\Importer\Importer;
+use FondOfSpryker\Zed\Contentful\Business\Importer\ImporterInterface;
+use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\EntryStorageImporterPlugin;
+use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\IdentifierStorageImporterPlugin;
+use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Asset\AssetFieldMapper;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Boolean\BooleanFieldMapper;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Collection\CollectionFieldMapper;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryMapper;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryMapperInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Field\CustomFieldMapperCollection;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Field\CustomFieldMapperCollectionInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Field\DefaultFieldMapper;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperLocator;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperLocatorInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperCollection;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperCollectionInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Link\LinkFieldMapper;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Object\ObjectFieldMapper;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Reference\ReferenceFieldMapper;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextFieldMapper;
 use FondOfSpryker\Zed\Contentful\ContentfulDependencyProvider;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
@@ -45,14 +45,14 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Importer\ContentfulImporterInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Importer\ImporterInterface
      */
-    public function createContentfulImporter(): ContentfulImporterInterface
+    public function createImporter(): ImporterInterface
     {
-        return new ContentfulImporter(
+        return new Importer(
             $this->createContentfulAPIClient(),
-            $this->createContentfulMapper(),
-            $this->getContentfulImporterPlugins(),
+            $this->createEntryMapper(),
+            $this->getImporterPlugins(),
             $this->getConfig()->getLocaleMapping()
         );
     }
@@ -60,25 +60,25 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Communication\Plugin\ContentfulImporterPluginInterface[]
+     * @return \FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface[]
      */
-    protected function getContentfulImporterPlugins(): array
+    protected function getImporterPlugins(): array
     {
         return [
-            $this->createContentfulStorageImporterPlugin(),
-            $this->createContentfulIdentifierImporterPlugin(),
+            $this->createEntryStorageImporterPlugin(),
+            $this->createIdentifierImporterPlugin(),
         ];
     }
 
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Communication\Plugin\ContentfulImporterPluginInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface
      */
-    protected function createContentfulStorageImporterPlugin(): ContentfulImporterPluginInterface
+    protected function createEntryStorageImporterPlugin(): ImporterPluginInterface
     {
-        return new ContentfulStorageImporterPlugin(
-            $this->createContentfulEntryKeyBuilder(),
+        return new EntryStorageImporterPlugin(
+            $this->createEntryKeyBuilder(),
             $this->getStorageClient(),
             $this->getConfig()->getFieldNameActive()
         );
@@ -87,12 +87,12 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Communication\Plugin\ContentfulImporterPluginInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface
      */
-    protected function createContentfulIdentifierImporterPlugin(): ContentfulImporterPluginInterface
+    protected function createIdentifierImporterPlugin(): ImporterPluginInterface
     {
-        return new ContentfulIdentifierImporterPlugin(
-            $this->createContentfulIdentifierKeyBuilder(),
+        return new IdentifierStorageImporterPlugin(
+            $this->createIdentifierKeyBuilder(),
             $this->getStorageClient(),
             $this->getConfig()->getFieldNameActive(),
             $this->getConfig()->getFieldNameIdentifier()
@@ -102,49 +102,49 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\ContentfulMapperInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryMapperInterface
      */
-    protected function createContentfulMapper(): ContentfulMapperInterface
+    protected function createEntryMapper(): EntryMapperInterface
     {
-        return new ContentfulMapper($this->createFieldMapperLocator());
+        return new EntryMapper($this->createFieldMapperLocator());
     }
 
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperLocatorInterface
      */
     public function createFieldMapperLocator(): FieldMapperLocatorInterface
     {
         return new FieldMapperLocator(
-            $this->createFieldMapperDefault(),
-            $this->createFieldMapperTypeCollection(),
-            $this->createFieldMapperCustomCollection()
+            $this->createDefaultFieldMapper(),
+            $this->createTypeFieldMapperCollection(),
+            $this->createCustomFieldMapperCollection()
         );
     }
 
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperCustomCollectionInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\CustomFieldMapperCollectionInterface
      */
-    public function createFieldMapperCustomCollection(): FieldMapperCustomCollectionInterface
+    public function createCustomFieldMapperCollection(): CustomFieldMapperCollectionInterface
     {
-        return new FieldMapperCustomCollection();
+        return new CustomFieldMapperCollection();
     }
 
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeCollectionInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperCollectionInterface
      */
-    public function createFieldMapperTypeCollection(): FieldMapperTypeCollectionInterface
+    public function createTypeFieldMapperCollection(): TypeFieldMapperCollectionInterface
     {
-        $collection = new FieldMapperTypeCollection();
+        $collection = new TypeFieldMapperCollection();
         $collection->add($this->createAssetFieldMapper());
         $collection->add($this->createBooleanFieldMapper());
         $collection->add($this->createCollectionFieldMapper());
-        $collection->add($this->createEntryFieldMapper());
+        $collection->add($this->createReferenceFieldMapper());
         $collection->add($this->createLinkFieldMapper());
         $collection->add($this->createTextFieldMapper());
         $collection->add($this->createObjectFieldMapper());
@@ -154,19 +154,19 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface
      */
-    protected function createFieldMapperDefault(): FieldMapperTypeInterface
+    protected function createDefaultFieldMapper(): TypeFieldMapperInterface
     {
-        return new FieldMapperDefault();
+        return new DefaultFieldMapper();
     }
 
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface
      */
-    protected function createTextFieldMapper(): FieldMapperTypeInterface
+    protected function createTextFieldMapper(): TypeFieldMapperInterface
     {
         return new TextFieldMapper();
     }
@@ -174,9 +174,9 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface
      */
-    protected function createAssetFieldMapper(): FieldMapperTypeInterface
+    protected function createAssetFieldMapper(): TypeFieldMapperInterface
     {
         return new AssetFieldMapper();
     }
@@ -184,9 +184,9 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface
      */
-    protected function createBooleanFieldMapper(): FieldMapperTypeInterface
+    protected function createBooleanFieldMapper(): TypeFieldMapperInterface
     {
         return new BooleanFieldMapper();
     }
@@ -194,9 +194,9 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface
      */
-    protected function createCollectionFieldMapper(): FieldMapperTypeInterface
+    protected function createCollectionFieldMapper(): TypeFieldMapperInterface
     {
         return new CollectionFieldMapper();
     }
@@ -204,19 +204,19 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface
      */
-    protected function createEntryFieldMapper(): FieldMapperTypeInterface
+    protected function createReferenceFieldMapper(): TypeFieldMapperInterface
     {
-        return new EntryFieldMapper();
+        return new ReferenceFieldMapper();
     }
 
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface
      */
-    protected function createLinkFieldMapper(): FieldMapperTypeInterface
+    protected function createLinkFieldMapper(): TypeFieldMapperInterface
     {
         return new LinkFieldMapper();
     }
@@ -226,9 +226,9 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
      *
      * @return \Spryker\Shared\KeyBuilder\KeyBuilderInterface
      */
-    protected function createContentfulEntryKeyBuilder(): KeyBuilderInterface
+    protected function createEntryKeyBuilder(): KeyBuilderInterface
     {
-        return new ContentfulEntryKeyBuilder();
+        return new EntryKeyBuilder();
     }
 
     /**
@@ -236,17 +236,17 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
      *
      * @return \Spryker\Shared\KeyBuilder\KeyBuilderInterface
      */
-    protected function createContentfulIdentifierKeyBuilder(): KeyBuilderInterface
+    protected function createIdentifierKeyBuilder(): KeyBuilderInterface
     {
-        return new ContentfulIdentifierKeyBuilder();
+        return new IdentifierKeyBuilder();
     }
 
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface
      */
-    protected function createObjectFieldMapper(): FieldMapperTypeInterface
+    protected function createObjectFieldMapper(): TypeFieldMapperInterface
     {
         return new ObjectFieldMapper();
     }
@@ -258,17 +258,17 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
      */
     protected function createContentfulAPIClient(): ContentfulAPIClientInterface
     {
-        return new ContentfulAPIClient($this->createContentfulClient(), $this->createContentfulAPIClientMapper());
+        return new ContentfulAPIClient($this->createContentfulClient(), $this->createContentfulMapper());
     }
 
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientMapperInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulMapperInterface
      */
-    protected function createContentfulAPIClientMapper(): ContentfulAPIClientMapperInterface
+    protected function createContentfulMapper(): ContentfulMapperInterface
     {
-        return new ContentfulAPIClientMapper();
+        return new ContentfulMapper();
     }
 
     /**

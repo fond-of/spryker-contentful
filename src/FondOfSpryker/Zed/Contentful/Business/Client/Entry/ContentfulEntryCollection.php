@@ -1,6 +1,6 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Entry;
+namespace FondOfSpryker\Zed\Contentful\Business\Client\Entry;
 
 /**
  * @author mnoerenberg
@@ -8,7 +8,7 @@ namespace FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Entry;
 class ContentfulEntryCollection implements ContentfulEntryCollectionInterface
 {
     /**
-     * @var \FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Entry\ContentfulEntryInterface[]
+     * @var \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface[]
      */
     private $entries;
 
@@ -23,7 +23,7 @@ class ContentfulEntryCollection implements ContentfulEntryCollectionInterface
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Entry\ContentfulEntryInterface[]
+     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface[]
      */
     public function getAll(): array
     {
@@ -33,7 +33,7 @@ class ContentfulEntryCollection implements ContentfulEntryCollectionInterface
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Entry\ContentfulEntryInterface[] $contentfulEntries
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface[] $contentfulEntries
      *
      * @return void
      */
@@ -45,7 +45,7 @@ class ContentfulEntryCollection implements ContentfulEntryCollectionInterface
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Entry\ContentfulEntryInterface $contentfulEntry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      *
      * @return void
      */

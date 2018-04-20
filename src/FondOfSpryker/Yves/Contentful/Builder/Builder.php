@@ -3,60 +3,65 @@
 namespace FondOfSpryker\Yves\Contentful\Builder;
 
 use FondOfSpryker\Client\Contentful\ContentfulClientInterface;
-use FondOfSpryker\Yves\Contentful\Renderer\ContentfulRendererInterface;
+use FondOfSpryker\Yves\Contentful\Renderer\RendererInterface;
 use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
 
 /**
  * @author mnoerenberg
  */
-class ContentfulBuilder implements ContentfulBuilderInterface
+class Builder implements BuilderInterface
 {
     /**
      * @var \FondOfSpryker\Client\Contentful\ContentfulClientInterface
      */
-    private $contentfulClient;
+    private $client;
 
     /**
-     * @var \FondOfSpryker\Yves\Contentful\Renderer\ContentfulRendererInterface
+     * @var \FondOfSpryker\Yves\Contentful\Renderer\RendererInterface
      */
-    private $contentfulDefaultRenderer;
+    private $defaultRenderer;
 
     /**
-     * @var \FondOfSpryker\Yves\Contentful\Renderer\ContentfulRendererInterface[]
+     * @var \FondOfSpryker\Yves\Contentful\Renderer\RendererInterface[]
      */
-    private $contentfulRenderer;
+    private $renderer;
 
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Client\Contentful\ContentfulClientInterface $contentfulClient
-     * @param \FondOfSpryker\Yves\Contentful\Renderer\ContentfulRendererInterface[] $contentfulRenderer
-     * @param \FondOfSpryker\Yves\Contentful\Renderer\ContentfulRendererInterface $contentfulDefaultRenderer
+     * @param \FondOfSpryker\Client\Contentful\ContentfulClientInterface $client
+     * @param \FondOfSpryker\Yves\Contentful\Renderer\RendererInterface[] $renderer
+     * @param \FondOfSpryker\Yves\Contentful\Renderer\RendererInterface $defaultRenderer
      */
-    public function __construct(ContentfulClientInterface $contentfulClient, array $contentfulRenderer, ContentfulRendererInterface $contentfulDefaultRenderer)
+    public function __construct(ContentfulClientInterface $client, array $renderer, RendererInterface $defaultRenderer)
     {
-        $this->contentfulClient = $contentfulClient;
-        $this->contentfulRenderer = $contentfulRenderer;
-        $this->contentfulDefaultRenderer = $contentfulDefaultRenderer;
+        $this->client = $client;
+        $this->renderer = $renderer;
+        $this->defaultRenderer = $defaultRenderer;
     }
 
     /**
      * @author mnoerenberg
      *
-     * @inheritdoc
+     * @param string $entryId
+     *
+     * @return string
      */
     public function build(string $entryId): string
     {
         $request = $this->createRequest($entryId);
-        $response = $this->contentfulClient->getContentfulEntryFromStorageByEntryIdForCurrentLocale($request);
+        $response = $this->client->getContentfulEntryFromStorageByEntryIdForCurrentLocale($request);
 
-        foreach ($this->contentfulRenderer as $renderer) {
-            if (strtolower(trim($renderer->getType())) == strtolower(trim($response->getContentType()))) {
+        foreach ($this->renderer as $renderer) {
+            $rendererType = strtolower(trim($renderer->getType()));
+            $contentType = strtolower(trim($response->getContentType()));
+
+            if ($rendererType == $contentType) {
                 return $renderer->render($response);
             }
         }
 
-        return $this->contentfulDefaultRenderer->render($response);
+        return $this->defaultRenderer->render($response);
     }
 
     /**

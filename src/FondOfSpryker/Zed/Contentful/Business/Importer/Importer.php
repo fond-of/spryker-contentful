@@ -3,15 +3,15 @@
 namespace FondOfSpryker\Zed\Contentful\Business\Importer;
 
 use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientInterface;
-use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryCollectionInterface;
-use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\ContentfulMapperInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryMapperInterface;
 
 /**
  * @author mnoerenberg
  */
-class ContentfulImporter implements ContentfulImporterInterface
+class Importer implements ImporterInterface
 {
     /**
      * @var \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientInterface
@@ -19,14 +19,14 @@ class ContentfulImporter implements ContentfulImporterInterface
     protected $contentfulAPIClient;
 
     /**
-     * @var \FondOfSpryker\Zed\Contentful\Business\Mapper\ContentfulMapperInterface
+     * @var \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryMapperInterface
      */
-    protected $contentfulMapper;
+    protected $entryMapper;
 
     /**
-     * @var \FondOfSpryker\Zed\Contentful\Communication\Plugin\ContentfulImporterPluginInterface[]
+     * @var \FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface[]
      */
-    protected $plugins;
+    protected $importerPlugins;
 
     /**
      * @var string[]
@@ -35,15 +35,15 @@ class ContentfulImporter implements ContentfulImporterInterface
 
     /**
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientInterface $contentfulAPIClient
-     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\ContentfulMapperInterface $contentfulMapper
-     * @param \FondOfSpryker\Zed\Contentful\Communication\Plugin\ContentfulImporterPluginInterface[] $plugins
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryMapperInterface $entryMapper
+     * @param \FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface[] $importerPlugins
      * @param string[] $localeMapping
      */
-    public function __construct(ContentfulAPIClientInterface $contentfulAPIClient, ContentfulMapperInterface $contentfulMapper, array $plugins, array $localeMapping)
+    public function __construct(ContentfulAPIClientInterface $contentfulAPIClient, EntryMapperInterface $entryMapper, array $importerPlugins, array $localeMapping)
     {
         $this->contentfulAPIClient = $contentfulAPIClient;
-        $this->contentfulMapper = $contentfulMapper;
-        $this->plugins = $plugins;
+        $this->entryMapper = $entryMapper;
+        $this->importerPlugins = $importerPlugins;
         $this->localeMapping = $localeMapping;
     }
 
@@ -88,7 +88,7 @@ class ContentfulImporter implements ContentfulImporterInterface
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryCollectionInterface $collection
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface $collection
      *
      * @return void
      */
@@ -102,7 +102,7 @@ class ContentfulImporter implements ContentfulImporterInterface
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      *
      * @return void
      */
@@ -110,24 +110,24 @@ class ContentfulImporter implements ContentfulImporterInterface
     {
         foreach ($this->localeMapping as $contentfulLocale => $locale) {
             $contentfulEntry->setLocale($contentfulLocale);
-            $storageContent = $this->contentfulMapper->map($contentfulEntry);
-            $this->executePlugins($contentfulEntry, $storageContent, $locale);
+            $entry = $this->entryMapper->createEntry($contentfulEntry);
+            $this->executePlugins($contentfulEntry, $entry, $locale);
         }
     }
 
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
-     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface $content
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
      *
      * @return void
      */
-    protected function executePlugins(ContentfulEntryInterface $contentfulEntry, ContentInterface $content, string $locale): void
+    protected function executePlugins(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): void
     {
-        foreach ($this->plugins as $plugin) {
-            $plugin->handle($contentfulEntry, $content, $locale);
+        foreach ($this->importerPlugins as $plugin) {
+            $plugin->handle($contentfulEntry, $entry, $locale);
         }
     }
 }

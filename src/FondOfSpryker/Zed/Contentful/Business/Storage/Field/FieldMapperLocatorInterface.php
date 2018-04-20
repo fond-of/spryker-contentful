@@ -1,26 +1,15 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Storage;
+namespace FondOfSpryker\Zed\Contentful\Business\Storage\Field;
 
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface;
-use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryMapperInterface;
-use FondOfSpryker\Zed\Contentful\Business\Storage\Field\CustomFieldMapperInterface;
-use FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperInterface;
-use FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface;
 
 /**
  * @author mnoerenberg
  */
 interface FieldMapperLocatorInterface
 {
-    /**
-     * @author mnoerenberg
-     *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryMapperInterface
-     */
-    public function getEntryMapper(): EntryMapperInterface;
-
     /**
      * @author mnoerenberg
      *

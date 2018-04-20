@@ -6,8 +6,8 @@ use FondOfSpryker\Client\Contentful\Matcher\UrlMatcher;
 use FondOfSpryker\Client\Contentful\Matcher\UrlMatcherInterface;
 use FondOfSpryker\Client\Contentful\Storage\ContentfulStorageReader;
 use FondOfSpryker\Client\Contentful\Storage\ContentfulStorageReaderInterface;
-use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulEntryKeyBuilder;
-use FondOfSpryker\Shared\Contentful\KeyBuilder\ContentfulIdentifierKeyBuilder;
+use FondOfSpryker\Shared\Contentful\KeyBuilder\EntryKeyBuilder;
+use FondOfSpryker\Shared\Contentful\KeyBuilder\IdentifierKeyBuilder;
 use Spryker\Client\Kernel\AbstractFactory;
 use Spryker\Client\Locale\LocaleClientInterface;
 use Spryker\Client\Storage\StorageClientInterface;
@@ -27,7 +27,7 @@ class ContentfulFactory extends AbstractFactory
     {
         return new ContentfulStorageReader(
             $this->getStorage(),
-            $this->createContentfulEntryKeyBuilder(),
+            $this->createEntryKeyBuilder(),
             $this->getLocaleClient()->getCurrentLocale()
         );
     }
@@ -37,9 +37,9 @@ class ContentfulFactory extends AbstractFactory
      *
      * @return \Spryker\Shared\KeyBuilder\KeyBuilderInterface
      */
-    private function createContentfulEntryKeyBuilder(): KeyBuilderInterface
+    private function createEntryKeyBuilder(): KeyBuilderInterface
     {
-        return new ContentfulEntryKeyBuilder();
+        return new EntryKeyBuilder();
     }
 
     /**
@@ -47,9 +47,9 @@ class ContentfulFactory extends AbstractFactory
      *
      * @return \Spryker\Shared\KeyBuilder\KeyBuilderInterface
      */
-    private function createContentfulIdentifierKeyBuilder(): KeyBuilderInterface
+    private function createIdentifierKeyBuilder(): KeyBuilderInterface
     {
-        return new ContentfulIdentifierKeyBuilder();
+        return new IdentifierKeyBuilder();
     }
 
     /**
@@ -59,7 +59,7 @@ class ContentfulFactory extends AbstractFactory
      */
     public function createUrlMatcher(): UrlMatcherInterface
     {
-        return new UrlMatcher($this->createContentfulIdentifierKeyBuilder(), $this->getStorage());
+        return new UrlMatcher($this->createIdentifierKeyBuilder(), $this->getStorage());
     }
 
     /**

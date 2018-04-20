@@ -1,6 +1,6 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Field;
+namespace FondOfSpryker\Zed\Contentful\Business\Client\Field;
 
 /**
  * @author mnoerenberg

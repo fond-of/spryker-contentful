@@ -33,11 +33,8 @@ class ContentfulStorageReader implements ContentfulStorageReaderInterface
      * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
      * @param string $localeName
      */
-    public function __construct(
-        StorageClientInterface $storageClient,
-        KeyBuilderInterface $keyBuilder,
-        string $localeName
-    ) {
+    public function __construct(StorageClientInterface $storageClient, KeyBuilderInterface $keyBuilder, string $localeName)
+    {
         $this->storageClient = $storageClient;
         $this->keyBuilder = $keyBuilder;
         $this->localeName = $localeName;

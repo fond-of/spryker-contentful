@@ -1,20 +1,20 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Asset;
+namespace FondOfSpryker\Zed\Contentful\Business\Storage\Asset;
 
 use Exception;
-use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulAssetInterface;
-use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface;
-use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulField;
-use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperTypeInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Asset\ContentfulAssetInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulField;
+use FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperLocatorInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface;
 
 /**
  * @author mnoerenberg
  */
-class AssetFieldMapper implements FieldMapperTypeInterface
+class AssetFieldMapper implements TypeFieldMapperInterface
 {
     /**
      * @author mnoerenberg
@@ -29,15 +29,15 @@ class AssetFieldMapper implements FieldMapperTypeInterface
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulFieldInterface $contentfulField
-     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldMapperLocatorInterface $fieldMapperLocator
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface $contentfulField
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperLocatorInterface $mapperLocator
      *
      * @throws \Exception
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\FieldInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface
      */
-    public function createField(ContentfulEntryInterface $contentfulEntry, ContentfulFieldInterface $contentfulField, FieldMapperLocatorInterface $fieldMapperLocator): FieldInterface
+    public function createField(ContentfulEntryInterface $contentfulEntry, ContentfulFieldInterface $contentfulField, FieldMapperLocatorInterface $mapperLocator): FieldInterface
     {
         if ($contentfulField instanceof ContentfulAssetInterface) {
             return new AssetField($contentfulField->getId(), $contentfulField->getValue(), $contentfulField->getTitle(), $contentfulField->getDescription());

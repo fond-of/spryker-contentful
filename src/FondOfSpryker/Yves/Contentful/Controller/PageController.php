@@ -17,6 +17,6 @@ class PageController extends AbstractController
      */
     public function indexAction(string $entryId): Response
     {
-        return new Response($this->getFactory()->createContentfulBuilder()->build($entryId));
+        return new Response($this->getFactory()->createBuilder()->build($entryId));
     }
 }

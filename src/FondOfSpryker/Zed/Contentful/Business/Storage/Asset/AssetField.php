@@ -1,8 +1,8 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Asset;
+namespace FondOfSpryker\Zed\Contentful\Business\Storage\Asset;
 
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\AbstractField;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Field\AbstractField;
 
 /**
  * @author mnoerenberg

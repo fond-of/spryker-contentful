@@ -1,20 +1,20 @@
 <?php
-namespace FondOfSpryker\Zed\Contentful\Business\Mapper;
 
-use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface;
+namespace FondOfSpryker\Zed\Contentful\Business\Storage\Entry;
+
+use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
 
 /**
  * @author mnoerenberg
  */
-interface ContentfulMapperInterface
+interface EntryMapperInterface
 {
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface
      */
-    public function map(ContentfulEntryInterface $contentfulEntry): ContentInterface;
+    public function createEntry(ContentfulEntryInterface $contentfulEntry): EntryInterface;
 }

@@ -7,7 +7,7 @@ use Spryker\Shared\KeyBuilder\KeyBuilderTrait;
 /**
  * @author mnoerenberg
  */
-class ContentfulIdentifierKeyBuilder implements KeyBuilderInterface
+class IdentifierKeyBuilder implements KeyBuilderInterface
 {
     use KeyBuilderTrait;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Storage;
+namespace FondOfSpryker\Zed\Contentful\Business\Storage\Field;
 
 /**
  * @author mnoerenberg

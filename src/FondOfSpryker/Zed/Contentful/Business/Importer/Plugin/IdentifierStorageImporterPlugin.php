@@ -1,18 +1,18 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Communication\Plugin;
+namespace FondOfSpryker\Zed\Contentful\Business\Importer\Plugin;
 
-use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Boolean\BooleanField;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Text\TextField;
+use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Boolean\BooleanField;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextField;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
 /**
  * @author mnoerenberg
  */
-class ContentfulIdentifierImporterPlugin implements ContentfulImporterPluginInterface
+class IdentifierStorageImporterPlugin implements ImporterPluginInterface
 {
     /**
      * @var \Spryker\Shared\KeyBuilder\KeyBuilderInterface
@@ -53,39 +53,39 @@ class ContentfulIdentifierImporterPlugin implements ContentfulImporterPluginInte
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
-     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface $content
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
      *
      * @return void
      */
-    public function handle(ContentfulEntryInterface $contentfulEntry, ContentInterface $content, string $locale): void
+    public function handle(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): void
     {
-        $identifierField = $this->getIdentifierField($content);
+        $identifierField = $this->getIdentifierField($entry);
         if ($identifierField === null) {
             return;
         }
 
         $key = $this->createStorageKey($identifierField->getContent(), $locale);
-        if ($this->isContentActive($content, $this->activeFieldName) === false) {
+        if ($this->isContentActive($entry, $this->activeFieldName) === false) {
             $this->deleteFromStorage($key);
             return;
         }
 
-        $this->addToStorage($key, $this->createStorageValue($content));
+        $this->addToStorage($key, $this->createStorageValue($entry));
     }
 
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface $content
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $activeFieldName
      *
      * @return bool
      */
-    protected function isContentActive(ContentInterface $content, string $activeFieldName): bool
+    protected function isContentActive(EntryInterface $entry, string $activeFieldName): bool
     {
-        $field = $content->getField($activeFieldName);
+        $field = $entry->getField($activeFieldName);
         if ($field instanceof BooleanField) {
             return $field->getBoolean();
         }
@@ -96,26 +96,26 @@ class ContentfulIdentifierImporterPlugin implements ContentfulImporterPluginInte
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface $content
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      *
      * @return string[]
      */
-    protected function createStorageValue(ContentInterface $content): array
+    protected function createStorageValue(EntryInterface $entry): array
     {
         return [
-            'type' => $content->getContentType(),
-            'value' => $content->getId(),
+            'type' => $entry->getContentType(),
+            'value' => $entry->getId(),
         ];
     }
 
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface $content
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $content
      *
-     * @return null|\FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Text\TextField
+     * @return null|\FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextField
      */
-    private function getIdentifierField(ContentInterface $content): ?TextField
+    private function getIdentifierField(EntryInterface $content): ?TextField
     {
         if ($content->hasField($this->identifierFieldName) === false) {
             return null;

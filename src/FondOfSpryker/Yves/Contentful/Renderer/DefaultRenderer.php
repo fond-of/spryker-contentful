@@ -11,9 +11,9 @@ use Twig_Environment;
 /**
  * @author mnoerenberg
  */
-class ContentfulDefaultRenderer implements ContentfulRendererInterface
+class DefaultRenderer implements RendererInterface
 {
-    protected const RENDERER_TYPE_DEFAULT = 'ContentfulDefaultRenderer';
+    protected const RENDERER_TYPE_DEFAULT = 'defaultRenderer';
 
     /**
      * @var \Spryker\Shared\Kernel\Communication\Application
@@ -52,6 +52,9 @@ class ContentfulDefaultRenderer implements ContentfulRendererInterface
     public function render(ContentfulEntryResponseTransfer $response): string
     {
         if ($response->getSuccessful() === false) {
+            if (Environment::isProduction()) {
+                return '';
+            }
             return $response->getErrorMessage();
         }
 

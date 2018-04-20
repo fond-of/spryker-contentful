@@ -1,8 +1,8 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Asset;
+namespace FondOfSpryker\Zed\Contentful\Business\Client\Asset;
 
-use FondOfSpryker\Zed\Contentful\Business\Client\Mapper\Field\ContentfulFieldInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface;
 
 /**
  * @author mnoerenberg

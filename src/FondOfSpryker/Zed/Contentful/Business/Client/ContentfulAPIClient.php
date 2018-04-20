@@ -5,7 +5,7 @@ namespace FondOfSpryker\Zed\Contentful\Business\Client;
 use Contentful\Delivery\Client;
 use Contentful\Delivery\Query;
 use DateTime;
-use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryCollectionInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface;
 
 /**
  * @author mnoerenberg
@@ -18,26 +18,26 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
     protected $client;
 
     /**
-     * @var \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientMapperInterface
+     * @var \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulMapperInterface
      */
-    protected $contentfulAPIClientMapper;
+    protected $contentfulMapper;
 
     /**
      * @author mnoerenberg
      *
      * @param \Contentful\Delivery\Client $client
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientMapperInterface $contentfulAPIClientMapper
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulMapperInterface $contentfulMapper
      */
-    public function __construct(Client $client, ContentfulAPIClientMapperInterface $contentfulAPIClientMapper)
+    public function __construct(Client $client, ContentfulMapperInterface $contentfulMapper)
     {
         $this->client = $client;
-        $this->contentfulAPIClientMapper = $contentfulAPIClientMapper;
+        $this->contentfulMapper = $contentfulMapper;
     }
 
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryCollectionInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface
      */
     public function findLastChangedEntries(): ContentfulEntryCollectionInterface
     {
@@ -47,7 +47,7 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
         $query->setLocale('*');
 
         $resourceArray = $this->client->getEntries($query);
-        return $this->contentfulAPIClientMapper->createContentfulEntries($resourceArray);
+        return $this->contentfulMapper->createContentfulEntries($resourceArray);
     }
 
     /**
@@ -55,7 +55,7 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
      *
      * @param string $entryId
      *
-     * @return null|\FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryCollectionInterface
+     * @return null|\FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface
      */
     public function findEntryById(string $entryId): ContentfulEntryCollectionInterface
     {
@@ -65,13 +65,13 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
         $query->setLocale('*');
 
         $resourceArray = $this->client->getEntries($query);
-        return $this->contentfulAPIClientMapper->createContentfulEntries($resourceArray);
+        return $this->contentfulMapper->createContentfulEntries($resourceArray);
     }
 
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryCollectionInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface
      */
     public function findAllEntries(): ContentfulEntryCollectionInterface
     {
@@ -81,6 +81,6 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
         $query->setLocale('*');
 
         $resourceArray = $this->client->getEntries($query);
-        return $this->contentfulAPIClientMapper->createContentfulEntries($resourceArray);
+        return $this->contentfulMapper->createContentfulEntries($resourceArray);
     }
 }

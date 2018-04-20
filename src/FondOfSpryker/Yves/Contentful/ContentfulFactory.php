@@ -3,12 +3,12 @@
 namespace FondOfSpryker\Yves\Contentful;
 
 use Aptoma\Twig\Extension\MarkdownExtension;
-use FondOfSpryker\Yves\Contentful\Builder\ContentfulBuilder;
-use FondOfSpryker\Yves\Contentful\Builder\ContentfulBuilderInterface;
-use FondOfSpryker\Yves\Contentful\Renderer\ContentfulDefaultRenderer;
-use FondOfSpryker\Yves\Contentful\Renderer\ContentfulRendererInterface;
-use FondOfSpryker\Yves\Contentful\ResourceCreator\ContentfulIdentifierResourceCreator;
-use FondOfSpryker\Yves\Contentful\ResourceCreator\ContentfulResourceCreatorInterface;
+use FondOfSpryker\Yves\Contentful\Builder\Builder;
+use FondOfSpryker\Yves\Contentful\Builder\BuilderInterface;
+use FondOfSpryker\Yves\Contentful\Renderer\DefaultRenderer;
+use FondOfSpryker\Yves\Contentful\Renderer\RendererInterface;
+use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\IdentifierResourceCreator;
+use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\ResourceCreatorInterface;
 use FondOfSpryker\Yves\Contentful\Twig\ContentfulTwigExtension;
 use Spryker\Shared\Kernel\Communication\Application;
 use Spryker\Yves\Kernel\AbstractFactory;
@@ -27,29 +27,29 @@ class ContentfulFactory extends AbstractFactory
      */
     public function createContentfulTwigExtension(): ContentfulTwigExtension
     {
-        return new ContentfulTwigExtension($this->createContentfulBuilder());
+        return new ContentfulTwigExtension($this->createBuilder());
     }
 
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Yves\Contentful\Builder\ContentfulBuilderInterface
+     * @return \FondOfSpryker\Yves\Contentful\Builder\BuilderInterface
      */
-    public function createContentfulBuilder(): ContentfulBuilderInterface
+    public function createBuilder(): BuilderInterface
     {
-        return new ContentfulBuilder(
+        return new Builder(
             $this->getClient(),
-            $this->getContentfulRenderer(),
-            $this->createContentfulDefaultRenderer()
+            $this->getRenderer(),
+            $this->createDefaultRenderer()
         );
     }
 
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Yves\Contentful\Renderer\ContentfulRendererInterface[]
+     * @return \FondOfSpryker\Yves\Contentful\Renderer\RendererInterface[]
      */
-    protected function getContentfulRenderer(): array
+    protected function getRenderer(): array
     {
         return [];
     }
@@ -57,19 +57,19 @@ class ContentfulFactory extends AbstractFactory
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Yves\Contentful\Renderer\ContentfulRendererInterface
+     * @return \FondOfSpryker\Yves\Contentful\Renderer\RendererInterface
      */
-    protected function createContentfulDefaultRenderer(): ContentfulRendererInterface
+    protected function createDefaultRenderer(): RendererInterface
     {
-        return new ContentfulDefaultRenderer($this->getApplication());
+        return new DefaultRenderer($this->getApplication());
     }
 
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Yves\Contentful\ResourceCreator\ContentfulResourceCreatorInterface[]
+     * @return \FondOfSpryker\Yves\Contentful\Router\ResourceCreator\ResourceCreatorInterface[]
      */
-    public function getContentfulResourceCreator(): array
+    public function getResourceCreator(): array
     {
         return [];
     }
@@ -77,11 +77,11 @@ class ContentfulFactory extends AbstractFactory
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Yves\Contentful\ResourceCreator\ContentfulResourceCreatorInterface
+     * @return \FondOfSpryker\Yves\Contentful\Router\ResourceCreator\ResourceCreatorInterface
      */
-    public function createContentfulIdentifierResourceCreator(): ContentfulResourceCreatorInterface
+    public function createIdentifierResourceCreator(): ResourceCreatorInterface
     {
-        return new ContentfulIdentifierResourceCreator();
+        return new IdentifierResourceCreator();
     }
 
     /**

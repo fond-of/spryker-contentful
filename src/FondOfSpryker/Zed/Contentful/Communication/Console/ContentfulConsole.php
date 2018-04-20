@@ -14,7 +14,6 @@ class ContentfulConsole extends Console
 {
     private const COMMAND_NAME = 'contentful:import';
     private const DESCRIPTION = 'Imports the contentful entries and saves it in the spryker storage.';
-
     private const OPTION_IMPORT_ALL = 'all';
     private const ARGUMENT_ENTRY_ID = 'entryId';
 

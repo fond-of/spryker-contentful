@@ -1,8 +1,8 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Collection;
+namespace FondOfSpryker\Zed\Contentful\Business\Storage\Collection;
 
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\AbstractField;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Field\AbstractField;
 
 /**
  * @author mnoerenberg
@@ -12,7 +12,7 @@ class CollectionField extends AbstractField
     public const TYPE = 'Array';
 
     /**
-     * @var \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Collection\CollectionFieldInterface[]
+     * @var \FondOfSpryker\Zed\Contentful\Business\Storage\Collection\CollectionFieldInterface[]
      */
     private $fields;
 
@@ -20,7 +20,7 @@ class CollectionField extends AbstractField
      * @author mnoerenberg
      *
      * @param string $name
-     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Collection\CollectionFieldInterface[] $fields
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Collection\CollectionFieldInterface[] $fields
      */
     public function __construct(string $name, array $fields = [])
     {
@@ -41,7 +41,7 @@ class CollectionField extends AbstractField
     /**
      * @author mnoerenberg
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Collection\CollectionFieldInterface[]
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Collection\CollectionFieldInterface[]
      */
     public function getFields(): array
     {
@@ -51,7 +51,7 @@ class CollectionField extends AbstractField
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Collection\CollectionFieldInterface $field
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Collection\CollectionFieldInterface $field
      *
      * @return void
      */

@@ -1,7 +1,7 @@
 <?php
 namespace FondOfSpryker\Yves\Contentful\Twig;
 
-use FondOfSpryker\Yves\Contentful\Builder\ContentfulBuilderInterface;
+use FondOfSpryker\Yves\Contentful\Builder\BuilderInterface;
 use Spryker\Shared\Twig\TwigExtension;
 use Twig_SimpleFunction;
 
@@ -13,16 +13,16 @@ class ContentfulTwigExtension extends TwigExtension
     private const IMAGE_MAX_WIDTH = 2000;
 
     /**
-     * @var \FondOfSpryker\Yves\Contentful\Builder\ContentfulBuilderInterface
+     * @var \FondOfSpryker\Yves\Contentful\Builder\BuilderInterface
      */
-    private $contentfulBuilder;
+    private $builder;
 
     /**
-     * @param \FondOfSpryker\Yves\Contentful\Builder\ContentfulBuilderInterface $contentfulBuilder
+     * @param \FondOfSpryker\Yves\Contentful\Builder\BuilderInterface $builder
      */
-    public function __construct(ContentfulBuilderInterface $contentfulBuilder)
+    public function __construct(BuilderInterface $builder)
     {
-        $this->contentfulBuilder = $contentfulBuilder;
+        $this->builder = $builder;
     }
 
     /**
@@ -47,7 +47,7 @@ class ContentfulTwigExtension extends TwigExtension
      */
     public function renderContentfulEntry(string $entryId): string
     {
-        return $this->contentfulBuilder->build($entryId);
+        return $this->builder->build($entryId);
     }
 
     /**

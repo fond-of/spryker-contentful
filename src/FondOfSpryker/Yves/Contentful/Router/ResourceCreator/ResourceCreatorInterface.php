@@ -1,13 +1,13 @@
 <?php
 
-namespace FondOfSpryker\Yves\Contentful\ResourceCreator;
+namespace FondOfSpryker\Yves\Contentful\Router\ResourceCreator;
 
 use Silex\Application;
 
 /**
  * @author mnoerenberg
  */
-interface ContentfulResourceCreatorInterface
+interface ResourceCreatorInterface
 {
     /**
      * @author mnoerenberg

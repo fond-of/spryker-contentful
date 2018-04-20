@@ -1,17 +1,17 @@
 <?php
 
-namespace FondOfSpryker\Zed\Contentful\Communication\Plugin;
+namespace FondOfSpryker\Zed\Contentful\Business\Importer\Plugin;
 
-use FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface;
-use FondOfSpryker\Zed\Contentful\Business\Mapper\Field\Boolean\BooleanField;
+use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Boolean\BooleanField;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
 /**
  * @author mnoerenberg
  */
-class ContentfulStorageImporterPlugin implements ContentfulImporterPluginInterface
+class EntryStorageImporterPlugin implements ImporterPluginInterface
 {
     /**
      * @var \Spryker\Shared\KeyBuilder\KeyBuilderInterface
@@ -45,34 +45,34 @@ class ContentfulStorageImporterPlugin implements ContentfulImporterPluginInterfa
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Model\ContentfulEntryInterface $contentfulEntry
-     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface $content
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
      *
      * @return void
      */
-    public function handle(ContentfulEntryInterface $contentfulEntry, ContentInterface $content, string $locale): void
+    public function handle(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): void
     {
-        $key = $this->keyBuilder->generateKey($content->getId(), $locale);
-        if ($this->isContentActive($content, $this->activeFieldName) === false) {
+        $key = $this->keyBuilder->generateKey($entry->getId(), $locale);
+        if ($this->isContentActive($entry, $this->activeFieldName) === false) {
             $this->storageClient->delete($key);
             return;
         }
 
-        $this->storageClient->set($key, json_encode($content->jsonSerialize()));
+        $this->storageClient->set($key, json_encode($entry->jsonSerialize()));
     }
 
     /**
      * @author mnoerenberg
      *
-     * @param \FondOfSpryker\Zed\Contentful\Business\Mapper\Content\ContentInterface $content
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $activeFieldName
      *
      * @return bool
      */
-    protected function isContentActive(ContentInterface $content, string $activeFieldName): bool
+    protected function isContentActive(EntryInterface $entry, string $activeFieldName): bool
     {
-        $field = $content->getField($activeFieldName);
+        $field = $entry->getField($activeFieldName);
         if ($field instanceof BooleanField) {
             return $field->getBoolean();
         }
