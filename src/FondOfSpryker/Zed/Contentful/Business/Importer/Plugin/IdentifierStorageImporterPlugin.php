@@ -9,9 +9,6 @@ use FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextField;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
-/**
- * @author mnoerenberg
- */
 class IdentifierStorageImporterPlugin implements ImporterPluginInterface
 {
     /**
@@ -35,8 +32,6 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
     private $identifierFieldName;
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
      * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
      * @param string $activeFieldName
@@ -51,8 +46,6 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
@@ -76,8 +69,6 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $activeFieldName
      *
@@ -94,8 +85,6 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      *
      * @return string[]
@@ -109,8 +98,6 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $content
      *
      * @return null|\FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextField
@@ -130,8 +117,6 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $key
      * @param string[] $value
      *
@@ -143,8 +128,6 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $key
      *
      * @return void
@@ -155,8 +138,6 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $url
      * @param string $locale
      *

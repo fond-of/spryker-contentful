@@ -2,9 +2,6 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Storage\Collection;
 
-/**
- * @author mnoerenberg
- */
 class CollectionReferenceField implements CollectionFieldInterface
 {
     public const TYPE = 'Reference';
@@ -15,8 +12,6 @@ class CollectionReferenceField implements CollectionFieldInterface
     private $referenceId;
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $referenceId
      */
     public function __construct(string $referenceId)
@@ -25,8 +20,6 @@ class CollectionReferenceField implements CollectionFieldInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getType(): string
@@ -35,8 +28,6 @@ class CollectionReferenceField implements CollectionFieldInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getReferenceId(): string
@@ -45,8 +36,6 @@ class CollectionReferenceField implements CollectionFieldInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string[]
      */
     public function jsonSerialize(): array

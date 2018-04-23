@@ -4,9 +4,6 @@ namespace FondOfSpryker\Zed\Contentful\Business\Storage\Reference;
 
 use FondOfSpryker\Zed\Contentful\Business\Storage\Field\AbstractField;
 
-/**
- * @author mnoerenberg
- */
 class ReferenceField extends AbstractField
 {
     public const TYPE = 'Reference';
@@ -17,8 +14,6 @@ class ReferenceField extends AbstractField
     private $referenceId;
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $name
      * @param string $referenceId
      */
@@ -29,8 +24,6 @@ class ReferenceField extends AbstractField
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getType(): string
@@ -39,8 +32,6 @@ class ReferenceField extends AbstractField
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getReferenceId(): string
@@ -49,8 +40,6 @@ class ReferenceField extends AbstractField
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string[]
      */
     public function jsonSerialize(): array

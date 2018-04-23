@@ -1,9 +1,6 @@
 <?php
 namespace FondOfSpryker\Shared\Contentful;
 
-/**
- * @author mnoerenberg
- */
 interface ContentfulConstants
 {
     public const CONTENTFUL_ACCESS_TOKEN = 'CONTENTFUL_ACCESS_TOKEN';

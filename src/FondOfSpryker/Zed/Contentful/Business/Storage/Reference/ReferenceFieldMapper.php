@@ -9,14 +9,9 @@ use FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperLocatorInterface;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface;
 
-/**
- * @author mnoerenberg
- */
 class ReferenceFieldMapper implements TypeFieldMapperInterface
 {
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getContentfulType(): string
@@ -25,8 +20,6 @@ class ReferenceFieldMapper implements TypeFieldMapperInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface $contentfulField
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperLocatorInterface $mapperLocator

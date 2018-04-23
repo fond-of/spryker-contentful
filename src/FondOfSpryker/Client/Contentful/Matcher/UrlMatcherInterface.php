@@ -2,9 +2,6 @@
 
 namespace FondOfSpryker\Client\Contentful\Matcher;
 
-/**
- * @author mnoerenberg
- */
 interface UrlMatcherInterface
 {
     /**

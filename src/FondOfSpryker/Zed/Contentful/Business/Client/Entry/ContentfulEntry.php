@@ -5,9 +5,6 @@ namespace FondOfSpryker\Zed\Contentful\Business\Client\Entry;
 use Contentful\Delivery\DynamicEntry;
 use FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface;
 
-/**
- * @author mnoerenberg
- */
 class ContentfulEntry implements ContentfulEntryInterface
 {
     /**
@@ -21,8 +18,6 @@ class ContentfulEntry implements ContentfulEntryInterface
     private $fields;
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
      */
     public function __construct(DynamicEntry $dynamicEntry)
@@ -31,8 +26,6 @@ class ContentfulEntry implements ContentfulEntryInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $locale
      *
      * @return void
@@ -43,8 +36,6 @@ class ContentfulEntry implements ContentfulEntryInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getId(): string
@@ -53,8 +44,6 @@ class ContentfulEntry implements ContentfulEntryInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getContentTypeId(): string
@@ -63,8 +52,6 @@ class ContentfulEntry implements ContentfulEntryInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface[] $fields
      *
      * @return void
@@ -75,8 +62,6 @@ class ContentfulEntry implements ContentfulEntryInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface[]
      */
     public function getFields(): array
@@ -85,8 +70,6 @@ class ContentfulEntry implements ContentfulEntryInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $name
      *
      * @return bool
@@ -103,8 +86,6 @@ class ContentfulEntry implements ContentfulEntryInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $name
      *
      * @return null|\FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface
@@ -121,8 +102,6 @@ class ContentfulEntry implements ContentfulEntryInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \Contentful\Delivery\DynamicEntry
      */
     public function getDynamicEntry()

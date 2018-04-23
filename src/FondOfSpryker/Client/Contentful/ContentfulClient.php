@@ -12,8 +12,6 @@ use Spryker\Client\Kernel\AbstractClient;
 class ContentfulClient extends AbstractClient implements ContentfulClientInterface
 {
     /**
-     * @author mnoerenberg
-     *
      * @param \Generated\Shared\Transfer\ContentfulEntryRequestTransfer $request
      *
      * @return \Generated\Shared\Transfer\ContentfulEntryResponseTransfer
@@ -24,8 +22,6 @@ class ContentfulClient extends AbstractClient implements ContentfulClientInterfa
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $url
      * @param string $localeName
      *

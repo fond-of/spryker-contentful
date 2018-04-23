@@ -2,9 +2,6 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Storage\Field;
 
-/**
- * @author mnoerenberg
- */
 class CustomFieldMapperCollection implements CustomFieldMapperCollectionInterface
 {
     /**
@@ -12,17 +9,12 @@ class CustomFieldMapperCollection implements CustomFieldMapperCollectionInterfac
      */
     private $customFieldMapper;
 
-    /**
-     * @author mnoerenberg
-     */
     public function __construct()
     {
         $this->customFieldMapper = [];
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\CustomFieldMapperInterface $customFieldMapper
      *
      * @return void
@@ -33,8 +25,6 @@ class CustomFieldMapperCollection implements CustomFieldMapperCollectionInterfac
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\CustomFieldMapperInterface[]
      */
     public function getAll(): array

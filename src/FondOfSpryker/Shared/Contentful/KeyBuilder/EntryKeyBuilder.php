@@ -4,9 +4,6 @@ namespace FondOfSpryker\Shared\Contentful\KeyBuilder;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderTrait;
 
-/**
- * @author mnoerenberg
- */
 class EntryKeyBuilder implements KeyBuilderInterface
 {
     use KeyBuilderTrait;
@@ -21,8 +18,7 @@ class EntryKeyBuilder implements KeyBuilderInterface
         return 'entry.' . $contentfulEntryId;
     }
 
-    /**a
-     *
+    /**
      * @return string
      */
     public function getBundleName()

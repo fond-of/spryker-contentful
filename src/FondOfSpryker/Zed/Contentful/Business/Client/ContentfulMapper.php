@@ -15,14 +15,9 @@ use FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulField;
 use FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface;
 use Throwable;
 
-/**
- * @author mnoerenberg
- */
 class ContentfulMapper implements ContentfulMapperInterface
 {
     /**
-     * @author mnoerenberg
-     *
      * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface
      */
     protected function createContentfulEntryCollection(): ContentfulEntryCollectionInterface
@@ -31,8 +26,6 @@ class ContentfulMapper implements ContentfulMapperInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Contentful\ResourceArray $resourceArray
      *
      * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface
@@ -53,8 +46,6 @@ class ContentfulMapper implements ContentfulMapperInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
      *
      * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface
@@ -65,8 +56,6 @@ class ContentfulMapper implements ContentfulMapperInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
      *
      * @return \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface[]
@@ -84,8 +73,6 @@ class ContentfulMapper implements ContentfulMapperInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Contentful\Delivery\ContentTypeField $contentTypeField
      * @param mixed $fieldValue
      *
@@ -103,8 +90,6 @@ class ContentfulMapper implements ContentfulMapperInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
      * @param \Contentful\Delivery\ContentTypeField $contentTypeField
      *
@@ -121,8 +106,6 @@ class ContentfulMapper implements ContentfulMapperInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param mixed $value
      *
      * @return mixed
@@ -141,8 +124,6 @@ class ContentfulMapper implements ContentfulMapperInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param array $values
      *
      * @return array

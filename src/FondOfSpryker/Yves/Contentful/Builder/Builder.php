@@ -6,9 +6,6 @@ use FondOfSpryker\Client\Contentful\ContentfulClientInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\RendererInterface;
 use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
 
-/**
- * @author mnoerenberg
- */
 class Builder implements BuilderInterface
 {
     /**
@@ -27,8 +24,6 @@ class Builder implements BuilderInterface
     private $renderer;
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Client\Contentful\ContentfulClientInterface $client
      * @param \FondOfSpryker\Yves\Contentful\Renderer\RendererInterface[] $renderer
      * @param \FondOfSpryker\Yves\Contentful\Renderer\RendererInterface $defaultRenderer
@@ -41,8 +36,6 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $entryId
      *
      * @return string
@@ -65,8 +58,6 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $entryId
      *
      * @return \Generated\Shared\Transfer\ContentfulEntryRequestTransfer

@@ -6,9 +6,6 @@ use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
-/**
- * @author mnoerenberg
- */
 class ContentfulStorageReader implements ContentfulStorageReaderInterface
 {
     /**
@@ -27,8 +24,6 @@ class ContentfulStorageReader implements ContentfulStorageReaderInterface
     private $localeName;
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
      * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
      * @param string $localeName
@@ -41,8 +36,6 @@ class ContentfulStorageReader implements ContentfulStorageReaderInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Generated\Shared\Transfer\ContentfulEntryRequestTransfer $request
      *
      * @return \Generated\Shared\Transfer\ContentfulEntryResponseTransfer

@@ -13,7 +13,6 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 class ContentfulRouter extends AbstractRouter
 {
     /**
-     * @author mnoerenberg
      * @inheritdoc
      * @throws \Symfony\Component\Routing\Exception\RouteNotFoundException
      */
@@ -23,7 +22,6 @@ class ContentfulRouter extends AbstractRouter
     }
 
     /**
-     * @author mnoerenberg
      * @inheritdoc
      * @throws \Symfony\Component\Routing\Exception\ResourceNotFoundException
      */
@@ -50,8 +48,6 @@ class ContentfulRouter extends AbstractRouter
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     private function getDefaultLocalePrefix(): string

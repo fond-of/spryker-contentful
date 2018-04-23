@@ -14,15 +14,11 @@ use Spryker\Shared\Kernel\Communication\Application;
 use Spryker\Yves\Kernel\AbstractFactory;
 
 /**
- * @author mnoerenberg
- *
  * @method \FondOfSpryker\Client\Contentful\ContentfulClientInterface getClient()
  */
 class ContentfulFactory extends AbstractFactory
 {
     /**
-     * @author mnoerenberg
-     *
      * @return \FondOfSpryker\Yves\Contentful\Twig\ContentfulTwigExtension
      */
     public function createContentfulTwigExtension(): ContentfulTwigExtension
@@ -31,8 +27,6 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \FondOfSpryker\Yves\Contentful\Builder\BuilderInterface
      */
     public function createBuilder(): BuilderInterface
@@ -45,8 +39,6 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \FondOfSpryker\Yves\Contentful\Renderer\RendererInterface[]
      */
     protected function getRenderer(): array
@@ -55,8 +47,6 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \FondOfSpryker\Yves\Contentful\Renderer\RendererInterface
      */
     protected function createDefaultRenderer(): RendererInterface
@@ -65,8 +55,6 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \FondOfSpryker\Yves\Contentful\Router\ResourceCreator\ResourceCreatorInterface[]
      */
     public function getResourceCreator(): array
@@ -75,8 +63,6 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \FondOfSpryker\Yves\Contentful\Router\ResourceCreator\ResourceCreatorInterface
      */
     public function createIdentifierResourceCreator(): ResourceCreatorInterface
@@ -85,8 +71,6 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \Aptoma\Twig\Extension\MarkdownExtension
      */
     public function getMarkdownTwigExtension(): MarkdownExtension
@@ -95,8 +79,6 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \Spryker\Shared\Kernel\Communication\Application
      */
     public function getApplication(): Application

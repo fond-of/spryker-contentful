@@ -5,9 +5,6 @@ namespace FondOfSpryker\Client\Contentful\Matcher;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
-/**
- * @author mnoerenberg
- */
 class UrlMatcher implements UrlMatcherInterface
 {
     /**
@@ -31,9 +28,10 @@ class UrlMatcher implements UrlMatcherInterface
     }
 
     /**
-     * @author mnoerenberg
+     * @param string $url
+     * @param string $localeName
      *
-     * @inheritdoc
+     * @return string[]|null
      */
     public function matchUrl(string $url, string $localeName): ?array
     {

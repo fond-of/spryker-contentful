@@ -4,9 +4,6 @@ namespace FondOfSpryker\Zed\Contentful\Business\Storage\Asset;
 
 use FondOfSpryker\Zed\Contentful\Business\Storage\Field\AbstractField;
 
-/**
- * @author mnoerenberg
- */
 class AssetField extends AbstractField
 {
     public const TYPE = 'Asset';
@@ -27,8 +24,6 @@ class AssetField extends AbstractField
     private $description;
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $name
      * @param null|string $url
      * @param null|string $title
@@ -43,8 +38,6 @@ class AssetField extends AbstractField
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getType(): string
@@ -53,8 +46,6 @@ class AssetField extends AbstractField
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return null|string
      */
     public function getUrl(): ?string
@@ -63,8 +54,6 @@ class AssetField extends AbstractField
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return null|string
      */
     public function getTitle(): ?string
@@ -73,8 +62,6 @@ class AssetField extends AbstractField
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return null|string
      */
     public function getDescription(): ?string
@@ -83,8 +70,6 @@ class AssetField extends AbstractField
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string[]
      */
     public function jsonSerialize(): array

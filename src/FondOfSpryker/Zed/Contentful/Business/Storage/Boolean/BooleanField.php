@@ -4,9 +4,6 @@ namespace FondOfSpryker\Zed\Contentful\Business\Storage\Boolean;
 
 use FondOfSpryker\Zed\Contentful\Business\Storage\Field\AbstractField;
 
-/**
- * @author mnoerenberg
- */
 class BooleanField extends AbstractField
 {
     public const TYPE = 'Boolean';
@@ -17,8 +14,6 @@ class BooleanField extends AbstractField
     private $bool;
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $name
      * @param null|bool $bool
      */
@@ -29,8 +24,6 @@ class BooleanField extends AbstractField
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getType(): string
@@ -39,8 +32,6 @@ class BooleanField extends AbstractField
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return null|bool
      */
     public function getBoolean(): ?bool
@@ -49,8 +40,6 @@ class BooleanField extends AbstractField
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string[]
      */
     public function jsonSerialize(): array

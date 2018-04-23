@@ -13,14 +13,9 @@ use Spryker\Client\Locale\LocaleClientInterface;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
-/**
- * @author mnoerenberg
- */
 class ContentfulFactory extends AbstractFactory
 {
     /**
-     * @author mnoerenberg
-     *
      * @return \FondOfSpryker\Client\Contentful\Storage\ContentfulStorageReaderInterface
      */
     public function createContentfulStorageReader(): ContentfulStorageReaderInterface
@@ -33,8 +28,6 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \Spryker\Shared\KeyBuilder\KeyBuilderInterface
      */
     private function createEntryKeyBuilder(): KeyBuilderInterface
@@ -43,8 +36,6 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \Spryker\Shared\KeyBuilder\KeyBuilderInterface
      */
     private function createIdentifierKeyBuilder(): KeyBuilderInterface
@@ -53,8 +44,6 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \FondOfSpryker\Client\Contentful\Matcher\UrlMatcherInterface
      */
     public function createUrlMatcher(): UrlMatcherInterface

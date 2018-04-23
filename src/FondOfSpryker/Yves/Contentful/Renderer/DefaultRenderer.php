@@ -8,9 +8,6 @@ use Spryker\Shared\Kernel\Communication\Application;
 use Throwable;
 use Twig_Environment;
 
-/**
- * @author mnoerenberg
- */
 class DefaultRenderer implements RendererInterface
 {
     protected const RENDERER_TYPE_DEFAULT = 'defaultRenderer';
@@ -21,8 +18,6 @@ class DefaultRenderer implements RendererInterface
     private $application;
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Spryker\Shared\Kernel\Communication\Application $application
      */
     public function __construct(Application $application)
@@ -31,8 +26,6 @@ class DefaultRenderer implements RendererInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @inheritdoc
      */
     public function getType(): string
@@ -41,8 +34,6 @@ class DefaultRenderer implements RendererInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
      *
      * @throws \Throwable
@@ -76,8 +67,6 @@ class DefaultRenderer implements RendererInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \Twig_Environment
      */
     private function getTwigEnvironment(): Twig_Environment

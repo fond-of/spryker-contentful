@@ -7,9 +7,6 @@ use Contentful\Delivery\Query;
 use DateTime;
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface;
 
-/**
- * @author mnoerenberg
- */
 class ContentfulAPIClient implements ContentfulAPIClientInterface
 {
     /**
@@ -23,8 +20,6 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
     protected $contentfulMapper;
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Contentful\Delivery\Client $client
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulMapperInterface $contentfulMapper
      */
@@ -35,8 +30,6 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface
      */
     public function findLastChangedEntries(): ContentfulEntryCollectionInterface
@@ -51,8 +44,6 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $entryId
      *
      * @return null|\FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface
@@ -69,8 +60,6 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface
      */
     public function findAllEntries(): ContentfulEntryCollectionInterface

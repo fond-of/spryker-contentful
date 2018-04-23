@@ -2,9 +2,6 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Storage\Collection;
 
-/**
- * @author mnoerenberg
- */
 class CollectionTextField implements CollectionFieldInterface
 {
     public const TYPE = 'Text';
@@ -15,8 +12,6 @@ class CollectionTextField implements CollectionFieldInterface
     private $content;
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $content
      */
     public function __construct(string $content)
@@ -25,8 +20,6 @@ class CollectionTextField implements CollectionFieldInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getType(): string
@@ -35,8 +28,6 @@ class CollectionTextField implements CollectionFieldInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getContent(): string
@@ -45,8 +36,6 @@ class CollectionTextField implements CollectionFieldInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string[]
      */
     public function jsonSerialize(): array

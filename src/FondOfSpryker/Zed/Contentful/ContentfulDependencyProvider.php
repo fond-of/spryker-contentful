@@ -4,9 +4,6 @@ namespace FondOfSpryker\Zed\Contentful;
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Zed\Kernel\Container;
 
-/**
- * @author mnoerenberg
- */
 class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
 {
     public const STORAGE_CLIENT = 'STORAGE_CLIENT';
@@ -26,8 +23,6 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Spryker\Zed\Kernel\Container $container
      *
      * @return \Spryker\Zed\Kernel\Container
@@ -42,8 +37,6 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Spryker\Zed\Kernel\Container $container
      *
      * @return \Spryker\Zed\Kernel\Container

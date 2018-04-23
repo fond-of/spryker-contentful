@@ -6,9 +6,6 @@ use DateTime;
 use DateTimeInterface;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface;
 
-/**
- * @author mnoerenberg
- */
 class Entry implements EntryInterface
 {
     /**
@@ -32,8 +29,6 @@ class Entry implements EntryInterface
     private $modifiedAt;
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $id
      * @param string $contentType
      */
@@ -46,8 +41,6 @@ class Entry implements EntryInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getId(): string
@@ -56,8 +49,6 @@ class Entry implements EntryInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getContentType(): string
@@ -66,8 +57,6 @@ class Entry implements EntryInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface[]
      */
     public function getFields(): array
@@ -76,8 +65,6 @@ class Entry implements EntryInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $name
      *
      * @return bool
@@ -88,8 +75,6 @@ class Entry implements EntryInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $name
      *
      * @return null|\FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface
@@ -104,8 +89,6 @@ class Entry implements EntryInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface $field
      *
      * @return void
@@ -116,8 +99,6 @@ class Entry implements EntryInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \DateTimeInterface
      */
     public function getModifiedAt(): DateTimeInterface
@@ -126,8 +107,6 @@ class Entry implements EntryInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \DateTimeInterface $modifiedAt
      *
      * @return void
@@ -138,8 +117,6 @@ class Entry implements EntryInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string[]
      */
     public function jsonSerialize()

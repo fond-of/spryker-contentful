@@ -1,4 +1,5 @@
 <?php
+
 namespace FondOfSpryker\Zed\Contentful\Business;
 
 use Spryker\Zed\Kernel\Business\AbstractFacade;
@@ -9,8 +10,6 @@ use Spryker\Zed\Kernel\Business\AbstractFacade;
 class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterface
 {
     /**
-     * @author mnoerenberg
-     *
      * @inheritdoc
      */
     public function importLastChangedEntries(): int
@@ -19,8 +18,6 @@ class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterfa
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @inheritdoc
      */
     public function importAllEntries(): int
@@ -29,8 +26,6 @@ class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterfa
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @inheritdoc
      */
     public function importEntry(string $entryId): int

@@ -4,9 +4,6 @@ namespace FondOfSpryker\Client\Contentful;
 use Spryker\Client\Kernel\AbstractDependencyProvider;
 use Spryker\Client\Kernel\Container;
 
-/**
- * @author mnoerenberg
- */
 class ContentfulDependencyProvider extends AbstractDependencyProvider
 {
     public const CLIENT_LOCALE = 'client locale';
@@ -26,8 +23,6 @@ class ContentfulDependencyProvider extends AbstractDependencyProvider
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Spryker\Zed\Kernel\Container $container
      *
      * @return \Spryker\Zed\Kernel\Container
@@ -42,8 +37,6 @@ class ContentfulDependencyProvider extends AbstractDependencyProvider
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Spryker\Zed\Kernel\Container $container
      *
      * @return \Spryker\Zed\Kernel\Container

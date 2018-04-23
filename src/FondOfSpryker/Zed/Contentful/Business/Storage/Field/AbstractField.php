@@ -2,9 +2,6 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Storage\Field;
 
-/**
- * @author mnoerenberg
- */
 abstract class AbstractField implements FieldInterface
 {
     /**
@@ -13,8 +10,6 @@ abstract class AbstractField implements FieldInterface
     protected $name;
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getName(): string

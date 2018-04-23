@@ -4,9 +4,6 @@ namespace FondOfSpryker\Zed\Contentful\Business\Client\Field;
 
 use Contentful\Delivery\ContentTypeField;
 
-/**
- * @author mnoerenberg
- */
 class ContentfulField implements ContentfulFieldInterface
 {
     public const FIELD_TYPE_LINK = 'Link';
@@ -28,8 +25,6 @@ class ContentfulField implements ContentfulFieldInterface
     private $value;
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Contentful\Delivery\ContentTypeField $contentTypeField
      * @param mixed $value
      */
@@ -40,8 +35,6 @@ class ContentfulField implements ContentfulFieldInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getId(): string
@@ -50,8 +43,6 @@ class ContentfulField implements ContentfulFieldInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getName(): string
@@ -60,8 +51,6 @@ class ContentfulField implements ContentfulFieldInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getType(): string
@@ -70,8 +59,6 @@ class ContentfulField implements ContentfulFieldInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return mixed
      */
     public function getValue()
@@ -80,8 +67,6 @@ class ContentfulField implements ContentfulFieldInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return null|string
      */
     public function getLinkType(): ?string
@@ -90,8 +75,6 @@ class ContentfulField implements ContentfulFieldInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return null|string
      */
     public function getItemsLinkType(): ?string
@@ -100,8 +83,6 @@ class ContentfulField implements ContentfulFieldInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \Contentful\Delivery\ContentTypeField
      */
     public function getContentTypeField()

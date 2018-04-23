@@ -5,9 +5,6 @@ namespace FondOfSpryker\Zed\Contentful\Business\Storage\Entry;
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperLocatorInterface;
 
-/**
- * @author mnoerenberg
- */
 class EntryMapper implements EntryMapperInterface
 {
     /**
@@ -16,8 +13,6 @@ class EntryMapper implements EntryMapperInterface
     private $mapperLocator;
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperLocatorInterface $mapperLocator
      */
     public function __construct(FieldMapperLocatorInterface $mapperLocator)
@@ -26,8 +21,6 @@ class EntryMapper implements EntryMapperInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      *
      * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface

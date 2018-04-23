@@ -4,9 +4,6 @@ namespace FondOfSpryker\Zed\Contentful\Business\Storage\Collection;
 
 use FondOfSpryker\Zed\Contentful\Business\Storage\Field\AbstractField;
 
-/**
- * @author mnoerenberg
- */
 class CollectionField extends AbstractField
 {
     public const TYPE = 'Array';
@@ -17,8 +14,6 @@ class CollectionField extends AbstractField
     private $fields;
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $name
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Collection\CollectionFieldInterface[] $fields
      */
@@ -29,8 +24,6 @@ class CollectionField extends AbstractField
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getType(): string
@@ -39,8 +32,6 @@ class CollectionField extends AbstractField
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Collection\CollectionFieldInterface[]
      */
     public function getFields(): array
@@ -49,8 +40,6 @@ class CollectionField extends AbstractField
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Collection\CollectionFieldInterface $field
      *
      * @return void
@@ -61,8 +50,6 @@ class CollectionField extends AbstractField
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string[]
      */
     public function jsonSerialize(): array

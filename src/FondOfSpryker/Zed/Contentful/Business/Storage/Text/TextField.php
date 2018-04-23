@@ -4,9 +4,6 @@ namespace FondOfSpryker\Zed\Contentful\Business\Storage\Text;
 
 use FondOfSpryker\Zed\Contentful\Business\Storage\Field\AbstractField;
 
-/**
- * @author mnoerenberg
- */
 class TextField extends AbstractField
 {
     public const TYPE = 'Text';
@@ -17,8 +14,6 @@ class TextField extends AbstractField
     protected $content;
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $name
      * @param string $content
      */
@@ -29,8 +24,6 @@ class TextField extends AbstractField
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getType(): string
@@ -39,8 +32,6 @@ class TextField extends AbstractField
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getContent(): string
@@ -49,8 +40,6 @@ class TextField extends AbstractField
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string[]
      */
     public function jsonSerialize(): array

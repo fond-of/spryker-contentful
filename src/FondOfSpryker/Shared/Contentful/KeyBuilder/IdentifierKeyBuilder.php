@@ -4,9 +4,6 @@ namespace FondOfSpryker\Shared\Contentful\KeyBuilder;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderTrait;
 
-/**
- * @author mnoerenberg
- */
 class IdentifierKeyBuilder implements KeyBuilderInterface
 {
     use KeyBuilderTrait;
@@ -30,8 +27,6 @@ class IdentifierKeyBuilder implements KeyBuilderInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $identifier
      *
      * @return string

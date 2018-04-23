@@ -4,14 +4,9 @@ namespace FondOfSpryker\Zed\Contentful\Business\Client\Entry;
 
 use FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface;
 
-/**
- * @author mnoerenberg
- */
 interface ContentfulEntryInterface
 {
     /**
-     * @author mnoerenberg
-     *
      * @param string $locale
      *
      * @return void
@@ -19,29 +14,21 @@ interface ContentfulEntryInterface
     public function setLocale(string $locale): void;
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getId(): string;
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getContentTypeId(): string;
 
     /**
-     * @author mnoerenberg
-     *
      * @return \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface[]
      */
     public function getFields(): array;
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface[] $fields
      *
      * @return void
@@ -49,8 +36,6 @@ interface ContentfulEntryInterface
     public function setFields(array $fields): void;
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $name
      *
      * @return bool
@@ -58,8 +43,6 @@ interface ContentfulEntryInterface
     public function hasField(string $name): bool;
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $name
      *
      * @return null|\FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface

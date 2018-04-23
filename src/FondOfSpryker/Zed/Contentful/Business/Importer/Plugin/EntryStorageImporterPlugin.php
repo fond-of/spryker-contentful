@@ -8,9 +8,6 @@ use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
-/**
- * @author mnoerenberg
- */
 class EntryStorageImporterPlugin implements ImporterPluginInterface
 {
     /**
@@ -29,8 +26,6 @@ class EntryStorageImporterPlugin implements ImporterPluginInterface
     private $activeFieldName;
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
      * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
      * @param string $activeFieldName
@@ -43,8 +38,6 @@ class EntryStorageImporterPlugin implements ImporterPluginInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
@@ -63,8 +56,6 @@ class EntryStorageImporterPlugin implements ImporterPluginInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $activeFieldName
      *

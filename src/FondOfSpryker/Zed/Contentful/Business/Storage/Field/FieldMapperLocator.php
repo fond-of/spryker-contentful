@@ -5,9 +5,6 @@ namespace FondOfSpryker\Zed\Contentful\Business\Storage\Field;
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface;
 
-/**
- * @author mnoerenberg
- */
 class FieldMapperLocator implements FieldMapperLocatorInterface
 {
     /**
@@ -26,8 +23,6 @@ class FieldMapperLocator implements FieldMapperLocatorInterface
     private $customFieldMapperCollection;
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperInterface $defaultFieldMapper
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperCollectionInterface $typeFieldMapperCollection
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\CustomFieldMapperCollectionInterface $customFieldMapperCollection
@@ -40,8 +35,6 @@ class FieldMapperLocator implements FieldMapperLocatorInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperInterface $defaultFieldMapper
      *
      * @return void
@@ -52,8 +45,6 @@ class FieldMapperLocator implements FieldMapperLocatorInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldMapperInterface
      */
     public function getDefaultFieldMapper(): FieldMapperInterface
@@ -62,8 +53,6 @@ class FieldMapperLocator implements FieldMapperLocatorInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface $contentfulField
      *
@@ -85,8 +74,6 @@ class FieldMapperLocator implements FieldMapperLocatorInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $fieldType
      *
      * @return null|\FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface
@@ -103,8 +90,6 @@ class FieldMapperLocator implements FieldMapperLocatorInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $fieldName
      * @param string $contentType
      *
@@ -122,8 +107,6 @@ class FieldMapperLocator implements FieldMapperLocatorInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $string
      *
      * @return string

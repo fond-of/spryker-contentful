@@ -5,9 +5,6 @@ use FondOfSpryker\Yves\Contentful\Builder\BuilderInterface;
 use Spryker\Shared\Twig\TwigExtension;
 use Twig_SimpleFunction;
 
-/**
- * @author mnoerenberg
- */
 class ContentfulTwigExtension extends TwigExtension
 {
     private const IMAGE_MAX_WIDTH = 2000;
@@ -26,8 +23,6 @@ class ContentfulTwigExtension extends TwigExtension
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @inheritdoc
      */
     public function getFunctions()
@@ -39,8 +34,6 @@ class ContentfulTwigExtension extends TwigExtension
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $entryId
      *
      * @return string
@@ -51,8 +44,6 @@ class ContentfulTwigExtension extends TwigExtension
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $url
      * @param int|null $width
      * @param int|null $height

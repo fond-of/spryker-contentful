@@ -7,9 +7,6 @@ use Spryker\Yves\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Yves\Kernel\Container;
 use Spryker\Yves\Kernel\Plugin\Pimple;
 
-/**
- * @author mnoerenberg
- */
 class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
 {
     public const TWIG_MARKDOWN = 'twig_markdown';
@@ -29,8 +26,6 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Spryker\Zed\Kernel\Container $container
      *
      * @return \Spryker\Zed\Kernel\Container
@@ -45,8 +40,6 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Spryker\Zed\Kernel\Container $container
      *
      * @return \Spryker\Zed\Kernel\Container

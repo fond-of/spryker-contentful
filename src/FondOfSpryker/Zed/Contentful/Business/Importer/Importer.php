@@ -8,9 +8,6 @@ use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryMapperInterface;
 
-/**
- * @author mnoerenberg
- */
 class Importer implements ImporterInterface
 {
     /**
@@ -48,8 +45,6 @@ class Importer implements ImporterInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return int
      */
     public function importLastChangedEntries(): int
@@ -60,8 +55,6 @@ class Importer implements ImporterInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return int
      */
     public function importAllEntries(): int
@@ -72,8 +65,6 @@ class Importer implements ImporterInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param string $entryId
      *
      * @return int
@@ -86,8 +77,6 @@ class Importer implements ImporterInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface $collection
      *
      * @return void
@@ -100,8 +89,6 @@ class Importer implements ImporterInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      *
      * @return void
@@ -116,8 +103,6 @@ class Importer implements ImporterInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale

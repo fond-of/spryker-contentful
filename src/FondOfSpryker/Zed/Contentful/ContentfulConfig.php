@@ -4,17 +4,12 @@ namespace FondOfSpryker\Zed\Contentful;
 use FondOfSpryker\Shared\Contentful\ContentfulConstants;
 use Spryker\Zed\Kernel\AbstractBundleConfig;
 
-/**
- * @author mnoerenberg
- */
 class ContentfulConfig extends AbstractBundleConfig
 {
     private const DEFAULT_FIELD_NAME_ACTIVE = 'isActive';
     private const DEFAULT_FIELD_NAME_IDENTIFIER = 'identifier';
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getSpaceId(): string
@@ -23,8 +18,6 @@ class ContentfulConfig extends AbstractBundleConfig
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getAccessToken(): string
@@ -33,8 +26,6 @@ class ContentfulConfig extends AbstractBundleConfig
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getDefaultLocale(): string
@@ -43,8 +34,6 @@ class ContentfulConfig extends AbstractBundleConfig
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return array
      */
     public function getLocaleMapping(): array
@@ -53,8 +42,6 @@ class ContentfulConfig extends AbstractBundleConfig
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getFieldNameActive(): string
@@ -67,8 +54,6 @@ class ContentfulConfig extends AbstractBundleConfig
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getFieldNameIdentifier(): string

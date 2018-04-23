@@ -2,9 +2,6 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Storage\Field;
 
-/**
- * @author mnoerenberg
- */
 class TypeFieldMapperCollection implements TypeFieldMapperCollectionInterface
 {
     /**
@@ -12,17 +9,12 @@ class TypeFieldMapperCollection implements TypeFieldMapperCollectionInterface
      */
     private $typeFieldMapper;
 
-    /**
-     * @author mnoerenberg
-     */
     public function __construct()
     {
         $this->typeFieldMapper = [];
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface[]
      */
     public function getAll(): array
@@ -31,8 +23,6 @@ class TypeFieldMapperCollection implements TypeFieldMapperCollectionInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface $typeFieldMapper
      *
      * @return void

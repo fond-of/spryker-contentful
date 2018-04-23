@@ -5,9 +5,6 @@ namespace FondOfSpryker\Zed\Contentful\Business\Client\Asset;
 use Contentful\Delivery\Asset;
 use Contentful\Delivery\ContentTypeField;
 
-/**
- * @author mnoerenberg
- */
 class ContentfulAsset implements ContentfulAssetInterface
 {
     /**
@@ -31,8 +28,6 @@ class ContentfulAsset implements ContentfulAssetInterface
     private $title;
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Contentful\Delivery\ContentTypeField $contentTypeField
      * @param null|\Contentful\Delivery\Asset $asset
      * @param null|string $description
@@ -47,8 +42,6 @@ class ContentfulAsset implements ContentfulAssetInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return null|string
      */
     public function getTitle(): ?string
@@ -57,8 +50,6 @@ class ContentfulAsset implements ContentfulAssetInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return null|string
      */
     public function getDescription(): ?string
@@ -67,8 +58,6 @@ class ContentfulAsset implements ContentfulAssetInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getId(): string
@@ -77,8 +66,6 @@ class ContentfulAsset implements ContentfulAssetInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getName(): string
@@ -87,8 +74,6 @@ class ContentfulAsset implements ContentfulAssetInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getType(): string
@@ -97,8 +82,6 @@ class ContentfulAsset implements ContentfulAssetInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return mixed
      */
     public function getValue()
@@ -111,8 +94,6 @@ class ContentfulAsset implements ContentfulAssetInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return null|string
      */
     public function getLinkType(): ?string
@@ -121,8 +102,6 @@ class ContentfulAsset implements ContentfulAssetInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return null|string
      */
     public function getItemsLinkType(): ?string
@@ -131,8 +110,6 @@ class ContentfulAsset implements ContentfulAssetInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \Contentful\Delivery\ContentTypeField
      */
     public function getContentTypeField()

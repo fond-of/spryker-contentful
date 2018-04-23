@@ -2,9 +2,6 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Client\Entry;
 
-/**
- * @author mnoerenberg
- */
 class ContentfulEntryCollection implements ContentfulEntryCollectionInterface
 {
     /**
@@ -12,17 +9,12 @@ class ContentfulEntryCollection implements ContentfulEntryCollectionInterface
      */
     private $entries;
 
-    /**
-     * @author mnoerenberg
-     */
     public function __construct()
     {
         $this->entries = [];
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface[]
      */
     public function getAll(): array
@@ -31,8 +23,6 @@ class ContentfulEntryCollection implements ContentfulEntryCollectionInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface[] $contentfulEntries
      *
      * @return void
@@ -43,8 +33,6 @@ class ContentfulEntryCollection implements ContentfulEntryCollectionInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      *
      * @return void
@@ -55,8 +43,6 @@ class ContentfulEntryCollection implements ContentfulEntryCollectionInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @return int
      */
     public function count(): int

@@ -8,16 +8,11 @@ use Spryker\Yves\Kernel\BundleControllerAction;
 use Spryker\Yves\Kernel\ClassResolver\Controller\ControllerResolver;
 use Spryker\Yves\Kernel\Controller\BundleControllerActionRouteNameResolver;
 
-/**
- * @author mnoerenberg
- */
 class IdentifierResourceCreator implements ResourceCreatorInterface
 {
     private const RESOURCE_TYPE_IDENTIFIER = 'Identifier';
 
     /**
-     * @author mnoerenberg
-     *
      * @return string
      */
     public function getType(): string
@@ -26,8 +21,6 @@ class IdentifierResourceCreator implements ResourceCreatorInterface
     }
 
     /**
-     * @author mnoerenberg
-     *
      * @param \Silex\Application $application
      * @param string[] $data
      *
