@@ -2,24 +2,24 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Client;
 
-use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface;
+use Contentful\Core\Resource\ResourceArray;
 
 interface ContentfulAPIClientInterface
 {
     /**
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface
+     * @return \Contentful\Core\Resource\ResourceArray
      */
-    public function findLastChangedEntries(): ContentfulEntryCollectionInterface;
+    public function findLastChangedEntries(): ResourceArray;
 
     /**
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface
+     * @return \Contentful\Core\Resource\ResourceArray
      */
-    public function findAllEntries(): ContentfulEntryCollectionInterface;
+    public function findAllEntries(): ResourceArray;
 
     /**
      * @param string $entryId
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface
+     * @return \Contentful\Core\Resource\ResourceArray
      */
-    public function findEntryById(string $entryId): ContentfulEntryCollectionInterface;
+    public function findEntryById(string $entryId): ResourceArray;
 }

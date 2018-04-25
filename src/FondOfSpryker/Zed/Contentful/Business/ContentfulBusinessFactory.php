@@ -49,6 +49,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     {
         return new Importer(
             $this->createContentfulAPIClient(),
+            $this->createContentfulMapper(),
             $this->createEntryMapper(),
             $this->getImporterPlugins(),
             $this->getConfig()->getLocaleMapping()
@@ -220,7 +221,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
      */
     protected function createContentfulAPIClient(): ContentfulAPIClientInterface
     {
-        return new ContentfulAPIClient($this->createContentfulClient(), $this->createContentfulMapper());
+        return new ContentfulAPIClient($this->createContentfulClient());
     }
 
     /**
@@ -228,7 +229,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
      */
     protected function createContentfulMapper(): ContentfulMapperInterface
     {
-        return new ContentfulMapper();
+        return new ContentfulMapper($this->getConfig()->getDefaultLocale());
     }
 
     /**
@@ -238,7 +239,10 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     {
         return new Client(
             $this->getConfig()->getAccessToken(),
-            $this->getConfig()->getSpaceId()
+            $this->getConfig()->getSpaceId(),
+            'master',
+            false,
+            $this->getConfig()->getDefaultLocale()
         );
     }
 

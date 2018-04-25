@@ -1,5 +1,5 @@
 {
-  "name": "fond-of-spryker/contentful",
+  "name": "fond-of-spryker/contentful-dev",
   "description": "A contentful connector for spryker.",
   "license": "MIT",
   "authors": [
@@ -25,7 +25,7 @@
     "spryker/twig": "^3.0.0",
     "spryker/storage": "^3.0.0",
     "spryker/locale": "^3.0.0",
-    "contentful/contentful": "2.4.1",
+    "contentful/contentful": "3.0.2",
     "aptoma/twig-markdown": "2.0.0",
     "michelf/php-markdown": "1.3"
   },

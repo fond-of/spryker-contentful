@@ -2,8 +2,10 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Importer;
 
+use Contentful\Core\Resource\ResourceArray;
+use Contentful\Delivery\Resource\Entry;
 use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientInterface;
-use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface;
+use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulMapperInterface;
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryMapperInterface;
@@ -14,6 +16,11 @@ class Importer implements ImporterInterface
      * @var \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientInterface
      */
     protected $contentfulAPIClient;
+
+    /**
+     * @var \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulMapperInterface
+     */
+    protected $contentfulMapper;
 
     /**
      * @var \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryMapperInterface
@@ -32,13 +39,15 @@ class Importer implements ImporterInterface
 
     /**
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientInterface $contentfulAPIClient
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulMapperInterface $contentfulMapper
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryMapperInterface $entryMapper
      * @param \FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface[] $importerPlugins
      * @param string[] $localeMapping
      */
-    public function __construct(ContentfulAPIClientInterface $contentfulAPIClient, EntryMapperInterface $entryMapper, array $importerPlugins, array $localeMapping)
+    public function __construct(ContentfulAPIClientInterface $contentfulAPIClient, ContentfulMapperInterface $contentfulMapper, EntryMapperInterface $entryMapper, array $importerPlugins, array $localeMapping)
     {
         $this->contentfulAPIClient = $contentfulAPIClient;
+        $this->contentfulMapper = $contentfulMapper;
         $this->entryMapper = $entryMapper;
         $this->importerPlugins = $importerPlugins;
         $this->localeMapping = $localeMapping;
@@ -49,9 +58,9 @@ class Importer implements ImporterInterface
      */
     public function importLastChangedEntries(): int
     {
-        $collection = $this->contentfulAPIClient->findLastChangedEntries();
-        $this->importCollection($collection);
-        return $collection->count();
+        $resourceArray = $this->contentfulAPIClient->findLastChangedEntries();
+        $this->importResource($resourceArray);
+        return $resourceArray->getTotal();
     }
 
     /**
@@ -59,9 +68,9 @@ class Importer implements ImporterInterface
      */
     public function importAllEntries(): int
     {
-        $collection = $this->contentfulAPIClient->findAllEntries();
-        $this->importCollection($collection);
-        return $collection->count();
+        $resourceArray = $this->contentfulAPIClient->findAllEntries();
+        $this->importResource($resourceArray);
+        return $resourceArray->getTotal();
     }
 
     /**
@@ -71,48 +80,49 @@ class Importer implements ImporterInterface
      */
     public function importEntry(string $entryId): int
     {
-        $collection = $this->contentfulAPIClient->findEntryById($entryId);
-        $this->importCollection($collection);
-        return $collection->count();
+        $resourceArray = $this->contentfulAPIClient->findEntryById($entryId);
+        $this->importResource($resourceArray);
+        return $resourceArray->getTotal();
     }
 
     /**
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface $collection
+     * @param \Contentful\Core\Resource\ResourceArray $resourceArray
      *
      * @return void
      */
-    protected function importCollection(ContentfulEntryCollectionInterface $collection): void
+    protected function importResource(ResourceArray $resourceArray): void
     {
-        foreach ($collection->getAll() as $contentfulEntry) {
-            $this->import($contentfulEntry);
+        foreach ($resourceArray->getItems() as $entry) {
+            $this->import($entry);
         }
     }
 
     /**
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
+     * @param \Contentful\Delivery\Resource\Entry $entry
      *
      * @return void
      */
-    protected function import(ContentfulEntryInterface $contentfulEntry): void
+    protected function import(Entry $entry): void
     {
         foreach ($this->localeMapping as $contentfulLocale => $locale) {
-            $contentfulEntry->setLocale($contentfulLocale);
-            $entry = $this->entryMapper->createEntry($contentfulEntry);
-            $this->executePlugins($contentfulEntry, $entry, $locale);
+            $entry->setLocale($contentfulLocale);
+            $contentfulEntry = $this->contentfulMapper->createContentfulEntry($entry);
+            $storageEntry = $this->entryMapper->createEntry($contentfulEntry);
+            $this->executePlugins($contentfulEntry, $storageEntry, $locale);
         }
     }
 
     /**
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
-     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $storageEntry
      * @param string $locale
      *
      * @return void
      */
-    protected function executePlugins(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): void
+    protected function executePlugins(ContentfulEntryInterface $contentfulEntry, EntryInterface $storageEntry, string $locale): void
     {
-        foreach ($this->importerPlugins as $plugin) {
-            $plugin->handle($contentfulEntry, $entry, $locale);
+        foreach ($this->importerPlugins as $index => $plugin) {
+            $plugin->handle($contentfulEntry, $storageEntry, $locale);
         }
     }
 }

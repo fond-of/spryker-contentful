@@ -2,10 +2,10 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Client;
 
+use Contentful\Core\Resource\ResourceArray;
 use Contentful\Delivery\Client;
 use Contentful\Delivery\Query;
 use DateTime;
-use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface;
 
 class ContentfulAPIClient implements ContentfulAPIClientInterface
 {
@@ -15,61 +15,51 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
     protected $client;
 
     /**
-     * @var \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulMapperInterface
-     */
-    protected $contentfulMapper;
-
-    /**
      * @param \Contentful\Delivery\Client $client
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulMapperInterface $contentfulMapper
      */
-    public function __construct(Client $client, ContentfulMapperInterface $contentfulMapper)
+    public function __construct(Client $client)
     {
         $this->client = $client;
-        $this->contentfulMapper = $contentfulMapper;
     }
 
     /**
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface
+     * @return \Contentful\Core\Resource\ResourceArray
      */
-    public function findLastChangedEntries(): ContentfulEntryCollectionInterface
+    public function findLastChangedEntries(): ResourceArray
     {
         $query = new Query();
-        $query->where('sys.updatedAt', (new DateTime())->modify('-5 minutes'), 'gte');
+        $query->where('sys.updatedAt', (new DateTime())->modify('-10 minutes'), 'gte');
         $query->setLimit(1000);
         $query->setLocale('*');
 
-        $resourceArray = $this->client->getEntries($query);
-        return $this->contentfulMapper->createContentfulEntries($resourceArray);
+        return $this->client->getEntries($query);
     }
 
     /**
      * @param string $entryId
      *
-     * @return null|\FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface
+     * @return \Contentful\Core\Resource\ResourceArray
      */
-    public function findEntryById(string $entryId): ContentfulEntryCollectionInterface
+    public function findEntryById(string $entryId): ResourceArray
     {
         $query = new Query();
         $query->where('sys.id', $entryId, 'match');
         $query->setLimit(10);
         $query->setLocale('*');
 
-        $resourceArray = $this->client->getEntries($query);
-        return $this->contentfulMapper->createContentfulEntries($resourceArray);
+        return $this->client->getEntries($query);
     }
 
     /**
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface
+     * @return \Contentful\Core\Resource\ResourceArray
      */
-    public function findAllEntries(): ContentfulEntryCollectionInterface
+    public function findAllEntries(): ResourceArray
     {
         $query = new Query();
         $query->where('sys.createdAt', new DateTime('2010-01-01 00:00:00'), 'gte');
         $query->setLimit(1000);
         $query->setLocale('*');
 
-        $resourceArray = $this->client->getEntries($query);
-        return $this->contentfulMapper->createContentfulEntries($resourceArray);
+        return $this->client->getEntries($query);
     }
 }

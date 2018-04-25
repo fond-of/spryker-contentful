@@ -2,18 +2,18 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Client\Asset;
 
-use Contentful\Delivery\Asset;
-use Contentful\Delivery\ContentTypeField;
+use Contentful\Delivery\Resource\Asset;
+use Contentful\Delivery\Resource\ContentType\Field;
 
 class ContentfulAsset implements ContentfulAssetInterface
 {
     /**
-     * @var \Contentful\Delivery\ContentTypeField
+     * @var \Contentful\Delivery\Resource\ContentType\Field
      */
-    private $contentTypeField;
+    private $field;
 
     /**
-     * @var \Contentful\Delivery\Asset
+     * @var null|\Contentful\Delivery\Resource\Asset
      */
     private $asset;
 
@@ -28,14 +28,14 @@ class ContentfulAsset implements ContentfulAssetInterface
     private $title;
 
     /**
-     * @param \Contentful\Delivery\ContentTypeField $contentTypeField
-     * @param null|\Contentful\Delivery\Asset $asset
+     * @param \Contentful\Delivery\Resource\ContentType\Field $field
+     * @param null|\Contentful\Delivery\Resource\Asset $asset
      * @param null|string $description
      * @param null|string $title
      */
-    public function __construct(ContentTypeField $contentTypeField, Asset $asset = null, string $description = null, string $title = null)
+    public function __construct(Field $field, Asset $asset = null, string $description = null, string $title = null)
     {
-        $this->contentTypeField = $contentTypeField;
+        $this->field = $field;
         $this->asset = $asset;
         $this->description = $description;
         $this->title = $title;
@@ -62,7 +62,7 @@ class ContentfulAsset implements ContentfulAssetInterface
      */
     public function getId(): string
     {
-        return $this->contentTypeField->getId();
+        return $this->field->getId();
     }
 
     /**
@@ -70,7 +70,7 @@ class ContentfulAsset implements ContentfulAssetInterface
      */
     public function getName(): string
     {
-        return $this->contentTypeField->getName();
+        return $this->field->getName();
     }
 
     /**
@@ -78,7 +78,7 @@ class ContentfulAsset implements ContentfulAssetInterface
      */
     public function getType(): string
     {
-        return $this->contentTypeField->getType();
+        return $this->field->getType();
     }
 
     /**
@@ -98,7 +98,7 @@ class ContentfulAsset implements ContentfulAssetInterface
      */
     public function getLinkType(): ?string
     {
-        return $this->contentTypeField->getLinkType();
+        return $this->field->getLinkType();
     }
 
     /**
@@ -106,14 +106,14 @@ class ContentfulAsset implements ContentfulAssetInterface
      */
     public function getItemsLinkType(): ?string
     {
-        return $this->contentTypeField->getItemsLinkType();
+        return $this->field->getItemsLinkType();
     }
 
     /**
-     * @return \Contentful\Delivery\ContentTypeField
+     * @return \Contentful\Delivery\Resource\ContentType\Field
      */
-    public function getContentTypeField()
+    public function getField()
     {
-        return $this->contentTypeField;
+        return $this->field;
     }
 }

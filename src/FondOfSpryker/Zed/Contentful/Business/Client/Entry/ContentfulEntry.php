@@ -2,15 +2,15 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Client\Entry;
 
-use Contentful\Delivery\DynamicEntry;
+use Contentful\Delivery\Resource\Entry;
 use FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface;
 
 class ContentfulEntry implements ContentfulEntryInterface
 {
     /**
-     * @var \Contentful\Delivery\DynamicEntry
+     * @var \Contentful\Delivery\Resource\Entry
      */
-    private $dynamicEntry;
+    private $entry;
 
     /**
      * @var \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface[]
@@ -18,11 +18,11 @@ class ContentfulEntry implements ContentfulEntryInterface
     private $fields;
 
     /**
-     * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
+     * @param \Contentful\Delivery\Resource\Entry $entry
      */
-    public function __construct(DynamicEntry $dynamicEntry)
+    public function __construct(Entry $entry)
     {
-        $this->dynamicEntry = $dynamicEntry;
+        $this->entry = $entry;
     }
 
     /**
@@ -32,7 +32,7 @@ class ContentfulEntry implements ContentfulEntryInterface
      */
     public function setLocale(string $locale): void
     {
-        $this->dynamicEntry->setLocale($locale);
+        $this->entry->setLocale($locale);
     }
 
     /**
@@ -40,7 +40,7 @@ class ContentfulEntry implements ContentfulEntryInterface
      */
     public function getId(): string
     {
-        return $this->dynamicEntry->getId();
+        return $this->entry->getId();
     }
 
     /**
@@ -48,7 +48,7 @@ class ContentfulEntry implements ContentfulEntryInterface
      */
     public function getContentTypeId(): string
     {
-        return $this->dynamicEntry->getContentType()->getId();
+        return $this->entry->getContentType()->getId();
     }
 
     /**
@@ -102,10 +102,10 @@ class ContentfulEntry implements ContentfulEntryInterface
     }
 
     /**
-     * @return \Contentful\Delivery\DynamicEntry
+     * @return \Contentful\Delivery\Resource\Entry
      */
-    public function getDynamicEntry()
+    public function getEntry()
     {
-        return $this->dynamicEntry;
+        return $this->entry;
     }
 }

@@ -2,10 +2,10 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Client;
 
-use Contentful\Delivery\Asset;
-use Contentful\Delivery\ContentTypeField;
-use Contentful\Delivery\DynamicEntry;
-use Contentful\ResourceArray;
+use Contentful\Core\Resource\ResourceArray;
+use Contentful\Delivery\Resource\Asset;
+use Contentful\Delivery\Resource\ContentType\Field;
+use Contentful\Delivery\Resource\Entry;
 use FondOfSpryker\Zed\Contentful\Business\Client\Asset\ContentfulAsset;
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntry;
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollection;
@@ -18,6 +18,19 @@ use Throwable;
 class ContentfulMapper implements ContentfulMapperInterface
 {
     /**
+     * @var string
+     */
+    private $defaultLocale;
+
+    /**
+     * @param string $defaultLocale
+     */
+    public function __construct(string $defaultLocale)
+    {
+        $this->defaultLocale = $defaultLocale;
+    }
+
+    /**
      * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface
      */
     protected function createContentfulEntryCollection(): ContentfulEntryCollectionInterface
@@ -26,80 +39,80 @@ class ContentfulMapper implements ContentfulMapperInterface
     }
 
     /**
-     * @param \Contentful\ResourceArray $resourceArray
+     * @param \Contentful\Core\Resource\ResourceArray $resourceArray
      *
      * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryCollectionInterface
      */
     public function createContentfulEntries(ResourceArray $resourceArray): ContentfulEntryCollectionInterface
     {
         $collection = $this->createContentfulEntryCollection();
-        foreach ($resourceArray as $dynamicEntry) {
-            $contentfulEntry = $this->createContentfulEntry($dynamicEntry);
-
-            $contentfulFields = $this->createContentfulFields($dynamicEntry);
-            $contentfulEntry->setFields($contentfulFields);
-
-            $collection->add($contentfulEntry);
+        foreach ($resourceArray as $entry) {
+            $collection->add($this->createContentfulEntry($entry));
         }
 
         return $collection;
     }
 
     /**
-     * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
+     * @param \Contentful\Delivery\Resource\Entry $entry
      *
      * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface
      */
-    protected function createContentfulEntry(DynamicEntry $dynamicEntry): ContentfulEntryInterface
+    public function createContentfulEntry(Entry $entry): ContentfulEntryInterface
     {
-        return new ContentfulEntry($dynamicEntry);
+        $contentfulEntry = new ContentfulEntry($entry);
+        $contentfulFields = $this->createContentfulFields($entry);
+        $contentfulEntry->setFields($contentfulFields);
+        return $contentfulEntry;
     }
 
     /**
-     * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
+     * @param \Contentful\Delivery\Resource\Entry $entry
      *
      * @return \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface[]
      */
-    protected function createContentfulFields(DynamicEntry $dynamicEntry): array
+    protected function createContentfulFields(Entry $entry): array
     {
         $fields = [];
-        foreach ($dynamicEntry->getContentType()->getFields() as $contentTypeField) {
-            $fieldValue = $this->getFieldValue($dynamicEntry, $contentTypeField);
+        foreach ($entry->getContentType()->getFields() as $field) {
+            $fieldValue = $this->getFieldValue($entry, $field);
             $fieldValue = $this->resolveContentfulFieldValue($fieldValue);
-            $fields[] = $this->createContentfulFieldByValue($contentTypeField, $fieldValue);
+            $fields[] = $this->createContentfulFieldByValue($field, $fieldValue);
         }
 
         return $fields;
     }
 
     /**
-     * @param \Contentful\Delivery\ContentTypeField $contentTypeField
+     * @param \Contentful\Delivery\Resource\ContentType\Field $field
      * @param mixed $fieldValue
      *
      * @return \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface
      */
-    protected function createContentfulFieldByValue(ContentTypeField $contentTypeField, $fieldValue): ContentfulFieldInterface
+    protected function createContentfulFieldByValue(Field $field, $fieldValue): ContentfulFieldInterface
     {
-        if ($contentTypeField->getLinkType() == ContentfulField::FIELD_TYPE_ASSET && $fieldValue === null) {
-            return new ContentfulAsset($contentTypeField, null, null, null);
+        if ($field->getLinkType() == ContentfulField::FIELD_TYPE_ASSET && $fieldValue === null) {
+            return new ContentfulAsset($field, null, null, null);
         } elseif ($fieldValue instanceof Asset) {
-            return new ContentfulAsset($contentTypeField, $fieldValue, $fieldValue->getDescription(), $fieldValue->getTitle());
+            return new ContentfulAsset($field, $fieldValue, $fieldValue->getDescription(), $fieldValue->getTitle());
         }
 
-        return new ContentfulField($contentTypeField, $fieldValue);
+        return new ContentfulField($field, $fieldValue);
     }
 
     /**
-     * @param \Contentful\Delivery\DynamicEntry $dynamicEntry
-     * @param \Contentful\Delivery\ContentTypeField $contentTypeField
+     * @param \Contentful\Delivery\Resource\Entry $entry
+     * @param \Contentful\Delivery\Resource\ContentType\Field $field
      *
      * @return mixed
      */
-    protected function getFieldValue(DynamicEntry $dynamicEntry, ContentTypeField $contentTypeField)
+    protected function getFieldValue(Entry $entry, Field $field)
     {
         try {
-            $methodName = 'get' . ucfirst($contentTypeField->getId());
-            return $dynamicEntry->{$methodName}();
+            if ($field->isLocalized()) {
+                return $entry->get($field->getId(), $entry->getLocale());
+            }
+            return $entry->get($field->getId(), $this->defaultLocale);
         } catch (Throwable $throwable) {
             return null;
         }
@@ -112,8 +125,8 @@ class ContentfulMapper implements ContentfulMapperInterface
      */
     protected function resolveContentfulFieldValue($value)
     {
-        if ($value instanceof DynamicEntry) {
-            return $this->createContentfulEntry($value);
+        if ($value instanceof Entry) {
+            return new ContentfulEntry($value);
         }
 
         if (is_array($value)) {

@@ -2,7 +2,7 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Client\Field;
 
-use Contentful\Delivery\ContentTypeField;
+use Contentful\Delivery\Resource\ContentType\Field;
 
 class ContentfulField implements ContentfulFieldInterface
 {
@@ -15,9 +15,9 @@ class ContentfulField implements ContentfulFieldInterface
     public const FIELD_TYPE_ARRAY = 'Array';
 
     /**
-     * @var \Contentful\Delivery\ContentTypeField
+     * @var \Contentful\Delivery\Resource\ContentType\Field
      */
-    private $contentTypeField;
+    private $field;
 
     /**
      * @var mixed
@@ -25,12 +25,12 @@ class ContentfulField implements ContentfulFieldInterface
     private $value;
 
     /**
-     * @param \Contentful\Delivery\ContentTypeField $contentTypeField
+     * @param \Contentful\Delivery\Resource\ContentType\Field $field
      * @param mixed $value
      */
-    public function __construct(ContentTypeField $contentTypeField, $value)
+    public function __construct(Field $field, $value)
     {
-        $this->contentTypeField = $contentTypeField;
+        $this->field = $field;
         $this->value = $value;
     }
 
@@ -39,7 +39,7 @@ class ContentfulField implements ContentfulFieldInterface
      */
     public function getId(): string
     {
-        return $this->contentTypeField->getId();
+        return $this->field->getId();
     }
 
     /**
@@ -47,7 +47,7 @@ class ContentfulField implements ContentfulFieldInterface
      */
     public function getName(): string
     {
-        return $this->contentTypeField->getName();
+        return $this->field->getName();
     }
 
     /**
@@ -55,7 +55,7 @@ class ContentfulField implements ContentfulFieldInterface
      */
     public function getType(): string
     {
-        return $this->contentTypeField->getType();
+        return $this->field->getType();
     }
 
     /**
@@ -71,7 +71,7 @@ class ContentfulField implements ContentfulFieldInterface
      */
     public function getLinkType(): ?string
     {
-        return $this->contentTypeField->getLinkType();
+        return $this->field->getLinkType();
     }
 
     /**
@@ -79,14 +79,14 @@ class ContentfulField implements ContentfulFieldInterface
      */
     public function getItemsLinkType(): ?string
     {
-        return $this->contentTypeField->getItemsLinkType();
+        return $this->field->getItemsLinkType();
     }
 
     /**
-     * @return \Contentful\Delivery\ContentTypeField
+     * @return \Contentful\Delivery\Resource\ContentType\Field
      */
-    public function getContentTypeField()
+    public function getField()
     {
-        return $this->contentTypeField;
+        return $this->field;
     }
 }
