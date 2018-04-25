@@ -33,7 +33,7 @@ class ContentfulAsset implements ContentfulAssetInterface
      * @param null|string $description
      * @param null|string $title
      */
-    public function __construct(Field $field, Asset $asset = null, string $description = null, string $title = null)
+    public function __construct(Field $field, ?Asset $asset = null, ?string $description = null, ?string $title = null)
     {
         $this->field = $field;
         $this->asset = $asset;
