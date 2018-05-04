@@ -25,7 +25,7 @@
     "spryker/twig": "^3.0.0",
     "spryker/storage": "^3.0.0",
     "spryker/locale": "^3.0.0",
-    "contentful/contentful": "3.0.2",
+    "contentful/contentful": "3.2.0",
     "aptoma/twig-markdown": "2.0.0",
     "michelf/php-markdown": "1.3"
   },

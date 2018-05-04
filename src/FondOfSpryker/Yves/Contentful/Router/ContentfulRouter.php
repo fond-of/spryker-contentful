@@ -27,6 +27,11 @@ class ContentfulRouter extends AbstractRouter
      */
     public function match($pathinfo): array
     {
+        // remove trailing slash at the end (added from nginx, removed to match key)
+        if (substr($pathinfo, -1) == '/') {
+            $pathinfo = substr($pathinfo, 0, -1);
+        }
+
         $data = $this->getClient()->matchUrl($pathinfo, $this->getApplication()['locale']);
         if (empty($data)) {
             $data = $this->getClient()->matchUrl($this->getDefaultLocalePrefix() . $pathinfo, $this->getApplication()['locale']);
