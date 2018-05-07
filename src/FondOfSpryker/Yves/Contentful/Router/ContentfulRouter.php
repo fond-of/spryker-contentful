@@ -28,7 +28,7 @@ class ContentfulRouter extends AbstractRouter
     public function match($pathinfo): array
     {
         // remove trailing slash at the end (added from nginx, removed to match key)
-        if (substr($pathinfo, -1) == '/') {
+        if ($pathinfo != '/' && substr($pathinfo, -1) == '/') {
             $pathinfo = substr($pathinfo, 0, -1);
         }
 
