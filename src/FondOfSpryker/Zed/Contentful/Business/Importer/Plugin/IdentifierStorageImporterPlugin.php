@@ -145,6 +145,11 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
      */
     protected function createStorageKey(string $url, string $locale): string
     {
-        return $this->keyBuilder->generateKey(mb_substr($locale, 0, 2) . '/' . $url, $locale);
+        $languageKey = mb_substr($locale, 0, 2);
+        if (substr($url, 0, 1) != '/') {
+            $url = '/' . $url;
+        }
+
+        return $this->keyBuilder->generateKey($languageKey . $url, $locale);
     }
 }
