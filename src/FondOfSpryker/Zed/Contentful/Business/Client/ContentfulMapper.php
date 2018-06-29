@@ -76,6 +76,12 @@ class ContentfulMapper implements ContentfulMapperInterface
         $fields = [];
         foreach ($entry->getContentType()->getFields() as $field) {
             $fieldValue = $this->getFieldValue($entry, $field);
+
+            if ($field->getType() == ContentfulField::FIELD_TYPE_OBJECT && is_array($fieldValue)) {
+                // don't disassemble the json object.
+                $fieldValue = json_encode($fieldValue);
+            }
+
             $fieldValue = $this->resolveContentfulFieldValue($fieldValue);
             $fields[] = $this->createContentfulFieldByValue($field, $fieldValue);
         }

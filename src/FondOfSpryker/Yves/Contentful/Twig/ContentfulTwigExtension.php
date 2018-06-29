@@ -1,7 +1,9 @@
 <?php
 namespace FondOfSpryker\Yves\Contentful\Twig;
 
+use FondOfSpryker\Client\Contentful\ContentfulClientInterface;
 use FondOfSpryker\Yves\Contentful\Builder\BuilderInterface;
+use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
 use Spryker\Shared\Twig\TwigExtension;
 use Twig_SimpleFunction;
 
@@ -15,11 +17,18 @@ class ContentfulTwigExtension extends TwigExtension
     private $builder;
 
     /**
-     * @param \FondOfSpryker\Yves\Contentful\Builder\BuilderInterface $builder
+     * @var \FondOfSpryker\Client\Contentful\ContentfulClientInterface
      */
-    public function __construct(BuilderInterface $builder)
+    private $client;
+
+    /**
+     * @param \FondOfSpryker\Yves\Contentful\Builder\BuilderInterface $builder
+     * @param \FondOfSpryker\Client\Contentful\ContentfulClientInterface $client
+     */
+    public function __construct(BuilderInterface $builder, ContentfulClientInterface $client)
     {
         $this->builder = $builder;
+        $this->client = $client;
     }
 
     /**
@@ -30,17 +39,40 @@ class ContentfulTwigExtension extends TwigExtension
         return [
             new Twig_SimpleFunction('contentfulEntry', [$this, 'renderContentfulEntry'], ['is_safe' => ['html']]),
             new Twig_SimpleFunction('contentfulImage', [$this, 'resizeContentfulImage']),
+            new Twig_SimpleFunction('getContentfulEntry', [$this, 'getContentfulEntry']),
         ];
     }
 
     /**
      * @param string $entryId
+     * @param string[] $additionalParameters
      *
      * @return string
      */
-    public function renderContentfulEntry(string $entryId): string
+    public function renderContentfulEntry(string $entryId, array $additionalParameters = []): string
     {
-        return $this->builder->build($entryId);
+        return $this->builder->build($entryId, $additionalParameters);
+    }
+
+    /**
+     * @param string $entryId
+     *
+     * @return string[]
+     */
+    public function getContentfulEntry(string $entryId): array
+    {
+        $request = new ContentfulEntryRequestTransfer();
+        $request->setId($entryId);
+
+        $response = $this->client->getContentfulEntryFromStorageByEntryIdForCurrentLocale($request);
+
+        $parameters = [
+            'entryId' => $response->getId(),
+            'entryContentType' => $response->getContentType(),
+            'entry' => $response->getFields(),
+        ];
+
+        return $parameters;
     }
 
     /**

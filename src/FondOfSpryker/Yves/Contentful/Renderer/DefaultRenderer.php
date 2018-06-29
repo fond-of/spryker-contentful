@@ -35,12 +35,13 @@ class DefaultRenderer implements RendererInterface
 
     /**
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
+     * @param string[] $additionalParameters
      *
      * @throws \Throwable
      *
      * @return string
      */
-    public function render(ContentfulEntryResponseTransfer $response): string
+    public function render(ContentfulEntryResponseTransfer $response, array $additionalParameters = []): string
     {
         if ($response->getSuccessful() === false) {
             if (Environment::isProduction()) {
@@ -55,6 +56,10 @@ class DefaultRenderer implements RendererInterface
             'entryContentType' => $response->getContentType(),
             'entry' => $response->getFields(),
         ];
+
+        if (! empty($additionalParameters)) {
+            $parameters = array_merge($parameters, $additionalParameters);
+        }
 
         try {
             return $this->getTwigEnvironment()->render($templatePath, $parameters);

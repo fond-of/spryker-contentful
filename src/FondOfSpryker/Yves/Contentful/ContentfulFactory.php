@@ -23,7 +23,7 @@ class ContentfulFactory extends AbstractFactory
      */
     public function createContentfulTwigExtension(): ContentfulTwigExtension
     {
-        return new ContentfulTwigExtension($this->createBuilder());
+        return new ContentfulTwigExtension($this->createBuilder(), $this->getClient());
     }
 
     /**

@@ -15,7 +15,7 @@ class EntryKeyBuilder implements KeyBuilderInterface
      */
     protected function buildKey($contentfulEntryId)
     {
-        return 'entry.' . $contentfulEntryId;
+        return 'entry.' . strtolower($contentfulEntryId);
     }
 
     /**

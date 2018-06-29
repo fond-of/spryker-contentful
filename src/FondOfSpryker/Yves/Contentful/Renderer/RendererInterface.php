@@ -13,8 +13,9 @@ interface RendererInterface
 
     /**
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
+     * @param string[] $additionalParameters
      *
      * @return string
      */
-    public function render(ContentfulEntryResponseTransfer $response): string;
+    public function render(ContentfulEntryResponseTransfer $response, array $additionalParameters = []): string;
 }

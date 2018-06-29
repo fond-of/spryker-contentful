@@ -37,10 +37,11 @@ class Builder implements BuilderInterface
 
     /**
      * @param string $entryId
+     * @param string[] $additionalParameters
      *
      * @return string
      */
-    public function build(string $entryId): string
+    public function build(string $entryId, array $additionalParameters = []): string
     {
         $request = $this->createRequest($entryId);
         $response = $this->client->getContentfulEntryFromStorageByEntryIdForCurrentLocale($request);
@@ -50,11 +51,11 @@ class Builder implements BuilderInterface
             $contentType = strtolower(trim($response->getContentType()));
 
             if ($rendererType == $contentType) {
-                return $renderer->render($response);
+                return $renderer->render($response, $additionalParameters);
             }
         }
 
-        return $this->defaultRenderer->render($response);
+        return $this->defaultRenderer->render($response, $additionalParameters);
     }
 
     /**

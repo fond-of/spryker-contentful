@@ -42,6 +42,8 @@ class EntryStorageImporterPlugin implements ImporterPluginInterface
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
      *
+     * @throws
+     *
      * @return void
      */
     public function handle(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): void
