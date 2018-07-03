@@ -1,4 +1,5 @@
 <?php
+
 namespace FondOfSpryker\Yves\Contentful\Plugin;
 
 use Silex\Application;

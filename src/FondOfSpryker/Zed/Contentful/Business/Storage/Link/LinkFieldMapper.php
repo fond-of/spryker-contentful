@@ -41,7 +41,7 @@ class LinkFieldMapper implements TypeFieldMapperInterface
         if ($mapper === null) {
             $mapper = $mapperLocator->locateFieldMapperByFieldType(ContentfulField::FIELD_TYPE_TEXT);
         }
-
+        
         return $mapper->createField($contentfulEntry, $contentfulField, $mapperLocator);
     }
 }

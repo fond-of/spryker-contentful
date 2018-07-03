@@ -45,6 +45,7 @@ class ContentfulConsole extends Console
         }
 
         $output->writeln('Updated entries: ' . $numberOfUpdatedEntries);
+
         return static::CODE_SUCCESS;
     }
 }

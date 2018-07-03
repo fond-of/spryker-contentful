@@ -1,4 +1,5 @@
 <?php
+
 namespace FondOfSpryker\Shared\Contentful\KeyBuilder;
 
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;

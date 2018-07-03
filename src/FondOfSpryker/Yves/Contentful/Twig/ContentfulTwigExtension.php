@@ -51,28 +51,18 @@ class ContentfulTwigExtension extends TwigExtension
      */
     public function renderContentfulEntry(string $entryId, array $additionalParameters = []): string
     {
-        return $this->builder->build($entryId, $additionalParameters);
+        return $this->builder->renderContentfulEntry($entryId, $additionalParameters);
     }
 
     /**
      * @param string $entryId
+     * @param string[] $options
      *
      * @return string[]
      */
-    public function getContentfulEntry(string $entryId): array
+    public function getContentfulEntry(string $entryId, array $options = []): array
     {
-        $request = new ContentfulEntryRequestTransfer();
-        $request->setId($entryId);
-
-        $response = $this->client->getContentfulEntryFromStorageByEntryIdForCurrentLocale($request);
-
-        $parameters = [
-            'entryId' => $response->getId(),
-            'entryContentType' => $response->getContentType(),
-            'entry' => $response->getFields(),
-        ];
-
-        return $parameters;
+        return $this->builder->getContentfulEntry($entryId, $options);
     }
 
     /**

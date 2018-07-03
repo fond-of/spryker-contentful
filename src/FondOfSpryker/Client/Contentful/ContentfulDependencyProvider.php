@@ -1,4 +1,5 @@
 <?php
+
 namespace FondOfSpryker\Client\Contentful;
 
 use Spryker\Client\Kernel\AbstractDependencyProvider;
@@ -23,9 +24,9 @@ class ContentfulDependencyProvider extends AbstractDependencyProvider
     }
 
     /**
-     * @param \Spryker\Zed\Kernel\Container $container
+     * @param \Spryker\Client\Kernel\Container $container
      *
-     * @return \Spryker\Zed\Kernel\Container
+     * @return \Spryker\Client\Kernel\Container
      */
     protected function provideStorageClient(Container $container): Container
     {
@@ -37,9 +38,9 @@ class ContentfulDependencyProvider extends AbstractDependencyProvider
     }
 
     /**
-     * @param \Spryker\Zed\Kernel\Container $container
+     * @param \Spryker\Client\Kernel\Container $container
      *
-     * @return \Spryker\Zed\Kernel\Container
+     * @return \Spryker\Client\Kernel\Container
      */
     protected function provideLocaleClient(Container $container): Container
     {

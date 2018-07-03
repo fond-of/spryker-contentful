@@ -1,4 +1,5 @@
 <?php
+
 namespace FondOfSpryker\Shared\Contentful\KeyBuilder;
 
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
@@ -9,13 +10,13 @@ class EntryKeyBuilder implements KeyBuilderInterface
     use KeyBuilderTrait;
 
     /**
-     * @param string $contentfulEntryId
+     * @param string $entryId
      *
      * @return string
      */
-    protected function buildKey($contentfulEntryId)
+    protected function buildKey($entryId)
     {
-        return 'entry.' . strtolower($contentfulEntryId);
+        return 'entry.' . strtolower($entryId);
     }
 
     /**

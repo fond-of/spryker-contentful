@@ -1,4 +1,5 @@
 <?php
+
 namespace FondOfSpryker\Zed\Contentful;
 
 use FondOfSpryker\Shared\Contentful\ContentfulConstants;
@@ -42,26 +43,22 @@ class ContentfulConfig extends AbstractBundleConfig
     }
 
     /**
+     * @throws
+     *
      * @return string
      */
     public function getFieldNameActive(): string
     {
-        if ($this->getConfig()->hasValue(ContentfulConstants::CONTENTFUL_FIELD_NAME_ACTIVE) == false) {
-            return static::DEFAULT_FIELD_NAME_ACTIVE;
-        }
-
-        return $this->getConfig()->get(ContentfulConstants::CONTENTFUL_FIELD_NAME_ACTIVE);
+        return $this->getConfig()->get(ContentfulConstants::CONTENTFUL_FIELD_NAME_ACTIVE, static::DEFAULT_FIELD_NAME_ACTIVE);
     }
 
     /**
+     * @throws
+     *
      * @return string
      */
     public function getFieldNameIdentifier(): string
     {
-        if ($this->getConfig()->hasValue(ContentfulConstants::CONTENTFUL_FIELD_NAME_IDENTIFIER) == false) {
-            return static::DEFAULT_FIELD_NAME_IDENTIFIER;
-        }
-
-        return $this->getConfig()->get(ContentfulConstants::CONTENTFUL_FIELD_NAME_IDENTIFIER);
+        return $this->getConfig()->get(ContentfulConstants::CONTENTFUL_FIELD_NAME_IDENTIFIER, static::DEFAULT_FIELD_NAME_IDENTIFIER);
     }
 }

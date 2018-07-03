@@ -14,4 +14,16 @@
         <property name="errorMessage" type="string" />
         <property name="successful" type="bool" default="true" />
     </transfer>
+
+    <transfer name="ContentfulNavigationUrlRequest">
+        <property name="id" type="string" />
+    </transfer>
+
+    <transfer name="ContentfulNavigationUrlResponse">
+        <property name="id" type="string" />
+        <property name="title" type="string" />
+        <property name="url" type="string" />
+        <property name="errorMessage" type="string" />
+        <property name="successful" type="bool" default="true" />
+    </transfer>
 </transfers>

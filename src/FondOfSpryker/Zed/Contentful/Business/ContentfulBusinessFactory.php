@@ -5,15 +5,17 @@ namespace FondOfSpryker\Zed\Contentful\Business;
 use Contentful\Delivery\Client;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\EntryKeyBuilder;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\IdentifierKeyBuilder;
+use FondOfSpryker\Shared\Contentful\KeyBuilder\NavigationUrlKeyBuilder;
 use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClient;
 use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientInterface;
 use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulMapper;
 use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulMapperInterface;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Importer;
 use FondOfSpryker\Zed\Contentful\Business\Importer\ImporterInterface;
-use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\EntryStorageImporterPlugin;
-use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\IdentifierStorageImporterPlugin;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface;
+use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage\EntryStorageImporterPlugin;
+use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage\IdentifierStorageImporterPlugin;
+use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage\NavigationStorageImporterPlugin;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Asset\AssetFieldMapper;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Boolean\BooleanFieldMapper;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Collection\CollectionFieldMapper;
@@ -65,6 +67,27 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
             $this->createEntryStorageImporterPlugin(),
             $this->createIdentifierImporterPlugin(),
         ];
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface
+     */
+    protected function createNavigationImporterPlugin(): ImporterPluginInterface
+    {
+        return new NavigationStorageImporterPlugin(
+            $this->createNavigationUrlKeyBuilder(),
+            $this->getStorageClient(),
+            $this->getConfig()->getFieldNameActive(),
+            $this->getConfig()->getFieldNameIdentifier()
+        );
+    }
+
+    /**
+     * @return \Spryker\Shared\KeyBuilder\KeyBuilderInterface
+     */
+    protected function createNavigationUrlKeyBuilder(): KeyBuilderInterface
+    {
+        return new NavigationUrlKeyBuilder();
     }
 
     /**
@@ -133,6 +156,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
         $collection->add($this->createLinkFieldMapper());
         $collection->add($this->createTextFieldMapper());
         $collection->add($this->createObjectFieldMapper());
+
         return $collection;
     }
 
@@ -247,6 +271,8 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
+     * @throws
+     *
      * @return \Spryker\Client\Storage\StorageClientInterface
      */
     protected function getStorageClient(): StorageClientInterface
@@ -255,6 +281,8 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
+     * @throws
+     *
      * @return \Spryker\Zed\Locale\Business\LocaleFacadeInterface
      */
     protected function getLocaleFacade(): LocaleFacadeInterface

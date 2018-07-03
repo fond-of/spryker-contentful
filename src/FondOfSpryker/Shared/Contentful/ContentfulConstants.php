@@ -1,4 +1,5 @@
 <?php
+
 namespace FondOfSpryker\Shared\Contentful;
 
 interface ContentfulConstants

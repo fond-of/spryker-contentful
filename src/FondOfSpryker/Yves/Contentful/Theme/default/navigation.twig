@@ -1,0 +1,24 @@
+
+{# Example Navigation #}
+
+{% macro recursiveNavigation(node, level) %}
+    <li class="navigation-item level-{{ node.level }}{% if node.hasChildren %} has-clildren{% endif %}{% if node.hasActiveState %} active{% endif %}">
+        <a class="navigation-item-link" href="{{ node.url }}">
+            <span>{{ node.text }}</span>
+            <span class="navigation-item-after"></span>
+        </a>
+        {% if node.hasChildren %}
+            <ul class="navigation">
+                {% for childNode in node.children %}
+                    {{ _self.recursiveNavigation(childNode) }}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </li>
+{% endmacro %}
+
+<ul class="navigation">
+    {% for node in nodes %}
+        {{ _self.recursiveNavigation(node) }}
+    {% endfor %}
+</ul>

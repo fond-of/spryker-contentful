@@ -18,4 +18,12 @@ interface RendererInterface
      * @return string
      */
     public function render(ContentfulEntryResponseTransfer $response, array $additionalParameters = []): string;
+
+    /**
+     * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
+     * @param string[] $options
+     *
+     * @return string[]
+     */
+    public function getRawEntry(ContentfulEntryResponseTransfer $response, array $options = []): array;
 }

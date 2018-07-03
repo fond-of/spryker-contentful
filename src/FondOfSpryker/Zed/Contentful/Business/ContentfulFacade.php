@@ -10,7 +10,7 @@ use Spryker\Zed\Kernel\Business\AbstractFacade;
 class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterface
 {
     /**
-     * @inheritdoc
+     * @return int
      */
     public function importLastChangedEntries(): int
     {
@@ -18,7 +18,7 @@ class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterfa
     }
 
     /**
-     * @inheritdoc
+     * @return int
      */
     public function importAllEntries(): int
     {
@@ -26,7 +26,7 @@ class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterfa
     }
 
     /**
-     * @inheritdoc
+     * @return int
      */
     public function importEntry(string $entryId): int
     {

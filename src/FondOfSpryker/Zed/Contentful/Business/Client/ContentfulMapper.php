@@ -63,6 +63,7 @@ class ContentfulMapper implements ContentfulMapperInterface
         $contentfulEntry = new ContentfulEntry($entry);
         $contentfulFields = $this->createContentfulFields($entry);
         $contentfulEntry->setFields($contentfulFields);
+
         return $contentfulEntry;
     }
 

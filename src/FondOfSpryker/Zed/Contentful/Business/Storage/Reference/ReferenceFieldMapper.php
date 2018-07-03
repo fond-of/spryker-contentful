@@ -28,6 +28,11 @@ class ReferenceFieldMapper implements TypeFieldMapperInterface
      */
     public function createField(ContentfulEntryInterface $contentfulEntry, ContentfulFieldInterface $contentfulField, FieldMapperLocatorInterface $mapperLocator): FieldInterface
     {
-        return new ReferenceField($contentfulField->getId(), $contentfulEntry->getId());
+        $referenceId = null;
+        if (is_object($contentfulField->getValue())) {
+            $referenceId = $contentfulField->getValue()->getId();
+        }
+
+        return new ReferenceField($contentfulField->getId(), $referenceId);
     }
 }

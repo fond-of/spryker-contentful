@@ -9,15 +9,15 @@ class ReferenceField extends AbstractField
     public const TYPE = 'Reference';
 
     /**
-     * @var string
+     * @var null|string
      */
     private $referenceId;
 
     /**
      * @param string $name
-     * @param string $referenceId
+     * @param null|string $referenceId
      */
-    public function __construct(string $name, string $referenceId)
+    public function __construct(string $name, ?string $referenceId)
     {
         $this->name = $name;
         $this->referenceId = $referenceId;
@@ -32,9 +32,9 @@ class ReferenceField extends AbstractField
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getReferenceId(): string
+    public function getReferenceId(): ?string
     {
         return $this->referenceId;
     }

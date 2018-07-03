@@ -5,6 +5,7 @@ namespace FondOfSpryker\Yves\Contentful\Builder;
 use FondOfSpryker\Client\Contentful\ContentfulClientInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\RendererInterface;
 use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
+use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 
 class Builder implements BuilderInterface
 {
@@ -41,21 +42,49 @@ class Builder implements BuilderInterface
      *
      * @return string
      */
-    public function build(string $entryId, array $additionalParameters = []): string
+    public function renderContentfulEntry(string $entryId, array $additionalParameters = []): string
     {
         $request = $this->createRequest($entryId);
-        $response = $this->client->getContentfulEntryFromStorageByEntryIdForCurrentLocale($request);
+        $response = $this->client->getEntryBy($request);
+        $renderer = $this->findRendererFor($response);
 
+        return $renderer->render($response, $additionalParameters);
+    }
+
+    /**
+     * Returns null on failure.
+     *
+     * @param string $entryId
+     * @param string[] $options
+     *
+     * @return string[]
+     */
+    public function getContentfulEntry(string $entryId, array $options = []): array
+    {
+        $request = $this->createRequest($entryId);
+        $response = $this->client->getEntryBy($request);
+        $renderer = $this->findRendererFor($response);
+
+        return $renderer->getRawEntry($response, $options);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
+     *
+     * @return \FondOfSpryker\Yves\Contentful\Renderer\RendererInterface
+     */
+    private function findRendererFor(ContentfulEntryResponseTransfer $response): RendererInterface
+    {
         foreach ($this->renderer as $renderer) {
             $rendererType = strtolower(trim($renderer->getType()));
             $contentType = strtolower(trim($response->getContentType()));
 
             if ($rendererType == $contentType) {
-                return $renderer->render($response, $additionalParameters);
+                return $renderer;
             }
         }
 
-        return $this->defaultRenderer->render($response, $additionalParameters);
+        return $this->defaultRenderer;
     }
 
     /**
@@ -67,6 +96,7 @@ class Builder implements BuilderInterface
     {
         $requestTransfer = new ContentfulEntryRequestTransfer();
         $requestTransfer->setId($entryId);
+
         return $requestTransfer;
     }
 }

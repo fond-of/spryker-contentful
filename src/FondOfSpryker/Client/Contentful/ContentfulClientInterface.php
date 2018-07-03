@@ -1,8 +1,11 @@
 <?php
+
 namespace FondOfSpryker\Client\Contentful;
 
 use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
+use Generated\Shared\Transfer\ContentfulNavigationUrlRequestTransfer;
+use Generated\Shared\Transfer\ContentfulNavigationUrlResponseTransfer;
 
 interface ContentfulClientInterface
 {
@@ -11,7 +14,14 @@ interface ContentfulClientInterface
      *
      * @return \Generated\Shared\Transfer\ContentfulEntryResponseTransfer
      */
-    public function getContentfulEntryFromStorageByEntryIdForCurrentLocale(ContentfulEntryRequestTransfer $request): ContentfulEntryResponseTransfer;
+    public function getEntryBy(ContentfulEntryRequestTransfer $request): ContentfulEntryResponseTransfer;
+
+    /**
+     * @param \Generated\Shared\Transfer\ContentfulNavigationUrlRequestTransfer $request
+     *
+     * @return \Generated\Shared\Transfer\ContentfulNavigationUrlResponseTransfer
+     */
+    public function getNavigationUrlBy(ContentfulNavigationUrlRequestTransfer $request): ContentfulNavigationUrlResponseTransfer;
 
     /**
      * @param string $url
