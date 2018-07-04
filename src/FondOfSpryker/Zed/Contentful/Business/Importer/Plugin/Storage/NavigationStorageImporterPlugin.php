@@ -118,9 +118,9 @@ class NavigationStorageImporterPlugin extends IdentifierStorageImporterPlugin
         $languageKey = mb_substr($locale, 0, 2);
         $url = '/' . $languageKey . $url;
 
-        // add trailing slash
-        if (substr($url, -1) != '/') {
-            $url = $url . '/';
+        // remove trailing slash
+        if (substr($url, -1) == '/') {
+            $url = substr($url, 0, -1);
         }
 
         return $url;
