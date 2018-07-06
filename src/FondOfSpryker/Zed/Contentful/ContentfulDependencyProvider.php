@@ -8,6 +8,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
 {
     public const STORAGE_CLIENT = 'STORAGE_CLIENT';
     public const LOCALE_FACADE = 'LOCALE_FACADE';
+    public const CLIENT_STORE = 'CLIENT_STORE';
 
     /**
      * @param \Spryker\Zed\Kernel\Container $container
@@ -17,7 +18,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     public function provideBusinessLayerDependencies(Container $container): Container
     {
         $container = $this->provideStorageClient($container);
-        $container = $this->provideLocaleFacade($container);
+        $container = $this->provideStoreClient($container);
 
         return $container;
     }
@@ -41,10 +42,10 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
      *
      * @return \Spryker\Zed\Kernel\Container
      */
-    protected function provideLocaleFacade(Container $container): Container
+    protected function provideStoreClient(Container $container): Container
     {
-        $container[static::LOCALE_FACADE] = function (Container $container) {
-            return $container->getLocator()->locale()->facade();
+        $container[static::CLIENT_STORE] = function (Container $container) {
+            return $container->getLocator()->store()->client();
         };
 
         return $container;

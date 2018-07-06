@@ -2,8 +2,8 @@
 namespace FondOfSpryker\Yves\Contentful\Twig;
 
 use FondOfSpryker\Client\Contentful\ContentfulClientInterface;
+use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
 use FondOfSpryker\Yves\Contentful\Builder\BuilderInterface;
-use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
 use Spryker\Shared\Twig\TwigExtension;
 use Twig_SimpleFunction;
 
@@ -22,13 +22,27 @@ class ContentfulTwigExtension extends TwigExtension
     private $client;
 
     /**
+     * @var \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface
+     */
+    private $urlFormatter;
+
+    /**
+     * @var string
+     */
+    private $currentLocale;
+
+    /**
      * @param \FondOfSpryker\Yves\Contentful\Builder\BuilderInterface $builder
      * @param \FondOfSpryker\Client\Contentful\ContentfulClientInterface $client
+     * @param \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface $urlFormatter
+     * @param string $currentLocale
      */
-    public function __construct(BuilderInterface $builder, ContentfulClientInterface $client)
+    public function __construct(BuilderInterface $builder, ContentfulClientInterface $client, UrlFormatterInterface $urlFormatter, string $currentLocale)
     {
         $this->builder = $builder;
         $this->client = $client;
+        $this->urlFormatter = $urlFormatter;
+        $this->currentLocale = $currentLocale;
     }
 
     /**
@@ -37,6 +51,7 @@ class ContentfulTwigExtension extends TwigExtension
     public function getFunctions()
     {
         return [
+            new Twig_SimpleFunction('contentfulUrl', [$this, 'formatContentfulUrl']),
             new Twig_SimpleFunction('contentfulEntry', [$this, 'renderContentfulEntry'], ['is_safe' => ['html']]),
             new Twig_SimpleFunction('contentfulImage', [$this, 'resizeContentfulImage']),
             new Twig_SimpleFunction('getContentfulEntry', [$this, 'getContentfulEntry']),
@@ -63,6 +78,16 @@ class ContentfulTwigExtension extends TwigExtension
     public function getContentfulEntry(string $entryId, array $options = []): array
     {
         return $this->builder->getContentfulEntry($entryId, $options);
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return string
+     */
+    public function formatContentfulUrl(string $url): string
+    {
+        return $this->urlFormatter->format($url, $this->currentLocale);
     }
 
     /**

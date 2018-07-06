@@ -7,8 +7,8 @@ use Spryker\Client\Kernel\Container;
 
 class ContentfulDependencyProvider extends AbstractDependencyProvider
 {
-    public const CLIENT_LOCALE = 'client locale';
-    public const KV_STORAGE = 'kv storage';
+    public const CLIENT_LOCALE = 'CLIENT_LOCALE';
+    public const KV_STORAGE = 'KV_STORAGE';
 
     /**
      * @param \Spryker\Client\Kernel\Container $container

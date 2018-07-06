@@ -75,6 +75,8 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
+     * @throws
+     *
      * @return \Spryker\Client\Storage\StorageClientInterface;
      */
     protected function getStorage(): StorageClientInterface
@@ -83,6 +85,8 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
+     * @throws
+     *
      * @return \Spryker\Client\Locale\LocaleClientInterface
      */
     protected function getLocaleClient(): LocaleClientInterface

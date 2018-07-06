@@ -9,9 +9,10 @@ use Spryker\Yves\Kernel\Plugin\Pimple;
 
 class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
 {
-    public const TWIG_MARKDOWN = 'twig_markdown';
-    public const PLUGIN_APPLICATION = 'app_plugin';
+    public const TWIG_MARKDOWN = 'TWIG_MARKDOWN';
+    public const PLUGIN_APPLICATION = 'PLUGIN_APPLICATION';
     public const CATEGORY_STORAGE_CLIENT = 'CATEGORY_STORAGE_CLIENT';
+    public const CLIENT_STORE = 'CLIENT_STORE';
 
     /**
      * @param \Spryker\Yves\Kernel\Container $container
@@ -23,6 +24,21 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
         $container = $this->provideTwigMarkdownExtension($container);
         $container = $this->provideApplication($container);
         $container = $this->provideCategoryStorageClient($container);
+        $container = $this->provideStoreClient($container);
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Yves\Kernel\Container $container
+     *
+     * @return \Spryker\Yves\Kernel\Container
+     */
+    protected function provideStoreClient(Container $container): Container
+    {
+        $container[static::CLIENT_STORE] = function (Container $container) {
+            return $container->getLocator()->store()->client();
+        };
 
         return $container;
     }

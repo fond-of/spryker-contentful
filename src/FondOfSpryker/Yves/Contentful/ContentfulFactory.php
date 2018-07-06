@@ -3,6 +3,8 @@
 namespace FondOfSpryker\Yves\Contentful;
 
 use Aptoma\Twig\Extension\MarkdownExtension;
+use FondOfSpryker\Shared\Contentful\Url\UrlFormatter;
+use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
 use FondOfSpryker\Yves\Contentful\Builder\Builder;
 use FondOfSpryker\Yves\Contentful\Builder\BuilderInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\DefaultRenderer;
@@ -30,6 +32,7 @@ use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\IdentifierResourceCreat
 use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\ResourceCreatorInterface;
 use FondOfSpryker\Yves\Contentful\Twig\ContentfulTwigExtension;
 use Spryker\Client\CategoryStorage\CategoryStorageClientInterface;
+use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Shared\Kernel\Communication\Application;
 use Spryker\Yves\Kernel\AbstractFactory;
 
@@ -43,7 +46,15 @@ class ContentfulFactory extends AbstractFactory
      */
     public function createContentfulTwigExtension(): ContentfulTwigExtension
     {
-        return new ContentfulTwigExtension($this->createBuilder(), $this->getClient());
+        return new ContentfulTwigExtension($this->createBuilder(), $this->getClient(), $this->createUrlFormatter(), $this->getApplication()['locale']);
+    }
+
+    /**
+     * @return \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface
+     */
+    protected function createUrlFormatter(): UrlFormatterInterface
+    {
+        return new UrlFormatter($this->getStoreClient());
     }
 
     /**
@@ -206,6 +217,16 @@ class ContentfulFactory extends AbstractFactory
     protected function createNavigationNodeContentfulPageMapper(): NavigationNodeMapperInterface
     {
         return new NavigationNodeContentfulPageMapper($this->getClient());
+    }
+
+    /**
+     * @throws
+     *
+     * @return \Spryker\Client\Store\StoreClientInterface
+     */
+    public function getStoreClient(): StoreClientInterface
+    {
+        return $this->getProvidedDependency(ContentfulDependencyProvider::CLIENT_STORE);
     }
 
     /**

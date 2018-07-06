@@ -6,6 +6,8 @@ use Contentful\Delivery\Client;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\EntryKeyBuilder;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\IdentifierKeyBuilder;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\NavigationUrlKeyBuilder;
+use FondOfSpryker\Shared\Contentful\Url\UrlFormatter;
+use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
 use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClient;
 use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientInterface;
 use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulMapper;
@@ -35,9 +37,9 @@ use FondOfSpryker\Zed\Contentful\Business\Storage\Reference\ReferenceFieldMapper
 use FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextFieldMapper;
 use FondOfSpryker\Zed\Contentful\ContentfulDependencyProvider;
 use Spryker\Client\Storage\StorageClientInterface;
+use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
-use Spryker\Zed\Locale\Business\LocaleFacadeInterface;
 
 /**
  * @method \FondOfSpryker\Zed\Contentful\ContentfulConfig getConfig()
@@ -59,6 +61,14 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
+     * @return \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface
+     */
+    protected function createUrlFormatter(): UrlFormatterInterface
+    {
+        return new UrlFormatter($this->getStoreClient());
+    }
+
+    /**
      * @return \FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface[]
      */
     protected function getImporterPlugins(): array
@@ -77,6 +87,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
         return new NavigationStorageImporterPlugin(
             $this->createNavigationUrlKeyBuilder(),
             $this->getStorageClient(),
+            $this->createUrlFormatter(),
             $this->getConfig()->getFieldNameActive(),
             $this->getConfig()->getFieldNameIdentifier()
         );
@@ -110,6 +121,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
         return new IdentifierStorageImporterPlugin(
             $this->createIdentifierKeyBuilder(),
             $this->getStorageClient(),
+            $this->createUrlFormatter(),
             $this->getConfig()->getFieldNameActive(),
             $this->getConfig()->getFieldNameIdentifier()
         );
@@ -283,10 +295,10 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     /**
      * @throws
      *
-     * @return \Spryker\Zed\Locale\Business\LocaleFacadeInterface
+     * @return \Spryker\Client\Store\StoreClientInterface
      */
-    protected function getLocaleFacade(): LocaleFacadeInterface
+    public function getStoreClient(): StoreClientInterface
     {
-        return $this->getProvidedDependency(ContentfulDependencyProvider::LOCALE_FACADE);
+        return $this->getProvidedDependency(ContentfulDependencyProvider::CLIENT_STORE);
     }
 }

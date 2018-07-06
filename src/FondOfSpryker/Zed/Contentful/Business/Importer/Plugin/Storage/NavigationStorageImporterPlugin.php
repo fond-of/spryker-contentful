@@ -109,20 +109,6 @@ class NavigationStorageImporterPlugin extends IdentifierStorageImporterPlugin
     {
         $identifier = $this->getIdentifierFieldContent($entry);
 
-        $url = trim($identifier);
-        if (substr($url, 0, 1) != '/') {
-            $url = '/' . $url;
-        }
-
-        // add language key
-        $languageKey = mb_substr($locale, 0, 2);
-        $url = '/' . $languageKey . $url;
-
-        // remove trailing slash
-        if (substr($url, -1) == '/') {
-            $url = substr($url, 0, -1);
-        }
-
-        return $url;
+        return $this->urlFormatter->format($identifier, $locale);
     }
 }

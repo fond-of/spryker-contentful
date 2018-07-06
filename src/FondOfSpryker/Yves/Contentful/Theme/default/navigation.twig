@@ -3,7 +3,7 @@
 
 {% macro recursiveNavigation(node, level) %}
     <li class="navigation-item level-{{ node.level }}{% if node.hasChildren %} has-clildren{% endif %}{% if node.hasActiveState %} active{% endif %}">
-        <a class="navigation-item-link" href="{{ node.url }}">
+        <a class="navigation-item-link" href="{{ contentfulUrl(node.url) }}">
             <span>{{ node.text }}</span>
             <span class="navigation-item-after"></span>
         </a>

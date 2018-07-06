@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage;
 
+use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextField;
@@ -16,14 +17,21 @@ class IdentifierStorageImporterPlugin extends AbstractStorageImporterPlugin
     protected $identifierFieldName;
 
     /**
+     * @var \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface
+     */
+    protected $urlFormatter;
+
+    /**
      * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
      * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
+     * @param \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface
      * @param string $activeFieldName
      * @param string $identifierFieldName
      */
-    public function __construct(KeyBuilderInterface $keyBuilder, StorageClientInterface $storageClient, string $activeFieldName, string $identifierFieldName)
+    public function __construct(KeyBuilderInterface $keyBuilder, StorageClientInterface $storageClient, UrlFormatterInterface $urlFormatter, string $activeFieldName, string $identifierFieldName)
     {
         parent::__construct($keyBuilder, $storageClient, $activeFieldName);
+        $this->urlFormatter = $urlFormatter;
         $this->identifierFieldName = $identifierFieldName;
     }
 
@@ -39,7 +47,7 @@ class IdentifierStorageImporterPlugin extends AbstractStorageImporterPlugin
     protected function createStorageKey(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): string
     {
         $identifier = $this->getIdentifierFieldContent($entry);
-        $url = $this->createUrlForKey($identifier, $locale);
+        $url = $this->urlFormatter->format($identifier, $locale);
 
         return $this->keyBuilder->generateKey($url, $locale);
     }
