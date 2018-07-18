@@ -2,7 +2,9 @@
 
 namespace FondOfSpryker\Yves\Contentful\Renderer;
 
+use FondOfSpryker\Shared\Contentful\ContentfulConstants;
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
+use Spryker\Shared\Config\Config;
 use Spryker\Shared\Kernel\Communication\Application;
 use Spryker\Shared\Config\Environment;
 use Twig_Environment;
@@ -16,11 +18,17 @@ abstract class AbstractRenderer implements RendererInterface
     private $application;
 
     /**
+     * @var null|bool
+     */
+    private $isActive;
+
+    /**
      * @param \Spryker\Shared\Kernel\Communication\Application $application
      */
     public function __construct(Application $application)
     {
         $this->application = $application;
+        $this->isActive = null;
     }
 
     /**
@@ -46,6 +54,10 @@ abstract class AbstractRenderer implements RendererInterface
             return $response->getErrorMessage();
         }
 
+        if ($this->isEntryActive($response) === false) {
+            return '';
+        }
+
         $placeholders = $this->getPlaceholders($response, $additionalPlaceholders);
         $placeholders = $this->mergeAdditionalPlaceholders($response, $placeholders, $additionalPlaceholders);
 
@@ -68,6 +80,28 @@ abstract class AbstractRenderer implements RendererInterface
     public function getRawEntry(ContentfulEntryResponseTransfer $response, array $options = []): array
     {
         return $this->getPlaceholders($response);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
+     *
+     * @throws
+     *
+     * @return bool
+     */
+    protected function isEntryActive(ContentfulEntryResponseTransfer $response): bool
+    {
+        $activeFieldName = Config::get(ContentfulConstants::CONTENTFUL_FIELD_NAME_ACTIVE);
+        if (array_key_exists($activeFieldName, $response->getFields()) === false) {
+            return true;
+        }
+
+        $isActive = $response->getFields()[$activeFieldName]['value'];
+        if (is_bool($isActive) && $isActive === false) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

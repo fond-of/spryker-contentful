@@ -4,7 +4,6 @@ namespace FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage;
 
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface;
-use FondOfSpryker\Zed\Contentful\Business\Storage\Boolean\BooleanField;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
@@ -99,26 +98,6 @@ abstract class AbstractStorageImporterPlugin implements ImporterPluginInterface
      */
     protected function isValid(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): bool
     {
-        if ($this->isContentActive($entry, $this->activeFieldName) === false) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
-     * @param string $activeFieldName
-     *
-     * @return bool
-     */
-    protected function isContentActive(EntryInterface $entry, string $activeFieldName): bool
-    {
-        $field = $entry->getField($activeFieldName);
-        if ($field instanceof BooleanField) {
-            return $field->getBoolean();
-        }
-
         return true;
     }
 

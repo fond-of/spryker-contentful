@@ -15,7 +15,7 @@ class ContentfulEntry implements ContentfulEntryInterface
     /**
      * @var \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface[]
      */
-    private $fields;
+    private $fields = [];
 
     /**
      * @param \Contentful\Delivery\Resource\Entry $entry

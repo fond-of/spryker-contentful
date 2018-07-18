@@ -4,6 +4,7 @@ namespace FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage;
 
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Boolean\BooleanField;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextField;
 use Spryker\Client\Storage\StorageClientInterface;
@@ -73,21 +74,6 @@ class IdentifierStorageImporterPlugin extends AbstractStorageImporterPlugin
     }
 
     /**
-     * @param string $identifier
-     * @param string $locale
-     *
-     * @return string
-     */
-    protected function createUrlForKey(string $identifier, string $locale): string
-    {
-        if (substr($identifier, 0, 1) != '/') {
-            $identifier = '/' . $identifier;
-        }
-
-        return mb_substr($locale, 0, 2) . $identifier;
-    }
-
-    /**
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
@@ -105,6 +91,22 @@ class IdentifierStorageImporterPlugin extends AbstractStorageImporterPlugin
     }
 
     /**
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
+     * @param string $activeFieldName
+     *
+     * @return bool
+     */
+    protected function isContentActive(EntryInterface $entry, string $activeFieldName): bool
+    {
+        $field = $entry->getField($activeFieldName);
+        if ($field instanceof BooleanField) {
+            return $field->getBoolean();
+        }
+
+        return true;
+    }
+
+    /**
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
@@ -116,6 +118,10 @@ class IdentifierStorageImporterPlugin extends AbstractStorageImporterPlugin
     protected function isValid(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): bool
     {
         if (parent::isValid($contentfulEntry, $entry, $locale) == false) {
+            return false;
+        }
+
+        if ($this->isContentActive($entry, $this->activeFieldName) === false) {
             return false;
         }
 
