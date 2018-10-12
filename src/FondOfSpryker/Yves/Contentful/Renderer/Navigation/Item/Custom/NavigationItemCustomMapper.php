@@ -26,8 +26,8 @@ class NavigationItemCustomMapper implements NavigationItemMapperInterface
      */
     public function createNavigationItem(array $navigation): NavigationItemInterface
     {
-        $url = $navigation[static::KEY_CUSTOM_TEXT];
-        $customText = $navigation[static::KEY_URL];
+        $customText = $navigation[static::KEY_CUSTOM_TEXT];
+        $url = $navigation[static::KEY_URL];
 
         return new NavigationItemCustom($url, $customText);
     }

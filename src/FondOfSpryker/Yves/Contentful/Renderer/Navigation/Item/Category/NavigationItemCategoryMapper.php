@@ -9,6 +9,7 @@ class NavigationItemCategoryMapper implements NavigationItemMapperInterface
 {
     public const TYPE = 'category';
     private const KEY_CATEGORY_ID = 'typeId';
+    private const KEY_CUSTOM_TEXT = 'customText';
 
     /**
      * @return string
@@ -25,8 +26,14 @@ class NavigationItemCategoryMapper implements NavigationItemMapperInterface
      */
     public function createNavigationItem(array $navigation): NavigationItemInterface
     {
+        $customText = '';
+        if (array_key_exists(static::KEY_CUSTOM_TEXT, $navigation)) {
+            $customText = $navigation[static::KEY_CUSTOM_TEXT];
+        }
+
         $categoryId = (int) $navigation[static::KEY_CATEGORY_ID];
-        return new NavigationItemCategory($categoryId);
+
+        return new NavigationItemCategory($categoryId, $customText);
     }
 
     /**

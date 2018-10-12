@@ -25,7 +25,7 @@ class NavigationNodeCustomMapper implements NavigationNodeMapperInterface
      */
     public function createNavigationNode(NavigationItemInterface $item): NavigationNodeInterface
     {
-        return new NavigationNode($item->getUrl(), $item->getCustomText(), $item->getType());
+        return new NavigationNode($item->getCustomText(), $item->getUrl(), $item->getType());
     }
 
     /**

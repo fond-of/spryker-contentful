@@ -49,7 +49,14 @@ class NavigationNodeCategoryMapper implements NavigationNodeMapperInterface
     public function createNavigationNode(NavigationItemInterface $item): NavigationNodeInterface
     {
         $response = $this->getCategoryStorageNodeByItem($item);
-        return new NavigationNode($response->getName(), $response->getUrl(), $item->getType());
+
+        // prefer custom text from navigation contentful obj instead of  spryker category name.
+        $customText = $response->getName();
+        if (empty($item->getCustomText()) === false) {
+            $customText = $item->getCustomText();
+        }
+
+        return new NavigationNode($customText, $response->getUrl(), $item->getType());
     }
 
     /**

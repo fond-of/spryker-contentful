@@ -17,11 +17,18 @@ class NavigationItemCategory implements NavigationItemInterface
     protected $children = [];
 
     /**
-     * @param int $categoryId
+     * @var string
      */
-    public function __construct(int $categoryId)
+    protected $customText;
+
+    /**
+     * @param int $categoryId
+     * @param string $customText
+     */
+    public function __construct(int $categoryId, string $customText = '')
     {
         $this->categoryId = $categoryId;
+        $this->customText = $customText;
     }
 
     /**
@@ -56,5 +63,13 @@ class NavigationItemCategory implements NavigationItemInterface
     public function getCategoryId(): int
     {
         return $this->categoryId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomText(): string
+    {
+        return $this->customText;
     }
 }
