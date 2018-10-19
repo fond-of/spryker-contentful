@@ -117,7 +117,7 @@ class UrlFormatter implements UrlFormatterInterface
      */
     protected function normalizeUrl(string $path): string
     {
-        return strtolower(trim($path));
+        return trim($path);
     }
 
     /**
