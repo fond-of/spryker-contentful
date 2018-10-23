@@ -265,7 +265,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
      */
     protected function createContentfulMapper(): ContentfulMapperInterface
     {
-        return new ContentfulMapper($this->getConfig()->getDefaultLocale());
+        return new ContentfulMapper($this->getConfig()->getDefaultLocale(), $this->createContentfulAPIClient());
     }
 
     /**

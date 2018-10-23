@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Client;
 
+use Contentful\Core\Api\Link;
 use Contentful\Core\Resource\ResourceArray;
 use Contentful\Delivery\Resource\Asset;
 use Contentful\Delivery\Resource\ContentType\Field;
@@ -22,12 +23,19 @@ class ContentfulMapper implements ContentfulMapperInterface
      */
     private $defaultLocale;
 
+    /*
+     * @var string
+     */
+    private $client;
+
     /**
      * @param string $defaultLocale
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientInterface $client
      */
-    public function __construct(string $defaultLocale)
+    public function __construct(string $defaultLocale, ContentfulAPIClientInterface $client)
     {
         $this->defaultLocale = $defaultLocale;
+        $this->client = $client;
     }
 
     /**
@@ -76,7 +84,11 @@ class ContentfulMapper implements ContentfulMapperInterface
     {
         $fields = [];
         foreach ($entry->getContentType()->getFields() as $field) {
-            $fieldValue = $this->getFieldValue($entry, $field);
+            if ($field->getLinkType() == ContentfulField::FIELD_TYPE_ASSET) {
+                $fieldValue = $this->getAssetFieldValue($entry, $field);
+            } else {
+                $fieldValue = $this->getFieldValue($entry, $field);
+            }
 
             if ($field->getType() == ContentfulField::FIELD_TYPE_OBJECT && is_array($fieldValue)) {
                 // don't disassemble the json object.
@@ -119,8 +131,37 @@ class ContentfulMapper implements ContentfulMapperInterface
             if ($field->isLocalized()) {
                 return $entry->get($field->getId(), $entry->getLocale());
             }
+
             return $entry->get($field->getId(), $this->defaultLocale);
         } catch (Throwable $throwable) {
+            echo $throwable->getMessage();
+            return null;
+        }
+    }
+
+    /**
+     * @param \Contentful\Delivery\Resource\Entry $entry
+     * @param \Contentful\Delivery\Resource\ContentType\Field $field
+     *
+     * @return mixed
+     */
+    protected function getAssetFieldValue(Entry $entry, Field $field)
+    {
+        try {
+            if ($field->isLocalized()) {
+                return $entry->get($field->getId(), $entry->getLocale());
+            }
+
+            // resolve link in correct current locale if field is not localized
+            $assetLink = $entry->get($field->getId(), $this->defaultLocale, false);
+            if ($assetLink instanceof Link && $assetLink->getId() != '') {
+                return $this->client->findAsset($assetLink->getId(), $entry->getLocale());
+            }
+
+            return $entry->get($field->getId(), $this->defaultLocale);
+
+        } catch (Throwable $throwable) {
+            echo $throwable->getMessage();
             return null;
         }
     }

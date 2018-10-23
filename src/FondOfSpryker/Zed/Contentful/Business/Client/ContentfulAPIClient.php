@@ -5,6 +5,7 @@ namespace FondOfSpryker\Zed\Contentful\Business\Client;
 use Contentful\Core\Resource\ResourceArray;
 use Contentful\Delivery\Client;
 use Contentful\Delivery\Query;
+use Contentful\Delivery\Resource\Asset;
 use DateTime;
 
 class ContentfulAPIClient implements ContentfulAPIClientInterface
@@ -61,5 +62,16 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
         $query->setLocale('*');
 
         return $this->client->getEntries($query);
+    }
+
+    /**
+     * @param string $assetId
+     * @param string $locale
+     *
+     * @return \Contentful\Delivery\Resource\Asset|null
+     */
+    public function findAsset(string $assetId, string $locale): ?Asset
+    {
+        return $this->client->getAsset($assetId, $locale);
     }
 }
