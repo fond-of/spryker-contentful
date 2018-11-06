@@ -69,10 +69,6 @@ class UrlFormatter implements UrlFormatterInterface
      */
     protected function normalizeLocaleForPath(string $locale): string
     {
-        if (strlen($locale) > 2) {
-            $locale = mb_substr($locale, 0, 2);
-        }
-
         return strtolower(trim($locale));
     }
 
@@ -173,10 +169,6 @@ class UrlFormatter implements UrlFormatterInterface
         }
 
         $firstPathPart = array_shift($pathParts);
-        if (strlen($firstPathPart) !== 2) {
-            return false;
-        }
-
         if ($this->isLocaleAvailableInCurrentStore($firstPathPart) === false) {
             return false;
         }

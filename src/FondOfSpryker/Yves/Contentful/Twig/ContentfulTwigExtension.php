@@ -4,6 +4,7 @@ namespace FondOfSpryker\Yves\Contentful\Twig;
 use FondOfSpryker\Client\Contentful\ContentfulClientInterface;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
 use FondOfSpryker\Yves\Contentful\Builder\BuilderInterface;
+use Spryker\Shared\Kernel\Store;
 use Spryker\Shared\Twig\TwigExtension;
 use Twig_SimpleFunction;
 
@@ -81,13 +82,40 @@ class ContentfulTwigExtension extends TwigExtension
     }
 
     /**
+     * @param string $appLocale
+     * @param string $fallbackRouteLocale
+     *
+     * @return string
+     */
+    protected function getLocaleRoutePrefixesByAppLocale(string $appLocale, string $fallbackRouteLocale = '#'): string
+    {
+        $storeLocaleRoutePrefixes = [];
+        foreach (Store::getInstance()->getLocales() as $storeRouteLocalePrefix => $storeAppLocale) {
+            if ($storeAppLocale !== $appLocale) {
+                continue;
+            }
+
+            $storeLocaleRoutePrefixes[] = $storeRouteLocalePrefix;
+        }
+
+        if (empty($storeLocaleRoutePrefixes)) {
+            return $fallbackRouteLocale;
+        }
+
+        return array_shift($storeLocaleRoutePrefixes);
+    }
+
+    /**
      * @param string $url
      *
      * @return string
      */
     public function formatContentfulUrl(string $url): string
     {
-        return $this->urlFormatter->format($url, $this->currentLocale);
+        return $this->urlFormatter->format(
+            $url,
+            $this->getLocaleRoutePrefixesByAppLocale($this->currentLocale)
+        );
     }
 
     /**

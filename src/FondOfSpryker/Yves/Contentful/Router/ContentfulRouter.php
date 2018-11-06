@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Yves\Contentful\Router;
 
+use Spryker\Shared\Kernel\Store;
 use Spryker\Yves\Application\Routing\AbstractRouter;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -34,10 +35,6 @@ class ContentfulRouter extends AbstractRouter
 
         $data = $this->getClient()->matchUrl($pathinfo, $this->getApplication()['locale']);
         if (empty($data)) {
-            $data = $this->getClient()->matchUrl($this->getDefaultLocalePrefix() . $pathinfo, $this->getApplication()['locale']);
-        }
-
-        if (empty($data)) {
             throw new ResourceNotFoundException();
         }
 
@@ -50,13 +47,5 @@ class ContentfulRouter extends AbstractRouter
 
         // default resource creator
         return $this->getFactory()->createIdentifierResourceCreator()->createResource($this->getApplication(), $data);
-    }
-
-    /**
-     * @return string
-     */
-    private function getDefaultLocalePrefix(): string
-    {
-        return '/' . mb_substr($this->getApplication()['locale'], 0, 2);
     }
 }

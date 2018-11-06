@@ -3,26 +3,55 @@
 namespace FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage;
 
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
+use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextField;
+use Spryker\Shared\Kernel\Store;
+use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
+use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
+use Spryker\Client\Storage\StorageClientInterface;
 
-class NavigationStorageImporterPlugin extends IdentifierStorageImporterPlugin
+class NavigationStorageImporterPlugin implements ImporterPluginInterface
 {
     /**
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
-     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
-     * @param string $locale
-     *
-     * @throws
-     *
-     * @return string[]
+     * @var string
      */
-    protected function createStorageValue(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): array
+    protected $identifierFieldName;
+
+    /**
+     * @var \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface
+     */
+    protected $urlFormatter;
+
+    /**
+     * @var \Spryker\Shared\KeyBuilder\KeyBuilderInterface
+     */
+    protected $keyBuilder;
+
+    /**
+     * @var \Spryker\Client\Storage\StorageClientInterface
+     */
+    protected $storageClient;
+
+    /**
+     * @var string
+     */
+    protected $activeFieldName;
+
+    /**
+     * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
+     * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
+     * @param \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface
+     * @param string $activeFieldName
+     * @param string $identifierFieldName
+     */
+    public function __construct(KeyBuilderInterface $keyBuilder, StorageClientInterface $storageClient, UrlFormatterInterface $urlFormatter, string $activeFieldName, string $identifierFieldName)
     {
-        return [
-            'title' => $this->getTitleFieldContent($entry),
-            'url' => $this->createUrl($entry, $locale),
-        ];
+        $this->keyBuilder = $keyBuilder;
+        $this->storageClient = $storageClient;
+        $this->activeFieldName = $activeFieldName;
+        $this->urlFormatter = $urlFormatter;
+        $this->identifierFieldName = $identifierFieldName;
     }
 
     /**
@@ -32,11 +61,105 @@ class NavigationStorageImporterPlugin extends IdentifierStorageImporterPlugin
      *
      * @throws
      *
+     * @return void
+     */
+    public function handle(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): void
+    {
+        $identifier = $this->getIdentifierFieldContent($entry);
+        if (empty($identifier)) {
+            return;
+        }
+
+        $key = $this->createStorageKey($entry->getId(), $locale);
+
+        if (! $this->isValid($contentfulEntry, $entry, $locale)) {
+            $this->deleteStorageEntry($key);
+            return;
+        }
+
+        $routePrefixLocale = $this->getLocaleRoutePrefixesByAppLocale($locale);
+
+        $value = $this->createStorageValue($entry, $identifier, $routePrefixLocale);
+        $this->createStorageEntry($key, $value);
+    }
+
+    /**
+     * @param string $appLocale
+     *
      * @return string
      */
-    protected function createStorageKey(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): string
+    protected function getLocaleRoutePrefixesByAppLocale(string $appLocale): string
     {
-        return $this->keyBuilder->generateKey($entry->getId(), $locale);
+        $storeLocaleRoutePrefixes = [];
+        foreach (Store::getInstance()->getLocales() as $storeRouteLocalePrefix => $storeAppLocale) {
+            if ($storeAppLocale !== $appLocale) {
+                continue;
+            }
+
+            $storeLocaleRoutePrefixes[] = $storeRouteLocalePrefix;
+        }
+
+        return array_shift($storeLocaleRoutePrefixes);
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return void
+     */
+    protected function deleteStorageEntry(string $key): void
+    {
+        $this->storageClient->delete($key);
+    }
+
+    /**
+     * @param string $entryId
+     * @param string $appLocale
+     *
+     * @return string
+     */
+    protected function createStorageKey(string $entryId, string $appLocale): string
+    {
+        return $this->keyBuilder->generateKey($entryId, $appLocale);
+    }
+
+    /**
+     * @param string $key
+     * @param string[] $value
+     *
+     * @throws \Exception
+     */
+    protected function createStorageEntry(string $key, array $value = []): void
+    {
+        $this->storageClient->set($key, json_encode($value));
+    }
+
+    /**
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
+     * @param string $identifier
+     * @param string $routeLocalePrefix
+     *
+     * @throws
+     *
+     * @return string[]
+     */
+    protected function createStorageValue(EntryInterface $entry, string $identifier, string $routeLocalePrefix): array
+    {
+        return [
+            'title' => $this->getTitleFieldContent($entry),
+            'url' => $this->createUrl($identifier, $routeLocalePrefix),
+        ];
+    }
+
+    /**
+     * @param string $identifier
+     * @param string $routeLocalePrefix
+     *
+     * @return string
+     */
+    protected function createUrl(string $identifier, string $routeLocalePrefix): string
+    {
+        return $this->urlFormatter->format($identifier, $routeLocalePrefix);
     }
 
     /**
@@ -50,7 +173,11 @@ class NavigationStorageImporterPlugin extends IdentifierStorageImporterPlugin
      */
     protected function isValid(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): bool
     {
-        if (parent::isValid($contentfulEntry, $entry, $locale) == false) {
+        if ($this->isContentActive($entry, $this->activeFieldName) === false) {
+            return false;
+        }
+
+        if (empty($this->getIdentifierFieldContent($entry))) {
             return false;
         }
 
@@ -62,18 +189,42 @@ class NavigationStorageImporterPlugin extends IdentifierStorageImporterPlugin
     }
 
     /**
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
-     * @param string $locale
+     * @param string $activeFieldName
      *
-     * @throws
-     *
-     * @return void
+     * @return bool
      */
-    protected function handleInvalidEntry(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): void
+    protected function isContentActive(EntryInterface $entry, string $activeFieldName): bool
     {
-        $key = $this->createStorageKey($contentfulEntry, $entry, $locale);
-        $this->storageClient->delete($key);
+        $field = $entry->getField($activeFieldName);
+        if ($field instanceof BooleanField) {
+            return $field->getBoolean();
+        }
+
+        return true;
+    }
+
+    /**
+     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $content
+     *
+     * @return null|string
+     */
+    protected function getIdentifierFieldContent(EntryInterface $content): ?string
+    {
+        if ($content->hasField($this->identifierFieldName) === false) {
+            return null;
+        }
+
+        $field = $content->getField($this->identifierFieldName);
+        if (! ($field instanceof TextField)) {
+            return null;
+        }
+
+        if (empty($field->getContent())) {
+            return null;
+        }
+
+        return $field->getContent();
     }
 
     /**
@@ -97,18 +248,5 @@ class NavigationStorageImporterPlugin extends IdentifierStorageImporterPlugin
         }
 
         return $field->getContent();
-    }
-
-    /**
-     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
-     * @param string $locale
-     *
-     * @return string
-     */
-    protected function createUrl(EntryInterface $entry, string $locale): string
-    {
-        $identifier = $this->getIdentifierFieldContent($entry);
-
-        return $this->urlFormatter->format($identifier, $locale);
     }
 }
