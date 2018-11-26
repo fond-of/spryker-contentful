@@ -36,6 +36,7 @@ class UrlMatcher implements UrlMatcherInterface
     public function matchUrl(string $url, string $localeName): ?array
     {
         $key = $this->keyBuilder->generateKey(rawurldecode($url), $localeName);
+
         return $this->storageClient->get($key);
     }
 }

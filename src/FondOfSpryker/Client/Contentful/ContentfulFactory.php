@@ -12,7 +12,6 @@ use FondOfSpryker\Shared\Contentful\KeyBuilder\EntryKeyBuilder;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\IdentifierKeyBuilder;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\NavigationUrlKeyBuilder;
 use Spryker\Client\Kernel\AbstractFactory;
-use Spryker\Client\Locale\LocaleClientInterface;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
@@ -25,8 +24,7 @@ class ContentfulFactory extends AbstractFactory
     {
         return new ContentfulEntryStorageReader(
             $this->getStorage(),
-            $this->createEntryKeyBuilder(),
-            $this->getLocaleClient()->getCurrentLocale()
+            $this->createEntryKeyBuilder()
         );
     }
 
@@ -45,8 +43,7 @@ class ContentfulFactory extends AbstractFactory
     {
         return new ContentfulNavigationStorageReader(
             $this->getStorage(),
-            $this->createNavigationUrlKeyBuilder(),
-            $this->getLocaleClient()->getCurrentLocale()
+            $this->createNavigationUrlKeyBuilder()
         );
     }
 
@@ -82,15 +79,5 @@ class ContentfulFactory extends AbstractFactory
     protected function getStorage(): StorageClientInterface
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::KV_STORAGE);
-    }
-
-    /**
-     * @throws
-     *
-     * @return \Spryker\Client\Locale\LocaleClientInterface
-     */
-    protected function getLocaleClient(): LocaleClientInterface
-    {
-        return $this->getProvidedDependency(ContentfulDependencyProvider::CLIENT_LOCALE);
     }
 }

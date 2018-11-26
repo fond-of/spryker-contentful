@@ -216,7 +216,7 @@ class ContentfulFactory extends AbstractFactory
      */
     protected function createNavigationNodeContentfulPageMapper(): NavigationNodeMapperInterface
     {
-        return new NavigationNodeContentfulPageMapper($this->getClient());
+        return new NavigationNodeContentfulPageMapper($this->getClient(), $this->getApplication()['locale']);
     }
 
     /**

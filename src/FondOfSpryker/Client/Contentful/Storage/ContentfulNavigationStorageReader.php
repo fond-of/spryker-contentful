@@ -12,27 +12,20 @@ class ContentfulNavigationStorageReader implements ContentfulNavigationStorageRe
     /**
      * @var \Spryker\Client\Storage\StorageClientInterface
      */
-    private $storageClient;
+    protected $storageClient;
 
     /**
      * @var \Spryker\Shared\KeyBuilder\KeyBuilderInterface
      */
-    private $keyBuilder;
-
-    /**
-     * @var string
-     */
-    private $localeName;
+    protected $keyBuilder;
 
     /**
      * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
-     * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface
-     * @param string $localeName
+     * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
      */
-    public function __construct(StorageClientInterface $storageClient, KeyBuilderInterface $keyBuilder, string $localeName)
+    public function __construct(StorageClientInterface $storageClient, KeyBuilderInterface $keyBuilder)
     {
         $this->storageClient = $storageClient;
-        $this->localeName = $localeName;
         $this->keyBuilder = $keyBuilder;
     }
 
@@ -43,7 +36,7 @@ class ContentfulNavigationStorageReader implements ContentfulNavigationStorageRe
      */
     public function getNavigationUrlBy(ContentfulNavigationUrlRequestTransfer $request): ContentfulNavigationUrlResponseTransfer
     {
-        $storageKey = $this->keyBuilder->generateKey($request->getId(), $this->localeName);
+        $storageKey = $this->keyBuilder->generateKey($request->getId(), $request->getLocale());
         $storageData = $this->storageClient->get($storageKey);
 
         $response = new ContentfulNavigationUrlResponseTransfer();

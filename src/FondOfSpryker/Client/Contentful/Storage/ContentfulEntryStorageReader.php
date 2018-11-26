@@ -12,27 +12,20 @@ class ContentfulEntryStorageReader implements ContentfulEntryStorageReaderInterf
     /**
      * @var \Spryker\Client\Storage\StorageClientInterface
      */
-    private $storageClient;
-
-    /**
-     * @var string
-     */
-    private $localeName;
+    protected $storageClient;
 
     /**
      * @var \Spryker\Shared\KeyBuilder\KeyBuilderInterface
      */
-    private $keyBuilder;
+    protected $keyBuilder;
 
     /**
      * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
      * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
-     * @param string $localeName
      */
-    public function __construct(StorageClientInterface $storageClient, KeyBuilderInterface $keyBuilder, string $localeName)
+    public function __construct(StorageClientInterface $storageClient, KeyBuilderInterface $keyBuilder)
     {
         $this->storageClient = $storageClient;
-        $this->localeName = $localeName;
         $this->keyBuilder = $keyBuilder;
     }
 
@@ -43,7 +36,7 @@ class ContentfulEntryStorageReader implements ContentfulEntryStorageReaderInterf
      */
     public function getEntryBy(ContentfulEntryRequestTransfer $request): ContentfulEntryResponseTransfer
     {
-        $storageKey = $this->keyBuilder->generateKey($request->getId(), $this->localeName);
+        $storageKey = $this->keyBuilder->generateKey($request->getId(), $request->getLocale());
         $storageData = $this->storageClient->get($storageKey);
 
         $response = new ContentfulEntryResponseTransfer();

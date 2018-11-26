@@ -20,11 +20,18 @@ class NavigationNodeContentfulPageMapper implements NavigationNodeMapperInterfac
     protected $client;
 
     /**
-     * @param \FondOfSpryker\Client\Contentful\ContentfulClientInterface $client
+     * @var string
      */
-    public function __construct(ContentfulClientInterface $client)
+    protected $currentLocale;
+
+    /**
+     * @param \FondOfSpryker\Client\Contentful\ContentfulClientInterface $client
+     * @param string $currentLocale
+     */
+    public function __construct(ContentfulClientInterface $client, string $currentLocale)
     {
         $this->client = $client;
+        $this->currentLocale = $currentLocale;
     }
 
     /**
@@ -69,7 +76,7 @@ class NavigationNodeContentfulPageMapper implements NavigationNodeMapperInterfac
             return false;
         }
 
-        return empty($response->getUrl());
+        return !empty($response->getUrl());
     }
 
     /**
@@ -103,6 +110,7 @@ class NavigationNodeContentfulPageMapper implements NavigationNodeMapperInterfac
     {
         $request = new ContentfulNavigationUrlRequestTransfer();
         $request->setId($entryId);
+        $request->setLocale($this->currentLocale);
 
         return $request;
     }
