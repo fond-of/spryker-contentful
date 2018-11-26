@@ -28,6 +28,7 @@ class EntryMapper implements EntryMapperInterface
     public function createEntry(ContentfulEntryInterface $contentfulEntry): EntryInterface
     {
         $entry = new Entry($contentfulEntry->getId(), $contentfulEntry->getContentTypeId());
+
         foreach ($contentfulEntry->getFields() as $contentfulField) {
             $mapper = $this->mapperLocator->locateFieldMapperBy($contentfulEntry, $contentfulField);
             $storageField = $mapper->createField($contentfulEntry, $contentfulField, $this->mapperLocator);

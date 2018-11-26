@@ -21,12 +21,12 @@ class ContentfulMapper implements ContentfulMapperInterface
     /**
      * @var string
      */
-    private $defaultLocale;
+    protected $defaultLocale;
 
-    /*
-     * @var string
+    /**
+     * @var \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientInterface
      */
-    private $client;
+    protected $client;
 
     /**
      * @param string $defaultLocale
@@ -84,13 +84,13 @@ class ContentfulMapper implements ContentfulMapperInterface
     {
         $fields = [];
         foreach ($entry->getContentType()->getFields() as $field) {
-            if ($field->getLinkType() == ContentfulField::FIELD_TYPE_ASSET) {
+            if ($field->getLinkType() === ContentfulField::FIELD_TYPE_ASSET) {
                 $fieldValue = $this->getAssetFieldValue($entry, $field);
             } else {
                 $fieldValue = $this->getFieldValue($entry, $field);
             }
 
-            if ($field->getType() == ContentfulField::FIELD_TYPE_OBJECT && is_array($fieldValue)) {
+            if ($field->getType() === ContentfulField::FIELD_TYPE_OBJECT && \is_array($fieldValue)) {
                 // don't disassemble the json object.
                 $fieldValue = json_encode($fieldValue);
             }
@@ -110,9 +110,11 @@ class ContentfulMapper implements ContentfulMapperInterface
      */
     protected function createContentfulFieldByValue(Field $field, $fieldValue): ContentfulFieldInterface
     {
-        if ($field->getLinkType() == ContentfulField::FIELD_TYPE_ASSET && $fieldValue === null) {
+        if ($fieldValue === null && $field->getLinkType() === ContentfulField::FIELD_TYPE_ASSET) {
             return new ContentfulAsset($field, null, null, null);
-        } elseif ($fieldValue instanceof Asset) {
+        }
+
+        if ($fieldValue instanceof Asset) {
             return new ContentfulAsset($field, $fieldValue, $fieldValue->getDescription(), $fieldValue->getTitle());
         }
 
@@ -154,12 +156,11 @@ class ContentfulMapper implements ContentfulMapperInterface
 
             // resolve link in correct current locale if field is not localized
             $assetLink = $entry->get($field->getId(), $this->defaultLocale, false);
-            if ($assetLink instanceof Link && $assetLink->getId() != '') {
+            if ($assetLink instanceof Link && $assetLink->getId() !== '') {
                 return $this->client->findAsset($assetLink->getId(), $entry->getLocale());
             }
 
             return $entry->get($field->getId(), $this->defaultLocale);
-
         } catch (Throwable $throwable) {
             echo $throwable->getMessage();
             return null;
@@ -177,7 +178,7 @@ class ContentfulMapper implements ContentfulMapperInterface
             return new ContentfulEntry($value);
         }
 
-        if (is_array($value)) {
+        if (\is_array($value)) {
             return $this->resolveContentfulFieldValueArray($value);
         }
 

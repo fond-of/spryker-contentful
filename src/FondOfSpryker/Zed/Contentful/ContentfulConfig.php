@@ -7,8 +7,8 @@ use Spryker\Zed\Kernel\AbstractBundleConfig;
 
 class ContentfulConfig extends AbstractBundleConfig
 {
-    private const DEFAULT_FIELD_NAME_ACTIVE = 'isActive';
-    private const DEFAULT_FIELD_NAME_IDENTIFIER = 'identifier';
+    public const DEFAULT_FIELD_NAME_ACTIVE = 'isActive';
+    public const DEFAULT_FIELD_NAME_IDENTIFIER = 'identifier';
 
     /**
      * @return string

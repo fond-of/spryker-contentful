@@ -29,7 +29,7 @@ class AssetField extends AbstractField
      * @param null|string $title
      * @param null|string $description
      */
-    public function __construct(string $name, string $url = null, string $title = null, string $description = null)
+    public function __construct(string $name, ?string $url = null, ?string $title = null, ?string $description = null)
     {
         $this->name = $name;
         $this->url = $url;

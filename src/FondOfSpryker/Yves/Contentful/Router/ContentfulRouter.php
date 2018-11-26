@@ -2,7 +2,6 @@
 
 namespace FondOfSpryker\Yves\Contentful\Router;
 
-use Spryker\Shared\Kernel\Store;
 use Spryker\Yves\Application\Routing\AbstractRouter;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -29,7 +28,7 @@ class ContentfulRouter extends AbstractRouter
     public function match($pathinfo): array
     {
         // remove trailing slash at the end (added from nginx, removed to match key)
-        if ($pathinfo != '/' && substr($pathinfo, -1) == '/') {
+        if ($pathinfo !== '/' && substr($pathinfo, -1) === '/') {
             $pathinfo = substr($pathinfo, 0, -1);
         }
 
@@ -40,7 +39,7 @@ class ContentfulRouter extends AbstractRouter
 
         // plug in custom handling for special cases
         foreach ($this->getFactory()->getResourceCreator() as $resourceCreator) {
-            if ($resourceCreator->getType() == $data['type']) {
+            if ($resourceCreator->getType() === $data['type']) {
                 return $resourceCreator->createResource($this->getApplication(), $data);
             }
         }

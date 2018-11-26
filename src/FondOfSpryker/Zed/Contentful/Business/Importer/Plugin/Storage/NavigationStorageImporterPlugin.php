@@ -2,14 +2,15 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage;
 
+use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface;
+use FondOfSpryker\Zed\Contentful\Business\Storage\Boolean\BooleanField;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextField;
+use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\Kernel\Store;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
-use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
-use Spryker\Client\Storage\StorageClientInterface;
 
 class NavigationStorageImporterPlugin implements ImporterPluginInterface
 {
@@ -41,7 +42,7 @@ class NavigationStorageImporterPlugin implements ImporterPluginInterface
     /**
      * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
      * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
-     * @param \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface
+     * @param \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface $urlFormatter
      * @param string $activeFieldName
      * @param string $identifierFieldName
      */
@@ -72,7 +73,7 @@ class NavigationStorageImporterPlugin implements ImporterPluginInterface
 
         $key = $this->createStorageKey($entry->getId(), $locale);
 
-        if (! $this->isValid($contentfulEntry, $entry, $locale)) {
+        if (!$this->isValid($contentfulEntry, $entry, $locale)) {
             $this->deleteStorageEntry($key);
             return;
         }
@@ -99,7 +100,7 @@ class NavigationStorageImporterPlugin implements ImporterPluginInterface
             $storeLocaleRoutePrefixes[] = $storeRouteLocalePrefix;
         }
 
-        return array_shift($storeLocaleRoutePrefixes);
+        return \array_shift($storeLocaleRoutePrefixes);
     }
 
     /**
@@ -127,7 +128,7 @@ class NavigationStorageImporterPlugin implements ImporterPluginInterface
      * @param string $key
      * @param string[] $value
      *
-     * @throws \Exception
+     * @return void
      */
     protected function createStorageEntry(string $key, array $value = []): void
     {
@@ -197,6 +198,7 @@ class NavigationStorageImporterPlugin implements ImporterPluginInterface
     protected function isContentActive(EntryInterface $entry, string $activeFieldName): bool
     {
         $field = $entry->getField($activeFieldName);
+
         if ($field instanceof BooleanField) {
             return $field->getBoolean();
         }
@@ -216,7 +218,7 @@ class NavigationStorageImporterPlugin implements ImporterPluginInterface
         }
 
         $field = $content->getField($this->identifierFieldName);
-        if (! ($field instanceof TextField)) {
+        if (!($field instanceof TextField)) {
             return null;
         }
 
@@ -239,7 +241,7 @@ class NavigationStorageImporterPlugin implements ImporterPluginInterface
         }
 
         $field = $entry->getField('title');
-        if (! ($field instanceof TextField)) {
+        if (!($field instanceof TextField)) {
             return null;
         }
 

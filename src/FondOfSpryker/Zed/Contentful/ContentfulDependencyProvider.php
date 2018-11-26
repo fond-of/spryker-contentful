@@ -1,14 +1,21 @@
 <?php
+
 namespace FondOfSpryker\Zed\Contentful;
 
+use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
+use Aptoma\Twig\Extension\MarkdownExtension;
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
+use Spryker\Zed\Kernel\Communication\Plugin\Pimple;
 use Spryker\Zed\Kernel\Container;
 
 class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
 {
+    public const TWIG_MARKDOWN = 'TWIG_MARKDOWN';
     public const STORAGE_CLIENT = 'STORAGE_CLIENT';
     public const LOCALE_FACADE = 'LOCALE_FACADE';
     public const CLIENT_STORE = 'CLIENT_STORE';
+    public const CLIENT = 'CLIENT';
+    public const PLUGIN_APPLICATION = 'PLUGIN_APPLICATION';
 
     /**
      * @param \Spryker\Zed\Kernel\Container $container
@@ -19,6 +26,37 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container = $this->provideStorageClient($container);
         $container = $this->provideStoreClient($container);
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    public function provideCommunicationLayerDependencies(Container $container): Container
+    {
+        $container = parent::provideCommunicationLayerDependencies($container);
+        $container = $this->provideTwigMarkdownExtension($container);
+        $container = $this->provideStoreClient($container);
+        $container = $this->provideApplication($container);
+        $container = $this->provideClient($container);
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Shared\Kernel\Container $container
+     *
+     * @return \Spryker\Shared\Kernel\Container
+     */
+    protected function provideApplication(Container $container): Container
+    {
+        $container[self::PLUGIN_APPLICATION] = function () {
+            $pimplePlugin = new Pimple();
+            return $pimplePlugin->getApplication();
+        };
 
         return $container;
     }
@@ -46,6 +84,34 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container[static::CLIENT_STORE] = function (Container $container) {
             return $container->getLocator()->store()->client();
+        };
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function provideTwigMarkdownExtension(Container $container): Container
+    {
+        $container[static::TWIG_MARKDOWN] = function (Container $container) {
+            return new MarkdownExtension(new MichelfMarkdownEngine());
+        };
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function provideClient(Container $container): Container
+    {
+        $container[static::CLIENT] = function (Container $container) {
+            return $container->getLocator()->contentful()->client();
         };
 
         return $container;

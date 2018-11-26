@@ -36,7 +36,7 @@ class NavigationNodeFactory implements NavigationNodeFactoryInterface
     }
 
     /**
-     * @param NavigationItemCollectionInterface $navigationItemCollection
+     * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemCollectionInterface $navigationItemCollection
      *
      * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeCollectionInterface
      */
@@ -66,12 +66,12 @@ class NavigationNodeFactory implements NavigationNodeFactoryInterface
     {
         foreach ($this->mapper as $mapper) {
             // find the right mapper for navigation type
-            if ($mapper->getType() != $item->getType()) {
+            if ($mapper->getType() !== $item->getType()) {
                 continue;
             }
 
             // check if navigation item is valid for mapping
-            if ($mapper->isNavigationItemValid($item) == false) {
+            if ($mapper->isNavigationItemValid($item) === false) {
                 return null;
             }
 
@@ -80,7 +80,7 @@ class NavigationNodeFactory implements NavigationNodeFactoryInterface
             $node->setActiveState($this->isNodeActive($node));
 
             // repeat for children
-            foreach($item->getChildren() as $itemChild) {
+            foreach ($item->getChildren() as $itemChild) {
                 $nodeChild = $this->createNavigationNodeRecursively($itemChild, $level);
 
                 if ($nodeChild === null) {
@@ -103,11 +103,7 @@ class NavigationNodeFactory implements NavigationNodeFactoryInterface
      */
     protected function isNodeActive(NavigationNodeInterface $node): bool
     {
-        if ($node->getUrl() == $this->getRequestUri()) {
-            return true;
-        }
-
-        return false;
+        return $node->getUrl() === $this->getRequestUri();
     }
 
     /**

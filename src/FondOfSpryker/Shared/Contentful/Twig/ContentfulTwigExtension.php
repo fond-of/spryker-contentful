@@ -1,9 +1,8 @@
 <?php
-namespace FondOfSpryker\Yves\Contentful\Twig;
+namespace FondOfSpryker\Shared\Contentful\Twig;
 
-use FondOfSpryker\Client\Contentful\ContentfulClientInterface;
+use FondOfSpryker\Shared\Contentful\Builder\BuilderInterface;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
-use FondOfSpryker\Yves\Contentful\Builder\BuilderInterface;
 use Spryker\Shared\Kernel\Store;
 use Spryker\Shared\Twig\TwigExtension;
 use Twig_SimpleFunction;
@@ -18,11 +17,6 @@ class ContentfulTwigExtension extends TwigExtension
     private $builder;
 
     /**
-     * @var \FondOfSpryker\Client\Contentful\ContentfulClientInterface
-     */
-    private $client;
-
-    /**
      * @var \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface
      */
     private $urlFormatter;
@@ -33,15 +27,13 @@ class ContentfulTwigExtension extends TwigExtension
     private $currentLocale;
 
     /**
-     * @param \FondOfSpryker\Yves\Contentful\Builder\BuilderInterface $builder
-     * @param \FondOfSpryker\Client\Contentful\ContentfulClientInterface $client
-     * @param \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface $urlFormatter
+     * @param \FondOfSpryker\Shared\Contentful\Builder\BuilderInterface $builder
+     * @param \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface|string $urlFormatter
      * @param string $currentLocale
      */
-    public function __construct(BuilderInterface $builder, ContentfulClientInterface $client, UrlFormatterInterface $urlFormatter, string $currentLocale)
+    public function __construct(BuilderInterface $builder, UrlFormatterInterface $urlFormatter, string $currentLocale)
     {
         $this->builder = $builder;
-        $this->client = $client;
         $this->urlFormatter = $urlFormatter;
         $this->currentLocale = $currentLocale;
     }
@@ -62,23 +54,66 @@ class ContentfulTwigExtension extends TwigExtension
     /**
      * @param string $entryId
      * @param string[] $additionalParameters
+     * @param string|null $locale
      *
      * @return string
      */
-    public function renderContentfulEntry(string $entryId, array $additionalParameters = []): string
+    public function renderContentfulEntry(string $entryId, array $additionalParameters = [], ?string $locale = null): string
     {
-        return $this->builder->renderContentfulEntry($entryId, $additionalParameters);
+        return $this->builder->renderContentfulEntry($entryId, $locale ?? $this->currentLocale, $additionalParameters);
     }
 
     /**
      * @param string $entryId
      * @param string[] $options
+     * @param string|null $locale
      *
      * @return string[]
      */
-    public function getContentfulEntry(string $entryId, array $options = []): array
+    public function getContentfulEntry(string $entryId, array $options = [], ?string $locale = null): array
     {
-        return $this->builder->getContentfulEntry($entryId, $options);
+        return $this->builder->getContentfulEntry($entryId, $locale ?? $this->currentLocale, $options);
+    }
+
+    /**
+     * @param string $url
+     * @param string|null $locale
+     *
+     * @return string
+     */
+    public function formatContentfulUrl(string $url, ?string $locale = null): string
+    {
+        return $this->urlFormatter->format(
+            $url,
+            $this->getLocaleRoutePrefixesByAppLocale($locale ?? $this->currentLocale)
+        );
+    }
+
+    /**
+     * @param string $url
+     * @param int|null $width
+     * @param int|null $height
+     *
+     * @return string
+     */
+    public function resizeContentfulImage($url, ?int $width = null, ?int $height = null): string
+    {
+        if (empty($url)) {
+            return '';
+        }
+
+        $parameter = [];
+        if ($width !== null) {
+            $parameter[] = sprintf('w=%s', $width);
+        } else {
+            $parameter[] = sprintf('w=%s', static::IMAGE_MAX_WIDTH);
+        }
+
+        if ($height !== null) {
+            $parameter[] = sprintf('h=%s', $height);
+        }
+
+        return $url . '?' . implode('&', $parameter);
     }
 
     /**
@@ -103,45 +138,5 @@ class ContentfulTwigExtension extends TwigExtension
         }
 
         return array_shift($storeLocaleRoutePrefixes);
-    }
-
-    /**
-     * @param string $url
-     *
-     * @return string
-     */
-    public function formatContentfulUrl(string $url): string
-    {
-        return $this->urlFormatter->format(
-            $url,
-            $this->getLocaleRoutePrefixesByAppLocale($this->currentLocale)
-        );
-    }
-
-    /**
-     * @param string $url
-     * @param int|null $width
-     * @param int|null $height
-     *
-     * @return string
-     */
-    public function resizeContentfulImage($url, int $width = null, int $height = null): string
-    {
-        if (empty($url)) {
-            return '';
-        }
-
-        $parameter = [];
-        if ($width !== null) {
-            $parameter[] = sprintf('w=%s', $width);
-        } else {
-            $parameter[] = sprintf('w=%s', static::IMAGE_MAX_WIDTH);
-        }
-
-        if ($height !== null) {
-            $parameter[] = sprintf('h=%s', $height);
-        }
-
-        return $url . '?' . implode('&', $parameter);
     }
 }

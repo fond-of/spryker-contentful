@@ -3,11 +3,13 @@
 namespace FondOfSpryker\Yves\Contentful;
 
 use Aptoma\Twig\Extension\MarkdownExtension;
+use FondOfSpryker\Shared\Contentful\Builder\Builder;
+use FondOfSpryker\Shared\Contentful\Builder\BuilderInterface;
+use FondOfSpryker\Shared\Contentful\Renderer\DefaultRenderer;
+use FondOfSpryker\Shared\Contentful\Renderer\RendererInterface;
+use FondOfSpryker\Shared\Contentful\Twig\ContentfulTwigExtension;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatter;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
-use FondOfSpryker\Yves\Contentful\Builder\Builder;
-use FondOfSpryker\Yves\Contentful\Builder\BuilderInterface;
-use FondOfSpryker\Yves\Contentful\Renderer\DefaultRenderer;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategoryMapper;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\ContentfulPage\NavigationItemContentfulPageMapper;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Custom\NavigationItemCustomMapper;
@@ -18,6 +20,7 @@ use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemFactory
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemMapperInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\NavigationMapper;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\NavigationMapperInterface;
+use FondOfSpryker\Yves\Contentful\Renderer\Navigation\NavigationRenderer;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\Category\NavigationNodeCategoryMapper;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\ContentfulPage\NavigationNodeContentfulPageMapper;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\Custom\NavigationNodeCustomMapper;
@@ -25,12 +28,9 @@ use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeCollect
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeCollectionInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeFactory;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeFactoryInterface;
-use FondOfSpryker\Yves\Contentful\Renderer\Navigation\NavigationRenderer;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeMapperInterface;
-use FondOfSpryker\Yves\Contentful\Renderer\RendererInterface;
 use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\IdentifierResourceCreator;
 use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\ResourceCreatorInterface;
-use FondOfSpryker\Yves\Contentful\Twig\ContentfulTwigExtension;
 use Spryker\Client\CategoryStorage\CategoryStorageClientInterface;
 use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Shared\Kernel\Communication\Application;
@@ -42,11 +42,11 @@ use Spryker\Yves\Kernel\AbstractFactory;
 class ContentfulFactory extends AbstractFactory
 {
     /**
-     * @return \FondOfSpryker\Yves\Contentful\Twig\ContentfulTwigExtension
+     * @return \FondOfSpryker\Shared\Contentful\Twig\ContentfulTwigExtension
      */
     public function createContentfulTwigExtension(): ContentfulTwigExtension
     {
-        return new ContentfulTwigExtension($this->createBuilder(), $this->getClient(), $this->createUrlFormatter(), $this->getApplication()['locale']);
+        return new ContentfulTwigExtension($this->createBuilder(), $this->createUrlFormatter(), $this->getApplication()['locale']);
     }
 
     /**
@@ -58,7 +58,7 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @return \FondOfSpryker\Yves\Contentful\Builder\BuilderInterface
+     * @return \FondOfSpryker\Shared\Contentful\Builder\BuilderInterface
      */
     public function createBuilder(): BuilderInterface
     {
@@ -66,7 +66,7 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @return \FondOfSpryker\Yves\Contentful\Renderer\RendererInterface[]
+     * @return \FondOfSpryker\Shared\Contentful\Renderer\RendererInterface[]
      */
     protected function getRenderer(): array
     {
@@ -74,7 +74,7 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @return \FondOfSpryker\Yves\Contentful\Renderer\RendererInterface
+     * @return \FondOfSpryker\Shared\Contentful\Renderer\RendererInterface
      */
     protected function createDefaultRenderer(): RendererInterface
     {
@@ -100,7 +100,7 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @return \FondOfSpryker\Yves\Contentful\Renderer\RendererInterface
+     * @return \FondOfSpryker\Shared\Contentful\Renderer\RendererInterface
      */
     protected function createNavigationRenderer(): RendererInterface
     {

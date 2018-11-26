@@ -77,7 +77,7 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
             $locale
         );
 
-        if (! $this->isValid($contentfulEntry, $entry, $locale)) {
+        if (!$this->isValid($contentfulEntry, $entry, $locale)) {
             $this->deleteStorageEntry($key);
             return;
         }
@@ -101,7 +101,7 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
             $storeLocaleRoutePrefixes[] = $storeRouteLocalePrefix;
         }
 
-        return array_shift($storeLocaleRoutePrefixes);
+        return \array_shift($storeLocaleRoutePrefixes);
     }
 
     /**
@@ -127,11 +127,7 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
     }
 
     /**
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
-     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
-     * @param string $locale
-     *
-     * @throws
+     * @param string $key
      *
      * @return void
      */
@@ -142,6 +138,7 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
 
     /**
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
+     *
      * @return array
      */
     protected function createStorageValue(EntryInterface $entry): array
@@ -154,9 +151,9 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
 
     /**
      * @param string $key
-     * @param string[] $value
+     * @param array $value
      *
-     * @throws \Exception
+     * @return void
      */
     protected function createStorageEntry(string $key, array $value = []): void
     {
@@ -178,11 +175,7 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
             return false;
         }
 
-        if (empty($this->getIdentifierFieldContent($entry))) {
-            return false;
-        }
-
-        return true;
+        return !empty($this->getIdentifierFieldContent($entry));
     }
 
     /**
@@ -213,7 +206,7 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
         }
 
         $field = $content->getField($this->identifierFieldName);
-        if (! ($field instanceof TextField)) {
+        if (!($field instanceof TextField)) {
             return null;
         }
 

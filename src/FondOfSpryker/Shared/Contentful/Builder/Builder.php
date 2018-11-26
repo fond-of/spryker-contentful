@@ -1,9 +1,9 @@
 <?php
 
-namespace FondOfSpryker\Yves\Contentful\Builder;
+namespace FondOfSpryker\Shared\Contentful\Builder;
 
 use FondOfSpryker\Client\Contentful\ContentfulClientInterface;
-use FondOfSpryker\Yves\Contentful\Renderer\RendererInterface;
+use FondOfSpryker\Shared\Contentful\Renderer\RendererInterface;
 use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 
@@ -12,22 +12,22 @@ class Builder implements BuilderInterface
     /**
      * @var \FondOfSpryker\Client\Contentful\ContentfulClientInterface
      */
-    private $client;
+    protected $client;
 
     /**
-     * @var \FondOfSpryker\Yves\Contentful\Renderer\RendererInterface
+     * @var \FondOfSpryker\Shared\Contentful\Renderer\RendererInterface
      */
-    private $defaultRenderer;
+    protected $defaultRenderer;
 
     /**
-     * @var \FondOfSpryker\Yves\Contentful\Renderer\RendererInterface[]
+     * @var \FondOfSpryker\Shared\Contentful\Renderer\RendererInterface[]
      */
-    private $renderer;
+    protected $renderer;
 
     /**
      * @param \FondOfSpryker\Client\Contentful\ContentfulClientInterface $client
-     * @param \FondOfSpryker\Yves\Contentful\Renderer\RendererInterface[] $renderer
-     * @param \FondOfSpryker\Yves\Contentful\Renderer\RendererInterface $defaultRenderer
+     * @param \FondOfSpryker\Shared\Contentful\Renderer\RendererInterface[] $renderer
+     * @param \FondOfSpryker\Shared\Contentful\Renderer\RendererInterface $defaultRenderer
      */
     public function __construct(ContentfulClientInterface $client, array $renderer, RendererInterface $defaultRenderer)
     {
@@ -38,13 +38,14 @@ class Builder implements BuilderInterface
 
     /**
      * @param string $entryId
-     * @param string[] $additionalParameters
+     * @param string $locale
+     * @param string[]|string $additionalParameters
      *
      * @return string
      */
-    public function renderContentfulEntry(string $entryId, array $additionalParameters = []): string
+    public function renderContentfulEntry(string $entryId, string $locale, array $additionalParameters = []): string
     {
-        $request = $this->createRequest($entryId);
+        $request = $this->createRequest($entryId, $locale);
         $response = $this->client->getEntryBy($request);
         $renderer = $this->findRendererFor($response);
 
@@ -55,13 +56,14 @@ class Builder implements BuilderInterface
      * Returns null on failure.
      *
      * @param string $entryId
-     * @param string[] $options
+     * @param string $locale
+     * @param string[]|string $options
      *
      * @return string[]
      */
-    public function getContentfulEntry(string $entryId, array $options = []): array
+    public function getContentfulEntry(string $entryId, string $locale, array $options = []): array
     {
-        $request = $this->createRequest($entryId);
+        $request = $this->createRequest($entryId, $locale);
         $response = $this->client->getEntryBy($request);
         $renderer = $this->findRendererFor($response);
 
@@ -71,15 +73,15 @@ class Builder implements BuilderInterface
     /**
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
      *
-     * @return \FondOfSpryker\Yves\Contentful\Renderer\RendererInterface
+     * @return \FondOfSpryker\Shared\Contentful\Renderer\RendererInterface
      */
-    private function findRendererFor(ContentfulEntryResponseTransfer $response): RendererInterface
+    protected function findRendererFor(ContentfulEntryResponseTransfer $response): RendererInterface
     {
         foreach ($this->renderer as $renderer) {
             $rendererType = strtolower(trim($renderer->getType()));
             $contentType = strtolower(trim($response->getContentType()));
 
-            if ($rendererType == $contentType) {
+            if ($rendererType === $contentType) {
                 return $renderer;
             }
         }
@@ -89,13 +91,15 @@ class Builder implements BuilderInterface
 
     /**
      * @param string $entryId
+     * @param string $locale
      *
      * @return \Generated\Shared\Transfer\ContentfulEntryRequestTransfer
      */
-    private function createRequest(string $entryId): ContentfulEntryRequestTransfer
+    protected function createRequest(string $entryId, string $locale): ContentfulEntryRequestTransfer
     {
         $requestTransfer = new ContentfulEntryRequestTransfer();
         $requestTransfer->setId($entryId);
+        $requestTransfer->setLocale($locale);
 
         return $requestTransfer;
     }

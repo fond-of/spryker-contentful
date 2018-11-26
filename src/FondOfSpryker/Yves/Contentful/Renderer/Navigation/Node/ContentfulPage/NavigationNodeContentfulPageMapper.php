@@ -65,15 +65,11 @@ class NavigationNodeContentfulPageMapper implements NavigationNodeMapperInterfac
         }
 
         $response = $this->getContentfulNavigationUrlByEntryId($item);
-        if ($response->getSuccessful() == false) {
+        if ($response->getSuccessful() === false) {
             return false;
         }
 
-        if (empty($response->getUrl())) {
-            return false;
-        }
-
-        return true;
+        return empty($response->getUrl());
     }
 
     /**
@@ -84,9 +80,8 @@ class NavigationNodeContentfulPageMapper implements NavigationNodeMapperInterfac
     protected function getContentfulNavigationUrlByEntryId(NavigationItemContentfulPage $item): ContentfulNavigationUrlResponseTransfer
     {
         $request = $this->createContentfulNavigationUrlRequest($item->getEntryId());
-        $response = $this->getContentfulNavigationUrlBy($request);
-
-        return $response;
+        
+        return $this->getContentfulNavigationUrlBy($request);
     }
 
     /**
@@ -112,5 +107,3 @@ class NavigationNodeContentfulPageMapper implements NavigationNodeMapperInterfac
         return $request;
     }
 }
-
-

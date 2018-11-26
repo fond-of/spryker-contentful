@@ -31,12 +31,12 @@ class CollectionFieldMapper implements TypeFieldMapperInterface
         $field = new CollectionField($contentfulField->getId());
         $fieldValues = $contentfulField->getValue();
 
-        if (is_array($fieldValues) === false) {
+        if (\is_array($fieldValues) === false) {
             return $field;
         }
 
         foreach ($fieldValues as $fieldValue) {
-            if ($contentfulField->getItemsLinkType() == ContentfulField::FIELD_TYPE_ENTRY && $fieldValue instanceof ContentfulEntryInterface) {
+            if ($fieldValue instanceof ContentfulEntryInterface && $contentfulField->getItemsLinkType() === ContentfulField::FIELD_TYPE_ENTRY) {
                 $field->addField(new CollectionReferenceField($fieldValue->getId()));
                 continue;
             }

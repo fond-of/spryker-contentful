@@ -2,9 +2,8 @@
 
 namespace FondOfSpryker\Yves\Contentful\Renderer\Navigation;
 
-use FondOfSpryker\Yves\Contentful\Renderer\AbstractRenderer;
+use FondOfSpryker\Shared\Contentful\Renderer\AbstractRenderer;
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
-use FondOfSpryker\Yves\Contentful\Renderer\Navigation\NavigationMapperInterface;
 use Spryker\Shared\Kernel\Communication\Application;
 
 class NavigationRenderer extends AbstractRenderer

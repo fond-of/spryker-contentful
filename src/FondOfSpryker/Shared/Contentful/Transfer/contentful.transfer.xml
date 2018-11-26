@@ -5,6 +5,7 @@
 
     <transfer name="ContentfulEntryRequest">
         <property name="id" type="string" />
+        <property name="locale" type="string" />
     </transfer>
 
     <transfer name="ContentfulEntryResponse">
@@ -17,6 +18,7 @@
 
     <transfer name="ContentfulNavigationUrlRequest">
         <property name="id" type="string" />
+        <property name="locale" type="string" />
     </transfer>
 
     <transfer name="ContentfulNavigationUrlResponse">

@@ -26,6 +26,8 @@ class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterfa
     }
 
     /**
+     * @param string $entryId
+     *
      * @return int
      */
     public function importEntry(string $entryId): int

@@ -77,7 +77,7 @@ class ContentfulEntry implements ContentfulEntryInterface
     public function hasField(string $name): bool
     {
         foreach ($this->fields as $field) {
-            if ($field->getName() == $name) {
+            if ($field->getName() === $name) {
                 return true;
             }
         }
@@ -93,7 +93,7 @@ class ContentfulEntry implements ContentfulEntryInterface
     public function getField(string $name): ?ContentfulFieldInterface
     {
         foreach ($this->fields as $field) {
-            if ($field->getName() == $name) {
+            if ($field->getName() === $name) {
                 return $field;
             }
         }

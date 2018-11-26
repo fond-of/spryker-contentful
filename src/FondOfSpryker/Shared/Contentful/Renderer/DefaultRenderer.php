@@ -1,6 +1,6 @@
 <?php
 
-namespace FondOfSpryker\Yves\Contentful\Renderer;
+namespace FondOfSpryker\Shared\Contentful\Renderer;
 
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 

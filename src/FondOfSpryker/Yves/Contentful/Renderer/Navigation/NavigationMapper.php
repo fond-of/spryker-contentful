@@ -40,9 +40,8 @@ class NavigationMapper implements NavigationMapperInterface
     {
         $navigation = $this->extractNavigationJsonArray($response->getFields());
         $itemCollection = $this->itemFactory->build($navigation);
-        $nodeCollection = $this->nodeFactory->build($itemCollection);
 
-        return $nodeCollection;
+        return $this->nodeFactory->build($itemCollection);
     }
 
     /**
@@ -52,12 +51,12 @@ class NavigationMapper implements NavigationMapperInterface
      */
     protected function extractNavigationJsonArray(array $fields): array
     {
-        if (array_key_exists(static::FIELD_NAME_JSON_NAVIGATION, $fields) == false) {
+        if (\array_key_exists(static::FIELD_NAME_JSON_NAVIGATION, $fields) === false) {
             return [];
         }
 
         $navigationArray = json_decode($fields[static::FIELD_NAME_JSON_NAVIGATION]['value'], true);
-        if (is_array($navigationArray) == false) {
+        if (\is_array($navigationArray) === false) {
             return [];
         }
 

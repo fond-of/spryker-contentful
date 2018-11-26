@@ -17,7 +17,7 @@ class BooleanField extends AbstractField
      * @param string $name
      * @param null|bool $bool
      */
-    public function __construct(string $name, bool $bool = null)
+    public function __construct(string $name, ?bool $bool = null)
     {
         $this->name = $name;
         $this->bool = $bool;

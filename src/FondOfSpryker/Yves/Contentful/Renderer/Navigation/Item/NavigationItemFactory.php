@@ -56,18 +56,18 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
     private function createNavigationItemRecursive(array $navigation): ?NavigationItemInterface
     {
         // check if navigation has a field called type
-        if ($this->hasType($navigation) == false) {
+        if ($this->hasType($navigation) === false) {
             return null;
         }
 
         foreach ($this->mapper as $mapper) {
             // find the right mapper for navigation type
-            if ($mapper->getType() != $this->getType($navigation)) {
+            if ($mapper->getType() !== $this->getType($navigation)) {
                 continue;
             }
 
             // check if navigation array is valid for mapping
-            if ($mapper->isNavigationItemArrayValid($navigation) == false) {
+            if ($mapper->isNavigationItemArrayValid($navigation) === false) {
                 return null;
             }
 
@@ -99,7 +99,7 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
      */
     protected function hasType(array $navigation): bool
     {
-        return array_key_exists(static::KEY_TYPE, $navigation);
+        return \array_key_exists(static::KEY_TYPE, $navigation);
     }
 
     /**
@@ -119,9 +119,9 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
      */
     protected function hasChildren(array $navigation): bool
     {
-        return array_key_exists(static::KEY_CHILDREN, $navigation)
-            && is_array($navigation[static::KEY_CHILDREN])
-            && count($navigation[static::KEY_CHILDREN]) > 0;
+        return \array_key_exists(static::KEY_CHILDREN, $navigation)
+            && \is_array($navigation[static::KEY_CHILDREN])
+            && \count($navigation[static::KEY_CHILDREN]) > 0;
     }
 
     /**

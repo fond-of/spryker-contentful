@@ -81,7 +81,7 @@ class FieldMapperLocator implements FieldMapperLocatorInterface
     public function locateFieldMapperByFieldType(string $fieldType): ?TypeFieldMapperInterface
     {
         foreach ($this->typeFieldMapperCollection->getAll() as $fieldMapperType) {
-            if ($this->lt($fieldMapperType->getContentfulType()) == $this->lt($fieldType)) {
+            if ($this->lt($fieldMapperType->getContentfulType()) === $this->lt($fieldType)) {
                 return $fieldMapperType;
             }
         }
@@ -98,7 +98,7 @@ class FieldMapperLocator implements FieldMapperLocatorInterface
     public function locateFieldMapperByNameAndContentType(string $fieldName, string $contentType): ?CustomFieldMapperInterface
     {
         foreach ($this->customFieldMapperCollection->getAll() as $fieldMapperCustom) {
-            if ($this->lt($fieldMapperCustom->getFieldName()) == $this->lt($fieldName) && $this->lt($fieldMapperCustom->getContentType()) == $this->lt($contentType)) {
+            if ($this->lt($fieldMapperCustom->getFieldName()) === $this->lt($fieldName) && $this->lt($fieldMapperCustom->getContentType()) === $this->lt($contentType)) {
                 return $fieldMapperCustom;
             }
         }
