@@ -34,4 +34,24 @@ class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterfa
     {
         return $this->getFactory()->createImporter()->importEntry($entryId);
     }
+
+    /**
+     * @param array $idCollection
+     *
+     * @return void
+     */
+    public function publish(array $idCollection): void
+    {
+        $this->getFactory()->getContentfulStorageFacade()->publish($idCollection);
+    }
+
+    /**
+     * @param array $idCollection
+     *
+     * @return void
+     */
+    public function unpublish(array $idCollection): void
+    {
+        $this->getFactory()->getContentfulSearchPageFacade()->unpublish($idCollection);
+    }
 }

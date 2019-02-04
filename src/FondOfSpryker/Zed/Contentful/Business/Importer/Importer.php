@@ -92,6 +92,7 @@ class Importer implements ImporterInterface
      */
     protected function importResource(ResourceArray $resourceArray): void
     {
+        /** @var \Contentful\Delivery\Resource\Entry $entry */
         foreach ($resourceArray->getItems() as $entry) {
             $this->import($entry);
         }

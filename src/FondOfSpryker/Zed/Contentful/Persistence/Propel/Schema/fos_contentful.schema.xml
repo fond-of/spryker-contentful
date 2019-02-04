@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://static.spryker.com/schema-01.xsd"
+          name="zed"
+          defaultIdMethod="native"
+          namespace="Orm\Zed\Contentful\Persistence"
+          package="src.Orm.Zed.Contentful.Persistence">
+
+    <table name="fos_contentful" idMethod="native" allowPkInsert="true">
+        <column name="id_contentful" type="BIGINT" autoIncrement="true" primaryKey="true"/>
+        <column name="contentful_id" required="true" size="255" type="VARCHAR"/>
+        <column name="contentful_type" required="true" size="255" type="VARCHAR"/>
+        <column name="contentful_type_id" required="true" size="255" type="VARCHAR"/>
+        <column name="contentful_data" required="true" size="255" type="LONGVARCHAR"/>
+        <column name="contentful_locale" required="true" size="5" type="VARCHAR"/>
+        <column name="store_name" required="true" size="255" type="VARCHAR"/>
+
+        <id-method-parameter value="fos_contentful_pk_seq"/>
+
+        <behavior name="event">
+            <parameter name="fos_contentful_all" column="*"/>
+        </behavior>
+    </table>
+</database>

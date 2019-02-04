@@ -15,6 +15,7 @@ use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulMapperInterface;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Importer;
 use FondOfSpryker\Zed\Contentful\Business\Importer\ImporterInterface;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface;
+use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage\ContentfulStorageWriterPlugin;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage\EntryStorageImporterPlugin;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage\IdentifierStorageImporterPlugin;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage\NavigationStorageImporterPlugin;
@@ -36,8 +37,10 @@ use FondOfSpryker\Zed\Contentful\Business\Storage\Object\ObjectFieldMapper;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Reference\ReferenceFieldMapper;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextFieldMapper;
 use FondOfSpryker\Zed\Contentful\ContentfulDependencyProvider;
+use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToContentfulStorageFacadeInterface;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Client\Store\StoreClientInterface;
+use Spryker\Shared\Kernel\Store;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 
@@ -76,7 +79,21 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
         return [
             $this->createEntryStorageImporterPlugin(),
             $this->createIdentifierImporterPlugin(),
+            $this->createWriterImporterPlugin(),
         ];
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface
+     */
+    protected function createWriterImporterPlugin(): ImporterPluginInterface
+    {
+        return new ContentfulStorageWriterPlugin(
+            $this->createEntryKeyBuilder(),
+            $this->getStorageClient(),
+            $this->getConfig()->getFieldNameActive(),
+            $this->getStore()
+        );
     }
 
     /**
@@ -300,5 +317,21 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     public function getStoreClient(): StoreClientInterface
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::CLIENT_STORE);
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulPageSearchFacadeInterface
+     */
+    public function getContentfulStorageFacade(): ContentfulToContentfulStorageFacadeInterface
+    {
+        return $this->getProvidedDependency(ContentfulDependencyProvider::CONTENTFUL_STORAGE_FACADE);
+    }
+
+    /**
+     * @return \Spryker\Shared\Kernel\Store
+     */
+    protected function getStore(): Store
+    {
+        return $this->getProvidedDependency(ContentfulDependencyProvider::STORE);
     }
 }

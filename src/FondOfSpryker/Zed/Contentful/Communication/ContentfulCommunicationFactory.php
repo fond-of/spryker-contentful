@@ -12,6 +12,7 @@ use FondOfSpryker\Shared\Contentful\Twig\ContentfulTwigExtension;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatter;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
 use FondOfSpryker\Zed\Contentful\ContentfulDependencyProvider;
+use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfuToEventBehaviorFacadeInterface;
 use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Shared\Kernel\Communication\Application;
 use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
@@ -92,5 +93,13 @@ class ContentfulCommunicationFactory extends AbstractCommunicationFactory
     public function getClient(): ContentfulClientInterface
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::CLIENT);
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfuToEventBehaviorFacadeInterface
+     */
+    public function getEventBehaviourFacade(): ContentfuToEventBehaviorFacadeInterface
+    {
+        return $this->getProvidedDependency(ContentfulDependencyProvider::FACADE_EVENT_BEHAVIOUR);
     }
 }
