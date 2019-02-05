@@ -84,67 +84,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
         return [
             $this->createEntryStorageImporterPlugin(),
             $this->createIdentifierImporterPlugin(),
-            //$this->createWriterImporterPlugin(),
         ];
-    }
-
-    /**
-     * @return \FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface
-     */
-    protected function createWriterImporterPlugin(): ImporterPluginInterface
-    {
-        return new ContentfulStorageWriterPlugin(
-            $this->getStore(),
-            $this->createDefaultWriterPlugin(),
-            $this->getContentfulStorageWriterPlugin()
-        );
-    }
-
-    /**
-     * @return \FondOfSpryker\Zed\Contentful\Business\Writer\WriterInterface[]
-     */
-    protected function getContentfulStorageWriterPlugin(): array
-    {
-        return [
-            $this->createDefaultWriterPlugin(),
-            $this->createIdentifierWriter(),
-        ];
-    }
-
-    /**
-     * @return \FondOfSpryker\Zed\Contentful\Business\Writer\DefaultWriter
-     */
-    protected function createDefaultWriterPlugin(): WriterInterface
-    {
-        return new DefaultWriter(
-            $this->getStore(),
-            $this->createFosContentfulQuery(),
-            $this->createEntryKeyBuilder()
-        );
-    }
-
-    /**
-     * @return \FondOfSpryker\Zed\Contentful\Business\Writer\IdentifierWriter
-     */
-    protected function createIdentifierWriter(): WriterInterface
-    {
-        return new IdentifierWriter(
-            $this->getStore(),
-            $this->createFosContentfulQuery(),
-            $this->createIdentifierKeyBuilder()
-        );
-    }
-
-    /**
-     * @return \FondOfSpryker\Zed\Contentful\Business\Writer\WriterInterface
-     */
-    protected function createNavigationWriter(): WriterInterface
-    {
-        return new NavigationWriter(
-            $this->getStore(),
-            $this->createFosContentfulQuery(),
-            $this->createNavigationUrlKeyBuilder()
-        );
     }
 
     /**
