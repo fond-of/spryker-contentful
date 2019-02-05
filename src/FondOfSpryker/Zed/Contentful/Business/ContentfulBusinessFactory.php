@@ -328,12 +328,4 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::CONTENTFUL_STORAGE_FACADE);
     }
-
-    /**
-     * @return \Spryker\Shared\Kernel\Store
-     */
-    protected function getStore(): Store
-    {
-        return $this->getProvidedDependency(ContentfulDependencyProvider::STORE);
-    }
 }
