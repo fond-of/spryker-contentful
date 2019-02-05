@@ -15,7 +15,6 @@ use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulMapperInterface;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Importer;
 use FondOfSpryker\Zed\Contentful\Business\Importer\ImporterInterface;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface;
-use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage\ContentfulStorageWriterPlugin;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage\EntryStorageImporterPlugin;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage\IdentifierStorageImporterPlugin;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage\NavigationStorageImporterPlugin;
@@ -36,8 +35,14 @@ use FondOfSpryker\Zed\Contentful\Business\Storage\Link\LinkFieldMapper;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Object\ObjectFieldMapper;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Reference\ReferenceFieldMapper;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextFieldMapper;
+use FondOfSpryker\Zed\Contentful\Business\Writer\ContentfulStorageWriterPlugin;
+use FondOfSpryker\Zed\Contentful\Business\Writer\DefaultWriter;
+use FondOfSpryker\Zed\Contentful\Business\Writer\IdentifierWriter;
+use FondOfSpryker\Zed\Contentful\Business\Writer\NavigationWriter;
+use FondOfSpryker\Zed\Contentful\Business\Writer\WriterInterface;
 use FondOfSpryker\Zed\Contentful\ContentfulDependencyProvider;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToContentfulStorageFacadeInterface;
+use Orm\Zed\Contentful\Persistence\FosContentfulQuery;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Shared\Kernel\Store;
@@ -79,7 +84,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
         return [
             $this->createEntryStorageImporterPlugin(),
             $this->createIdentifierImporterPlugin(),
-            $this->createWriterImporterPlugin(),
+            //$this->createWriterImporterPlugin(),
         ];
     }
 
@@ -89,11 +94,65 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     protected function createWriterImporterPlugin(): ImporterPluginInterface
     {
         return new ContentfulStorageWriterPlugin(
-            $this->createEntryKeyBuilder(),
-            $this->getStorageClient(),
-            $this->getConfig()->getFieldNameActive(),
-            $this->getStore()
+            $this->getStore(),
+            $this->createDefaultWriterPlugin(),
+            $this->getContentfulStorageWriterPlugin()
         );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Contentful\Business\Writer\WriterInterface[]
+     */
+    protected function getContentfulStorageWriterPlugin(): array
+    {
+        return [
+            $this->createDefaultWriterPlugin(),
+            $this->createIdentifierWriter(),
+        ];
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Contentful\Business\Writer\DefaultWriter
+     */
+    protected function createDefaultWriterPlugin(): WriterInterface
+    {
+        return new DefaultWriter(
+            $this->getStore(),
+            $this->createFosContentfulQuery(),
+            $this->createEntryKeyBuilder()
+        );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Contentful\Business\Writer\IdentifierWriter
+     */
+    protected function createIdentifierWriter(): WriterInterface
+    {
+        return new IdentifierWriter(
+            $this->getStore(),
+            $this->createFosContentfulQuery(),
+            $this->createIdentifierKeyBuilder()
+        );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Contentful\Business\Writer\WriterInterface
+     */
+    protected function createNavigationWriter(): WriterInterface
+    {
+        return new NavigationWriter(
+            $this->getStore(),
+            $this->createFosContentfulQuery(),
+            $this->createNavigationUrlKeyBuilder()
+        );
+    }
+
+    /**
+     * @return \Orm\Zed\Contentful\Persistence\FosContentfulQuery
+     */
+    protected function createFosContentfulQuery(): FosContentfulQuery
+    {
+        return FosContentfulQuery::create();
     }
 
     /**
@@ -106,7 +165,8 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
             $this->getStorageClient(),
             $this->createUrlFormatter(),
             $this->getConfig()->getFieldNameActive(),
-            $this->getConfig()->getFieldNameIdentifier()
+            $this->getConfig()->getFieldNameIdentifier(),
+            $this->createFosContentfulQuery()
         );
     }
 
@@ -126,7 +186,8 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
         return new EntryStorageImporterPlugin(
             $this->createEntryKeyBuilder(),
             $this->getStorageClient(),
-            $this->getConfig()->getFieldNameActive()
+            $this->getConfig()->getFieldNameActive(),
+            $this->createFosContentfulQuery()
         );
     }
 
@@ -140,7 +201,8 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
             $this->getStorageClient(),
             $this->createUrlFormatter(),
             $this->getConfig()->getFieldNameActive(),
-            $this->getConfig()->getFieldNameIdentifier()
+            $this->getConfig()->getFieldNameIdentifier(),
+            $this->createFosContentfulQuery()
         );
     }
 

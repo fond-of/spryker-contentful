@@ -8,11 +8,12 @@ use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterfac
 use FondOfSpryker\Zed\Contentful\Business\Storage\Boolean\BooleanField;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextField;
+use Orm\Zed\Contentful\Persistence\FosContentfulQuery;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\Kernel\Store;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
-class IdentifierStorageImporterPlugin implements ImporterPluginInterface
+class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements ImporterPluginInterface
 {
     /**
      * @var string
@@ -40,19 +41,32 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
     protected $activeFieldName;
 
     /**
+     * @var \Orm\Zed\Contentful\Persistence\FosContentfulQuery
+     */
+    protected $contentfulQuery;
+
+    /**
      * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
      * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
-     * @param \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface
+     * @param \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface $urlFormatter
      * @param string $activeFieldName
      * @param string $identifierFieldName
+     * @param \Orm\Zed\Contentful\Persistence\FosContentfulQuery $contentfulQuery
      */
-    public function __construct(KeyBuilderInterface $keyBuilder, StorageClientInterface $storageClient, UrlFormatterInterface $urlFormatter, string $activeFieldName, string $identifierFieldName)
-    {
+    public function __construct(
+        KeyBuilderInterface $keyBuilder,
+        StorageClientInterface $storageClient,
+        UrlFormatterInterface $urlFormatter,
+        string $activeFieldName,
+        string $identifierFieldName,
+        FosContentfulQuery $contentfulQuery
+    ) {
         $this->keyBuilder = $keyBuilder;
         $this->storageClient = $storageClient;
         $this->urlFormatter = $urlFormatter;
         $this->activeFieldName = $activeFieldName;
         $this->identifierFieldName = $identifierFieldName;
+        $this->contentfulQuery = $contentfulQuery;
     }
 
     /**
@@ -82,7 +96,7 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
             return;
         }
 
-        $this->createStorageEntry($key, $this->createStorageValue($entry));
+        $this->store($contentfulEntry, $this->createStorageValue($entry), $locale, $key);
     }
 
     /**

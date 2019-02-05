@@ -5,10 +5,11 @@ namespace FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage;
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface;
+use Orm\Zed\Contentful\Persistence\FosContentfulQuery;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
-abstract class AbstractStorageImporterPlugin implements ImporterPluginInterface
+abstract class AbstractStorageImporterPlugin extends AbstractWriterPlugin implements ImporterPluginInterface
 {
     /**
      * @var \Spryker\Shared\KeyBuilder\KeyBuilderInterface
@@ -26,15 +27,25 @@ abstract class AbstractStorageImporterPlugin implements ImporterPluginInterface
     protected $activeFieldName;
 
     /**
+     * @var \Orm\Zed\Contentful\Persistence\FosContentfulQuery
+     */
+    protected $contentfulQuery;
+
+    /**
      * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
      * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
      * @param string $activeFieldName
      */
-    public function __construct(KeyBuilderInterface $keyBuilder, StorageClientInterface $storageClient, string $activeFieldName)
-    {
+    public function __construct(
+        KeyBuilderInterface $keyBuilder,
+        StorageClientInterface $storageClient,
+        string $activeFieldName,
+        FosContentfulQuery $contentfulQuery
+    ) {
         $this->keyBuilder = $keyBuilder;
         $this->storageClient = $storageClient;
         $this->activeFieldName = $activeFieldName;
+        $this->contentfulQuery = $contentfulQuery;
     }
 
     /**
@@ -84,7 +95,7 @@ abstract class AbstractStorageImporterPlugin implements ImporterPluginInterface
     {
         $key = $this->createStorageKey($contentfulEntry, $entry, $locale);
         $value = $this->createStorageValue($contentfulEntry, $entry, $locale);
-        $this->storageClient->set($key, json_encode($value));
+        $this->store($contentfulEntry, $value, $locale, $key);
     }
 
     /**
