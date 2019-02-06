@@ -36,6 +36,16 @@ class ContentfulToContentfulStorageFacadeBridge implements ContentfulToContentfu
      *
      * @return void
      */
+    public function update(array $contentfulEntryIds): void
+    {
+        $this->contentfulStorageFacade->update($contentfulEntryIds);
+    }
+
+    /**
+     * @param array $contentfulEntryIds
+     *
+     * @return void
+     */
     public function unpublish(array $contentfulEntryIds): void
     {
     }

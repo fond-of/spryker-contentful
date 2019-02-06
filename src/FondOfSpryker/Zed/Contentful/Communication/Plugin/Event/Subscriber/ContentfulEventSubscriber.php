@@ -24,7 +24,7 @@ class ContentfulEventSubscriber extends AbstractPlugin implements EventSubscribe
     public function getSubscribedEvents(EventCollectionInterface $eventCollection)
     {
         $eventCollection->addListenerQueued(ContentfulEvents::ENTITY_FOS_CONTENTFUL_CREATE, new ContentfulStorageListener());
-        //$eventCollection->addListenerQueued(ContentfulEvents::ENTITY_FOS_CONTENTFUL_UPDATE, new ContentfulStorageListener());
+        $eventCollection->addListenerQueued(ContentfulEvents::ENTITY_FOS_CONTENTFUL_UPDATE, new ContentfulStorageListener());
 
         return $eventCollection;
     }

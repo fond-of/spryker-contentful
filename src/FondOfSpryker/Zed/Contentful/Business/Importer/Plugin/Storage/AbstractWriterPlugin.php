@@ -42,7 +42,7 @@ class AbstractWriterPlugin
     protected function getEntity(ContentfulEntryInterface $contentfulEntry, string $locale): FosContentful
     {
         $entity = $this->contentfulQuery->findOneByArray([
-            ContentfulConstants::CONTENTFUL_ID_COLUMN => $contentfulEntry->getId(),
+            ContentfulConstants::CONTENTFUL_ID_COLUMN => strtolower($contentfulEntry->getId()),
             ContentfulConstants::CONTENTFUL_LOCALE_COLUMN => $locale,
         ]);
 

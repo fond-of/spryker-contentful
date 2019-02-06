@@ -16,6 +16,7 @@
 
         <id-method-parameter value="fos_contentful_pk_seq"/>
 
+        <behavior name="timestampable"/>
         <behavior name="event">
             <parameter name="fos_contentful_all" column="*"/>
         </behavior>
