@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Zed\Contentful\Communication\Plugin\Event\Subscriber;
 
+use FondOfSpryker\Zed\Contentful\Communication\Plugin\Event\Listener\ContentfulPageSearchListener;
 use FondOfSpryker\Zed\Contentful\Communication\Plugin\Event\Listener\ContentfulStorageListener;
 use FondOfSpryker\Zed\Contentful\Dependency\ContentfulEvents;
 use Spryker\Zed\Event\Dependency\EventCollectionInterface;
@@ -25,6 +26,9 @@ class ContentfulEventSubscriber extends AbstractPlugin implements EventSubscribe
     {
         $eventCollection->addListenerQueued(ContentfulEvents::ENTITY_FOS_CONTENTFUL_CREATE, new ContentfulStorageListener());
         $eventCollection->addListenerQueued(ContentfulEvents::ENTITY_FOS_CONTENTFUL_UPDATE, new ContentfulStorageListener());
+
+        $eventCollection->addListenerQueued(ContentfulEvents::ENTITY_FOS_CONTENTFUL_CREATE, new ContentfulPageSearchListener());
+        $eventCollection->addListenerQueued(ContentfulEvents::ENTITY_FOS_CONTENTFUL_UPDATE, new ContentfulPageSearchListener());
 
         return $eventCollection;
     }

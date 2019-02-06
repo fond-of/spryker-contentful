@@ -35,18 +35,12 @@ use FondOfSpryker\Zed\Contentful\Business\Storage\Link\LinkFieldMapper;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Object\ObjectFieldMapper;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Reference\ReferenceFieldMapper;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextFieldMapper;
-use FondOfSpryker\Zed\Contentful\Business\Writer\ContentfulStorageWriterPlugin;
-use FondOfSpryker\Zed\Contentful\Business\Writer\DefaultWriter;
-use FondOfSpryker\Zed\Contentful\Business\Writer\IdentifierWriter;
-use FondOfSpryker\Zed\Contentful\Business\Writer\NavigationWriter;
-use FondOfSpryker\Zed\Contentful\Business\Writer\WriterInterface;
 use FondOfSpryker\Zed\Contentful\ContentfulDependencyProvider;
-use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfullToContentfulStorageFacadeInterface;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToContentfulStorageFacadeInterface;
+use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToContentfulPageSearchInterface;
 use Orm\Zed\Contentful\Persistence\FosContentfulQuery;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Client\Store\StoreClientInterface;
-use Spryker\Shared\Kernel\Store;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 
@@ -328,5 +322,14 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     public function getContentfulStorageFacade(): ContentfulToContentfulStorageFacadeInterface
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::CONTENTFUL_STORAGE_FACADE);
+    }
+
+    /**
+     *
+     * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToContentfulPageSearchInterface
+     */
+    public function getContentfulSearchPageFacade(): ContentulToContentfulPageSearchInterface
+    {
+        return $this->getProvidedDependency(ContentfulDependencyProvider::CONTENTFUL_PAGE_SEARCH_FACADE);
     }
 }

@@ -16,4 +16,7 @@ interface ContentfulConstants
 
     public const CONTENTFUL_SYNC_STORAGE_QUEUE = 'sync.storage.contentful';
     public const CONTENTFUL_SYNC_STORAGE_QUEUE_ERROR = 'sync.storage.contentful.error';
+
+    public const CONTENTFUL_SYNC_SEARCH_QUEUE = 'sync.search.contentful';
+    public const CONTENTFUL_SYNC_SEARCH_QUEUE_ERROR = 'sync.search.contentful.error';
 }
