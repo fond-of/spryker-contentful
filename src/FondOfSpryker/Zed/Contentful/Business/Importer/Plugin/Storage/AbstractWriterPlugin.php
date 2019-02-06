@@ -2,11 +2,10 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage;
 
-use FondOfSpryker\Shared\Contentful\ContentfulConstants;
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
 use Orm\Zed\Contentful\Persistence\FosContentful;
 
-class AbstractWriterPlugin
+abstract class AbstractWriterPlugin
 {
     /**
      * @var \Orm\Zed\Contentful\Persistence\FosContentfulQuery
@@ -41,11 +40,10 @@ class AbstractWriterPlugin
      */
     protected function getEntity(ContentfulEntryInterface $contentfulEntry, string $locale): FosContentful
     {
-        $entity = $this->contentfulQuery->findOneByArray([
-            ContentfulConstants::CONTENTFUL_ID_COLUMN => strtolower($contentfulEntry->getId()),
-            ContentfulConstants::CONTENTFUL_LOCALE_COLUMN => $locale,
-        ]);
+        $this->contentfulQuery->clear();
 
-        return($entity === null) ? new FosContentful() : $entity;
+        return $this->contentfulQuery->filterByContentfulId(strtolower($contentfulEntry->getId()))
+            ->filterByContentfulLocale($locale)
+            ->findOneOrCreate();
     }
 }

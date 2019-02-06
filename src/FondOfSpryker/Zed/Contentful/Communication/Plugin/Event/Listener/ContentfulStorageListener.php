@@ -21,13 +21,11 @@ class ContentfulStorageListener extends AbstractPlugin implements EventBulkHandl
     public function handleBulk(array $transfers, $eventName): void
     {
         $eventTransferIds = $this->getFactory()->getEventBehaviourFacade()->getEventTransferIds($transfers);
-        
+
         if ($eventName === ContentfulEvents::ENTITY_FOS_CONTENTFUL_CREATE) {
-            dump(ContentfulEvents::ENTITY_FOS_CONTENTFUL_CREATE);
             $this->getFacade()->publish($eventTransferIds);
         } elseif ($eventName === ContentfulEvents::ENTITY_FOS_CONTENTFUL_UPDATE) {
-            dump(ContentfulEvents::ENTITY_FOS_CONTENTFUL_UPDATE);
-            $this->getFacade()->update($eventTransferIds);
+            $this->getFacade()->publish($eventTransferIds);
         }
     }
 }
