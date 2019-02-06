@@ -4,7 +4,7 @@ namespace FondOfSpryker\Zed\Contentful\Dependency\Facade;
 
 use Spryker\Zed\EventBehavior\Business\EventBehaviorFacadeInterface;
 
-class ContentfuToEventBehaviorFacadeBridge implements ContentfuToEventBehaviorFacadeInterface
+class ContentfulToEventBehaviorFacadeBridge implements ContentfulToEventBehaviorFacadeInterface
 {
     /**
      * @var \Spryker\Zed\EventBehavior\Business\EventBehaviorFacadeInterface

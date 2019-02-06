@@ -12,7 +12,7 @@ use FondOfSpryker\Shared\Contentful\Twig\ContentfulTwigExtension;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatter;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
 use FondOfSpryker\Zed\Contentful\ContentfulDependencyProvider;
-use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfuToEventBehaviorFacadeInterface;
+use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToEventBehaviorFacadeInterface;
 use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Shared\Kernel\Communication\Application;
 use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
@@ -96,9 +96,10 @@ class ContentfulCommunicationFactory extends AbstractCommunicationFactory
     }
 
     /**
-     * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfuToEventBehaviorFacadeInterface
+     *
+     * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToEventBehaviorFacadeInterface
      */
-    public function getEventBehaviourFacade(): ContentfuToEventBehaviorFacadeInterface
+    public function getEventBehaviourFacade(): ContentfulToEventBehaviorFacadeInterface
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::FACADE_EVENT_BEHAVIOUR);
     }

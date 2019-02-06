@@ -2,7 +2,7 @@
 
 namespace FondOfSpryker\Zed\Contentful\Dependency\Facade;
 
-interface ContentfuToEventBehaviorFacadeInterface
+interface ContentfulToEventBehaviorFacadeInterface
 {
     /**
      * @param array $eventTransfers

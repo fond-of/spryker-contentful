@@ -5,7 +5,7 @@ namespace FondOfSpryker\Zed\Contentful;
 use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
 use Aptoma\Twig\Extension\MarkdownExtension;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToContentfulStorageFacadeBridge;
-use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfuToEventBehaviorFacadeBridge;
+use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToEventBehaviorFacadeBridge;
 use Spryker\Shared\Kernel\Store;
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Zed\Kernel\Communication\Plugin\Pimple;
@@ -150,7 +150,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     protected function addEventBehaviourFacade(Container $container): Container
     {
         $container[self::FACADE_EVENT_BEHAVIOUR] = function (Container $container) {
-            return new ContentfuToEventBehaviorFacadeBridge(
+            return new ContentfulToEventBehaviorFacadeBridge(
                 $container->getLocator()->eventBehavior()->facade()
             );
         };

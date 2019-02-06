@@ -41,6 +41,7 @@ use FondOfSpryker\Zed\Contentful\Business\Writer\IdentifierWriter;
 use FondOfSpryker\Zed\Contentful\Business\Writer\NavigationWriter;
 use FondOfSpryker\Zed\Contentful\Business\Writer\WriterInterface;
 use FondOfSpryker\Zed\Contentful\ContentfulDependencyProvider;
+use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfullToContentfulStorageFacadeInterface;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToContentfulStorageFacadeInterface;
 use Orm\Zed\Contentful\Persistence\FosContentfulQuery;
 use Spryker\Client\Storage\StorageClientInterface;

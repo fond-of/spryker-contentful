@@ -21,7 +21,7 @@ class ContentfulEventSubscriber extends AbstractPlugin implements EventSubscribe
      *
      * @return \Spryker\Zed\Event\Dependency\EventCollectionInterface
      */
-    public function getSubscribedEvents(EventCollectionInterface $eventCollection)
+    public function getSubscribedEvents(EventCollectionInterface $eventCollection): EventCollectionInterface
     {
         $eventCollection->addListenerQueued(ContentfulEvents::ENTITY_FOS_CONTENTFUL_CREATE, new ContentfulStorageListener());
         $eventCollection->addListenerQueued(ContentfulEvents::ENTITY_FOS_CONTENTFUL_UPDATE, new ContentfulStorageListener());
