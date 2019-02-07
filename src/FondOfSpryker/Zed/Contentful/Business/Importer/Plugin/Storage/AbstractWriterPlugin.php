@@ -24,10 +24,10 @@ abstract class AbstractWriterPlugin
     {
         $entity = $this->getEntity($contentfulEntry, $locale);
 
-        $entity->setContentfulId(strtolower($contentfulEntry->getId()));
-        $entity->setContentfulTypeId($contentfulEntry->getContentTypeId());
-        $entity->setContentfulData(json_encode($data));
-        $entity->setContentfulLocale($locale);
+        $entity->setEntryId(strtolower($contentfulEntry->getId()));
+        $entity->setEntryTypeId($contentfulEntry->getContentTypeId());
+        $entity->setEntryData(json_encode($data));
+        $entity->setEntryLocale($locale);
         $entity->setStorageKey($key);
         $entity->save();
     }
@@ -42,8 +42,8 @@ abstract class AbstractWriterPlugin
     {
         $this->contentfulQuery->clear();
 
-        return $this->contentfulQuery->filterByContentfulId(strtolower($contentfulEntry->getId()))
-            ->filterByContentfulLocale($locale)
+        return $this->contentfulQuery->filterByEntryId(strtolower($contentfulEntry->getId()))
+            ->filterByEntryLocale($locale)
             ->findOneOrCreate();
     }
 }

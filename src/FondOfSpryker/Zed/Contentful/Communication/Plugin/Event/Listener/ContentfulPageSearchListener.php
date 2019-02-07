@@ -28,7 +28,7 @@ class ContentfulPageSearchListener extends AbstractPlugin implements EventBulkHa
         if ($eventName === ContentfulEvents::ENTITY_FOS_CONTENTFUL_CREATE) {
             $this->getFacade()->publishSearch($eventTransferIds);
         } elseif ($eventName === ContentfulEvents::ENTITY_FOS_CONTENTFUL_UPDATE) {
-            $this->getFacade()->unpublishSearch($eventTransferIds);
+            $this->getFacade()->publishSearch($eventTransferIds);
         }
     }
 }
