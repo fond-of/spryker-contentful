@@ -81,11 +81,13 @@ class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements Im
     public function handle(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): void
     {
         $identifier = $this->getIdentifierFieldContent($entry);
+
         if (empty($identifier)) {
             return;
         }
 
         $routePrefixLocale = $this->getLocaleRoutePrefixesByAppLocale($locale);
+
         $key = $this->createStorageKey(
             $this->createUrl($identifier, $routePrefixLocale),
             $locale
@@ -96,7 +98,8 @@ class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements Im
             return;
         }
 
-        $this->store($contentfulEntry, $this->createStorageValue($entry), $locale, $key);
+        //$this->store($contentfulEntry, $this->createStorageValue($entry), $locale, $key);
+        $this->createStorageEntry($key, $this->createStorageValue($entry));
     }
 
     /**

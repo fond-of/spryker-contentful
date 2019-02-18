@@ -14,6 +14,16 @@ use Spryker\Client\Kernel\AbstractClient;
 class ContentfulClient extends AbstractClient implements ContentfulClientInterface
 {
     /**
+     * @return void
+     */
+    public function contentfulSearch(string $searchString, array $requestParameters)
+    {
+        $searchQuery = $this
+            ->getFactory()
+            ->createContentfulSearchQuery();
+    }
+
+    /**
      * @param \Generated\Shared\Transfer\ContentfulEntryRequestTransfer $request
      *
      * @return \Generated\Shared\Transfer\ContentfulEntryResponseTransfer

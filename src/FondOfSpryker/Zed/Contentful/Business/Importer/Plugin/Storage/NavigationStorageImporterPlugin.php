@@ -96,7 +96,8 @@ class NavigationStorageImporterPlugin extends AbstractWriterPlugin implements Im
 
         $value = $this->createStorageValue($entry, $identifier, $routePrefixLocale);
 
-        $this->store($contentfulEntry, $value, $locale, $key);
+        //$this->store($contentfulEntry, $value, $locale, $key);
+        $this->createStorageEntry($key, $value);
     }
 
     /**
