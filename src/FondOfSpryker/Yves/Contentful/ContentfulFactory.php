@@ -10,6 +10,7 @@ use FondOfSpryker\Shared\Contentful\Renderer\RendererInterface;
 use FondOfSpryker\Shared\Contentful\Twig\ContentfulTwigExtension;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatter;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
+use FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulClientInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategoryMapper;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\ContentfulPage\NavigationItemContentfulPageMapper;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Custom\NavigationItemCustomMapper;
@@ -41,6 +42,14 @@ use Spryker\Yves\Kernel\AbstractFactory;
  */
 class ContentfulFactory extends AbstractFactory
 {
+    /**
+     * @return \FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulClientInterface
+     */
+    public function getContentfulClient(): ContentfulToContentfulClientInterface
+    {
+        return $this->getProvidedDependency(ContentfulDependencyProvider::CLIENT_CONTENFUL);
+    }
+
     /**
      * @return \FondOfSpryker\Shared\Contentful\Twig\ContentfulTwigExtension
      */

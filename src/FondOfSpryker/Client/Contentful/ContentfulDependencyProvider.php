@@ -2,9 +2,12 @@
 
 namespace FondOfSpryker\Client\Contentful;
 
+use FondOfSpryker\Client\Contentful\Plugin\Elasticsearch\Query\BlogCategoryQueryExpander;
 use FondOfSpryker\Client\Contentful\Plugin\Elasticsearch\Query\ContentfulSearchQueryPlugin;
 use Spryker\Client\Kernel\AbstractDependencyProvider;
 use Spryker\Client\Kernel\Container;
+use Spryker\Client\Search\Plugin\Elasticsearch\QueryExpander\LocalizedQueryExpanderPlugin;
+use Spryker\Client\Search\Plugin\Elasticsearch\QueryExpander\StoreQueryExpanderPlugin;
 
 class ContentfulDependencyProvider extends AbstractDependencyProvider
 {
@@ -24,8 +27,9 @@ class ContentfulDependencyProvider extends AbstractDependencyProvider
     public function provideServiceLayerDependencies(Container $container): Container
     {
         $container = $this->provideStorageClient($container);
-        $container = $this->addContentfulSearchQueryPlugin();
-        $container = $this->addContentfulSearchQueryExpanderPlugins();
+        $container = $this->addSearchClient($container);
+        $container = $this->addContentfulSearchQueryPlugin($container);
+        $container = $this->addContentfulSearchQueryExpanderPlugins($container);
 
         return $container;
     }
@@ -67,11 +71,13 @@ class ContentfulDependencyProvider extends AbstractDependencyProvider
     }
 
     /**
+     * @param \Spryker\Client\Kernel\Container $container
+     *
      * @return \Spryker\Client\Kernel\Container
      */
-    protected function addContentfulSearchQueryExpanderPlugins(): Container
+    protected function addContentfulSearchQueryExpanderPlugins(Container $container): Container
     {
-        $container[static::CONTENTFUL_SEARCH_QUERY_EXPANDER_PLUGINS] = function (Container $container) {
+        $container[static::CONTENTFUL_SEARCH_QUERY_EXPANDER_PLUGINS] = function () {
             return $this->createContentfulSearchQueryExpanderPlugins();
         };
 
@@ -83,13 +89,22 @@ class ContentfulDependencyProvider extends AbstractDependencyProvider
      */
     protected function createContentfulSearchQueryExpanderPlugins(): array
     {
-        return [];
+        return [
+            new StoreQueryExpanderPlugin(),
+            new LocalizedQueryExpanderPlugin(),
+            new BlogCategoryQueryExpander(),
+        ];
     }
 
+    /**
+     * @param \Spryker\Client\Kernel\Container $container
+     *
+     * @return \Spryker\Client\Kernel\Container
+     */
     protected function addSearchClient(Container $container): Container
     {
         $container[static::CLIENT_SEARCH] = function (Container $container) {
-            return $container->getLocator()->search()->client()
+            return $container->getLocator()->search()->client();
         };
 
         return $container;

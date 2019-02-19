@@ -28,6 +28,20 @@ class IdentifierResourceCreator implements ResourceCreatorInterface
      */
     public function createResource(Application $application, array $data): array
     {
+        switch ($data['type']) {
+            default:
+                return $this->pageResource($application, $data);
+        }
+    }
+
+    /**
+     * @param \Silex\Application $application
+     * @param array $data
+     *
+     * @return array
+     */
+    protected function pageResource(Application $application, array $data): array
+    {
         $bundleControllerAction = new BundleControllerAction('Contentful', ucfirst($data['type']), 'index');
         $routeNameResolver = new BundleControllerActionRouteNameResolver($bundleControllerAction);
         $controllerResolver = new ControllerResolver();

@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Client\Contentful;
 
+use Elastica\ResultSet;
 use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 use Generated\Shared\Transfer\ContentfulNavigationUrlRequestTransfer;
@@ -30,4 +31,12 @@ interface ContentfulClientInterface
      * @return string[]|null
      */
     public function matchUrl(string $url, string $localeName): ?array;
+
+    /**
+     * @param string $searchString
+     * @param array $requestParameters
+     *
+     * @return \Elastica\ResultSet
+     */
+    public function contentfulSearch(string $searchString, array $requestParameters): ResultSet;
 }

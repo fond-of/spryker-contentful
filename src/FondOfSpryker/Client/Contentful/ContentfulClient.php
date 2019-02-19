@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Client\Contentful;
 
+use Elastica\ResultSet;
 use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 use Generated\Shared\Transfer\ContentfulNavigationUrlRequestTransfer;
@@ -13,16 +14,6 @@ use Spryker\Client\Kernel\AbstractClient;
  */
 class ContentfulClient extends AbstractClient implements ContentfulClientInterface
 {
-    /**
-     * @return void
-     */
-    public function contentfulSearch(string $searchString, array $requestParameters)
-    {
-        $searchQuery = $this
-            ->getFactory()
-            ->createContentfulSearchQuery();
-    }
-
     /**
      * @param \Generated\Shared\Transfer\ContentfulEntryRequestTransfer $request
      *
@@ -52,5 +43,30 @@ class ContentfulClient extends AbstractClient implements ContentfulClientInterfa
     public function matchUrl(string $url, string $localeName): ?array
     {
         return $this->getFactory()->createUrlMatcher()->matchUrl($url, $localeName);
+    }
+
+    /**
+     * @param string $searchString
+     * @param array $requestParameters
+     *
+     * @return \Elastica\ResultSet
+     */
+    public function contentfulSearch(string $searchString, array $requestParameters): ResultSet
+    {
+        $searchQuery = $this
+            ->getFactory()
+            ->createContentfulSearchQuery($searchString);
+
+        $searchQuery = $this
+            ->getFactory()
+            ->getSearchClient()
+            ->expandQuery($searchQuery, $this->getFactory()->getContentfulSearchQueryExpanderPlugins(), $requestParameters);
+
+        dump($searchQuery);
+
+        return $this
+            ->getFactory()
+            ->getSearchClient()
+            ->search($searchQuery, [], $requestParameters);
     }
 }

@@ -3,6 +3,8 @@
 namespace FondOfSpryker\Client\Contentful\Plugin\Elasticsearch\Query;
 
 use Elastica\Query;
+use Elastica\Query\AbstractQuery;
+use Elastica\Query\BoolQuery;
 use Elastica\Query\MatchAll;
 use Elastica\Query\MultiMatch;
 use Generated\Shared\Search\PageIndexMap;
@@ -103,11 +105,11 @@ class ContentfulSearchQueryPlugin extends AbstractPlugin implements QueryInterfa
     }
 
     /**
-     * @param \Elastica\Query\AbstractQuery $matchQuery
+     * @param \Elastica\Query\AbstractQuery $matchQuery $matchQuery
      *
      * @return \Elastica\Query\BoolQuery
      */
-    protected function createBoolQuery(AbstractQuery $matchQuery)
+    protected function createBoolQuery(AbstractQuery $matchQuery): BoolQuery
     {
         $boolQuery = new BoolQuery();
         $boolQuery->addMust($matchQuery);

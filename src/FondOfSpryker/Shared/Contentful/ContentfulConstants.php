@@ -16,4 +16,6 @@ interface ContentfulConstants
 
     public const CONTENTFUL_SYNC_SEARCH_QUEUE = 'sync.search.contentful';
     public const CONTENTFUL_SYNC_SEARCH_QUEUE_ERROR = 'sync.search.contentful.error';
+
+    public const FIELD_BLOG_CATEGORIES = 'blog_categories';
 }
