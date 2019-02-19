@@ -12,6 +12,8 @@ class IdentifierResourceCreator implements ResourceCreatorInterface
 {
     private const RESOURCE_TYPE_IDENTIFIER = 'Identifier';
 
+    private const RESOURCE_TYPE_PAGE = 'page';
+
     /**
      * @return string
      */
@@ -29,9 +31,11 @@ class IdentifierResourceCreator implements ResourceCreatorInterface
     public function createResource(Application $application, array $data): array
     {
         switch ($data['type']) {
-            default:
+            case static::RESOURCE_TYPE_PAGE:
                 return $this->pageResource($application, $data);
         }
+
+        return [];
     }
 
     /**
