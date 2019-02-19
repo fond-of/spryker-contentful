@@ -12,6 +12,8 @@ class IdentifierResourceCreator implements ResourceCreatorInterface
 {
     private const RESOURCE_TYPE_IDENTIFIER = 'Identifier';
 
+    private const RESOURCE_TYPE_PAGE = 'page';
+
     /**
      * @return string
      */
@@ -27,6 +29,22 @@ class IdentifierResourceCreator implements ResourceCreatorInterface
      * @return string[]
      */
     public function createResource(Application $application, array $data): array
+    {
+        switch ($data['type']) {
+            case static::RESOURCE_TYPE_PAGE:
+                return $this->createPageResource($application, $data);
+        }
+
+        return [];
+    }
+
+    /**
+     * @param \Silex\Application $application
+     * @param array $data
+     *
+     * @return array
+     */
+    protected function createPageResource(Application $application, array $data): array
     {
         $bundleControllerAction = new BundleControllerAction('Contentful', ucfirst($data['type']), 'index');
         $routeNameResolver = new BundleControllerActionRouteNameResolver($bundleControllerAction);
