@@ -31,6 +31,7 @@ use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeFactory
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeFactoryInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeMapperInterface;
 use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\IdentifierResourceCreator;
+use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\PageResourceCreator;
 use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\ResourceCreatorInterface;
 use Spryker\Client\CategoryStorage\CategoryStorageClientInterface;
 use Spryker\Client\Store\StoreClientInterface;
@@ -103,9 +104,9 @@ class ContentfulFactory extends AbstractFactory
     /**
      * @return \FondOfSpryker\Yves\Contentful\Router\ResourceCreator\ResourceCreatorInterface
      */
-    public function createIdentifierResourceCreator(): ResourceCreatorInterface
+    public function createPageResourceCreator(): ResourceCreatorInterface
     {
-        return new IdentifierResourceCreator();
+        return new PageResourceCreator();
     }
 
     /**

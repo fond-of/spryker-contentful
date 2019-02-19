@@ -62,8 +62,6 @@ class ContentfulClient extends AbstractClient implements ContentfulClientInterfa
             ->getSearchClient()
             ->expandQuery($searchQuery, $this->getFactory()->getContentfulSearchQueryExpanderPlugins(), $requestParameters);
 
-        dump($searchQuery);
-
         return $this
             ->getFactory()
             ->getSearchClient()

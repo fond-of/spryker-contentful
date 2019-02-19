@@ -8,18 +8,16 @@ use Spryker\Yves\Kernel\BundleControllerAction;
 use Spryker\Yves\Kernel\ClassResolver\Controller\ControllerResolver;
 use Spryker\Yves\Kernel\Controller\BundleControllerActionRouteNameResolver;
 
-class IdentifierResourceCreator implements ResourceCreatorInterface
+class PageResourceCreator implements ResourceCreatorInterface
 {
-    private const RESOURCE_TYPE_IDENTIFIER = 'Identifier';
-
-    private const RESOURCE_TYPE_PAGE = 'page';
+    private const RESOURCE_TYPE = 'page';
 
     /**
      * @return string
      */
     public function getType(): string
     {
-        return static::RESOURCE_TYPE_IDENTIFIER;
+        return static::RESOURCE_TYPE;
     }
 
     /**
@@ -30,23 +28,11 @@ class IdentifierResourceCreator implements ResourceCreatorInterface
      */
     public function createResource(Application $application, array $data): array
     {
-        switch ($data['type']) {
-            case static::RESOURCE_TYPE_PAGE:
-                return $this->pageResource($application, $data);
+        if ($data['type'] !== static::RESOURCE_TYPE) {
+            return [];
         }
 
-        return [];
-    }
-
-    /**
-     * @param \Silex\Application $application
-     * @param array $data
-     *
-     * @return array
-     */
-    protected function pageResource(Application $application, array $data): array
-    {
-        $bundleControllerAction = new BundleControllerAction('Contentful', ucfirst($data['type']), 'index');
+        $bundleControllerAction = new BundleControllerAction('Contentful', ucfirst(static::RESOURCE_TYPE), 'index');
         $routeNameResolver = new BundleControllerActionRouteNameResolver($bundleControllerAction);
         $controllerResolver = new ControllerResolver();
         $controllerServiceBuilder = new ControllerServiceBuilder();

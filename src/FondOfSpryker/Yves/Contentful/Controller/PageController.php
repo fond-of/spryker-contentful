@@ -19,8 +19,6 @@ class PageController extends AbstractController
      */
     public function indexAction(string $entryId, Request $request): Response
     {
-        dump($entryId);
-
         $searchResults = $this
             ->getFactory()
             ->getContentfulClient()
