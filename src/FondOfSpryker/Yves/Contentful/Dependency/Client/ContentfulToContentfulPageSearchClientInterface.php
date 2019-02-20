@@ -4,7 +4,7 @@ namespace FondOfSpryker\Yves\Contentful\Dependency\Client;
 
 use Elastica\ResultSet;
 
-interface ContentfulToContentfulClientInterface
+interface ContentfulToContentfulPageSearchClientInterface
 {
     /**
      * @param string $searchString

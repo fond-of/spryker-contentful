@@ -48,6 +48,7 @@ class Builder implements BuilderInterface
         $request = $this->createRequest($entryId, $locale);
         $response = $this->client->getEntryBy($request);
         $renderer = $this->findRendererFor($response);
+        $response->setFields(array_merge($response->getFields(), $additionalParameters));
 
         return $renderer->render($response, $additionalParameters);
     }

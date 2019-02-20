@@ -12,24 +12,11 @@ use FondOfSpryker\Shared\Contentful\KeyBuilder\EntryKeyBuilder;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\IdentifierKeyBuilder;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\NavigationUrlKeyBuilder;
 use Spryker\Client\Kernel\AbstractFactory;
-use Spryker\Client\Search\Dependency\Plugin\QueryInterface;
-use Spryker\Client\Search\Dependency\Plugin\SearchStringSetterInterface;
-use Spryker\Client\Search\Model\Elasticsearch\Query\QueryBuilder;
-use Spryker\Client\Search\Model\Elasticsearch\Query\QueryBuilderInterface;
-use Spryker\Client\Search\SearchClientInterface;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
 class ContentfulFactory extends AbstractFactory
 {
-    /**
-     * @return \Spryker\Client\Search\Model\Elasticsearch\Query\QueryBuilderInterface
-     */
-    public function createQueryBuilder(): QueryBuilderInterface
-    {
-        return new QueryBuilder();
-    }
-
     /**
      * @return \FondOfSpryker\Client\Contentful\Storage\ContentfulEntryStorageReaderInterface
      */
@@ -58,22 +45,6 @@ class ContentfulFactory extends AbstractFactory
             $this->getStorage(),
             $this->createNavigationUrlKeyBuilder()
         );
-    }
-
-    /**
-     * @param string $searchString
-     *
-     * @return \Spryker\Client\Search\Dependency\Plugin\QueryInterface
-     */
-    public function createContentfulSearchQuery(string $searchString): QueryInterface
-    {
-        $searchQuery = $this->getContentfulSearchQueryPlugin();
-
-        if ($searchQuery instanceof SearchStringSetterInterface) {
-            $searchQuery->setSearchString($searchString);
-        }
-
-        return $searchQuery;
     }
 
     /**
@@ -108,29 +79,5 @@ class ContentfulFactory extends AbstractFactory
     protected function getStorage(): StorageClientInterface
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::KV_STORAGE);
-    }
-
-    /**
-     * @return \Spryker\Client\Search\Dependency\Plugin\QueryInterface
-     */
-    public function getContentfulSearchQueryPlugin(): QueryInterface
-    {
-        return $this->getProvidedDependency(ContentfulDependencyProvider::CONTENTFUL_SEARCH_QUERY_PLUGIN);
-    }
-
-    /**
-     * @return \Spryker\Client\Search\Dependency\Plugin\QueryExpanderPluginInterface[]
-     */
-    public function getContentfulSearchQueryExpanderPlugins(): array
-    {
-        return $this->getProvidedDependency(ContentfulDependencyProvider::CONTENTFUL_SEARCH_QUERY_EXPANDER_PLUGINS);
-    }
-
-    /**
-     * @return \Spryker\Client\Search\SearchClientInterface
-     */
-    public function getSearchClient(): SearchClientInterface
-    {
-        return $this->getProvidedDependency(ContentfulDependencyProvider::CLIENT_SEARCH);
     }
 }

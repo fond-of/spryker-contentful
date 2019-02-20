@@ -3,7 +3,7 @@ namespace FondOfSpryker\Yves\Contentful;
 
 use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
 use Aptoma\Twig\Extension\MarkdownExtension;
-use FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulClientBridge;
+use FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulPageSearchClientBridge;
 use FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToSearchClientBridge;
 use Spryker\Yves\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Yves\Kernel\Container;
@@ -16,7 +16,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     public const CATEGORY_STORAGE_CLIENT = 'CATEGORY_STORAGE_CLIENT';
     public const CLIENT_STORE = 'CLIENT_STORE';
     public const SEARCH_CLIENT = 'SEARCH_CLIENT';
-    public const CLIENT_CONTENFUL = 'CLIENT_CONTENFUL';
+    public const CLIENT_CONTENFUL_PAGE_SEARCH = 'CLIENT_CONTENFUL_PAGE_SEARCH';
 
     /**
      * @param \Spryker\Yves\Kernel\Container $container
@@ -29,7 +29,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
         $container = $this->provideApplication($container);
         $container = $this->provideCategoryStorageClient($container);
         $container = $this->provideStoreClient($container);
-        $container = $this->addContentfulClient($container);
+        $container = $this->addContentfulPageSearchClient($container);
 
         return $container;
     }
@@ -112,11 +112,11 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
      *
      * @return \Spryker\Yves\Kernel\Container
      */
-    protected function addContentfulClient(Container $container): Container
+    protected function addContentfulPageSearchClient(Container $container): Container
     {
-        $container[static::CLIENT_CONTENFUL] = function (Container $container) {
-            return new ContentfulToContentfulClientBridge(
-                $container->getLocator()->contentful()->client()
+        $container[static::CLIENT_CONTENFUL_PAGE_SEARCH] = function (Container $container) {
+            return new ContentfulToContentfulPageSearchClientBridge(
+                $container->getLocator()->contentfulPageSearch()->client()
             );
         };
 

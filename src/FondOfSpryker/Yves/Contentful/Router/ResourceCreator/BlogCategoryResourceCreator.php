@@ -3,17 +3,23 @@
 namespace FondOfSpryker\Yves\Contentful\Router\ResourceCreator;
 
 use Silex\Application;
+use Spryker\Shared\Application\Communication\ControllerServiceBuilder;
+use Spryker\Yves\Kernel\BundleControllerAction;
+use Spryker\Yves\Kernel\ClassResolver\Controller\ControllerResolver;
+use Spryker\Yves\Kernel\Controller\BundleControllerActionRouteNameResolver;
 
 class BlogCategoryResourceCreator implements ResourceCreatorInterface
 {
-    private const RESOURCE_TYPE = 'blogCategory';
+    private const RESOURCE_TYPE = 'blog';
+
+    private const CONTROLLER_METHOD = 'category';
 
     /**
      * @return string
      */
     public function getType(): string
     {
-        return static::RESOURCE_TYPE;
+        return static::RESOURCE_TYPE . ucfirst(static::CONTROLLER_METHOD);
     }
 
     /**
@@ -24,7 +30,11 @@ class BlogCategoryResourceCreator implements ResourceCreatorInterface
      */
     public function createResource(Application $application, array $data): array
     {
-        $bundleControllerAction = new BundleControllerAction('Contentful', ucfirst(static::RESOURCE_TYPE), 'index');
+        if ($data['type'] !== $this->getType()) {
+            return [];
+        }
+
+        $bundleControllerAction = new BundleControllerAction('Contentful', static::RESOURCE_TYPE, $this->getType());
         $routeNameResolver = new BundleControllerActionRouteNameResolver($bundleControllerAction);
         $controllerResolver = new ControllerResolver();
         $controllerServiceBuilder = new ControllerServiceBuilder();

@@ -2,7 +2,6 @@
 
 namespace FondOfSpryker\Client\Contentful;
 
-use Elastica\ResultSet;
 use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 use Generated\Shared\Transfer\ContentfulNavigationUrlRequestTransfer;
@@ -43,28 +42,5 @@ class ContentfulClient extends AbstractClient implements ContentfulClientInterfa
     public function matchUrl(string $url, string $localeName): ?array
     {
         return $this->getFactory()->createUrlMatcher()->matchUrl($url, $localeName);
-    }
-
-    /**
-     * @param string $searchString
-     * @param array $requestParameters
-     *
-     * @return \Elastica\ResultSet
-     */
-    public function contentfulSearch(string $searchString, array $requestParameters): ResultSet
-    {
-        $searchQuery = $this
-            ->getFactory()
-            ->createContentfulSearchQuery($searchString);
-
-        $searchQuery = $this
-            ->getFactory()
-            ->getSearchClient()
-            ->expandQuery($searchQuery, $this->getFactory()->getContentfulSearchQueryExpanderPlugins(), $requestParameters);
-
-        return $this
-            ->getFactory()
-            ->getSearchClient()
-            ->search($searchQuery, [], $requestParameters);
     }
 }

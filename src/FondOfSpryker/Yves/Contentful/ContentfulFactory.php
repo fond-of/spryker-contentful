@@ -10,7 +10,7 @@ use FondOfSpryker\Shared\Contentful\Renderer\RendererInterface;
 use FondOfSpryker\Shared\Contentful\Twig\ContentfulTwigExtension;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatter;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
-use FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulClientInterface;
+use FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulPageSearchClientInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategoryMapper;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\ContentfulPage\NavigationItemContentfulPageMapper;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Custom\NavigationItemCustomMapper;
@@ -30,7 +30,7 @@ use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeCollect
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeFactory;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeFactoryInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeMapperInterface;
-use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\IdentifierResourceCreator;
+use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\BlogCategoryResourceCreator;
 use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\PageResourceCreator;
 use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\ResourceCreatorInterface;
 use Spryker\Client\CategoryStorage\CategoryStorageClientInterface;
@@ -46,9 +46,9 @@ class ContentfulFactory extends AbstractFactory
     /**
      * @return \FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulClientInterface
      */
-    public function getContentfulClient(): ContentfulToContentfulClientInterface
+    public function getContentfulPageSearchClient(): ContentfulToContentfulPageSearchClientInterface
     {
-        return $this->getProvidedDependency(ContentfulDependencyProvider::CLIENT_CONTENFUL);
+        return $this->getProvidedDependency(ContentfulDependencyProvider::CLIENT_CONTENFUL_PAGE_SEARCH);
     }
 
     /**
@@ -98,7 +98,9 @@ class ContentfulFactory extends AbstractFactory
      */
     public function getResourceCreator(): array
     {
-        return [];
+        return [
+            new BlogCategoryResourceCreator(),
+        ];
     }
 
     /**
