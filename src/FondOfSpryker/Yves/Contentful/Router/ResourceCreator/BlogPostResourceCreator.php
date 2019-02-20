@@ -8,11 +8,11 @@ use Spryker\Yves\Kernel\BundleControllerAction;
 use Spryker\Yves\Kernel\ClassResolver\Controller\ControllerResolver;
 use Spryker\Yves\Kernel\Controller\BundleControllerActionRouteNameResolver;
 
-class BlogCategoryResourceCreator implements ResourceCreatorInterface
+class BlogPostResourceCreator implements ResourceCreatorInterface
 {
     private const RESOURCE_TYPE = 'blog';
 
-    private const CONTROLLER_METHOD = 'category';
+    private const CONTROLLER_METHOD = 'post';
 
     /**
      * @return string

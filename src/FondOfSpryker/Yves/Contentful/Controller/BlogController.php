@@ -15,7 +15,7 @@ class BlogController extends AbstractController
     /**
      * @param string $entryId
      */
-    public function blogCategoryAction(string $entryId, Request $request): Response
+    public function categoryAction(string $entryId, Request $request): Response
     {
         $results = [];
         $params = [
@@ -40,5 +40,15 @@ class BlogController extends AbstractController
         }
 
         return new Response($this->getFactory()->createBuilder()->renderContentfulEntry($entryId, $this->getLocale(), ['blogPosts' => $results]));
+    }
+
+    /**
+     * @param string $entryId
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function postAction(string $entryId): Response
+    {
+        return new Response($this->getFactory()->createBuilder()->renderContentfulEntry($entryId, $this->getLocale()));
     }
 }
