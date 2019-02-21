@@ -2,15 +2,13 @@
 
 namespace FondOfSpryker\Yves\Contentful\Dependency\Client;
 
-use Elastica\ResultSet;
-
 interface ContentfulToContentfulPageSearchClientInterface
 {
     /**
      * @param string $searchString
      * @param array $requestParameters
      *
-     * @return \Elastica\ResultSet
+     * @return array|\Elastica\ResultSet
      */
-    public function contentfulSearch(string $searchString, array $requestParameters): ResultSet;
+    public function contentfulBlogCategorySearch(string $searchString, array $requestParameters);
 }

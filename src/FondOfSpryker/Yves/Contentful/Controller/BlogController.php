@@ -14,32 +14,30 @@ class BlogController extends AbstractController
 {
     /**
      * @param string $entryId
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function categoryAction(string $entryId, Request $request): Response
     {
-        $results = [];
         $params = [
             ContentfulConstants::FIELD_BLOG_CATEGORIES => true,
-            'entryId' => $entryId,
+            ContentfulConstants::FIELD_ENTRY_ID => $entryId,
         ];
 
         $searchResults = $this
             ->getFactory()
             ->getContentfulPageSearchClient()
-            ->contentfulSearch('', $params);
+            ->contentfulBlogCategorySearch('', $params);
 
-        foreach ($searchResults->getResults() as $result) {
-            $results[] = [
-                'entry_id' => $result->getSource()['search-result-data']['entry_id'],
-                'summary' => $result->getSource()['search-result-data']['summary'],
-                'headline' => $result->getSource()['search-result-data']['headline'],
-                'image' => $result->getSource()['search-result-data']['image'],
-                'identifier' => $result->getSource()['search-result-data']['identifier'],
-                'publishedAt' => $result->getSource()['search-result-data']['publishedAt'],
-            ];
-        }
-
-        return new Response($this->getFactory()->createBuilder()->renderContentfulEntry($entryId, $this->getLocale(), ['blogPosts' => $results]));
+        return new Response($this->getFactory()->createBuilder()->renderContentfulEntry(
+            $entryId,
+            $this->getLocale(),
+            [
+                'blogPosts' => $searchResults['results'],
+                'pagination' => $searchResults['pagination'],
+            ]
+        ));
     }
 
     /**

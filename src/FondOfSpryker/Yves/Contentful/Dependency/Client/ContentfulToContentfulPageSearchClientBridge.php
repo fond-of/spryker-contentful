@@ -2,7 +2,6 @@
 
 namespace FondOfSpryker\Yves\Contentful\Dependency\Client;
 
-use Elastica\ResultSet;
 use FondOfSpryker\Client\ContentfulPageSearch\ContentfulPageSearchClientInterface;
 
 class ContentfulToContentfulPageSearchClientBridge implements ContentfulToContentfulPageSearchClientInterface
@@ -26,10 +25,10 @@ class ContentfulToContentfulPageSearchClientBridge implements ContentfulToConten
      * @param string $searchString
      * @param array $requestParameters
      *
-     * @return \Elastica\ResultSet
+     * @return array|\Elastica\ResultSet
      */
-    public function contentfulSearch(string $searchString, array $requestParameters): ResultSet
+    public function contentfulBlogCategorySearch(string $searchString, array $requestParameters)
     {
-        return $this->contentfulPageSearchClient->contentfulSearch($searchString, $requestParameters);
+        return $this->contentfulPageSearchClient->contentfulBlogCategorySearch($searchString, $requestParameters);
     }
 }
