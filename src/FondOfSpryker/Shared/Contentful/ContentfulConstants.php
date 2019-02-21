@@ -19,4 +19,5 @@ interface ContentfulConstants
 
     public const FIELD_BLOG_CATEGORIES = 'blog_categories';
     public const FIELD_ENTRY_ID = 'entryId';
+    public const FIELD_TYPE = 'type';
 }

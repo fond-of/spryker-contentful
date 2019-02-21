@@ -49,4 +49,30 @@ class BlogController extends AbstractController
     {
         return new Response($this->getFactory()->createBuilder()->renderContentfulEntry($entryId, $this->getLocale()));
     }
+
+    /**
+     * @param string $entryId
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function homeAction(string $entryId): Response
+    {
+        $params = [
+            ContentfulConstants::FIELD_BLOG_CATEGORIES => true,
+        ];
+
+        $searchResults = $this
+            ->getFactory()
+            ->getContentfulPageSearchClient()
+            ->contentfulBlogCategorySearch('', $params);
+
+        return new Response($this->getFactory()->createBuilder()->renderContentfulEntry(
+            $entryId,
+            $this->getLocale(),
+            [
+                'blogPosts' => $searchResults['results'],
+                'pagination' => $searchResults['pagination'],
+            ]
+        ));
+    }
 }
