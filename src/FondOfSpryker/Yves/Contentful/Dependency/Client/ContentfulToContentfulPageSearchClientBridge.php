@@ -31,4 +31,15 @@ class ContentfulToContentfulPageSearchClientBridge implements ContentfulToConten
     {
         return $this->contentfulPageSearchClient->contentfulBlogCategorySearch($searchString, $requestParameters);
     }
+
+    /**
+     * @param string $searchString
+     * @param array $requestParameters
+     *
+     * @return mixed
+     */
+    public function contentfulBlogTagSearch(string $searchString, array $requestParameters)
+    {
+        return $this->contentfulPageSearchClient->contentfulBlogTagSearch($searchString, $requestParameters);
+    }
 }

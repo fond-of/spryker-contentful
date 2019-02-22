@@ -33,6 +33,7 @@ use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeMapperI
 use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\BlogCategoryResourceCreator;
 use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\BlogHomeResourceCreator;
 use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\BlogPostResourceCreator;
+use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\BlogTagResourceCreator;
 use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\PageResourceCreator;
 use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\ResourceCreatorInterface;
 use Spryker\Client\CategoryStorage\CategoryStorageClientInterface;
@@ -104,6 +105,7 @@ class ContentfulFactory extends AbstractFactory
             new BlogHomeResourceCreator(),
             new BlogCategoryResourceCreator(),
             new BlogPostResourceCreator(),
+            new BlogTagResourceCreator(),
         ];
     }
 
