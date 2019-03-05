@@ -13,16 +13,17 @@ use Symfony\Component\HttpFoundation\Response;
 class BlogController extends AbstractController
 {
     /**
-     * @param string $entryId
      * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param string $entryId
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function categoryAction(string $entryId, Request $request): Response
+    public function categoryAction(Request $request, string $entryId): Response
     {
         $params = [
             ContentfulConstants::FIELD_BLOG_CATEGORIES => true,
             ContentfulConstants::FIELD_ENTRY_ID => $entryId,
+            'page' => $request->get('page'),
         ];
 
         $searchResults = $this
@@ -36,6 +37,7 @@ class BlogController extends AbstractController
             [
                 'blogPosts' => $searchResults['results'],
                 'pagination' => $searchResults['pagination'],
+                'paginationPath' => $request->getPathInfo(),
             ]
         ));
     }
@@ -51,16 +53,17 @@ class BlogController extends AbstractController
     }
 
     /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param string $entryId
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function homeAction(string $entryId): Response
+    public function homeAction(Request $request, string $entryId): Response
     {
         $searchResults = $this
             ->getFactory()
             ->getContentfulPageSearchClient()
-            ->contentfulBlogCategorySearch('', []);
+            ->contentfulBlogCategorySearch('', ['page' => $request->get('page')]);
 
         return new Response($this->getFactory()->createBuilder()->renderContentfulEntry(
             $entryId,
@@ -68,20 +71,23 @@ class BlogController extends AbstractController
             [
                 'blogPosts' => $searchResults['results'],
                 'pagination' => $searchResults['pagination'],
+                'paginationPath' => $request->getPathInfo(),
             ]
         ));
     }
 
     /**
-     * @param \FondOfSpryker\Yves\Contentful\Controller\strin|string $entryId
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param string $entryId
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function tagAction(string $entryId): Response
+    public function tagAction(Request $request, string $entryId): Response
     {
         $params = [
             ContentfulConstants::FIELD_BLOG_TAGS => true,
             ContentfulConstants::FIELD_ENTRY_ID => $entryId,
+            'page' => $request->get('page'),
         ];
 
         $searchResults = $this
@@ -95,6 +101,7 @@ class BlogController extends AbstractController
             [
                 'blogPosts' => $searchResults['results'],
                 'pagination' => $searchResults['pagination'],
+                'paginationPath' => $request->getPathInfo(),
             ]
         ));
     }
