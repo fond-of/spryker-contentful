@@ -9,6 +9,9 @@ use Orm\Zed\Contentful\Persistence\FosContentfulQuery;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
+/**
+ * @method \FondOfSpryker\Zed\Contentful\ContentfulConfig getConfig()
+ */
 abstract class AbstractStorageImporterPlugin extends AbstractWriterPlugin implements ImporterPluginInterface
 {
     /**

@@ -96,7 +96,6 @@ class ContentfulCommunicationFactory extends AbstractCommunicationFactory
     }
 
     /**
-     *
      * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToEventBehaviorFacadeInterface
      */
     public function getEventBehaviourFacade(): ContentfulToEventBehaviorFacadeInterface

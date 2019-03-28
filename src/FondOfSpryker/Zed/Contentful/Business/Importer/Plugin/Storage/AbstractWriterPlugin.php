@@ -4,8 +4,13 @@ namespace FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage;
 
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
 use Orm\Zed\Contentful\Persistence\FosContentful;
+use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 
-abstract class AbstractWriterPlugin
+/**
+ * @method \FondOfSpryker\Zed\Contentful\ContentfulConfig getConfig()
+ * @method \Pyz\Zed\Contentful\Business\ContentfulBusinessFactory getFactory()
+ */
+abstract class AbstractWriterPlugin extends AbstractPlugin
 {
     /**
      * @var \Orm\Zed\Contentful\Persistence\FosContentfulQuery
@@ -23,12 +28,14 @@ abstract class AbstractWriterPlugin
     protected function store(ContentfulEntryInterface $contentfulEntry, array $data, string $locale, string $key): void
     {
         $entity = $this->getEntity($contentfulEntry, $locale);
+        $storeTransfer = $this->getFactory()->getStore();
 
         $entity->setEntryId(strtolower($contentfulEntry->getId()));
         $entity->setEntryTypeId($contentfulEntry->getContentTypeId());
         $entity->setEntryData(json_encode($data));
         $entity->setEntryLocale($locale);
         $entity->setStorageKey($key);
+        $entity->setFkStore($storeTransfer->getIdStore());
         $entity->save();
     }
 

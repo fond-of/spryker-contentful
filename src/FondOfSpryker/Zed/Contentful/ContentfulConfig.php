@@ -3,6 +3,7 @@
 namespace FondOfSpryker\Zed\Contentful;
 
 use FondOfSpryker\Shared\Contentful\ContentfulConstants;
+use Spryker\Shared\Kernel\Store;
 use Spryker\Zed\Kernel\AbstractBundleConfig;
 
 class ContentfulConfig extends AbstractBundleConfig
@@ -60,5 +61,13 @@ class ContentfulConfig extends AbstractBundleConfig
     public function getFieldNameIdentifier(): string
     {
         return $this->getConfig()->get(ContentfulConstants::CONTENTFUL_FIELD_NAME_IDENTIFIER, static::DEFAULT_FIELD_NAME_IDENTIFIER);
+    }
+
+    /**
+     * @return \Spryker\Shared\Kernel\Store
+     */
+    public function getStore(): Store
+    {
+        return Store::getInstance();
     }
 }

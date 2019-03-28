@@ -13,6 +13,11 @@
         <column name="entry_data" required="true" size="255" type="LONGVARCHAR"/>
         <column name="entry_locale" required="true" size="5" type="VARCHAR"/>
         <column name="storage_key" required="true" size="255" type="VARCHAR"/>
+        <column name="fk_store" required="true" type="INTEGER"/>
+
+        <foreign-key name="fos_contentful-fk_store" foreignTable="spy_store">
+            <reference foreign="id_store" local="fk_store"/>
+        </foreign-key>
 
         <id-method-parameter value="fos_contentful_pk_seq"/>
 
