@@ -93,11 +93,10 @@ class NavigationStorageImporterPlugin extends AbstractWriterPlugin implements Im
         }
 
         $routePrefixLocale = $this->getLocaleRoutePrefixesByAppLocale($locale);
-
         $value = $this->createStorageValue($entry, $identifier, $routePrefixLocale);
 
-        //$this->store($contentfulEntry, $value, $locale, $key);
-        $this->createStorageEntry($key, $value);
+        $this->store($contentfulEntry, $value, $locale, $key);
+        //$this->createStorageEntry($key, $value);
     }
 
     /**

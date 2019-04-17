@@ -98,8 +98,9 @@ class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements Im
             return;
         }
 
-        //$this->store($contentfulEntry, $this->createStorageValue($entry), $locale, $key);
-        $this->createStorageEntry($key, $this->createStorageValue($entry));
+        $this->store($contentfulEntry, $this->createStorageValue($entry), $locale, $key);
+
+        //$this->createStorageEntry($key, $this->createStorageValue($entry));
     }
 
     /**

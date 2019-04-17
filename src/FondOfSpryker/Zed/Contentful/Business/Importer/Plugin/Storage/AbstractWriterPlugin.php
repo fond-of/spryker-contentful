@@ -27,7 +27,7 @@ abstract class AbstractWriterPlugin extends AbstractPlugin
      */
     protected function store(ContentfulEntryInterface $contentfulEntry, array $data, string $locale, string $key): void
     {
-        $entity = $this->getEntity($contentfulEntry, $locale);
+        $entity = $this->getEntity($contentfulEntry, $locale, $key);
         $storeTransfer = $this->getFactory()->getStore();
 
         $entity->setEntryId(strtolower($contentfulEntry->getId()));
@@ -45,12 +45,13 @@ abstract class AbstractWriterPlugin extends AbstractPlugin
      *
      * @return \Orm\Zed\Contentful\Persistence\FosContentful
      */
-    protected function getEntity(ContentfulEntryInterface $contentfulEntry, string $locale): FosContentful
+    protected function getEntity(ContentfulEntryInterface $contentfulEntry, string $locale, string $key): FosContentful
     {
         $this->contentfulQuery->clear();
 
         return $this->contentfulQuery->filterByEntryId(strtolower($contentfulEntry->getId()))
             ->filterByEntryLocale($locale)
+            ->filterByStorageKey($key)
             ->findOneOrCreate();
     }
 }
