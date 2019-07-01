@@ -13,9 +13,11 @@ interface ContentfulAPIClientInterface
     public function findLastChangedEntries(): ResourceArray;
 
     /**
+     * @param int $skip
+     *
      * @return \Contentful\Core\Resource\ResourceArray
      */
-    public function findAllEntries(): ResourceArray;
+    public function findAllEntries(int $skip = 0): ResourceArray;
 
     /**
      * @param string $entryId

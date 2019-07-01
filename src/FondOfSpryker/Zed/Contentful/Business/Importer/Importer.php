@@ -2,7 +2,6 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Importer;
 
-use Contentful\Core\Resource\ResourceArray;
 use Contentful\Delivery\Resource\Entry;
 use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientInterface;
 use FondOfSpryker\Zed\Contentful\Business\Client\ContentfulMapperInterface;
@@ -69,7 +68,23 @@ class Importer implements ImporterInterface
     public function importAllEntries(): int
     {
         $resourceArray = $this->contentfulAPIClient->findAllEntries();
-        $this->importResource($resourceArray);
+
+        if ($resourceArray->getTotal() > 1000) {
+            for ($i = 0; $i < $resourceArray->getTotal(); $i += 1000) {
+                dump($i);
+
+                $res = $this->contentfulAPIClient->findAllEntries($i);
+
+                dump(count($res->getItems()));
+
+                $this->importResource($res->getItems());
+            }
+        } else {
+            $this->importResource($resourceArray->getItems());
+        }
+
+        $this->importResource($resourceArray->getItems());
+
         return $resourceArray->getTotal();
     }
 
@@ -86,14 +101,13 @@ class Importer implements ImporterInterface
     }
 
     /**
-     * @param \Contentful\Core\Resource\ResourceArray $resourceArray
+     * @param array $items
      *
      * @return void
      */
-    protected function importResource(ResourceArray $resourceArray): void
+    protected function importResource(array $items): void
     {
-        /** @var \Contentful\Delivery\Resource\Entry $entry */
-        foreach ($resourceArray->getItems() as $entry) {
+        foreach ($items as $entry) {
             $this->import($entry);
         }
     }
@@ -109,6 +123,7 @@ class Importer implements ImporterInterface
             $entry->setLocale($contentfulLocale);
             $contentfulEntry = $this->contentfulMapper->createContentfulEntry($entry);
             $storageEntry = $this->entryMapper->createEntry($contentfulEntry);
+
             $this->executePlugins($contentfulEntry, $storageEntry, $locale);
         }
     }

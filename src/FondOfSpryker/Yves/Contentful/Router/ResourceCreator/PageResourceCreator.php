@@ -31,13 +31,11 @@ class PageResourceCreator implements ResourceCreatorInterface
         if ($data['type'] !== static::RESOURCE_TYPE) {
             return [];
         }
-
         $bundleControllerAction = new BundleControllerAction('Contentful', ucfirst(static::RESOURCE_TYPE), 'index');
         $routeNameResolver = new BundleControllerActionRouteNameResolver($bundleControllerAction);
         $controllerResolver = new ControllerResolver();
         $controllerServiceBuilder = new ControllerServiceBuilder();
         $service = $controllerServiceBuilder->createServiceForController($application, $bundleControllerAction, $controllerResolver, $routeNameResolver);
-
         return [
             '_controller' => $service,
             '_route' => $routeNameResolver->resolve(),
