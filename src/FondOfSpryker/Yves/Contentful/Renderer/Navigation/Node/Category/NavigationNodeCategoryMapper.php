@@ -2,6 +2,8 @@
 
 namespace FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\Category;
 
+use FondOfSpryker\Shared\Contentful\ContentfulConstants;
+use FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulPageSearchClientBridge;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategory;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategoryMapper;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface;
@@ -18,18 +20,28 @@ class NavigationNodeCategoryMapper implements NavigationNodeMapperInterface
      */
     protected $client;
 
+    /***
+     * @var \Spryker\Client\Search\SearchClientInterface
+     */
+    protected $searchClient;
+
     /**
      * @var string
      */
     protected $currentLocale;
 
     /**
-     * @param \Spryker\Client\CategoryStorage\CategoryStorageClientInterface $client
+     * @param \Spryker\Client\CategoryStorage\CategoryStorageClientInterface $storageClient
+     * @param \FondOfSpryker\Client\ContentfulPageSearch\ContentfulPageSearchClientInterface $searchClient
      * @param string $currentLocale
      */
-    public function __construct(CategoryStorageClientInterface $client, string $currentLocale)
-    {
-        $this->client = $client;
+    public function __construct(
+        CategoryStorageClientInterface $storageClient,
+        ContentfulToContentfulPageSearchClientBridge $searchClient,
+        string $currentLocale
+    ) {
+        $this->client = $storageClient;
+        $this->searchClient = $searchClient;
         $this->currentLocale = $currentLocale;
     }
 
@@ -71,6 +83,7 @@ class NavigationNodeCategoryMapper implements NavigationNodeMapperInterface
         }
 
         $response = $this->getCategoryStorageNodeByItem($item);
+        $this->getCategorySearchNodeByItem($item);
 
         if (empty($response->getName())) {
             return false;
@@ -91,5 +104,17 @@ class NavigationNodeCategoryMapper implements NavigationNodeMapperInterface
     protected function getCategoryStorageNodeByItem(NavigationItemCategory $item): CategoryNodeStorageTransfer
     {
         return $this->client->getCategoryNodeById($item->getCategoryId(), $this->currentLocale);
+    }
+
+    /**
+     * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategory $item
+     *
+     * @return array|\Elastica\ResultSet|mixed
+     */
+    protected function getCategorySearchNodeByItem(NavigationItemCategory $item)
+    {
+        $res = $this->searchClient->contentfulCategoryNodeSearch('', [
+            ContentfulConstants::FIELD_ID_CATEGORY => $item->getCategoryId(),
+        ]);
     }
 }

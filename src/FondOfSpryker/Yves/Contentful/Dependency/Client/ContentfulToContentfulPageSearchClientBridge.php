@@ -7,14 +7,14 @@ use FondOfSpryker\Client\ContentfulPageSearch\ContentfulPageSearchClientInterfac
 class ContentfulToContentfulPageSearchClientBridge implements ContentfulToContentfulPageSearchClientInterface
 {
     /**
-     * @var \FondOfSpryker\Client\Contentful\ContentfulClientInterface
+     * @var \FondOfSpryker\Client\ContentfulPageSearch\ContentfulPageSearchClientInterface
      */
     protected $contentfulPageSearchClient;
 
     /**
      * ContentfulToContentfulPageSearchClientBridge constructor.
      *
-     * @param \FondOfSpryker\Client\ContenftulPageSearch\ContentfulPageSearchClientInterface $contentfulPageSearchClient
+     * @param \FondOfSpryker\Client\ContentfulPageSearch\ContentfulPageSearchClientInterface $contentfulPageSearchClient
      */
     public function __construct(ContentfulPageSearchClientInterface $contentfulPageSearchClient)
     {
@@ -41,5 +41,16 @@ class ContentfulToContentfulPageSearchClientBridge implements ContentfulToConten
     public function contentfulBlogTagSearch(string $searchString, array $requestParameters)
     {
         return $this->contentfulPageSearchClient->contentfulBlogTagSearch($searchString, $requestParameters);
+    }
+
+    /**
+     * @param string $searchString
+     * @param array $requestParameters
+     *
+     * @return mixed
+     */
+    public function contentfulCategoryNodeSearch(string $searchString, array $requestParameters)
+    {
+        return $this->contentfulPageSearchClient->contentfulCategoryNodeSearch($searchString, $requestParameters);
     }
 }

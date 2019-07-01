@@ -37,6 +37,7 @@ use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\BlogTagResourceCreator;
 use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\PageResourceCreator;
 use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\ResourceCreatorInterface;
 use Spryker\Client\CategoryStorage\CategoryStorageClientInterface;
+use Spryker\Client\Search\SearchClientInterface;
 use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Shared\Kernel\Communication\Application;
 use Spryker\Yves\Kernel\AbstractFactory;
@@ -47,7 +48,9 @@ use Spryker\Yves\Kernel\AbstractFactory;
 class ContentfulFactory extends AbstractFactory
 {
     /**
-     * @return \FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulClientInterface
+     * @throws
+     *
+     * @return \FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulPageSearchClientInterface
      */
     public function getContentfulPageSearchClient(): ContentfulToContentfulPageSearchClientInterface
     {
@@ -226,7 +229,13 @@ class ContentfulFactory extends AbstractFactory
      */
     protected function createNavigationNodeCategoryMapper(): NavigationNodeMapperInterface
     {
-        return new NavigationNodeCategoryMapper($this->getCategoryStorageClient(), $this->getApplication()['locale']);
+        $foo = $this->getContentfulPageSearchClient();
+
+        return new NavigationNodeCategoryMapper(
+            $this->getCategoryStorageClient(),
+            $this->getContentfulPageSearchClient(),
+            $this->getApplication()['locale']
+        );
     }
 
     /**
@@ -275,5 +284,15 @@ class ContentfulFactory extends AbstractFactory
     public function getApplication(): Application
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::PLUGIN_APPLICATION);
+    }
+
+    /**
+     * @throws
+     *
+     * @return \Spryker\Client\Search\SearchClientInterface
+     */
+    public function getSearchClient(): SearchClientInterface
+    {
+        return $this->getProvidedDependency(ContentfulDependencyProvider::SEARCH_CLIENT);
     }
 }
