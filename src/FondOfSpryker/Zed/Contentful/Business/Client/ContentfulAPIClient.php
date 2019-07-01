@@ -52,14 +52,22 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
     }
 
     /**
+     * @param int $skip
+     *
+     * @throws
+     *
      * @return \Contentful\Core\Resource\ResourceArray
      */
-    public function findAllEntries(): ResourceArray
+    public function findAllEntries(int $skip = 0): ResourceArray
     {
         $query = new Query();
         $query->where('sys.createdAt', new DateTime('2010-01-01 00:00:00'), 'gte');
         $query->setLimit(1000);
         $query->setLocale('*');
+
+        if ($skip > 0) {
+            $query->setSkip($skip);
+        }
 
         return $this->client->getEntries($query);
     }
