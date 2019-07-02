@@ -3,6 +3,7 @@
 namespace FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage;
 
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
+use Generated\Shared\Transfer\StoreTransfer;
 use Orm\Zed\Contentful\Persistence\FosContentful;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 
@@ -27,8 +28,9 @@ abstract class AbstractWriterPlugin extends AbstractPlugin
      */
     protected function store(ContentfulEntryInterface $contentfulEntry, array $data, string $locale, string $key): void
     {
-        $entity = $this->getEntity($contentfulEntry, $locale, $key);
         $storeTransfer = $this->getFactory()->getStore();
+
+        $entity = $this->getEntity($contentfulEntry, $storeTransfer, $locale);
 
         $entity->setEntryId(strtolower($contentfulEntry->getId()));
         $entity->setEntryTypeId($contentfulEntry->getContentTypeId());
@@ -40,18 +42,37 @@ abstract class AbstractWriterPlugin extends AbstractPlugin
     }
 
     /**
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
-     * @param string $locale
+     * @param \Orm\Zed\Contentful\Persistence\FosContentful $entity
+     *
+     * @throws
      *
      * @return \Orm\Zed\Contentful\Persistence\FosContentful
      */
-    protected function getEntity(ContentfulEntryInterface $contentfulEntry, string $locale, string $key): FosContentful
+    protected function deleteEntity(FosContentful $entity): FosContentful
+    {
+        $entity->delete();
+
+        return new FosContentful();
+    }
+
+    /**
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
+     * @param \Generated\Shared\Transfer\StoreTransfer $storeTransfer
+     * @param string $locale
+     *
+     * @throws
+     *
+     * @return \Orm\Zed\Contentful\Persistence\FosContentful
+     */
+    protected function getEntity(ContentfulEntryInterface $contentfulEntry, StoreTransfer $storeTransfer, string $locale): FosContentful
     {
         $this->contentfulQuery->clear();
 
-        return $this->contentfulQuery->filterByEntryId(strtolower($contentfulEntry->getId()))
+        return $this->contentfulQuery
+            ->filterByEntryId(strtolower($contentfulEntry->getId()))
             ->filterByEntryLocale($locale)
-            ->filterByStorageKey($key)
+            ->filterByEntryTypeId($contentfulEntry->getContentTypeId())
+            ->filterByFkStore($storeTransfer->getIdStore())
             ->findOneOrCreate();
     }
 }

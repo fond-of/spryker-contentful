@@ -58,7 +58,8 @@ class Importer implements ImporterInterface
     public function importLastChangedEntries(): int
     {
         $resourceArray = $this->contentfulAPIClient->findLastChangedEntries();
-        $this->importResource($resourceArray);
+        $this->importResource($resourceArray->getItems());
+
         return $resourceArray->getTotal();
     }
 
@@ -71,12 +72,7 @@ class Importer implements ImporterInterface
 
         if ($resourceArray->getTotal() > 1000) {
             for ($i = 0; $i < $resourceArray->getTotal(); $i += 1000) {
-                dump($i);
-
                 $res = $this->contentfulAPIClient->findAllEntries($i);
-
-                dump(count($res->getItems()));
-
                 $this->importResource($res->getItems());
             }
         } else {
@@ -96,7 +92,8 @@ class Importer implements ImporterInterface
     public function importEntry(string $entryId): int
     {
         $resourceArray = $this->contentfulAPIClient->findEntryById($entryId);
-        $this->importResource($resourceArray);
+        $this->importResource($resourceArray->getItems());
+
         return $resourceArray->getTotal();
     }
 
