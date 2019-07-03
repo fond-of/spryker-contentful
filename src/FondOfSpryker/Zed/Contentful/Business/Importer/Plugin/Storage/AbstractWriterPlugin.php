@@ -30,7 +30,7 @@ abstract class AbstractWriterPlugin extends AbstractPlugin
     {
         $storeTransfer = $this->getFactory()->getStore();
 
-        $entity = $this->getEntity($contentfulEntry, $storeTransfer, $locale);
+        $entity = $this->getEntity($contentfulEntry, $storeTransfer, $locale, $key);
 
         $entity->setEntryId(strtolower($contentfulEntry->getId()));
         $entity->setEntryTypeId($contentfulEntry->getContentTypeId());
@@ -59,20 +59,19 @@ abstract class AbstractWriterPlugin extends AbstractPlugin
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      * @param \Generated\Shared\Transfer\StoreTransfer $storeTransfer
      * @param string $locale
+     * @param string|null $key
      *
      * @throws
      *
      * @return \Orm\Zed\Contentful\Persistence\FosContentful
      */
-    protected function getEntity(ContentfulEntryInterface $contentfulEntry, StoreTransfer $storeTransfer, string $locale): FosContentful
+    protected function getEntity(ContentfulEntryInterface $contentfulEntry, StoreTransfer $storeTransfer, string $locale, ?string $key = null): FosContentful
     {
         $this->contentfulQuery->clear();
 
-        return $this->contentfulQuery
-            ->filterByEntryId(strtolower($contentfulEntry->getId()))
+        return $this->contentfulQuery->filterByEntryId(strtolower($contentfulEntry->getId()))
             ->filterByEntryLocale($locale)
-            ->filterByEntryTypeId($contentfulEntry->getContentTypeId())
-            ->filterByFkStore($storeTransfer->getIdStore())
+            ->filterByStorageKey($key)
             ->findOneOrCreate();
     }
 }

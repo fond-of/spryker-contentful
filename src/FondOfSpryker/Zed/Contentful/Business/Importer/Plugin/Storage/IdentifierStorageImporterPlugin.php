@@ -269,12 +269,13 @@ class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements Im
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      * @param \Generated\Shared\Transfer\StoreTransfer $storeTransfer
      * @param string $locale
+     * @param string|null $key
      *
      * @throws
      *
      * @return \Orm\Zed\Contentful\Persistence\FosContentful
      */
-    protected function getEntity(ContentfulEntryInterface $contentfulEntry, StoreTransfer $storeTransfer, string $locale): FosContentful
+    protected function getEntity(ContentfulEntryInterface $contentfulEntry, StoreTransfer $storeTransfer, string $locale, ?string $key = null): FosContentful
     {
         $this->contentfulQuery->clear();
 
