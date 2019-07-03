@@ -252,7 +252,7 @@ class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements Im
         $storeTransfer = $this->getFactory()->getStore();
         $entity = $this->getEntity($contentfulEntry, $storeTransfer, $locale);
 
-        if ($entity->isNew() === false && $entity->getEntryTypeId() === 'page-identifier') {
+        if ($entity->isNew() === false && $entity->getEntryTypeId() === 'page-identifier' && $key !== $entity->getStorageKey()) {
             $entity = $this->deleteEntity($entity);
         }
 
