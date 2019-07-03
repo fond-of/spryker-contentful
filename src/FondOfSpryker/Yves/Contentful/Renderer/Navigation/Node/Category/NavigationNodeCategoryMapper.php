@@ -3,7 +3,7 @@
 namespace FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\Category;
 
 use FondOfSpryker\Shared\Contentful\ContentfulConstants;
-use FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulPageSearchClientBridge;
+use FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulPageSearchClientInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategory;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategoryMapper;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface;
@@ -20,9 +20,6 @@ class NavigationNodeCategoryMapper implements NavigationNodeMapperInterface
      */
     protected $client;
 
-    /***
-     * @var \Spryker\Client\Search\SearchClientInterface
-     */
     protected $searchClient;
 
     /**
@@ -30,14 +27,9 @@ class NavigationNodeCategoryMapper implements NavigationNodeMapperInterface
      */
     protected $currentLocale;
 
-    /**
-     * @param \Spryker\Client\CategoryStorage\CategoryStorageClientInterface $storageClient
-     * @param \FondOfSpryker\Client\ContentfulPageSearch\ContentfulPageSearchClientInterface $searchClient
-     * @param string $currentLocale
-     */
     public function __construct(
         CategoryStorageClientInterface $storageClient,
-        ContentfulToContentfulPageSearchClientBridge $searchClient,
+        ContentfulToContentfulPageSearchClientInterface $searchClient,
         string $currentLocale
     ) {
         $this->client = $storageClient;
