@@ -22,4 +22,9 @@ interface ContentfulConstants
     public const FIELD_ENTRY_ID = 'entryId';
     public const FIELD_TYPE = 'type';
     public const FIELD_ID_CATEGORY = 'id_category';
+    public const FIELD_IS_ACTIVE = 'isActive';
+    public const FIELD_IDENTIFIER = 'identifier';
+
+    public const ENTRY_TYPE_ID_PAGE = 'page';
+    public const ENTRY_TYPE_ID_PAGE_IDENTIFIER = 'page-identifier';
 }

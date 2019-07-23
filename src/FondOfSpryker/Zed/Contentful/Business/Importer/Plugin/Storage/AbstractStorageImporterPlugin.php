@@ -38,6 +38,7 @@ abstract class AbstractStorageImporterPlugin extends AbstractWriterPlugin implem
      * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
      * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
      * @param string $activeFieldName
+     * @param \Orm\Zed\Contentful\Persistence\FosContentfulQuery $contentfulQuery
      */
     public function __construct(
         KeyBuilderInterface $keyBuilder,

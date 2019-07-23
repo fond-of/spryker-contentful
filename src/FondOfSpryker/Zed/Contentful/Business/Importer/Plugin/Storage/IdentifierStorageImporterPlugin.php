@@ -11,6 +11,7 @@ use FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextField;
 use Generated\Shared\Transfer\StoreTransfer;
 use Orm\Zed\Contentful\Persistence\FosContentful;
 use Orm\Zed\Contentful\Persistence\FosContentfulQuery;
+use Propel\Runtime\Exception\PropelException;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\Kernel\Store;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
@@ -173,6 +174,8 @@ class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements Im
      * @param string $key
      * @param array $value
      *
+     * @throws
+     *
      * @return void
      */
     protected function createStorageEntry(string $key, array $value = []): void
@@ -253,7 +256,7 @@ class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements Im
         $entity = $this->getEntity($contentfulEntry, $storeTransfer, $locale);
 
         if ($entity->isNew() === false && $entity->getEntryTypeId() === 'page-identifier' && $key !== $entity->getStorageKey()) {
-            $entity = $this->deleteEntity($entity);
+            $this->deleteEntity($entity);
         }
 
         $entity->setEntryId(strtolower($contentfulEntry->getId()));
@@ -262,7 +265,12 @@ class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements Im
         $entity->setEntryLocale($locale);
         $entity->setStorageKey($key);
         $entity->setFkStore($storeTransfer->getIdStore());
-        $entity->save();
+
+        try {
+            $entity->save();
+        } catch (PropelException $e) {
+            return;
+        }
     }
 
     /**

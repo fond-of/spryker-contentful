@@ -24,6 +24,8 @@ abstract class AbstractWriterPlugin extends AbstractPlugin
      * @param string $locale
      * @param string $key
      *
+     * @throws
+     *
      * @return void
      */
     protected function store(ContentfulEntryInterface $contentfulEntry, array $data, string $locale, string $key): void
