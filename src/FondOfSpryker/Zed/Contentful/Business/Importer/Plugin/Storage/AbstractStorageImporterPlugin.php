@@ -5,10 +5,14 @@ namespace FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage;
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface;
+use Orm\Zed\Contentful\Persistence\FosContentfulQuery;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
-abstract class AbstractStorageImporterPlugin implements ImporterPluginInterface
+/**
+ * @method \FondOfSpryker\Zed\Contentful\ContentfulConfig getConfig()
+ */
+abstract class AbstractStorageImporterPlugin extends AbstractWriterPlugin implements ImporterPluginInterface
 {
     /**
      * @var \Spryker\Shared\KeyBuilder\KeyBuilderInterface
@@ -26,15 +30,26 @@ abstract class AbstractStorageImporterPlugin implements ImporterPluginInterface
     protected $activeFieldName;
 
     /**
+     * @var \Orm\Zed\Contentful\Persistence\FosContentfulQuery
+     */
+    protected $contentfulQuery;
+
+    /**
      * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
      * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
      * @param string $activeFieldName
+     * @param \Orm\Zed\Contentful\Persistence\FosContentfulQuery $contentfulQuery
      */
-    public function __construct(KeyBuilderInterface $keyBuilder, StorageClientInterface $storageClient, string $activeFieldName)
-    {
+    public function __construct(
+        KeyBuilderInterface $keyBuilder,
+        StorageClientInterface $storageClient,
+        string $activeFieldName,
+        FosContentfulQuery $contentfulQuery
+    ) {
         $this->keyBuilder = $keyBuilder;
         $this->storageClient = $storageClient;
         $this->activeFieldName = $activeFieldName;
+        $this->contentfulQuery = $contentfulQuery;
     }
 
     /**
@@ -50,6 +65,13 @@ abstract class AbstractStorageImporterPlugin implements ImporterPluginInterface
     {
         if ($this->isValid($contentfulEntry, $entry, $locale) === false) {
             $this->handleInvalidEntry($contentfulEntry, $entry, $locale);
+
+            return;
+        }
+
+        if ($this->isActive($entry) === false) {
+            $this->deactivate($contentfulEntry, $locale);
+
             return;
         }
 
@@ -84,7 +106,7 @@ abstract class AbstractStorageImporterPlugin implements ImporterPluginInterface
     {
         $key = $this->createStorageKey($contentfulEntry, $entry, $locale);
         $value = $this->createStorageValue($contentfulEntry, $entry, $locale);
-        $this->storageClient->set($key, json_encode($value));
+        $this->store($contentfulEntry, $value, $locale, $key);
     }
 
     /**

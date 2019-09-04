@@ -18,6 +18,7 @@ use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterfac
 use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage\EntryStorageImporterPlugin;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage\IdentifierStorageImporterPlugin;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage\NavigationStorageImporterPlugin;
+use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage\PageStorageImporterPlugin;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Asset\AssetFieldMapper;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Boolean\BooleanFieldMapper;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Collection\CollectionFieldMapper;
@@ -36,6 +37,11 @@ use FondOfSpryker\Zed\Contentful\Business\Storage\Object\ObjectFieldMapper;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Reference\ReferenceFieldMapper;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextFieldMapper;
 use FondOfSpryker\Zed\Contentful\ContentfulDependencyProvider;
+use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToContentfulStorageFacadeInterface;
+use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToContentfulPageSearchInterface;
+use Generated\Shared\Transfer\StoreTransfer;
+use Orm\Zed\Contentful\Persistence\FosContentfulQuery;
+use Orm\Zed\Store\Persistence\Base\SpyStoreQuery;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
@@ -76,7 +82,16 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
         return [
             $this->createEntryStorageImporterPlugin(),
             $this->createIdentifierImporterPlugin(),
+            $this->createPageStorageImporterPlugin(),
         ];
+    }
+
+    /**
+     * @return \Orm\Zed\Contentful\Persistence\FosContentfulQuery
+     */
+    protected function createFosContentfulQuery(): FosContentfulQuery
+    {
+        return FosContentfulQuery::create();
     }
 
     /**
@@ -89,7 +104,8 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
             $this->getStorageClient(),
             $this->createUrlFormatter(),
             $this->getConfig()->getFieldNameActive(),
-            $this->getConfig()->getFieldNameIdentifier()
+            $this->getConfig()->getFieldNameIdentifier(),
+            $this->createFosContentfulQuery()
         );
     }
 
@@ -104,12 +120,26 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface
      */
+    protected function createPageStorageImporterPlugin(): ImporterPluginInterface
+    {
+        return new PageStorageImporterPlugin(
+            $this->createIdentifierKeyBuilder(),
+            $this->getStorageClient(),
+            $this->createUrlFormatter(),
+            $this->createFosContentfulQuery()
+        );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface
+     */
     protected function createEntryStorageImporterPlugin(): ImporterPluginInterface
     {
         return new EntryStorageImporterPlugin(
             $this->createEntryKeyBuilder(),
             $this->getStorageClient(),
-            $this->getConfig()->getFieldNameActive()
+            $this->getConfig()->getFieldNameActive(),
+            $this->createFosContentfulQuery()
         );
     }
 
@@ -123,7 +153,8 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
             $this->getStorageClient(),
             $this->createUrlFormatter(),
             $this->getConfig()->getFieldNameActive(),
-            $this->getConfig()->getFieldNameIdentifier()
+            $this->getConfig()->getFieldNameIdentifier(),
+            $this->createFosContentfulQuery()
         );
     }
 
@@ -300,5 +331,37 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     public function getStoreClient(): StoreClientInterface
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::CLIENT_STORE);
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulPageSearchFacadeInterface
+     */
+    public function getContentfulStorageFacade(): ContentfulToContentfulStorageFacadeInterface
+    {
+        return $this->getProvidedDependency(ContentfulDependencyProvider::CONTENTFUL_STORAGE_FACADE);
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToContentfulPageSearchInterface
+     */
+    public function getContentfulSearchPageFacade(): ContentulToContentfulPageSearchInterface
+    {
+        return $this->getProvidedDependency(ContentfulDependencyProvider::CONTENTFUL_PAGE_SEARCH_FACADE);
+    }
+
+    /**
+     * @return \Generated\Shared\Transfer\StoreTransfer
+     */
+    public function getStore(): StoreTransfer
+    {
+        $store = $this->getConfig()->getStore();
+
+        $spyStoreQuery = SpyStoreQuery::create();
+        $spyStore = $spyStoreQuery->filterByName($store->getStoreName())->findOne();
+
+        $storeTransfer = new StoreTransfer();
+        $storeTransfer->fromArray($spyStore->toArray(), true);
+
+        return $storeTransfer;
     }
 }

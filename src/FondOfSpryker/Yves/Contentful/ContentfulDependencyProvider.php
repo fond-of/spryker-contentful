@@ -3,6 +3,8 @@ namespace FondOfSpryker\Yves\Contentful;
 
 use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
 use Aptoma\Twig\Extension\MarkdownExtension;
+use FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulPageSearchClientBridge;
+use FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToSearchClientBridge;
 use Spryker\Yves\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Yves\Kernel\Container;
 use Spryker\Yves\Kernel\Plugin\Pimple;
@@ -13,6 +15,8 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     public const PLUGIN_APPLICATION = 'PLUGIN_APPLICATION';
     public const CATEGORY_STORAGE_CLIENT = 'CATEGORY_STORAGE_CLIENT';
     public const CLIENT_STORE = 'CLIENT_STORE';
+    public const SEARCH_CLIENT = 'SEARCH_CLIENT';
+    public const CLIENT_CONTENFUL_PAGE_SEARCH = 'CLIENT_CONTENFUL_PAGE_SEARCH';
 
     /**
      * @param \Spryker\Yves\Kernel\Container $container
@@ -25,6 +29,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
         $container = $this->provideApplication($container);
         $container = $this->provideCategoryStorageClient($container);
         $container = $this->provideStoreClient($container);
+        $container = $this->addContentfulPageSearchClient($container);
 
         return $container;
     }
@@ -81,6 +86,38 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container[static::CATEGORY_STORAGE_CLIENT] = function (Container $container) {
             return $container->getLocator()->categoryStorage()->client();
+        };
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Yves\Kernel\Container $container
+     *
+     * @return \Spryker\Yves\Kernel\Container
+     */
+    protected function getSearchClient(Container $container): Container
+    {
+        $container[static::SEARCH_CLIENT] = function (Container $container) {
+            return new ContentfulToSearchClientBridge(
+                $container->getLocator()->search()->client()
+            );
+        };
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Yves\Kernel\Container $container
+     *
+     * @return \Spryker\Yves\Kernel\Container
+     */
+    protected function addContentfulPageSearchClient(Container $container): Container
+    {
+        $container[static::CLIENT_CONTENFUL_PAGE_SEARCH] = function (Container $container) {
+            return new ContentfulToContentfulPageSearchClientBridge(
+                $container->getLocator()->contentfulPageSearch()->client()
+            );
         };
 
         return $container;

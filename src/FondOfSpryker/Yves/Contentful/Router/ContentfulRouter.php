@@ -45,6 +45,6 @@ class ContentfulRouter extends AbstractRouter
         }
 
         // default resource creator
-        return $this->getFactory()->createIdentifierResourceCreator()->createResource($this->getApplication(), $data);
+        return $this->getFactory()->createPageResourceCreator()->createResource($this->getApplication(), $data);
     }
 }

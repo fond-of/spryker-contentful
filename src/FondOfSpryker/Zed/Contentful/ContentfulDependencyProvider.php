@@ -4,6 +4,10 @@ namespace FondOfSpryker\Zed\Contentful;
 
 use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
 use Aptoma\Twig\Extension\MarkdownExtension;
+use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToContentfulStorageFacadeBridge;
+use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToEventBehaviorFacadeBridge;
+use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToContentfulPageSearchBridge;
+use Spryker\Shared\Kernel\Store;
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Zed\Kernel\Communication\Plugin\Pimple;
 use Spryker\Zed\Kernel\Container;
@@ -16,6 +20,10 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     public const CLIENT_STORE = 'CLIENT_STORE';
     public const CLIENT = 'CLIENT';
     public const PLUGIN_APPLICATION = 'PLUGIN_APPLICATION';
+    public const CONTENTFUL_STORAGE_FACADE = 'CONTENTFUL_STORAGE_FACADE';
+    public const CONTENTFUL_PAGE_SEARCH_FACADE = 'CONTENTFUL_PAGE_SEARCH_FACADE';
+    public const FACADE_EVENT_BEHAVIOUR = 'FACADE_EVENT_BEHAVIOUR';
+    public const STORE = 'STORE';
 
     /**
      * @param \Spryker\Zed\Kernel\Container $container
@@ -26,6 +34,9 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container = $this->provideStorageClient($container);
         $container = $this->provideStoreClient($container);
+        $container = $this->addContentfulStorageFacade($container);
+        $container = $this->addContentfulPageSearchFacade($container);
+        $container = $this->addStore($container);
 
         return $container;
     }
@@ -42,6 +53,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
         $container = $this->provideStoreClient($container);
         $container = $this->provideApplication($container);
         $container = $this->provideClient($container);
+        $container = $this->addEventBehaviourFacade($container);
 
         return $container;
     }
@@ -112,6 +124,68 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container[static::CLIENT] = function (Container $container) {
             return $container->getLocator()->contentful()->client();
+        };
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function addContentfulStorageFacade(Container $container): Container
+    {
+        $container[static::CONTENTFUL_STORAGE_FACADE] = function (Container $container) {
+            return new ContentfulToContentfulStorageFacadeBridge(
+                $container->getLocator()->contentfulStorage()->facade()
+            );
+        };
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function addContentfulPageSearchFacade(Container $container): Container
+    {
+        $container[static::CONTENTFUL_PAGE_SEARCH_FACADE] = function (Container $container) {
+            return new ContentulToContentfulPageSearchBridge(
+                $container->getLocator()->contentfulPageSearch()->facade()
+            );
+        };
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function addEventBehaviourFacade(Container $container): Container
+    {
+        $container[self::FACADE_EVENT_BEHAVIOUR] = function (Container $container) {
+            return new ContentfulToEventBehaviorFacadeBridge(
+                $container->getLocator()->eventBehavior()->facade()
+            );
+        };
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function addStore(Container $container): Container
+    {
+        $container[static::STORE] = function (Container $container) {
+            return Store::getInstance();
         };
 
         return $container;

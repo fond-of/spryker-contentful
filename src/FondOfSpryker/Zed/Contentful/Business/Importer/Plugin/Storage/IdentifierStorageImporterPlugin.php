@@ -8,12 +8,18 @@ use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterfac
 use FondOfSpryker\Zed\Contentful\Business\Storage\Boolean\BooleanField;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextField;
+use Generated\Shared\Transfer\StoreTransfer;
+use Orm\Zed\Contentful\Persistence\FosContentful;
+use Orm\Zed\Contentful\Persistence\FosContentfulQuery;
+use Propel\Runtime\Exception\PropelException;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\Kernel\Store;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
-class IdentifierStorageImporterPlugin implements ImporterPluginInterface
+class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements ImporterPluginInterface
 {
+    public const ENTRY_TYPE_ID_EXTEND_WITH = '-identifier';
+
     /**
      * @var string
      */
@@ -40,19 +46,32 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
     protected $activeFieldName;
 
     /**
+     * @var \Orm\Zed\Contentful\Persistence\FosContentfulQuery
+     */
+    protected $contentfulQuery;
+
+    /**
      * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
      * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
-     * @param \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface
+     * @param \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface $urlFormatter
      * @param string $activeFieldName
      * @param string $identifierFieldName
+     * @param \Orm\Zed\Contentful\Persistence\FosContentfulQuery $contentfulQuery
      */
-    public function __construct(KeyBuilderInterface $keyBuilder, StorageClientInterface $storageClient, UrlFormatterInterface $urlFormatter, string $activeFieldName, string $identifierFieldName)
-    {
+    public function __construct(
+        KeyBuilderInterface $keyBuilder,
+        StorageClientInterface $storageClient,
+        UrlFormatterInterface $urlFormatter,
+        string $activeFieldName,
+        string $identifierFieldName,
+        FosContentfulQuery $contentfulQuery
+    ) {
         $this->keyBuilder = $keyBuilder;
         $this->storageClient = $storageClient;
         $this->urlFormatter = $urlFormatter;
         $this->activeFieldName = $activeFieldName;
         $this->identifierFieldName = $identifierFieldName;
+        $this->contentfulQuery = $contentfulQuery;
     }
 
     /**
@@ -67,11 +86,13 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
     public function handle(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): void
     {
         $identifier = $this->getIdentifierFieldContent($entry);
+
         if (empty($identifier)) {
             return;
         }
 
         $routePrefixLocale = $this->getLocaleRoutePrefixesByAppLocale($locale);
+
         $key = $this->createStorageKey(
             $this->createUrl($identifier, $routePrefixLocale),
             $locale
@@ -82,7 +103,7 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
             return;
         }
 
-        $this->createStorageEntry($key, $this->createStorageValue($entry));
+        $this->store($contentfulEntry, $this->createStorageValue($entry), $locale, $key);
     }
 
     /**
@@ -150,17 +171,6 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
     }
 
     /**
-     * @param string $key
-     * @param array $value
-     *
-     * @return void
-     */
-    protected function createStorageEntry(string $key, array $value = []): void
-    {
-        $this->storageClient->set($key, json_encode($value));
-    }
-
-    /**
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
@@ -215,5 +225,83 @@ class IdentifierStorageImporterPlugin implements ImporterPluginInterface
         }
 
         return $field->getContent();
+    }
+
+    /**
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
+     * @param array $data
+     * @param string $locale
+     * @param string $key
+     *
+     * @throws
+     *
+     * @return void
+     */
+    protected function store(ContentfulEntryInterface $contentfulEntry, array $data, string $locale, string $key): void
+    {
+        $storeTransfer = $this->getFactory()->getStore();
+        $entity = $this->getEntity($contentfulEntry, $storeTransfer, $locale);
+
+        $this->hasChanged($entity, $key);
+
+        $entity->setEntryId(strtolower($contentfulEntry->getId()));
+        $entity->setEntryTypeId($contentfulEntry->getContentTypeId() . self::ENTRY_TYPE_ID_EXTEND_WITH);
+        $entity->setEntryData(json_encode($data));
+        $entity->setEntryLocale($locale);
+        $entity->setStorageKey($key);
+        $entity->setFkStore($storeTransfer->getIdStore());
+
+        try {
+            $entity->save();
+        } catch (PropelException $e) {
+            return;
+        }
+    }
+
+    /**
+     * @param \Orm\Zed\Contentful\Persistence\FosContentful $contentfulEntity
+     * @param string $key
+     *
+     * @return bool
+     */
+    protected function hasChanged(FosContentful $contentfulEntity, string $key): bool
+    {
+        if ($contentfulEntity->isNew() === true) {
+            return false;
+        }
+
+        if ($contentfulEntity->getEntryTypeId() !== 'page-identifier') {
+            return false;
+        }
+
+        if ($key === $contentfulEntity->getStorageKey()) {
+            return false;
+        }
+
+        $this->deleteEntity($contentfulEntity);
+
+        return true;
+    }
+
+    /**
+     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
+     * @param \Generated\Shared\Transfer\StoreTransfer $storeTransfer
+     * @param string $locale
+     * @param string|null $key
+     *
+     * @throws
+     *
+     * @return \Orm\Zed\Contentful\Persistence\FosContentful
+     */
+    protected function getEntity(ContentfulEntryInterface $contentfulEntry, StoreTransfer $storeTransfer, string $locale, ?string $key = null): FosContentful
+    {
+        $this->contentfulQuery->clear();
+
+        return $this->contentfulQuery
+            ->filterByEntryId(strtolower($contentfulEntry->getId()))
+            ->filterByEntryLocale($locale)
+            ->filterByEntryTypeId($contentfulEntry->getContentTypeId() . self::ENTRY_TYPE_ID_EXTEND_WITH)
+            ->filterByFkStore($storeTransfer->getIdStore())
+            ->findOneOrCreate();
     }
 }

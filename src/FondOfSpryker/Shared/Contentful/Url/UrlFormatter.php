@@ -93,7 +93,7 @@ class UrlFormatter implements UrlFormatterInterface
      */
     protected function isAnchor(string $path): bool
     {
-        return  substr($path, 0, 1) == '#';
+        return substr($path, 0, 1) == '#';
     }
 
     /**

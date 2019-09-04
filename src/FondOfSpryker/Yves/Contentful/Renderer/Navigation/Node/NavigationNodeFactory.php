@@ -43,6 +43,7 @@ class NavigationNodeFactory implements NavigationNodeFactoryInterface
     public function build(NavigationItemCollectionInterface $navigationItemCollection): NavigationNodeCollectionInterface
     {
         $this->collection->clear();
+
         foreach ($navigationItemCollection->getItems() as $item) {
             $node = $this->createNavigationNodeRecursively($item);
 

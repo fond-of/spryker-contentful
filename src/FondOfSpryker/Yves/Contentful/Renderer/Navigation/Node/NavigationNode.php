@@ -58,6 +58,8 @@ class NavigationNode implements NavigationNodeInterface
 
     /**
      * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeInterface $node
+     *
+     * @return void
      */
     public function addChild(NavigationNodeInterface $node): void
     {

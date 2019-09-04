@@ -10,6 +10,7 @@ use FondOfSpryker\Shared\Contentful\Renderer\RendererInterface;
 use FondOfSpryker\Shared\Contentful\Twig\ContentfulTwigExtension;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatter;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
+use FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulPageSearchClientInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategoryMapper;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\ContentfulPage\NavigationItemContentfulPageMapper;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Custom\NavigationItemCustomMapper;
@@ -29,9 +30,14 @@ use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeCollect
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeFactory;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeFactoryInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeMapperInterface;
-use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\IdentifierResourceCreator;
+use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\BlogCategoryResourceCreator;
+use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\BlogHomeResourceCreator;
+use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\BlogPostResourceCreator;
+use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\BlogTagResourceCreator;
+use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\PageResourceCreator;
 use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\ResourceCreatorInterface;
 use Spryker\Client\CategoryStorage\CategoryStorageClientInterface;
+use Spryker\Client\Search\SearchClientInterface;
 use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Shared\Kernel\Communication\Application;
 use Spryker\Yves\Kernel\AbstractFactory;
@@ -41,6 +47,16 @@ use Spryker\Yves\Kernel\AbstractFactory;
  */
 class ContentfulFactory extends AbstractFactory
 {
+    /**
+     * @throws
+     *
+     * @return \FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulPageSearchClientInterface
+     */
+    public function getContentfulPageSearchClient(): ContentfulToContentfulPageSearchClientInterface
+    {
+        return $this->getProvidedDependency(ContentfulDependencyProvider::CLIENT_CONTENFUL_PAGE_SEARCH);
+    }
+
     /**
      * @return \FondOfSpryker\Shared\Contentful\Twig\ContentfulTwigExtension
      */
@@ -88,15 +104,20 @@ class ContentfulFactory extends AbstractFactory
      */
     public function getResourceCreator(): array
     {
-        return [];
+        return [
+            new BlogHomeResourceCreator(),
+            new BlogCategoryResourceCreator(),
+            new BlogPostResourceCreator(),
+            new BlogTagResourceCreator(),
+        ];
     }
 
     /**
      * @return \FondOfSpryker\Yves\Contentful\Router\ResourceCreator\ResourceCreatorInterface
      */
-    public function createIdentifierResourceCreator(): ResourceCreatorInterface
+    public function createPageResourceCreator(): ResourceCreatorInterface
     {
-        return new IdentifierResourceCreator();
+        return new PageResourceCreator();
     }
 
     /**
@@ -208,7 +229,13 @@ class ContentfulFactory extends AbstractFactory
      */
     protected function createNavigationNodeCategoryMapper(): NavigationNodeMapperInterface
     {
-        return new NavigationNodeCategoryMapper($this->getCategoryStorageClient(), $this->getApplication()['locale']);
+        $foo = $this->getContentfulPageSearchClient();
+
+        return new NavigationNodeCategoryMapper(
+            $this->getCategoryStorageClient(),
+            $this->getContentfulPageSearchClient(),
+            $this->getApplication()['locale']
+        );
     }
 
     /**
@@ -257,5 +284,15 @@ class ContentfulFactory extends AbstractFactory
     public function getApplication(): Application
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::PLUGIN_APPLICATION);
+    }
+
+    /**
+     * @throws
+     *
+     * @return \Spryker\Client\Search\SearchClientInterface
+     */
+    public function getSearchClient(): SearchClientInterface
+    {
+        return $this->getProvidedDependency(ContentfulDependencyProvider::SEARCH_CLIENT);
     }
 }

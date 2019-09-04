@@ -9,6 +9,12 @@ class ContentfulDependencyProvider extends AbstractDependencyProvider
 {
     public const KV_STORAGE = 'KV_STORAGE';
 
+    public const CLIENT_SEARCH = 'CLIENT_SEARCH';
+
+    public const CONTENTFUL_SEARCH_QUERY_PLUGIN = 'CONTENTFUL_SEARCH_QUERY_PLUGIN';
+
+    public const CONTENTFUL_SEARCH_QUERY_EXPANDER_PLUGINS = 'CONTENTFUL_SEARCH_QUERY_EXPANDER_PLUGINS';
+
     /**
      * @param \Spryker\Client\Kernel\Container $container
      *
@@ -16,7 +22,7 @@ class ContentfulDependencyProvider extends AbstractDependencyProvider
      */
     public function provideServiceLayerDependencies(Container $container): Container
     {
-        $container = $this->provideStorageClient($container);
+        $container = $this->addStorageClient($container);
 
         return $container;
     }
@@ -26,7 +32,7 @@ class ContentfulDependencyProvider extends AbstractDependencyProvider
      *
      * @return \Spryker\Client\Kernel\Container
      */
-    protected function provideStorageClient(Container $container): Container
+    protected function addStorageClient(Container $container): Container
     {
         $container[static::KV_STORAGE] = function (Container $container) {
             return $container->getLocator()->storage()->client();
