@@ -85,6 +85,7 @@ class NavigationStorageImporterPlugin extends AbstractWriterPlugin implements Im
         if (empty($identifier)) {
             return;
         }
+
         $key = $this->createStorageKey($entry->getId(), $locale);
 
         if (!$this->isValid($contentfulEntry, $entry, $locale)) {
@@ -96,7 +97,6 @@ class NavigationStorageImporterPlugin extends AbstractWriterPlugin implements Im
         $value = $this->createStorageValue($entry, $identifier, $routePrefixLocale);
 
         $this->store($contentfulEntry, $value, $locale, $key);
-        //$this->createStorageEntry($key, $value);
     }
 
     /**

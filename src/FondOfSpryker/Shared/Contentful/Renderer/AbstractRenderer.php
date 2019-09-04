@@ -37,6 +37,8 @@ abstract class AbstractRenderer implements RendererInterface
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
      * @param string[] $additionalPlaceholders
      *
+     * @throws
+     *
      * @return string
      */
     public function render(ContentfulEntryResponseTransfer $response, array $additionalPlaceholders = []): string

@@ -7,9 +7,7 @@ use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Boolean\BooleanField;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface;
-use Orm\Zed\Contentful\Persistence\FosContentful;
 use Orm\Zed\Contentful\Persistence\FosContentfulQuery;
-use Propel\Runtime\Collection\ObjectCollection;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\Kernel\Store;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
@@ -79,7 +77,7 @@ class PageStorageImporterPlugin extends IdentifierStorageImporterPlugin
         $storageKey = $this->createStorageKey($url, $locale);
 
         if ($this->isActive($entry) === false) {
-            $this->deactivate($contentfulEntry, $storageKey, $locale);
+            $this->deactivate($contentfulEntry, $locale);
 
             return;
         }
@@ -87,105 +85,7 @@ class PageStorageImporterPlugin extends IdentifierStorageImporterPlugin
         $this->store($contentfulEntry, $this->createStorageValue($entry), $locale, $storageKey);
     }
 
-    /**
-     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
-     *
-     * @return bool
-     */
-    protected function isActive(EntryInterface $entry): bool
-    {
-        if ($entry->getField(ContentfulConstants::FIELD_IS_ACTIVE) instanceof BooleanField) {
-            return $entry->getField(ContentfulConstants::FIELD_IS_ACTIVE)->getBoolean();
-        }
 
-        return false;
-    }
-
-    /**
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
-     * @param string $key
-     * @param string $locale
-     *
-     * @return void
-     */
-    protected function deactivate(ContentfulEntryInterface $contentfulEntry, string $key, string $locale): void
-    {
-        $this->deleteIdentifierEntity($key, $locale);
-        $this->deletePageEntities($contentfulEntry, $locale);
-    }
-
-    /**
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
-     * @param string $locale
-     *
-     * @throws
-     *
-     * @return void
-     */
-    protected function deletePageEntities(ContentfulEntryInterface $contentfulEntry, string $locale): void
-    {
-        $pageEntities = $this->getPageEntities(strtolower($contentfulEntry->getId()), $locale);
-
-        /** @var \Orm\Zed\Contentful\Persistence\FosContentful $entity */
-        foreach ($pageEntities->getData() as $entity) {
-            $entity->delete();
-        }
-    }
-
-    /**
-     * @param string $key
-     * @param string $locale
-     *
-     * @throws
-     *
-     * @return void
-     */
-    protected function deleteIdentifierEntity(string $key, string $locale): void
-    {
-        $identifierFosContentful = $this->getIdentifierEntity($key, $locale);
-
-        if ($identifierFosContentful !== null) {
-            $identifierFosContentful->delete();
-        }
-    }
-
-    /**
-     * @param string $entryId
-     * @param string $locale
-     *
-     * @throws
-     *
-     * @return \Propel\Runtime\Collection\ObjectCollection
-     */
-    protected function getPageEntities(string $entryId, string $locale): ?ObjectCollection
-    {
-        $this->contentfulQuery->clear();
-
-        return $this->contentfulQuery
-            ->filterByEntryId($entryId)
-            ->filterByEntryLocale($locale)
-            ->filterByEntryTypeId(ContentfulConstants::ENTRY_TYPE_ID_PAGE)
-            ->find();
-    }
-
-    /**
-     * @param string $key
-     * @param string $locale
-     *
-     * @throws
-     *
-     * @return \Orm\Zed\Contentful\Persistence\FosContentful|null
-     */
-    protected function getIdentifierEntity(string $key, string $locale): ?FosContentful
-    {
-        $this->contentfulQuery->clear();
-
-        return $this->contentfulQuery
-            ->filterByEntryTypeId(ContentfulConstants::ENTRY_TYPE_ID_PAGE_IDENTIFIER)
-            ->filterByStorageKey($key)
-            ->filterByEntryLocale($locale)
-            ->findOne();
-    }
 
     /**
      * @param string $url

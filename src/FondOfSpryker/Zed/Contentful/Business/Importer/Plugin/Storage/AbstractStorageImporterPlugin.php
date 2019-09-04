@@ -65,6 +65,13 @@ abstract class AbstractStorageImporterPlugin extends AbstractWriterPlugin implem
     {
         if ($this->isValid($contentfulEntry, $entry, $locale) === false) {
             $this->handleInvalidEntry($contentfulEntry, $entry, $locale);
+
+            return;
+        }
+
+        if ($this->isActive($entry) === false) {
+            $this->deactivate($contentfulEntry, $locale);
+
             return;
         }
 
