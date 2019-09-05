@@ -88,7 +88,7 @@ abstract class AbstractWriterPlugin extends AbstractPlugin
     protected function isActive(EntryInterface $entry): bool
     {
         if ($entry->getField(ContentfulConstants::FIELD_IS_ACTIVE) instanceof BooleanField) {
-            return $entry->getField(ContentfulConstants::FIELD_IS_ACTIVE)->getBoolean();
+            return (bool)$entry->getField(ContentfulConstants::FIELD_IS_ACTIVE)->getBoolean();
         }
 
         return true;
