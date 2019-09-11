@@ -6,6 +6,7 @@ use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
  * @method \FondOfSpryker\Zed\Contentful\Business\ContentfulBusinessFactory getFactory()
+ * @method \FondOfSpryker\Zed\Contentful\Persistence\ContentfulRepository getRepository()
  */
 class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterface
 {
@@ -69,5 +70,33 @@ class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterfa
     public function unpublishSearch(array $idCollection): void
     {
         $this->getFactory()->getContentfulSearchPageFacade()->unpublish($idCollection);
+    }
+
+    /**
+     * @return int
+     */
+    public function getContentfulEntryCount(): int
+    {
+        return $this->getRepository()->getContentfulEntryCount();
+    }
+
+    /**
+     * @param int|null $limit
+     * @param int|null $offset
+     * @return mixed
+     */
+    public function getContentfulEntries(?int $limit = null, ?int $offset = null)
+    {
+        return $this->getRepository()->getContentfulEntries($limit, $offset);
+    }
+
+    /**
+     * @param int|null $limit
+     * @param int|null $offset
+     * @return array
+     */
+    public function getContentfulEntryIds(?int $limit = null, ?int $offset = null): array
+    {
+        return $this->getRepository()->getContentfulEntryIds($limit, $offset);
     }
 }
