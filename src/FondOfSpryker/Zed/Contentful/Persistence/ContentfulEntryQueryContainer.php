@@ -35,15 +35,4 @@ class ContentfulEntryQueryContainer extends AbstractQueryContainer implements Co
             ->createFosContentfulEntryQuery()
             ->filterByIdFosContentfulEntry_In($contentfulEntryIds);
     }
-
-    /**
-     * @param array $contentfulEntryIds
-     *
-     * @return array|null
-     */
-    public function queryContentfulEntryAll(array $contentfulEntryIds): ?array
-    {
-        return $this->getFactory()
-            ->createFosContentfulEntryQuery()->;
-    }
 }
