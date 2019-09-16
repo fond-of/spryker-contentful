@@ -3,13 +3,13 @@
 namespace FondOfSpryker\Zed\Contentful\Persistence;
 
 use Orm\Zed\Contentful\Persistence\FosContentfulQuery;
-use Orm\Zed\ContentfulPage\Persistence\FosContentfulEntryQuery;
 use Spryker\Zed\Kernel\Persistence\AbstractPersistenceFactory;
 
 /**
  * Class ContentfulPersistenceFactory
  * @method \FondOfSpryker\Zed\Contentful\Persistence\ContentfulRepository getRepository()
  * @package FondOfSpryker\Zed\Contentful\Persistence
+ * @method \FondOfSpryker\Zed\Contentful\ContentfulConfig getConfig()
  */
 class ContentfulPersistenceFactory extends AbstractPersistenceFactory
 {

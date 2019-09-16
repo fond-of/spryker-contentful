@@ -2,8 +2,7 @@
 
 namespace FondOfSpryker\Zed\Contentful\Persistence;
 
-use Orm\Zed\ContentfulEntry\Persistence\FosContentfulEntry;
-use Spryker\Zed\Kernel\Persistence\AbstractQueryContainer;
+use Orm\Zed\Contentful\Persistence\FosContentfulQuery;
 use Spryker\Zed\Kernel\Persistence\AbstractRepository;
 
 /**
@@ -14,6 +13,7 @@ class ContentfulRepository extends AbstractRepository implements ContentfulRepos
     /**
      * @param int|null $limit
      * @param int|null $offset
+     *
      * @return array
      */
     public function getContentfulEntries(?int $limit = null, ?int $offset = null): array
@@ -24,8 +24,8 @@ class ContentfulRepository extends AbstractRepository implements ContentfulRepos
     /**
      * @param int|null $limit
      * @param int|null $offset
+     *
      * @return array
-     * @throws \Propel\Runtime\Exception\PropelException
      */
     public function getContentfulEntryIds(?int $limit = null, ?int $offset = null): array
     {
@@ -46,9 +46,10 @@ class ContentfulRepository extends AbstractRepository implements ContentfulRepos
     /**
      * @param int|null $limit
      * @param int|null $offset
+     *
      * @return \Orm\Zed\Contentful\Persistence\FosContentfulQuery
      */
-    protected function createContentfullEntryBaseQuery(?int $limit, ?int $offset): \Orm\Zed\Contentful\Persistence\FosContentfulQuery
+    protected function createContentfullEntryBaseQuery(?int $limit, ?int $offset): FosContentfulQuery
     {
         $query = $this->getFactory()->createFosContentfulEntryQuery();
 

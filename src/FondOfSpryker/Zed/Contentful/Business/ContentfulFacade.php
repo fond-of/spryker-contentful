@@ -57,6 +57,8 @@ class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterfa
     }
 
     /**
+     * @param array $idCollection
+     *
      * @return void
      */
     public function publishSearch(array $idCollection): void
@@ -65,6 +67,8 @@ class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterfa
     }
 
     /**
+     * @param array $idCollection
+     *
      * @return void
      */
     public function unpublishSearch(array $idCollection): void
@@ -83,6 +87,7 @@ class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterfa
     /**
      * @param int|null $limit
      * @param int|null $offset
+     *
      * @return mixed
      */
     public function getContentfulEntries(?int $limit = null, ?int $offset = null)
@@ -93,6 +98,7 @@ class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterfa
     /**
      * @param int|null $limit
      * @param int|null $offset
+     *
      * @return array
      */
     public function getContentfulEntryIds(?int $limit = null, ?int $offset = null): array

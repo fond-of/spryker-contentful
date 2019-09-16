@@ -5,7 +5,6 @@ namespace FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage;
 use FondOfSpryker\Shared\Contentful\ContentfulConstants;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
-use FondOfSpryker\Zed\Contentful\Business\Storage\Boolean\BooleanField;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface;
 use Orm\Zed\Contentful\Persistence\FosContentfulQuery;
 use Spryker\Client\Storage\StorageClientInterface;
@@ -84,8 +83,6 @@ class PageStorageImporterPlugin extends IdentifierStorageImporterPlugin
 
         $this->store($contentfulEntry, $this->createStorageValue($entry), $locale, $storageKey);
     }
-
-
 
     /**
      * @param string $url

@@ -9,6 +9,7 @@ use Spryker\Zed\Kernel\Persistence\AbstractPersistenceFactory;
  * Class ContentfulEntryPersistenceFactory
  * @method \FondOfSpryker\Zed\Contentful\Persistence\ContentfulRepository getRepository()
  * @package FondOfSpryker\Zed\Contentful\Persistence
+ * @method \FondOfSpryker\Zed\Contentful\ContentfulConfig getConfig()
  */
 class ContentfulEntryPersistenceFactory extends AbstractPersistenceFactory
 {
