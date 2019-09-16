@@ -11,6 +11,8 @@ interface WriterPluginInterface
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
+     *
+     * @return void
      */
     public function store(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): void;
 }

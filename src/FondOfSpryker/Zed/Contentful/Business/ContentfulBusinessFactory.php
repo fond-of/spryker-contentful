@@ -49,6 +49,7 @@ use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 
 /**
  * @method \FondOfSpryker\Zed\Contentful\ContentfulConfig getConfig()
+ * @method \FondOfSpryker\Zed\Contentful\Persistence\ContentfulRepositoryInterface getRepository()
  */
 class ContentfulBusinessFactory extends AbstractBusinessFactory
 {
