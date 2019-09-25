@@ -38,6 +38,7 @@ abstract class AbstractStorageImporterPlugin extends AbstractWriterPlugin implem
      * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
      * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
      * @param string $activeFieldName
+     * @param \Orm\Zed\Contentful\Persistence\FosContentfulQuery $contentfulQuery
      */
     public function __construct(
         KeyBuilderInterface $keyBuilder,
@@ -64,6 +65,13 @@ abstract class AbstractStorageImporterPlugin extends AbstractWriterPlugin implem
     {
         if ($this->isValid($contentfulEntry, $entry, $locale) === false) {
             $this->handleInvalidEntry($contentfulEntry, $entry, $locale);
+
+            return;
+        }
+
+        if ($this->isActive($entry) === false) {
+            $this->deactivate($contentfulEntry, $locale);
+
             return;
         }
 

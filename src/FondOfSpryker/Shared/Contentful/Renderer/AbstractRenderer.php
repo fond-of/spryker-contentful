@@ -35,7 +35,9 @@ abstract class AbstractRenderer implements RendererInterface
 
     /**
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
-     * @param string[] $additionalPlaceholders
+     * @param array $additionalPlaceholders
+     *
+     * @throws \Throwable
      *
      * @return string
      */

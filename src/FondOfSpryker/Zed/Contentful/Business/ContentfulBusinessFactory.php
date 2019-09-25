@@ -18,6 +18,7 @@ use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterfac
 use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage\EntryStorageImporterPlugin;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage\IdentifierStorageImporterPlugin;
 use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage\NavigationStorageImporterPlugin;
+use FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\Storage\PageStorageImporterPlugin;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Asset\AssetFieldMapper;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Boolean\BooleanFieldMapper;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Collection\CollectionFieldMapper;
@@ -48,6 +49,7 @@ use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 
 /**
  * @method \FondOfSpryker\Zed\Contentful\ContentfulConfig getConfig()
+ * @method \FondOfSpryker\Zed\Contentful\Persistence\ContentfulRepositoryInterface getRepository()
  */
 class ContentfulBusinessFactory extends AbstractBusinessFactory
 {
@@ -81,6 +83,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
         return [
             $this->createEntryStorageImporterPlugin(),
             $this->createIdentifierImporterPlugin(),
+            $this->createPageStorageImporterPlugin(),
         ];
     }
 
@@ -113,6 +116,19 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     protected function createNavigationUrlKeyBuilder(): KeyBuilderInterface
     {
         return new NavigationUrlKeyBuilder();
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface
+     */
+    protected function createPageStorageImporterPlugin(): ImporterPluginInterface
+    {
+        return new PageStorageImporterPlugin(
+            $this->createIdentifierKeyBuilder(),
+            $this->getStorageClient(),
+            $this->createUrlFormatter(),
+            $this->createFosContentfulQuery()
+        );
     }
 
     /**
@@ -335,7 +351,6 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     *
      * @return \Generated\Shared\Transfer\StoreTransfer
      */
     public function getStore(): StoreTransfer
