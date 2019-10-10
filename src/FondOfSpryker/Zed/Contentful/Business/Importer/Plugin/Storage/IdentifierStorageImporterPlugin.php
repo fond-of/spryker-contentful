@@ -19,6 +19,7 @@ use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements ImporterPluginInterface
 {
     public const ENTRY_TYPE_ID_EXTEND_WITH = '-identifier';
+    public const DEFAULT_HOMEPAGE_IDENTIFIER = 'home';
 
     /**
      * @var string
@@ -144,6 +145,10 @@ class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements Im
      */
     protected function createUrl(string $identifier, string $routeLocalePrefix): string
     {
+        if ($identifier === static::DEFAULT_HOMEPAGE_IDENTIFIER || $identifier === $routeLocalePrefix . '/' . $identifier) {
+            $identifier = $routeLocalePrefix;
+        }
+
         return $this->urlFormatter->format($identifier, $routeLocalePrefix);
     }
 

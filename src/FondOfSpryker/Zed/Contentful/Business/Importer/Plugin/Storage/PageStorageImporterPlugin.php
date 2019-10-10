@@ -14,6 +14,7 @@ use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 class PageStorageImporterPlugin extends IdentifierStorageImporterPlugin
 {
     public const CONTENT_TYPE_ID = 'page';
+    public const DEFAULT_HOMEPAGE_IDENTIFIER = 'home';
 
     /**
      * @var \Spryker\Shared\KeyBuilder\KeyBuilderInterface
@@ -72,6 +73,7 @@ class PageStorageImporterPlugin extends IdentifierStorageImporterPlugin
 
         $routePrefixLocale = $this->getLocaleRoutePrefixesByAppLocale($locale);
         $identifier = $entry->getField(ContentfulConstants::FIELD_IDENTIFIER)->getContent();
+
         $url = $this->createUrl($identifier, $routePrefixLocale);
         $storageKey = $this->createStorageKey($url, $locale);
 
@@ -103,6 +105,10 @@ class PageStorageImporterPlugin extends IdentifierStorageImporterPlugin
      */
     protected function createUrl(string $identifier, string $routeLocalePrefix): string
     {
+        if ($identifier === static::DEFAULT_HOMEPAGE_IDENTIFIER || $identifier === $routeLocalePrefix . '/' . $identifier) {
+            $identifier = $routeLocalePrefix;
+        }
+
         return $this->urlFormatter->format($identifier, $routeLocalePrefix);
     }
 
