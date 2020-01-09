@@ -15,17 +15,12 @@ class CollectionAssetField implements CollectionFieldInterface
         $this->asset = $asset;
     }
 
-    public function getFileUrl()
-    {
-        return $this->asset->getFile()->getUrl();
-    }
-
     public function getAsset()
     {
         return [
             'title' => $this->asset->getTitle(),
             'description' => $this->asset->getDescription(),
-            'url' => $this->getFileUrl(),
+            'url' => $this->asset->getFile()->getUrl(),
         ];
     }
 
