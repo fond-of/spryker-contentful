@@ -8,14 +8,23 @@ class CollectionAssetField implements CollectionFieldInterface
 {
     public const TYPE = 'Asset';
 
+    /**
+     * var Asset
+     */
     private $asset;
 
+    /**
+     * @param \Contentful\Delivery\Resource\Asset $asset
+     */
     public function __construct(Asset $asset)
     {
         $this->asset = $asset;
     }
 
-    public function getAsset()
+    /**
+     * @return string[]
+     */
+    public function getAsset(): array
     {
         return [
             'title' => $this->asset->getTitle(),
@@ -25,7 +34,7 @@ class CollectionAssetField implements CollectionFieldInterface
     }
 
     /**
-     * @inheritDoc
+     * @return string
      */
     public function getType(): string
     {
@@ -33,9 +42,9 @@ class CollectionAssetField implements CollectionFieldInterface
     }
 
     /**
-     * @inheritDoc
+     * @return mixed[]
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'type' => $this->getType(),
