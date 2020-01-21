@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Zed\Contentful\Business\Storage\Collection;
 
+use Contentful\Delivery\Resource\Asset;
 use FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface;
 use FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulField;
 use FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface;
@@ -38,6 +39,11 @@ class CollectionFieldMapper implements TypeFieldMapperInterface
         foreach ($fieldValues as $fieldValue) {
             if ($fieldValue instanceof ContentfulEntryInterface && $contentfulField->getItemsLinkType() === ContentfulField::FIELD_TYPE_ENTRY) {
                 $field->addField(new CollectionReferenceField($fieldValue->getId()));
+                continue;
+            }
+
+            if ($fieldValue instanceof Asset && $contentfulField->getItemsLinkType() === ContentfulField::FIELD_TYPE_ASSET) {
+                $field->addField(new CollectionAssetField($fieldValue));
                 continue;
             }
 

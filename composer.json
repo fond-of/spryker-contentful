@@ -33,7 +33,7 @@
   "require-dev": {
     "spryker/code-sniffer": "^0.14.7",
     "codeception/codeception": "^2.5",
-    "mikey179/vfsStream": "^1.6",
+    "mikey179/vfsstream": "^1.6",
     "phpro/grumphp": "^0.14",
     "sebastian/phpcpd": "^4.1",
     "php-coveralls/php-coveralls": "^2.0"
