@@ -8,7 +8,7 @@ use Spryker\Shared\Config\Config;
 use Spryker\Shared\Config\Environment;
 use Spryker\Shared\Kernel\Communication\Application;
 use Throwable;
-use Twig_Environment;
+use Twig\Environment as Twig_Environment;
 
 abstract class AbstractRenderer implements RendererInterface
 {
@@ -26,7 +26,7 @@ abstract class AbstractRenderer implements RendererInterface
     }
 
     /**
-     * @return \Twig_Environment
+     * @return \Twig\Environment
      */
     protected function getTwigEnvironment(): Twig_Environment
     {

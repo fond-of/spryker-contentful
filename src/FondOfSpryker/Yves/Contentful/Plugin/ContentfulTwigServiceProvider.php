@@ -5,6 +5,7 @@ namespace FondOfSpryker\Yves\Contentful\Plugin;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Spryker\Yves\Kernel\AbstractPlugin;
+use Twig\Environment;
 
 /**
  * @method \FondOfSpryker\Yves\Contentful\ContentfulFactory getFactory()
@@ -21,7 +22,7 @@ class ContentfulTwigServiceProvider extends AbstractPlugin implements ServicePro
         $factory = $this->getFactory();
 
         $app['twig'] = $app->share(
-            $app->extend('twig', function (\Twig_Environment $twig) use ($factory) {
+            $app->extend('twig', function (Environment $twig) use ($factory) {
                 $twig->addExtension($factory->createContentfulTwigExtension());
                 $twig->addExtension($factory->getMarkdownTwigExtension());
 
