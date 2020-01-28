@@ -21,14 +21,14 @@
     }
   ],
   "require": {
-    "php": ">=7.1",
-    "spryker/twig": "^3.7.2",
-    "spryker/storage": "^3.10.0",
+    "php": ">=7.2",
+    "spryker/twig": "^3.8.2",
+    "spryker/storage": "^3.14.0",
     "spryker/locale": "^3.3.0",
-    "spryker/store": "^1.9.0",
-    "contentful/contentful": "3.4.0",
+    "spryker/store": "^1.12.1",
+    "contentful/contentful": "^4.1.0",
     "aptoma/twig-markdown": "2.0.0",
-    "michelf/php-markdown": "1.8"
+    "michelf/php-markdown": "1.9"
   },
   "require-dev": {
     "spryker/code-sniffer": "^0.14.7",
