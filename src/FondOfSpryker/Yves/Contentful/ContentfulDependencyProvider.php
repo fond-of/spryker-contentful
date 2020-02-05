@@ -1,4 +1,5 @@
 <?php
+
 namespace FondOfSpryker\Yves\Contentful;
 
 use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
@@ -71,6 +72,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container[self::PLUGIN_APPLICATION] = function () {
             $pimplePlugin = new Pimple();
+
             return $pimplePlugin->getApplication();
         };
 

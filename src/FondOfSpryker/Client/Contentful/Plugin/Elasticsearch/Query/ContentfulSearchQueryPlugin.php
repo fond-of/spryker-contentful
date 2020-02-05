@@ -22,6 +22,11 @@ class ContentfulSearchQueryPlugin extends AbstractPlugin implements QueryInterfa
      */
     protected $query;
 
+    /**
+     * @var string
+     */
+    protected $searchString;
+
     public function __construct()
     {
         $this->query = $this->createSearchQuery();
@@ -86,8 +91,6 @@ class ContentfulSearchQueryPlugin extends AbstractPlugin implements QueryInterfa
 
     /**
      * @param string $searchString
-     *
-     * @throws
      *
      * @return \Elastica\Query\AbstractQuery
      */

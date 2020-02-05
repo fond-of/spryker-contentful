@@ -9,25 +9,25 @@ class AssetField extends AbstractField
     public const TYPE = 'Asset';
 
     /**
-     * @var null|string
+     * @var string|null
      */
     private $url;
 
     /**
-     * @var null|string
+     * @var string|null
      */
     private $title;
 
     /**
-     * @var null|string
+     * @var string|null
      */
     private $description;
 
     /**
      * @param string $name
-     * @param null|string $url
-     * @param null|string $title
-     * @param null|string $description
+     * @param string|null $url
+     * @param string|null $title
+     * @param string|null $description
      */
     public function __construct(string $name, ?string $url = null, ?string $title = null, ?string $description = null)
     {
@@ -46,7 +46,7 @@ class AssetField extends AbstractField
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getUrl(): ?string
     {
@@ -54,7 +54,7 @@ class AssetField extends AbstractField
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getTitle(): ?string
     {
@@ -62,7 +62,7 @@ class AssetField extends AbstractField
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getDescription(): ?string
     {

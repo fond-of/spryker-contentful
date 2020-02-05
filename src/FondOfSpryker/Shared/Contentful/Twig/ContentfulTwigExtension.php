@@ -1,4 +1,5 @@
 <?php
+
 namespace FondOfSpryker\Shared\Contentful\Twig;
 
 use FondOfSpryker\Shared\Contentful\Builder\BuilderInterface;
@@ -39,7 +40,7 @@ class ContentfulTwigExtension extends TwigExtension
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function getFunctions()
     {

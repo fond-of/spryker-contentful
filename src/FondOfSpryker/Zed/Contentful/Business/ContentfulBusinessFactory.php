@@ -315,8 +315,6 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @throws
-     *
      * @return \Spryker\Client\Storage\StorageClientInterface
      */
     protected function getStorageClient(): StorageClientInterface
@@ -325,8 +323,6 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @throws
-     *
      * @return \Spryker\Client\Store\StoreClientInterface
      */
     public function getStoreClient(): StoreClientInterface

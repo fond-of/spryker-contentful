@@ -57,8 +57,6 @@ abstract class AbstractStorageImporterPlugin extends AbstractWriterPlugin implem
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
      *
-     * @throws
-     *
      * @return void
      */
     public function handle(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): void
@@ -83,8 +81,6 @@ abstract class AbstractStorageImporterPlugin extends AbstractWriterPlugin implem
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
      *
-     * @throws
-     *
      * @return void
      */
     protected function handleInvalidEntry(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): void
@@ -97,8 +93,6 @@ abstract class AbstractStorageImporterPlugin extends AbstractWriterPlugin implem
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
-     *
-     * @throws
      *
      * @return void
      */
@@ -113,8 +107,6 @@ abstract class AbstractStorageImporterPlugin extends AbstractWriterPlugin implem
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
-     *
-     * @throws
      *
      * @return bool
      */

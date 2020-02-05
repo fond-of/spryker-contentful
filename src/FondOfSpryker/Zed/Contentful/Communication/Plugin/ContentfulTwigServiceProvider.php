@@ -10,6 +10,7 @@ use Twig\Environment;
 /**
  * @method \FondOfSpryker\Zed\Contentful\Communication\ContentfulCommunicationFactory getFactory()
  * @method \FondOfSpryker\Zed\Contentful\Business\ContentfulFacade getFacade()
+ * @method \FondOfSpryker\Zed\Contentful\ContentfulConfig getConfig()
  */
 class ContentfulTwigServiceProvider extends AbstractPlugin implements ServiceProviderInterface
 {

@@ -13,25 +13,25 @@ class ContentfulAsset implements ContentfulAssetInterface
     private $field;
 
     /**
-     * @var null|\Contentful\Delivery\Resource\Asset
+     * @var \Contentful\Delivery\Resource\Asset|null
      */
     private $asset;
 
     /**
-     * @var null|string
+     * @var string|null
      */
     private $description;
 
     /**
-     * @var null|string
+     * @var string|null
      */
     private $title;
 
     /**
      * @param \Contentful\Delivery\Resource\ContentType\Field $field
-     * @param null|\Contentful\Delivery\Resource\Asset $asset
-     * @param null|string $description
-     * @param null|string $title
+     * @param \Contentful\Delivery\Resource\Asset|null $asset
+     * @param string|null $description
+     * @param string|null $title
      */
     public function __construct(Field $field, ?Asset $asset = null, ?string $description = null, ?string $title = null)
     {
@@ -42,7 +42,7 @@ class ContentfulAsset implements ContentfulAssetInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getTitle(): ?string
     {
@@ -50,7 +50,7 @@ class ContentfulAsset implements ContentfulAssetInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getDescription(): ?string
     {
@@ -94,7 +94,7 @@ class ContentfulAsset implements ContentfulAssetInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getLinkType(): ?string
     {
@@ -102,7 +102,7 @@ class ContentfulAsset implements ContentfulAssetInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getItemsLinkType(): ?string
     {

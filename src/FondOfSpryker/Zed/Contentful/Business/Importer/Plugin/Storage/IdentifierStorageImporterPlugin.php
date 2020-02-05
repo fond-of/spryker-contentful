@@ -79,8 +79,6 @@ class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements Im
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
      *
-     * @throws
-     *
      * @return void
      */
     public function handle(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): void
@@ -100,6 +98,7 @@ class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements Im
 
         if (!$this->isValid($contentfulEntry, $entry, $locale)) {
             $this->deleteStorageEntry($key);
+
             return;
         }
 
@@ -122,7 +121,7 @@ class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements Im
             $storeLocaleRoutePrefixes[] = $storeRouteLocalePrefix;
         }
 
-        return \array_shift($storeLocaleRoutePrefixes);
+        return array_shift($storeLocaleRoutePrefixes);
     }
 
     /**
@@ -175,8 +174,6 @@ class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements Im
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
      *
-     * @throws
-     *
      * @return bool
      */
     protected function isValid(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): bool
@@ -207,7 +204,7 @@ class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements Im
     /**
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $content
      *
-     * @return null|string
+     * @return string|null
      */
     protected function getIdentifierFieldContent(EntryInterface $content): ?string
     {
@@ -232,8 +229,6 @@ class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements Im
      * @param array $data
      * @param string $locale
      * @param string $key
-     *
-     * @throws
      *
      * @return void
      */
@@ -288,8 +283,6 @@ class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements Im
      * @param \Generated\Shared\Transfer\StoreTransfer $storeTransfer
      * @param string $locale
      * @param string|null $key
-     *
-     * @throws
      *
      * @return \Orm\Zed\Contentful\Persistence\FosContentful
      */

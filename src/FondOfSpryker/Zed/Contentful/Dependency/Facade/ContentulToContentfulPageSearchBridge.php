@@ -12,8 +12,6 @@ class ContentulToContentfulPageSearchBridge implements ContentulToContentfulPage
     protected $contentfulPageSearchFacade;
 
     /**
-     * ContentulToContentfulPageSearchBridge constructor.
-     *
      * @param \FondOfSpryker\Zed\ContentfulPageSearch\Business\ContentfulPageSearchFacadeInterface $contentfulPageSearchFacade
      */
     public function __construct(ContentfulPageSearchFacadeInterface $contentfulPageSearchFacade)

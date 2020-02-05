@@ -29,7 +29,7 @@ class ObjectFieldMapper implements TypeFieldMapperInterface
     public function createField(ContentfulEntryInterface $contentfulEntry, ContentfulFieldInterface $contentfulField, FieldMapperLocatorInterface $mapperLocator): FieldInterface
     {
         $content = $contentfulField->getValue();
-        if (\is_array($content)) {
+        if (is_array($content)) {
             $content = json_encode($content);
         }
 

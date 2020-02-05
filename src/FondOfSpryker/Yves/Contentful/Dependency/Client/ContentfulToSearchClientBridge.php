@@ -13,8 +13,6 @@ class ContentfulToSearchClientBridge implements ContentfulToSearchClientInterfac
     protected $searchClient;
 
     /**
-     * ContentToSearchClientBridge constructor.
-     *
      * @param \Spryker\Client\Search\SearchClientInterface $searchClient
      */
     public function __construct(SearchClientInterface $searchClient)

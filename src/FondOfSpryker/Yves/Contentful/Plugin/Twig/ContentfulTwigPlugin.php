@@ -1,18 +1,11 @@
 <?php
 
-/**
- * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
- */
-
 namespace FondOfSpryker\Yves\Contentful\Plugin\Twig;
 
-use http\Env;
 use Spryker\Service\Container\ContainerInterface;
 use Spryker\Shared\TwigExtension\Dependency\Plugin\TwigPluginInterface;
 use Spryker\Yves\Kernel\AbstractPlugin;
 use Twig\Environment;
-use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 /**
@@ -26,14 +19,14 @@ class ContentfulTwigPlugin extends AbstractPlugin implements TwigPluginInterface
     protected const TWIG_FUNCTION_GET_CONTENTFUL_ENTRY = 'getContentfulEntry';
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @api
      *
      * @param \Twig\Environment $twig
      * @param \Spryker\Service\Container\ContainerInterface $container
      *
      * @return \Twig\Environment
-     * @api
-     *
      */
     public function extend(Environment $twig, ContainerInterface $container): Environment
     {
@@ -130,7 +123,8 @@ class ContentfulTwigPlugin extends AbstractPlugin implements TwigPluginInterface
                 return $this
                     ->getFactory()
                     ->createContentfulTwigExtension()->resizeContentfulImage($url, $width, $height);
-            });
+            }
+        );
     }
 
     /**
@@ -149,6 +143,7 @@ class ContentfulTwigPlugin extends AbstractPlugin implements TwigPluginInterface
 
     /**
      * @param \Twig\Environment $twig
+     *
      * @return \Twig\Environment
      */
     protected function addMarkdownTwigFilter(Environment $twig): Environment

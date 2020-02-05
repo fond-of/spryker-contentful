@@ -61,7 +61,7 @@ class NavigationNodeFactory implements NavigationNodeFactoryInterface
      * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface $item
      * @param int $level
      *
-     * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeInterface
+     * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeInterface|null
      */
     private function createNavigationNodeRecursively(NavigationItemInterface $item, $level = 0): ?NavigationNodeInterface
     {

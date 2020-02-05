@@ -18,7 +18,7 @@ class ContentfulRepository extends AbstractRepository implements ContentfulRepos
      */
     public function getContentfulEntries(?int $limit = null, ?int $offset = null): array
     {
-        return $this->createContentfullEntryBaseQuery($limit, $offset)->find()->getData();
+        return $this->createContentfulBaseQuery($limit, $offset)->find()->getData();
     }
 
     /**
@@ -29,7 +29,7 @@ class ContentfulRepository extends AbstractRepository implements ContentfulRepos
      */
     public function getContentfulEntryIds(?int $limit = null, ?int $offset = null): array
     {
-        $query = $this->createContentfullEntryBaseQuery($limit, $offset);
+        $query = $this->createContentfulBaseQuery($limit, $offset);
         $query->select(['id_contentful']);
 
         return $query->find()->getData();
@@ -40,7 +40,7 @@ class ContentfulRepository extends AbstractRepository implements ContentfulRepos
      */
     public function getContentfulEntryCount(): int
     {
-        return $this->getFactory()->createFosContentfulEntryQuery()->find()->count();
+        return $this->getFactory()->createFosContentfulQuery()->find()->count();
     }
 
     /**
@@ -49,9 +49,9 @@ class ContentfulRepository extends AbstractRepository implements ContentfulRepos
      *
      * @return \Orm\Zed\Contentful\Persistence\FosContentfulQuery
      */
-    protected function createContentfullEntryBaseQuery(?int $limit, ?int $offset): FosContentfulQuery
+    protected function createContentfulBaseQuery(?int $limit, ?int $offset): FosContentfulQuery
     {
-        $query = $this->getFactory()->createFosContentfulEntryQuery();
+        $query = $this->getFactory()->createFosContentfulQuery();
 
         if ($limit !== null) {
             $query->limit($limit);
@@ -60,6 +60,7 @@ class ContentfulRepository extends AbstractRepository implements ContentfulRepos
         if ($offset !== null) {
             $query->offset($offset);
         }
+
         return $query;
     }
 }

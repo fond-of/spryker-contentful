@@ -74,8 +74,6 @@ class NavigationStorageImporterPlugin extends AbstractWriterPlugin implements Im
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
      *
-     * @throws
-     *
      * @return void
      */
     public function handle(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): void
@@ -90,6 +88,7 @@ class NavigationStorageImporterPlugin extends AbstractWriterPlugin implements Im
 
         if (!$this->isValid($contentfulEntry, $entry, $locale)) {
             $this->deleteStorageEntry($key);
+
             return;
         }
 
@@ -115,7 +114,7 @@ class NavigationStorageImporterPlugin extends AbstractWriterPlugin implements Im
             $storeLocaleRoutePrefixes[] = $storeRouteLocalePrefix;
         }
 
-        return \array_shift($storeLocaleRoutePrefixes);
+        return array_shift($storeLocaleRoutePrefixes);
     }
 
     /**
@@ -155,8 +154,6 @@ class NavigationStorageImporterPlugin extends AbstractWriterPlugin implements Im
      * @param string $identifier
      * @param string $routeLocalePrefix
      *
-     * @throws
-     *
      * @return string[]
      */
     protected function createStorageValue(EntryInterface $entry, string $identifier, string $routeLocalePrefix): array
@@ -182,8 +179,6 @@ class NavigationStorageImporterPlugin extends AbstractWriterPlugin implements Im
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
-     *
-     * @throws
      *
      * @return bool
      */
@@ -224,7 +219,7 @@ class NavigationStorageImporterPlugin extends AbstractWriterPlugin implements Im
     /**
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $content
      *
-     * @return null|string
+     * @return string|null
      */
     protected function getIdentifierFieldContent(EntryInterface $content): ?string
     {
@@ -247,7 +242,7 @@ class NavigationStorageImporterPlugin extends AbstractWriterPlugin implements Im
     /**
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      *
-     * @return null|string
+     * @return string|null
      */
     protected function getTitleFieldContent(EntryInterface $entry): ?string
     {

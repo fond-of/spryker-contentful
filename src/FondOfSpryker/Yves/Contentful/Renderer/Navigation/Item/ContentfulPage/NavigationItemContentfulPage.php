@@ -12,7 +12,7 @@ class NavigationItemContentfulPage implements NavigationItemInterface
     protected $entryId;
 
     /**
-     * @var null|string
+     * @var string|null
      */
     protected $customText;
 
@@ -74,7 +74,7 @@ class NavigationItemContentfulPage implements NavigationItemInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getCustomText(): ?string
     {

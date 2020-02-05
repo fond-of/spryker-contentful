@@ -12,8 +12,6 @@ class ContentfulToContentfulPageSearchClientBridge implements ContentfulToConten
     protected $contentfulPageSearchClient;
 
     /**
-     * ContentfulToContentfulPageSearchClientBridge constructor.
-     *
      * @param \FondOfSpryker\Client\ContentfulPageSearch\ContentfulPageSearchClientInterface $contentfulPageSearchClient
      */
     public function __construct(ContentfulPageSearchClientInterface $contentfulPageSearchClient)

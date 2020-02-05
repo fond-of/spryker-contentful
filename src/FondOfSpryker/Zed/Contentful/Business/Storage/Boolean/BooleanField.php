@@ -9,13 +9,13 @@ class BooleanField extends AbstractField
     public const TYPE = 'Boolean';
 
     /**
-     * @var null|bool
+     * @var bool|null
      */
     private $bool;
 
     /**
      * @param string $name
-     * @param null|bool $bool
+     * @param bool|null $bool
      */
     public function __construct(string $name, ?bool $bool = null)
     {
@@ -32,7 +32,7 @@ class BooleanField extends AbstractField
     }
 
     /**
-     * @return null|bool
+     * @return bool|null
      */
     public function getBoolean(): ?bool
     {

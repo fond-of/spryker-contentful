@@ -90,7 +90,7 @@ class ContentfulMapper implements ContentfulMapperInterface
                 $fieldValue = $this->getFieldValue($entry, $field);
             }
 
-            if ($field->getType() === ContentfulField::FIELD_TYPE_OBJECT && \is_array($fieldValue)) {
+            if ($field->getType() === ContentfulField::FIELD_TYPE_OBJECT && is_array($fieldValue)) {
                 // don't disassemble the json object.
                 $fieldValue = json_encode($fieldValue);
             }
@@ -137,6 +137,7 @@ class ContentfulMapper implements ContentfulMapperInterface
             return $entry->get($field->getId(), $this->defaultLocale);
         } catch (Throwable $throwable) {
             echo $throwable->getMessage();
+
             return null;
         }
     }
@@ -163,6 +164,7 @@ class ContentfulMapper implements ContentfulMapperInterface
             return $entry->get($field->getId(), $this->defaultLocale);
         } catch (Throwable $throwable) {
             echo $throwable->getMessage();
+
             return null;
         }
     }
@@ -178,7 +180,7 @@ class ContentfulMapper implements ContentfulMapperInterface
             return new ContentfulEntry($value);
         }
 
-        if (\is_array($value)) {
+        if (is_array($value)) {
             return $this->resolveContentfulFieldValueArray($value);
         }
 

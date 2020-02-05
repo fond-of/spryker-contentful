@@ -13,7 +13,8 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 class ContentfulRouter extends AbstractRouter
 {
     /**
-     * @inheritdoc
+     * @inheritDoc
+     *
      * @throws \Symfony\Component\Routing\Exception\RouteNotFoundException
      */
     public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
@@ -22,7 +23,8 @@ class ContentfulRouter extends AbstractRouter
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
+     *
      * @throws \Symfony\Component\Routing\Exception\ResourceNotFoundException
      */
     public function match($pathinfo): array

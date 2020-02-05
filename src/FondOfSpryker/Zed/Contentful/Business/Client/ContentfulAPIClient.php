@@ -54,8 +54,6 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
     /**
      * @param int $skip
      *
-     * @throws
-     *
      * @return \Contentful\Core\Resource\ResourceArray
      */
     public function findAllEntries(int $skip = 0): ResourceArray

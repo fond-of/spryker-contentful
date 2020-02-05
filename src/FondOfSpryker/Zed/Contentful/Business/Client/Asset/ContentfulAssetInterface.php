@@ -7,12 +7,12 @@ use FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface;
 interface ContentfulAssetInterface extends ContentfulFieldInterface
 {
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getDescription(): ?string;
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getTitle(): ?string;
 }

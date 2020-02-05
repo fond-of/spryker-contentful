@@ -79,19 +79,17 @@ abstract class AbstractRenderer implements RendererInterface
     /**
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
      *
-     * @throws
-     *
      * @return bool
      */
     protected function isEntryActive(ContentfulEntryResponseTransfer $response): bool
     {
         $activeFieldName = Config::get(ContentfulConstants::CONTENTFUL_FIELD_NAME_ACTIVE);
-        if (\array_key_exists($activeFieldName, $response->getFields()) === false) {
+        if (array_key_exists($activeFieldName, $response->getFields()) === false) {
             return true;
         }
 
         $isActive = $response->getFields()[$activeFieldName]['value'];
-        if (\is_bool($isActive) && $isActive === false) {
+        if (is_bool($isActive) && $isActive === false) {
             return false;
         }
 
@@ -107,7 +105,7 @@ abstract class AbstractRenderer implements RendererInterface
      */
     protected function mergeAdditionalPlaceholders(ContentfulEntryResponseTransfer $response, array $placeholders, array $additionalPlaceholders)
     {
-        return \array_merge($placeholders, $additionalPlaceholders);
+        return array_merge($placeholders, $additionalPlaceholders);
     }
 
     /**

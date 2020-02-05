@@ -48,8 +48,6 @@ use Spryker\Yves\Kernel\AbstractFactory;
 class ContentfulFactory extends AbstractFactory
 {
     /**
-     * @throws
-     *
      * @return \FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulPageSearchClientInterface
      */
     public function getContentfulPageSearchClient(): ContentfulToContentfulPageSearchClientInterface
@@ -247,8 +245,6 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @throws
-     *
      * @return \Spryker\Client\Store\StoreClientInterface
      */
     public function getStoreClient(): StoreClientInterface
@@ -257,8 +253,6 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @throws
-     *
      * @return \Spryker\Client\CategoryStorage\CategoryStorageClientInterface
      */
     protected function getCategoryStorageClient(): CategoryStorageClientInterface
@@ -267,8 +261,6 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @throws
-     *
      * @return \Aptoma\Twig\Extension\MarkdownExtension
      */
     public function getMarkdownTwigExtension(): MarkdownExtension
@@ -277,8 +269,6 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @throws
-     *
      * @return \Spryker\Shared\Kernel\Communication\Application
      */
     public function getApplication(): Application
@@ -287,8 +277,6 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @throws
-     *
      * @return \Spryker\Client\Search\SearchClientInterface
      */
     public function getSearchClient(): SearchClientInterface

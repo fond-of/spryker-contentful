@@ -25,7 +25,7 @@ interface FieldMapperLocatorInterface
     /**
      * @param string $fieldType
      *
-     * @return null|\FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface|null
      */
     public function locateFieldMapperByFieldType(string $fieldType): ?TypeFieldMapperInterface;
 
@@ -33,7 +33,7 @@ interface FieldMapperLocatorInterface
      * @param string $fieldName
      * @param string $contentType
      *
-     * @return null|\FondOfSpryker\Zed\Contentful\Business\Storage\Field\CustomFieldMapperInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\CustomFieldMapperInterface|null
      */
     public function locateFieldMapperByNameAndContentType(string $fieldName, string $contentType): ?CustomFieldMapperInterface;
 }

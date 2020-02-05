@@ -3,7 +3,7 @@
 namespace FondOfSpryker\Zed\Contentful\Persistence;
 
 /**
- * @method \FondOfSpryker\Zed\Contentful\Persistence\ContentfulEntryPersistenceFactory getFactory()
+ * @method \FondOfSpryker\Zed\Contentful\Persistence\ContentfulPersistenceFactory getFactory()
  */
 interface ContentfulRepositoryInterface
 {

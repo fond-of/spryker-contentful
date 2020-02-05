@@ -20,6 +20,7 @@ use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
 /**
  * @method \FondOfSpryker\Zed\Contentful\ContentfulConfig getConfig()
  * @method \FondOfSpryker\Zed\Contentful\Business\ContentfulFacadeInterface getFacade()
+ * @method \FondOfSpryker\Zed\Contentful\Persistence\ContentfulRepositoryInterface getRepository()
  */
 class ContentfulCommunicationFactory extends AbstractCommunicationFactory
 {

@@ -88,7 +88,7 @@ class ContentfulEntry implements ContentfulEntryInterface
     /**
      * @param string $name
      *
-     * @return null|\FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface|null
      */
     public function getField(string $name): ?ContentfulFieldInterface
     {

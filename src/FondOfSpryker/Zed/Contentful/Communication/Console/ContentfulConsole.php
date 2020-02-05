@@ -1,4 +1,5 @@
 <?php
+
 namespace FondOfSpryker\Zed\Contentful\Communication\Console;
 
 use Spryker\Zed\Kernel\Communication\Console\Console;
@@ -9,6 +10,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @method \FondOfSpryker\Zed\Contentful\Business\ContentfulFacadeInterface getFacade()
+ * @method \FondOfSpryker\Zed\Contentful\Persistence\ContentfulRepositoryInterface getRepository()
+ * @method \FondOfSpryker\Zed\Contentful\Communication\ContentfulCommunicationFactory getFactory()
  */
 class ContentfulConsole extends Console
 {

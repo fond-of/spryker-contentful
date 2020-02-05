@@ -12,8 +12,6 @@ class ContentfulToContentfulStorageFacadeBridge implements ContentfulToContentfu
     protected $contentfulStorageFacade;
 
     /**
-     * ContentfulToContentfulStorageFacadeBridge constructor.
-     *
      * @param \FondOfSpryker\ContentfulStorage\Business\ContentfulStorageFacadeInterface $contentfulStorageFacade
      */
     public function __construct(ContentfulStorageFacadeInterface $contentfulStorageFacade)

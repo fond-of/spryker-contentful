@@ -51,7 +51,7 @@ interface NavigationNodeInterface
     public function hasActiveState(): bool;
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getUrl(): ?string;
 

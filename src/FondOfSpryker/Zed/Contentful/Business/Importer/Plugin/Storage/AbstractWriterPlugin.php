@@ -27,8 +27,6 @@ abstract class AbstractWriterPlugin extends AbstractPlugin
      * @param string $locale
      * @param string $key
      *
-     * @throws
-     *
      * @return void
      */
     protected function store(ContentfulEntryInterface $contentfulEntry, array $data, string $locale, string $key): void
@@ -49,8 +47,6 @@ abstract class AbstractWriterPlugin extends AbstractPlugin
     /**
      * @param \Orm\Zed\Contentful\Persistence\FosContentful $entity
      *
-     * @throws
-     *
      * @return \Orm\Zed\Contentful\Persistence\FosContentful
      */
     protected function deleteEntity(FosContentful $entity): FosContentful
@@ -65,8 +61,6 @@ abstract class AbstractWriterPlugin extends AbstractPlugin
      * @param \Generated\Shared\Transfer\StoreTransfer $storeTransfer
      * @param string $locale
      * @param string|null $key
-     *
-     * @throws
      *
      * @return \Orm\Zed\Contentful\Persistence\FosContentful
      */
@@ -109,14 +103,12 @@ abstract class AbstractWriterPlugin extends AbstractPlugin
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      * @param string $locale
      *
-     * @throws
-     *
      * @return void
      */
     protected function deleteByEntryId(ContentfulEntryInterface $contentfulEntry, string $locale): void
     {
         $contentfulEntities = $this->contentfulQuery
-            ->filterByEntryId(\strtolower($contentfulEntry->getId()))
+            ->filterByEntryId(strtolower($contentfulEntry->getId()))
             ->filterByEntryLocale($locale)
             ->find();
 
