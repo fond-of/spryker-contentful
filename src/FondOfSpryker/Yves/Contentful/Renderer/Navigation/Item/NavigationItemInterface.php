@@ -22,7 +22,7 @@ interface NavigationItemInterface
     public function addChild(NavigationItemInterface $child): void;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getCustomText(): string;
+    public function getCustomText(): ?string;
 }
