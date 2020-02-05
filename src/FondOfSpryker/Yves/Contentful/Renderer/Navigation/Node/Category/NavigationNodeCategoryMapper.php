@@ -46,7 +46,7 @@ class NavigationNodeCategoryMapper implements NavigationNodeMapperInterface
     }
 
     /**
-     * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategory|\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface $item
+     * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface $item
      *
      * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeInterface
      */
@@ -75,7 +75,6 @@ class NavigationNodeCategoryMapper implements NavigationNodeMapperInterface
         }
 
         $response = $this->getCategoryStorageNodeByItem($item);
-        $this->getCategorySearchNodeByItem($item);
 
         if (empty($response->getName())) {
             return false;
@@ -89,24 +88,12 @@ class NavigationNodeCategoryMapper implements NavigationNodeMapperInterface
     }
 
     /**
-     * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategory $item
+     * @param  \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategory  $item
      *
      * @return \Generated\Shared\Transfer\CategoryNodeStorageTransfer
      */
     protected function getCategoryStorageNodeByItem(NavigationItemCategory $item): CategoryNodeStorageTransfer
     {
         return $this->client->getCategoryNodeById($item->getCategoryId(), $this->currentLocale);
-    }
-
-    /**
-     * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategory $item
-     *
-     * @return array|\Elastica\ResultSet|mixed
-     */
-    protected function getCategorySearchNodeByItem(NavigationItemCategory $item)
-    {
-        $res = $this->searchClient->contentfulCategoryNodeSearch('', [
-            ContentfulConstants::FIELD_ID_CATEGORY => $item->getCategoryId(),
-        ]);
     }
 }

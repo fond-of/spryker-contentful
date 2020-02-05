@@ -13,7 +13,7 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
     private $mapper;
 
     /**
-     * @var \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemCollection
+     * @var \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemCollectionInterface 
      */
     private $collection;
 

@@ -3,6 +3,7 @@
 namespace FondOfSpryker\Zed\Contentful\Business;
 
 use Contentful\Delivery\Client;
+use Contentful\Delivery\ClientOptions;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\EntryKeyBuilder;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\IdentifierKeyBuilder;
 use FondOfSpryker\Shared\Contentful\KeyBuilder\NavigationUrlKeyBuilder;
@@ -309,9 +310,18 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
             $this->getConfig()->getAccessToken(),
             $this->getConfig()->getSpaceId(),
             'master',
-            false,
-            $this->getConfig()->getDefaultLocale()
+            $this->createDefaultClientOptions()
         );
+    }
+
+    /**
+     * @return \Contentful\Delivery\ClientOptions
+     */
+    protected function createDefaultClientOptions(): ClientOptions
+    {
+        return
+            (new ClientOptions())
+                ->withDefaultLocale($this->getConfig()->getDefaultLocale());
     }
 
     /**

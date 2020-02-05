@@ -59,9 +59,9 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     }
 
     /**
-     * @param \Spryker\Shared\Kernel\Container $container
-     *
-     * @return \Spryker\Shared\Kernel\Container
+     * @param  \Spryker\Zed\Kernel\Container  $container
+     * 
+     * @return \Spryker\Zed\Kernel\Container
      */
     protected function provideApplication(Container $container): Container
     {

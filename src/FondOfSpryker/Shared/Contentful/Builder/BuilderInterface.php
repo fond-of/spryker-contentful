@@ -7,7 +7,7 @@ interface BuilderInterface
     /**
      * @param string $entryId
      * @param string $locale
-     * @param string[]|string $additionalParameters
+     * @param string[] $additionalParameters
      *
      * @return string
      */
@@ -16,7 +16,7 @@ interface BuilderInterface
     /**
      * @param string $entryId
      * @param string $locale
-     * @param string[]|string $options
+     * @param string[] $options
      *
      * @return string[]
      */

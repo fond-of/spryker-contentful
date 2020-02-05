@@ -29,7 +29,7 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
     public function findLastChangedEntries(): ResourceArray
     {
         $query = new Query();
-        $query->where('sys.updatedAt', (new DateTime())->modify('-10 minutes'), 'gte');
+        $query->where('sys.updatedAt[gte]', (new DateTime())->modify('-10 minutes'));
         $query->setLimit(1000);
         $query->setLocale('*');
 
@@ -44,7 +44,7 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
     public function findEntryById(string $entryId): ResourceArray
     {
         $query = new Query();
-        $query->where('sys.id', $entryId, 'match');
+        $query->where('sys.id[match]', $entryId);
         $query->setLimit(10);
         $query->setLocale('*');
 
@@ -59,7 +59,7 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
     public function findAllEntries(int $skip = 0): ResourceArray
     {
         $query = new Query();
-        $query->where('sys.createdAt', new DateTime('2010-01-01 00:00:00'), 'gte');
+        $query->where('sys.createdAt[gte]', new DateTime('2010-01-01 00:00:00'));
         $query->setLimit(1000);
         $query->setLocale('*');
 

@@ -120,8 +120,6 @@ abstract class AbstractStorageImporterPlugin extends AbstractWriterPlugin implem
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
      *
-     * @throws
-     *
      * @return string
      */
     abstract protected function createStorageKey(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): string;

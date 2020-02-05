@@ -20,4 +20,9 @@ interface NavigationItemInterface
      * @return void
      */
     public function addChild(NavigationItemInterface $child): void;
+
+    /**
+     * @return string
+     */
+    public function getCustomText(): string;
 }
