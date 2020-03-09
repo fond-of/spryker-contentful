@@ -6,6 +6,7 @@ use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
 use Aptoma\Twig\Extension\MarkdownExtension;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToContentfulStorageFacadeBridge;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToEventBehaviorFacadeBridge;
+use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToLocaleFacadeBridge;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToContentfulPageSearchBridge;
 use Spryker\Shared\Kernel\Store;
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
@@ -16,7 +17,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
 {
     public const TWIG_MARKDOWN = 'TWIG_MARKDOWN';
     public const STORAGE_CLIENT = 'STORAGE_CLIENT';
-    public const LOCALE_FACADE = 'LOCALE_FACADE';
+    public const FACADE_LOCALE = 'FACADE_LOCALE';
     public const CLIENT_STORE = 'CLIENT_STORE';
     public const CLIENT = 'CLIENT';
     public const PLUGIN_APPLICATION = 'PLUGIN_APPLICATION';
@@ -54,13 +55,14 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
         $container = $this->provideApplication($container);
         $container = $this->provideClient($container);
         $container = $this->addEventBehaviourFacade($container);
+        $container = $this->addLocaleFacade($container);
 
         return $container;
     }
 
     /**
      * @param  \Spryker\Zed\Kernel\Container  $container
-     * 
+     *
      * @return \Spryker\Zed\Kernel\Container
      */
     protected function provideApplication(Container $container): Container
@@ -172,6 +174,22 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
         $container[self::FACADE_EVENT_BEHAVIOUR] = function (Container $container) {
             return new ContentfulToEventBehaviorFacadeBridge(
                 $container->getLocator()->eventBehavior()->facade()
+            );
+        };
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function addLocaleFacade(Container $container): Container
+    {
+        $container[self::FACADE_LOCALE] = function (Container $container) {
+            return new ContentfulToLocaleFacadeBridge(
+                $container->getLocator()->locale()->facade()
             );
         };
 

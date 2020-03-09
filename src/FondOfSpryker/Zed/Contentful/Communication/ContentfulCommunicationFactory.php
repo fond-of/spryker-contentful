@@ -13,6 +13,7 @@ use FondOfSpryker\Shared\Contentful\Url\UrlFormatter;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
 use FondOfSpryker\Zed\Contentful\ContentfulDependencyProvider;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToEventBehaviorFacadeInterface;
+use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToLocaleFacadeInterface;
 use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Shared\Kernel\Communication\Application;
 use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
@@ -26,10 +27,12 @@ class ContentfulCommunicationFactory extends AbstractCommunicationFactory
 {
     /**
      * @return \FondOfSpryker\Shared\Contentful\Twig\ContentfulTwigExtension
+     *
+     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function createContentfulTwigExtension(): ContentfulTwigExtension
     {
-        return new ContentfulTwigExtension($this->createBuilder(), $this->createUrlFormatter(), $this->getApplication()['locale']);
+        return new ContentfulTwigExtension($this->createBuilder(), $this->createUrlFormatter(), $this->getLocaleFacade()->getCurrentLocale()->getLocaleName());
     }
 
     /**
@@ -102,5 +105,15 @@ class ContentfulCommunicationFactory extends AbstractCommunicationFactory
     public function getEventBehaviourFacade(): ContentfulToEventBehaviorFacadeInterface
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::FACADE_EVENT_BEHAVIOUR);
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToLocaleFacadeInterface
+     *
+     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
+     */
+    public function getLocaleFacade(): ContentfulToLocaleFacadeInterface
+    {
+        return $this->getProvidedDependency(ContentfulDependencyProvider::FACADE_LOCALE);
     }
 }
