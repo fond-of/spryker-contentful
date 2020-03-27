@@ -14,6 +14,8 @@ use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
 use FondOfSpryker\Zed\Contentful\ContentfulDependencyProvider;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToEventBehaviorFacadeInterface;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToLocaleFacadeInterface;
+use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToStoreFacadeInterface;
+use Generated\Shared\Transfer\StoreTransfer;
 use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Shared\Kernel\Communication\Application;
 use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
@@ -76,6 +78,15 @@ class ContentfulCommunicationFactory extends AbstractCommunicationFactory
     }
 
     /**
+     * @return \Generated\Shared\Transfer\StoreTransfer
+     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
+     */
+    public function getStore(): StoreTransfer
+    {
+        return $this->getStoreFacade()->getCurrentStore();
+    }
+
+    /**
      * @return \FondOfSpryker\Shared\Contentful\Renderer\RendererInterface
      */
     protected function createDefaultRenderer(): RendererInterface
@@ -115,5 +126,15 @@ class ContentfulCommunicationFactory extends AbstractCommunicationFactory
     public function getLocaleFacade(): ContentfulToLocaleFacadeInterface
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::FACADE_LOCALE);
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToStoreFacadeInterface
+     *
+     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
+     */
+    public function getStoreFacade(): ContentulToStoreFacadeInterface
+    {
+        return $this->getProvidedDependency(ContentfulDependencyProvider::FACADE_STORE);
     }
 }

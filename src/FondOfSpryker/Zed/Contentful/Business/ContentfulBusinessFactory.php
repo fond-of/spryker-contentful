@@ -40,9 +40,9 @@ use FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextFieldMapper;
 use FondOfSpryker\Zed\Contentful\ContentfulDependencyProvider;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToContentfulStorageFacadeInterface;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToContentfulPageSearchInterface;
+use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToStoreFacadeInterface;
 use Generated\Shared\Transfer\StoreTransfer;
 use Orm\Zed\Contentful\Persistence\FosContentfulQuery;
-use Orm\Zed\Store\Persistence\Base\SpyStoreQuery;
 use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
@@ -357,18 +357,22 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
+     * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToStoreFacadeInterface
+     *
+     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
+     */
+    public function getStoreFacade(): ContentulToStoreFacadeInterface
+    {
+        return $this->getProvidedDependency(ContentfulDependencyProvider::FACADE_STORE);
+    }
+
+
+    /**
      * @return \Generated\Shared\Transfer\StoreTransfer
+     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function getStore(): StoreTransfer
     {
-        $store = $this->getConfig()->getStore();
-
-        $spyStoreQuery = SpyStoreQuery::create();
-        $spyStore = $spyStoreQuery->filterByName($store->getStoreName())->findOne();
-
-        $storeTransfer = new StoreTransfer();
-        $storeTransfer->fromArray($spyStore->toArray(), true);
-
-        return $storeTransfer;
+        return $this->getStoreFacade()->getCurrentStore();
     }
 }

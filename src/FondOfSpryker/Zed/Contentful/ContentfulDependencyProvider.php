@@ -8,6 +8,7 @@ use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToContentfulStorage
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToEventBehaviorFacadeBridge;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToLocaleFacadeBridge;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToContentfulPageSearchBridge;
+use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToStoreFacadeBridge;
 use Spryker\Shared\Kernel\Store;
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Zed\Kernel\Communication\Plugin\Pimple;
@@ -18,6 +19,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     public const TWIG_MARKDOWN = 'TWIG_MARKDOWN';
     public const STORAGE_CLIENT = 'STORAGE_CLIENT';
     public const FACADE_LOCALE = 'FACADE_LOCALE';
+    public const FACADE_STORE = 'FACADE_STORE';
     public const CLIENT_STORE = 'CLIENT_STORE';
     public const CLIENT = 'CLIENT';
     public const PLUGIN_APPLICATION = 'PLUGIN_APPLICATION';
@@ -38,6 +40,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
         $container = $this->addContentfulStorageFacade($container);
         $container = $this->addContentfulPageSearchFacade($container);
         $container = $this->addStore($container);
+        $container = $this->addStoreFacade($container);
 
         return $container;
     }
@@ -56,6 +59,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
         $container = $this->provideClient($container);
         $container = $this->addEventBehaviourFacade($container);
         $container = $this->addLocaleFacade($container);
+        $container = $this->addStoreFacade($container);
 
         return $container;
     }
@@ -67,7 +71,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function provideApplication(Container $container): Container
     {
-        $container[self::PLUGIN_APPLICATION] = function () {
+        $container[static::PLUGIN_APPLICATION] = function () {
             $pimplePlugin = new Pimple();
 
             return $pimplePlugin->getApplication();
@@ -171,7 +175,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addEventBehaviourFacade(Container $container): Container
     {
-        $container[self::FACADE_EVENT_BEHAVIOUR] = function (Container $container) {
+        $container[static::FACADE_EVENT_BEHAVIOUR] = function (Container $container) {
             return new ContentfulToEventBehaviorFacadeBridge(
                 $container->getLocator()->eventBehavior()->facade()
             );
@@ -187,9 +191,25 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
      */
     protected function addLocaleFacade(Container $container): Container
     {
-        $container[self::FACADE_LOCALE] = function (Container $container) {
+        $container[static::FACADE_LOCALE] = function (Container $container) {
             return new ContentfulToLocaleFacadeBridge(
                 $container->getLocator()->locale()->facade()
+            );
+        };
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function addStoreFacade(Container $container): Container
+    {
+        $container[static::FACADE_STORE] = function (Container $container) {
+            return new ContentulToStoreFacadeBridge(
+                $container->getLocator()->store()->facade()
             );
         };
 

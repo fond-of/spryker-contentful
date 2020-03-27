@@ -8,6 +8,7 @@ use FondOfSpryker\Zed\Contentful\Business\Storage\Boolean\BooleanField;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface;
 use Generated\Shared\Transfer\StoreTransfer;
 use Orm\Zed\Contentful\Persistence\FosContentful;
+//ToDo: Refactor so no Communication Layer stuff is in Business Layer
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 
 /**
