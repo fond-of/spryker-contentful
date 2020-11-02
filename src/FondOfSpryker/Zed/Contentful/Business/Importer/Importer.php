@@ -98,6 +98,33 @@ class Importer implements ImporterInterface
     }
 
     /**
+     * @param array $contentTypes
+     *
+     * @return int
+     */
+    public function importContentTypes(array $contentTypes): int
+    {
+        foreach ($contentTypes as $contentType) {
+            $resourceArray += $this->contentfulAPIClient->findEntryByContentType($contentType);
+        }
+
+        if ($resourceArray->getTotal() > 1000) {
+            for ($i = 0; $i < $resourceArray->getTotal(); $i += 1000) {
+                $res = $this->contentfulAPIClient->findAllEntries($i);
+                $this->importResource($res->getItems());
+            }
+        } else {
+            $this->importResource($resourceArray->getItems());
+        }
+
+        $this->importResource($resourceArray->getItems());
+
+        return $resourceArray->getTotal();
+         $this->contentfulAPIClient->findEntryByContentType($contentTypes);
+        return 1;
+    }
+
+    /**
      * @param array $items
      *
      * @return void

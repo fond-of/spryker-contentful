@@ -27,6 +27,14 @@ interface ContentfulAPIClientInterface
     public function findEntryById(string $entryId): ResourceArray;
 
     /**
+     * @param string $contentType
+     * @param int $skip
+     *
+     * @return \Contentful\Core\Resource\ResourceArray
+     */
+    public function findEntryByContentType(string $contentType, int $skip = 0): ResourceArray;
+
+    /**
      * @param string $assetId
      * @param string $locale
      *

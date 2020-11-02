@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Zed\Contentful\Communication\Console;
 
+use http\Exception\InvalidArgumentException;
 use Spryker\Zed\Kernel\Communication\Console\Console;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,7 +19,8 @@ class ContentfulConsole extends Console
     private const COMMAND_NAME = 'contentful:import';
     private const DESCRIPTION = 'Imports the contentful entries and saves it in the spryker storage.';
     private const OPTION_IMPORT_ALL = 'all';
-    private const ARGUMENT_ENTRY_ID = 'entryId';
+    private const OPTION_ENTRY_ID = 'id';
+    private const OPTION_IMPORT_TYPE = 'type';
 
     /**
      * @return void
@@ -27,8 +29,31 @@ class ContentfulConsole extends Console
     {
         $this->setName(static::COMMAND_NAME);
         $this->setDescription(static::DESCRIPTION);
-        $this->addArgument(static::ARGUMENT_ENTRY_ID, InputArgument::OPTIONAL, 'update a single entry by id');
-        $this->addOption(static::OPTION_IMPORT_ALL, null, InputOption::VALUE_NONE, 'import all entries');
+
+        $this->addUsage(sprintf('--%s', static::OPTION_IMPORT_ALL));
+        $this->addUsage(sprintf('--%s textBlock,image', static::OPTION_IMPORT_TYPE));
+        $this->addUsage(sprintf('--%s 123445abcdef', static::OPTION_ENTRY_ID));
+
+        $this->addOption(
+            static::OPTION_ENTRY_ID,
+            'i',
+            InputOption::VALUE_REQUIRED,
+            'Import single entry or a comma separated list of entries.'
+        );
+
+        $this->addOption(
+            static::OPTION_IMPORT_ALL,
+            'a',
+            InputOption::VALUE_NONE,
+            'Import all entries for a space.'
+        );
+
+        $this->addOption(
+            static::OPTION_IMPORT_TYPE,
+            't',
+            InputOption::VALUE_REQUIRED,
+            'Import specific content types. Single type or comma separated list of types.'
+        );
     }
 
     /**
@@ -39,16 +64,41 @@ class ContentfulConsole extends Console
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if ($input->getOption(static::OPTION_IMPORT_ALL) === true) {
-            $numberOfUpdatedEntries = $this->getFacade()->importAllEntries();
-        } elseif (!empty(trim($input->getArgument(static::ARGUMENT_ENTRY_ID)))) {
-            $numberOfUpdatedEntries = $this->getFacade()->importEntry($input->getArgument(static::ARGUMENT_ENTRY_ID));
-        } else {
-            $numberOfUpdatedEntries = $this->getFacade()->importLastChangedEntries();
+
+        $updated = $this->handleOptions($input);
+
+        if ($updated === null) {
+            $updated = $this->getFacade()->importLastChangedEntries();
         }
 
-        $output->writeln('Updated entries: ' . $numberOfUpdatedEntries);
+        $output->writeln('Updated entries: ' . $updated);
 
         return static::CODE_SUCCESS;
     }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @return int|null
+     */
+    protected function handleOptions(InputInterface $input): ?int
+    {
+        if ($input->getOption(static::OPTION_IMPORT_ALL)) {
+            return $this->getFacade()->importAllEntries();
+        }
+
+        if ($input->getOption(static::OPTION_ENTRY_ID)) {
+            return $this->getFacade()->importEntry(
+                $input->getOption(static::OPTION_ENTRY_ID)
+            );
+        }
+
+        if ($input->getOption(static::OPTION_IMPORT_TYPE)) {
+            $contentTypes = explode(',', $input->getOption(static::OPTION_IMPORT_TYPE));
+            return $this->getFacade()->importContentTypes($contentTypes);
+        }
+
+        return null;
+    }
+
+
 }

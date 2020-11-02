@@ -37,6 +37,16 @@ class ContentfulFacade extends AbstractFacade implements ContentfulFacadeInterfa
     }
 
     /**
+     * @param array $contentTypes
+     *
+     * @return int
+     */
+    public function importContentTypes(array $contentTypes): int
+    {
+        return $this->getFactory()->createImporter()->importContentTypes($contentTypes);
+    }
+
+    /**
      * @param array $idCollection
      *
      * @return void

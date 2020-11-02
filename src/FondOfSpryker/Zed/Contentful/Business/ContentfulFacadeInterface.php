@@ -22,6 +22,13 @@ interface ContentfulFacadeInterface
     public function importEntry(string $entryId): int;
 
     /**
+     * @param array $contentTypes
+     *
+     * @return int
+     */
+    public function importContentTypes(array $contentTypes): int;
+
+    /**
      * @return int
      */
     public function getContentfulEntryCount(): int;

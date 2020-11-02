@@ -70,6 +70,21 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
         return $this->client->getEntries($query);
     }
 
+    public function findEntryByContentType(string $contentType, int $skip = 0): ResourceArray
+    {
+        $query = new Query();
+        $query->where('sys.createdAt[gte]', new DateTime('2010-01-01 00:00:00'));
+        $query->setContentType($contentType);
+        $query->setLimit(1000);
+        $query->setLocale('*');
+
+        if ($skip > 0) {
+            $query->setSkip($skip);
+        }
+
+        return $this->client->getEntries($query);
+    }
+
     /**
      * @param string $assetId
      * @param string $locale
