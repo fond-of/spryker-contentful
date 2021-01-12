@@ -22,7 +22,7 @@
   ],
   "require": {
     "php": ">=7.2",
-    "fond-of-spryker/contentful-router": "dev-master",
+    "fond-of-spryker/contentful-router": "dev-feature/upgrade-contentful",
     "spryker/twig": "^3.8.2",
     "spryker/storage": "^3.14.0",
     "spryker/locale": "^3.3.0",
