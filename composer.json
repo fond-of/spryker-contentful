@@ -22,7 +22,6 @@
   ],
   "require": {
     "php": ">=7.2",
-    "fond-of-spryker/contentful-router": "dev-feature/upgrade-contentful",
     "spryker/twig": "^3.8.2",
     "spryker/storage": "^3.14.0",
     "spryker/locale": "^3.3.0",
@@ -38,6 +37,9 @@
     "phpro/grumphp": "^0.14",
     "sebastian/phpcpd": "^4.1",
     "php-coveralls/php-coveralls": "^2.0"
+  },
+  "suggest": {
+    "fond-of-spryker/contentful-router": "Allows to route to contentful pages in spryker"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
