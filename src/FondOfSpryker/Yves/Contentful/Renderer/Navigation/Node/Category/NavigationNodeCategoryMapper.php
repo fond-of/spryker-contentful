@@ -2,7 +2,6 @@
 
 namespace FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\Category;
 
-use FondOfSpryker\Shared\Contentful\ContentfulConstants;
 use FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulPageSearchClientInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategory;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategoryMapper;
@@ -12,6 +11,7 @@ use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeInterfa
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeMapperInterface;
 use Generated\Shared\Transfer\CategoryNodeStorageTransfer;
 use Spryker\Client\CategoryStorage\CategoryStorageClientInterface;
+use Spryker\Client\Store\StoreClientInterface;
 
 class NavigationNodeCategoryMapper implements NavigationNodeMapperInterface
 {
@@ -20,21 +20,37 @@ class NavigationNodeCategoryMapper implements NavigationNodeMapperInterface
      */
     protected $client;
 
+    /**
+     * @var \FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulPageSearchClientInterface
+     */
     protected $searchClient;
+
+    /**
+     * @var \Spryker\Client\Store\StoreClientInterface
+     */
+    protected $storeClient;
 
     /**
      * @var string
      */
     protected $currentLocale;
 
+    /**
+     * @param \Spryker\Client\CategoryStorage\CategoryStorageClientInterface $storageClient
+     * @param \FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulPageSearchClientInterface $searchClient
+     * @param string $currentLocale
+     * @param \Spryker\Client\Store\StoreClientInterface $storeClient
+     */
     public function __construct(
         CategoryStorageClientInterface $storageClient,
         ContentfulToContentfulPageSearchClientInterface $searchClient,
-        string $currentLocale
+        string $currentLocale,
+        StoreClientInterface $storeClient
     ) {
         $this->client = $storageClient;
         $this->searchClient = $searchClient;
         $this->currentLocale = $currentLocale;
+        $this->storeClient = $storeClient;
     }
 
     /**
@@ -94,6 +110,6 @@ class NavigationNodeCategoryMapper implements NavigationNodeMapperInterface
      */
     protected function getCategoryStorageNodeByItem(NavigationItemCategory $item): CategoryNodeStorageTransfer
     {
-        return $this->client->getCategoryNodeById($item->getCategoryId(), $this->currentLocale);
+        return $this->client->getCategoryNodeById($item->getCategoryId(), $this->currentLocale, $this->storeClient->getCurrentStore()->getName());
     }
 }

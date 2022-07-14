@@ -201,7 +201,8 @@ class ContentfulFactory extends AbstractFactory
         return new NavigationNodeCategoryMapper(
             $this->getCategoryStorageClient(),
             $this->getContentfulPageSearchClient(),
-            $this->getApplication()['locale']
+            $this->getApplication()['locale'],
+            $this->getStoreClient(),
         );
     }
 
