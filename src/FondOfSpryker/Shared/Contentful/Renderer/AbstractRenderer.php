@@ -2,35 +2,34 @@
 
 namespace FondOfSpryker\Shared\Contentful\Renderer;
 
+use FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface;
 use FondOfSpryker\Shared\Contentful\ContentfulConstants;
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 use Spryker\Shared\Config\Config;
 use Spryker\Shared\Config\Environment;
-use Spryker\Shared\Kernel\Communication\Application;
 use Throwable;
-use Twig\Environment as Twig_Environment;
 
 abstract class AbstractRenderer implements RendererInterface
 {
     /**
-     * @var \Spryker\Shared\Kernel\Communication\Application
+     * @var \FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface
      */
-    protected $application;
+    protected $twigRenderer;
 
     /**
-     * @param \Spryker\Shared\Kernel\Communication\Application $application
+     * @param \FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface $twigRenderer
      */
-    public function __construct(Application $application)
+    public function __construct(ContentfulToRendererInterface $twigRenderer)
     {
-        $this->application = $application;
+        $this->twigRenderer = $twigRenderer;
     }
 
     /**
-     * @return \Twig\Environment
+     * @return \FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface
      */
-    protected function getTwigEnvironment(): Twig_Environment
+    protected function getTwigEnvironment(): ContentfulToRendererInterface
     {
-        return $this->application['twig'];
+        return $this->twigRenderer;
     }
 
     /**

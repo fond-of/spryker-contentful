@@ -2,16 +2,18 @@
 
 namespace FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node;
 
+use FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemCollectionInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface;
 use Spryker\Shared\Kernel\Communication\Application;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class NavigationNodeFactory implements NavigationNodeFactoryInterface
 {
     /**
-     * @var \Spryker\Shared\Kernel\Communication\Application
+     * @var \Symfony\Component\HttpFoundation\RequestStack
      */
-    private $application;
+    private $request;
 
     /**
      * @var \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeCollectionInterface
@@ -24,13 +26,13 @@ class NavigationNodeFactory implements NavigationNodeFactoryInterface
     private $mapper;
 
     /**
-     * @param \Spryker\Shared\Kernel\Communication\Application $application
+     * @param \Symfony\Component\HttpFoundation\RequestStack $request
      * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeCollectionInterface $collection
-     * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeMapperInterface[] $mapper
+     * @param array $mapper
      */
-    public function __construct(Application $application, NavigationNodeCollectionInterface $collection, array $mapper)
+    public function __construct(RequestStack $request, NavigationNodeCollectionInterface $collection, array $mapper)
     {
-        $this->application = $application;
+        $this->request = $request;
         $this->collection = $collection;
         $this->mapper = $mapper;
     }
@@ -112,6 +114,6 @@ class NavigationNodeFactory implements NavigationNodeFactoryInterface
      */
     private function getRequestUri(): string
     {
-        return $this->application['request']->getRequestUri();
+        return $this->request->getCurrentRequest()->getRequestUri();
     }
 }

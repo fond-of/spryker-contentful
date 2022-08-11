@@ -3,6 +3,7 @@
 namespace FondOfSpryker\Yves\Contentful;
 
 use Aptoma\Twig\Extension\MarkdownExtension;
+use FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface;
 use FondOfSpryker\Shared\Contentful\Builder\Builder;
 use FondOfSpryker\Shared\Contentful\Builder\BuilderInterface;
 use FondOfSpryker\Shared\Contentful\Renderer\DefaultRenderer;
@@ -35,6 +36,7 @@ use Spryker\Client\Search\SearchClientInterface;
 use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Shared\Kernel\Communication\Application;
 use Spryker\Yves\Kernel\AbstractFactory;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * @method \FondOfSpryker\Client\Contentful\ContentfulClientInterface getClient()
@@ -50,11 +52,28 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
+     * @return \FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface
+     * @throws \Spryker\Yves\Kernel\Exception\Container\ContainerKeyNotFoundException
+     */
+    public function getTwigRenderer(): ContentfulToRendererInterface
+    {
+        return $this->getProvidedDependency(ContentfulDependencyProvider::RENDERER);
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\RequestStack
+     */
+    public function getRequestStack(): RequestStack
+    {
+        return $this->getProvidedDependency(ContentfulDependencyProvider::SERVICE_REQUEST_STACK);
+    }
+
+    /**
      * @return \FondOfSpryker\Shared\Contentful\Twig\ContentfulTwigExtension
      */
     public function createContentfulTwigExtension(): ContentfulTwigExtension
     {
-        return new ContentfulTwigExtension($this->createBuilder(), $this->createUrlFormatter(), $this->getApplication()['locale']);
+        return new ContentfulTwigExtension($this->createBuilder(), $this->createUrlFormatter(), $this->getLocale());
     }
 
     /**
@@ -86,7 +105,7 @@ class ContentfulFactory extends AbstractFactory
      */
     protected function createDefaultRenderer(): RendererInterface
     {
-        return new DefaultRenderer($this->getApplication());
+        return new DefaultRenderer($this->getTwigRenderer());
     }
 
     /**
@@ -94,7 +113,7 @@ class ContentfulFactory extends AbstractFactory
      */
     protected function createNavigationRenderer(): RendererInterface
     {
-        return new NavigationRenderer($this->getApplication(), $this->createNavigationMapper());
+        return new NavigationRenderer($this->getTwigRenderer(), $this->createNavigationMapper());
     }
 
     /**
@@ -162,7 +181,7 @@ class ContentfulFactory extends AbstractFactory
      */
     protected function createNavigationNodeFactory(): NavigationNodeFactoryInterface
     {
-        return new NavigationNodeFactory($this->getApplication(), $this->createNavigationNodeCollection(), $this->createNavigationNodeMapper());
+        return new NavigationNodeFactory($this->getRequestStack(), $this->createNavigationNodeCollection(), $this->createNavigationNodeMapper());
     }
 
     /**
@@ -201,7 +220,7 @@ class ContentfulFactory extends AbstractFactory
         return new NavigationNodeCategoryMapper(
             $this->getCategoryStorageClient(),
             $this->getContentfulPageSearchClient(),
-            $this->getApplication()['locale'],
+            $this->getLocale(),
             $this->getStoreClient(),
         );
     }
@@ -211,7 +230,7 @@ class ContentfulFactory extends AbstractFactory
      */
     protected function createNavigationNodeContentfulPageMapper(): NavigationNodeMapperInterface
     {
-        return new NavigationNodeContentfulPageMapper($this->getClient(), $this->getApplication()['locale']);
+        return new NavigationNodeContentfulPageMapper($this->getClient(), $this->getLocale());
     }
 
     /**
@@ -239,11 +258,11 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @return \Spryker\Shared\Kernel\Communication\Application
+     * @return string
      */
-    public function getApplication(): Application
+    public function getLocale(): string
     {
-        return $this->getProvidedDependency(ContentfulDependencyProvider::PLUGIN_APPLICATION);
+        return $this->getProvidedDependency(ContentfulDependencyProvider::SERVICE_LOCALE);
     }
 
     /**
