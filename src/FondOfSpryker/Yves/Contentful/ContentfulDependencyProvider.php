@@ -4,11 +4,9 @@ namespace FondOfSpryker\Yves\Contentful;
 
 use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
 use Aptoma\Twig\Extension\MarkdownExtension;
-use FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererBridge;
 use FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulPageSearchClientBridge;
 use FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToSearchClientBridge;
-use FondOfSpryker\Yves\OpenGraph\Business\Model\Property;
-use FondOfSpryker\Yves\OpenGraph\Twig\OpenGraphTwigExtension;
+use FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererBridge;
 use Spryker\Shared\Kernel\ContainerInterface;
 use Spryker\Yves\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Yves\Kernel\Container;

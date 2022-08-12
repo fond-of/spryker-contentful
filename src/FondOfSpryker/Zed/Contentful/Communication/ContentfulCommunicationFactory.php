@@ -91,13 +91,13 @@ class ContentfulCommunicationFactory extends AbstractCommunicationFactory
      */
     protected function createDefaultRenderer(): RendererInterface
     {
-        return new DefaultRenderer($this->getApplication());
+        return new DefaultRenderer($this->getTwigRenderer());
     }
 
     /**
      * @return \Spryker\Shared\Kernel\Communication\Application
      */
-    public function getApplication(): Application
+    public function getTwigRenderer(): Application
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::PLUGIN_APPLICATION);
     }
