@@ -2,7 +2,6 @@
 
 namespace FondOfSpryker\Shared\Contentful\Renderer;
 
-use FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface;
 use FondOfSpryker\Shared\Contentful\ContentfulConstants;
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 use Spryker\Shared\Config\Config;
@@ -11,27 +10,6 @@ use Throwable;
 
 abstract class AbstractRenderer implements RendererInterface
 {
-    /**
-     * @var \FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface
-     */
-    protected $twigRenderer;
-
-    /**
-     * @param \FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface $twigRenderer
-     */
-    public function __construct(ContentfulToRendererInterface $twigRenderer)
-    {
-        $this->twigRenderer = $twigRenderer;
-    }
-
-    /**
-     * @return \FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface
-     */
-    protected function getTwigEnvironment(): ContentfulToRendererInterface
-    {
-        return $this->twigRenderer;
-    }
-
     /**
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
      * @param array $additionalPlaceholders

@@ -6,18 +6,17 @@ use Aptoma\Twig\Extension\MarkdownExtension;
 use FondOfSpryker\Client\Contentful\ContentfulClientInterface;
 use FondOfSpryker\Shared\Contentful\Builder\Builder;
 use FondOfSpryker\Shared\Contentful\Builder\BuilderInterface;
-use FondOfSpryker\Shared\Contentful\Renderer\DefaultRenderer;
 use FondOfSpryker\Shared\Contentful\Renderer\RendererInterface;
+use FondOfSpryker\Shared\Contentful\Renderer\ZedRenderer;
 use FondOfSpryker\Shared\Contentful\Twig\ContentfulTwigExtension;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatter;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
 use FondOfSpryker\Zed\Contentful\ContentfulDependencyProvider;
-use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToEventBehaviorFacadeInterface;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToLocaleFacadeInterface;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToStoreFacadeInterface;
+use FondOfSpryker\Zed\Contentful\Dependency\Renderer\ContentfulToRendererInterface;
 use Generated\Shared\Transfer\StoreTransfer;
 use Spryker\Client\Store\StoreClientInterface;
-use Spryker\Shared\Kernel\Communication\Application;
 use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
 
 /**
@@ -91,15 +90,16 @@ class ContentfulCommunicationFactory extends AbstractCommunicationFactory
      */
     protected function createDefaultRenderer(): RendererInterface
     {
-        return new DefaultRenderer($this->getTwigRenderer());
+        return new ZedRenderer($this->getTwigRenderer());
     }
 
     /**
-     * @return \Spryker\Shared\Kernel\Communication\Application
+     * @return \FondOfSpryker\Zed\Contentful\Dependency\Renderer\ContentfulToRendererInterface
+     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
-    public function getTwigRenderer(): Application
+    public function getTwigRenderer(): ContentfulToRendererInterface
     {
-        return $this->getProvidedDependency(ContentfulDependencyProvider::PLUGIN_APPLICATION);
+        return $this->getProvidedDependency(ContentfulDependencyProvider::RENDERER);
     }
 
     /**
@@ -108,14 +108,6 @@ class ContentfulCommunicationFactory extends AbstractCommunicationFactory
     public function getClient(): ContentfulClientInterface
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::CLIENT);
-    }
-
-    /**
-     * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToEventBehaviorFacadeInterface
-     */
-    public function getEventBehaviourFacade(): ContentfulToEventBehaviorFacadeInterface
-    {
-        return $this->getProvidedDependency(ContentfulDependencyProvider::FACADE_EVENT_BEHAVIOUR);
     }
 
     /**

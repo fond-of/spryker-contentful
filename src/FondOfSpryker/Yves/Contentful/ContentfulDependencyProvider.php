@@ -14,7 +14,6 @@ use Spryker\Yves\Kernel\Container;
 class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
 {
     public const TWIG_MARKDOWN = 'TWIG_MARKDOWN';
-    public const PLUGIN_APPLICATION = 'PLUGIN_APPLICATION';
     public const CATEGORY_STORAGE_CLIENT = 'CATEGORY_STORAGE_CLIENT';
     public const CLIENT_STORE = 'CLIENT_STORE';
     public const SEARCH_CLIENT = 'SEARCH_CLIENT';

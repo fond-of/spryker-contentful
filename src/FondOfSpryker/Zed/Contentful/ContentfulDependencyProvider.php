@@ -4,16 +4,15 @@ namespace FondOfSpryker\Zed\Contentful;
 
 use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
 use Aptoma\Twig\Extension\MarkdownExtension;
-use FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererBridge;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToContentfulStorageFacadeBridge;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToEventBehaviorFacadeBridge;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToLocaleFacadeBridge;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToContentfulPageSearchBridge;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToStoreFacadeBridge;
+use FondOfSpryker\Zed\Contentful\Dependency\Renderer\ContentfulToRendererBridge;
 use Spryker\Shared\Kernel\ContainerInterface;
 use Spryker\Shared\Kernel\Store;
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
-use Spryker\Zed\Kernel\Communication\Plugin\Pimple;
 use Spryker\Zed\Kernel\Container;
 
 class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
@@ -24,7 +23,6 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     public const FACADE_STORE = 'FACADE_STORE';
     public const CLIENT_STORE = 'CLIENT_STORE';
     public const CLIENT = 'CLIENT';
-    public const PLUGIN_APPLICATION = 'PLUGIN_APPLICATION';
     public const CONTENTFUL_STORAGE_FACADE = 'CONTENTFUL_STORAGE_FACADE';
     public const CONTENTFUL_PAGE_SEARCH_FACADE = 'CONTENTFUL_PAGE_SEARCH_FACADE';
     public const FACADE_EVENT_BEHAVIOUR = 'FACADE_EVENT_BEHAVIOUR';

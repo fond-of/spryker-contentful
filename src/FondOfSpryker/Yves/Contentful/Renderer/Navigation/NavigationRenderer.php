@@ -2,11 +2,11 @@
 
 namespace FondOfSpryker\Yves\Contentful\Renderer\Navigation;
 
+use FondOfSpryker\Shared\Contentful\Renderer\AbstractYvesRenderer;
 use FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface;
-use FondOfSpryker\Shared\Contentful\Renderer\AbstractRenderer;
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 
-class NavigationRenderer extends AbstractRenderer
+class NavigationRenderer extends AbstractYvesRenderer
 {
     protected const RENDERER_TYPE = 'Navigation';
 
