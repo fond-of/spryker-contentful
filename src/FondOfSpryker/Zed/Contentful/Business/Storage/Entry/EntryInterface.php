@@ -33,7 +33,7 @@ interface EntryInterface extends JsonSerializable
     /**
      * @param string $name
      *
-     * @return null|\FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface
+     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface|null
      */
     public function getField(string $name): ?FieldInterface;
 

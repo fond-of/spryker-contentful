@@ -43,6 +43,7 @@ class ContentfulNavigationStorageReader implements ContentfulNavigationStorageRe
         if (empty($storageData)) {
             $response->setSuccessful(false);
             $response->setErrorMessage(sprintf('Entry not found: "%s"', $storageKey));
+
             return $response;
         }
 

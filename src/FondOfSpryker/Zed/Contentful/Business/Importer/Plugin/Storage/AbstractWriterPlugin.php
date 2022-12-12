@@ -8,6 +8,7 @@ use FondOfSpryker\Zed\Contentful\Business\Storage\Boolean\BooleanField;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface;
 use Generated\Shared\Transfer\StoreTransfer;
 use Orm\Zed\Contentful\Persistence\FosContentful;
+//ToDo: Refactor so no Communication Layer stuff is in Business Layer
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 
 /**
@@ -26,8 +27,6 @@ abstract class AbstractWriterPlugin extends AbstractPlugin
      * @param array $data
      * @param string $locale
      * @param string $key
-     *
-     * @throws
      *
      * @return void
      */
@@ -49,8 +48,6 @@ abstract class AbstractWriterPlugin extends AbstractPlugin
     /**
      * @param \Orm\Zed\Contentful\Persistence\FosContentful $entity
      *
-     * @throws
-     *
      * @return \Orm\Zed\Contentful\Persistence\FosContentful
      */
     protected function deleteEntity(FosContentful $entity): FosContentful
@@ -65,8 +62,6 @@ abstract class AbstractWriterPlugin extends AbstractPlugin
      * @param \Generated\Shared\Transfer\StoreTransfer $storeTransfer
      * @param string $locale
      * @param string|null $key
-     *
-     * @throws
      *
      * @return \Orm\Zed\Contentful\Persistence\FosContentful
      */
@@ -109,14 +104,12 @@ abstract class AbstractWriterPlugin extends AbstractPlugin
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      * @param string $locale
      *
-     * @throws
-     *
      * @return void
      */
     protected function deleteByEntryId(ContentfulEntryInterface $contentfulEntry, string $locale): void
     {
         $contentfulEntities = $this->contentfulQuery
-            ->filterByEntryId(\strtolower($contentfulEntry->getId()))
+            ->filterByEntryId(strtolower($contentfulEntry->getId()))
             ->filterByEntryLocale($locale)
             ->find();
 

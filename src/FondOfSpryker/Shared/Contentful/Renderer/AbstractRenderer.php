@@ -6,33 +6,10 @@ use FondOfSpryker\Shared\Contentful\ContentfulConstants;
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 use Spryker\Shared\Config\Config;
 use Spryker\Shared\Config\Environment;
-use Spryker\Shared\Kernel\Communication\Application;
 use Throwable;
-use Twig_Environment;
 
 abstract class AbstractRenderer implements RendererInterface
 {
-    /**
-     * @var \Spryker\Shared\Kernel\Communication\Application
-     */
-    protected $application;
-
-    /**
-     * @param \Spryker\Shared\Kernel\Communication\Application $application
-     */
-    public function __construct(Application $application)
-    {
-        $this->application = $application;
-    }
-
-    /**
-     * @return \Twig_Environment
-     */
-    protected function getTwigEnvironment(): Twig_Environment
-    {
-        return $this->application['twig'];
-    }
-
     /**
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
      * @param array $additionalPlaceholders
@@ -79,19 +56,17 @@ abstract class AbstractRenderer implements RendererInterface
     /**
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
      *
-     * @throws
-     *
      * @return bool
      */
     protected function isEntryActive(ContentfulEntryResponseTransfer $response): bool
     {
         $activeFieldName = Config::get(ContentfulConstants::CONTENTFUL_FIELD_NAME_ACTIVE);
-        if (\array_key_exists($activeFieldName, $response->getFields()) === false) {
+        if (array_key_exists($activeFieldName, $response->getFields()) === false) {
             return true;
         }
 
         $isActive = $response->getFields()[$activeFieldName]['value'];
-        if (\is_bool($isActive) && $isActive === false) {
+        if (is_bool($isActive) && $isActive === false) {
             return false;
         }
 
@@ -107,7 +82,7 @@ abstract class AbstractRenderer implements RendererInterface
      */
     protected function mergeAdditionalPlaceholders(ContentfulEntryResponseTransfer $response, array $placeholders, array $additionalPlaceholders)
     {
-        return \array_merge($placeholders, $additionalPlaceholders);
+        return array_merge($placeholders, $additionalPlaceholders);
     }
 
     /**

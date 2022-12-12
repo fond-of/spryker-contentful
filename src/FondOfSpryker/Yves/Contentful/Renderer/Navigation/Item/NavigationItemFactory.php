@@ -13,7 +13,7 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
     private $mapper;
 
     /**
-     * @var \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemCollection
+     * @var \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemCollectionInterface 
      */
     private $collection;
 
@@ -51,7 +51,7 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
     /**
      * @param string[] $navigation
      *
-     * @return null|\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface
+     * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface|null
      */
     private function createNavigationItemRecursive(array $navigation): ?NavigationItemInterface
     {
@@ -99,7 +99,7 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
      */
     protected function hasType(array $navigation): bool
     {
-        return \array_key_exists(static::KEY_TYPE, $navigation);
+        return array_key_exists(static::KEY_TYPE, $navigation);
     }
 
     /**
@@ -119,9 +119,9 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
      */
     protected function hasChildren(array $navigation): bool
     {
-        return \array_key_exists(static::KEY_CHILDREN, $navigation)
-            && \is_array($navigation[static::KEY_CHILDREN])
-            && \count($navigation[static::KEY_CHILDREN]) > 0;
+        return array_key_exists(static::KEY_CHILDREN, $navigation)
+            && is_array($navigation[static::KEY_CHILDREN])
+            && count($navigation[static::KEY_CHILDREN]) > 0;
     }
 
     /**

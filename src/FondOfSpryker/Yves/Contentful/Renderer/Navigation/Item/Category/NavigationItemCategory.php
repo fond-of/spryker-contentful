@@ -66,9 +66,9 @@ class NavigationItemCategory implements NavigationItemInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getCustomText(): string
+    public function getCustomText(): ?string
     {
         return $this->customText;
     }

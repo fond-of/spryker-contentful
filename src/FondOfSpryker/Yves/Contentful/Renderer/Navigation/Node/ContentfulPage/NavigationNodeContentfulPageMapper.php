@@ -43,7 +43,7 @@ class NavigationNodeContentfulPageMapper implements NavigationNodeMapperInterfac
     }
 
     /**
-     * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\ContentfulPage\NavigationItemContentfulPage|\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface $item
+     * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface $item
      *
      * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeInterface
      */
@@ -61,7 +61,7 @@ class NavigationNodeContentfulPageMapper implements NavigationNodeMapperInterfac
     }
 
     /**
-     * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\ContentfulPage\NavigationItemContentfulPage|\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface $item
+     * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface $item
      *
      * @return bool
      */

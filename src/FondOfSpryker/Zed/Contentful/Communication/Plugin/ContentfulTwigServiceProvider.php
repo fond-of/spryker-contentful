@@ -5,10 +5,12 @@ namespace FondOfSpryker\Zed\Contentful\Communication\Plugin;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
+use Twig\Environment;
 
 /**
  * @method \FondOfSpryker\Zed\Contentful\Communication\ContentfulCommunicationFactory getFactory()
  * @method \FondOfSpryker\Zed\Contentful\Business\ContentfulFacade getFacade()
+ * @method \FondOfSpryker\Zed\Contentful\ContentfulConfig getConfig()
  */
 class ContentfulTwigServiceProvider extends AbstractPlugin implements ServiceProviderInterface
 {
@@ -22,7 +24,7 @@ class ContentfulTwigServiceProvider extends AbstractPlugin implements ServicePro
         $factory = $this->getFactory();
 
         $app['twig'] = $app->share(
-            $app->extend('twig', function (\Twig_Environment $twig) use ($factory) {
+            $app->extend('twig', function (Environment $twig) use ($factory) {
                 $twig->addExtension($factory->createContentfulTwigExtension());
                 $twig->addExtension($factory->getMarkdownTwigExtension());
 

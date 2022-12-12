@@ -2,11 +2,11 @@
 
 namespace FondOfSpryker\Yves\Contentful\Renderer\Navigation;
 
-use FondOfSpryker\Shared\Contentful\Renderer\AbstractRenderer;
+use FondOfSpryker\Shared\Contentful\Renderer\AbstractYvesRenderer;
+use FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface;
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
-use Spryker\Shared\Kernel\Communication\Application;
 
-class NavigationRenderer extends AbstractRenderer
+class NavigationRenderer extends AbstractYvesRenderer
 {
     protected const RENDERER_TYPE = 'Navigation';
 
@@ -16,12 +16,12 @@ class NavigationRenderer extends AbstractRenderer
     private $navigationMapper;
 
     /**
-     * @param \Spryker\Shared\Kernel\Communication\Application $application
+     * @param \FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface $twigRenderer
      * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\NavigationMapperInterface $navigationMapper
      */
-    public function __construct(Application $application, NavigationMapperInterface $navigationMapper)
+    public function __construct(ContentfulToRendererInterface $twigRenderer, NavigationMapperInterface $navigationMapper)
     {
-        parent::__construct($application);
+        parent::__construct($twigRenderer);
         $this->navigationMapper = $navigationMapper;
     }
 

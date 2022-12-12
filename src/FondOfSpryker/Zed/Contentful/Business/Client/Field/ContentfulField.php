@@ -67,7 +67,7 @@ class ContentfulField implements ContentfulFieldInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getLinkType(): ?string
     {
@@ -75,7 +75,7 @@ class ContentfulField implements ContentfulFieldInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getItemsLinkType(): ?string
     {

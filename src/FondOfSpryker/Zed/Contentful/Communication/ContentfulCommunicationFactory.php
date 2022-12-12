@@ -6,29 +6,34 @@ use Aptoma\Twig\Extension\MarkdownExtension;
 use FondOfSpryker\Client\Contentful\ContentfulClientInterface;
 use FondOfSpryker\Shared\Contentful\Builder\Builder;
 use FondOfSpryker\Shared\Contentful\Builder\BuilderInterface;
-use FondOfSpryker\Shared\Contentful\Renderer\DefaultRenderer;
 use FondOfSpryker\Shared\Contentful\Renderer\RendererInterface;
+use FondOfSpryker\Shared\Contentful\Renderer\ZedRenderer;
 use FondOfSpryker\Shared\Contentful\Twig\ContentfulTwigExtension;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatter;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
 use FondOfSpryker\Zed\Contentful\ContentfulDependencyProvider;
-use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToEventBehaviorFacadeInterface;
+use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToLocaleFacadeInterface;
+use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToStoreFacadeInterface;
+use FondOfSpryker\Zed\Contentful\Dependency\Renderer\ContentfulToRendererInterface;
+use Generated\Shared\Transfer\StoreTransfer;
 use Spryker\Client\Store\StoreClientInterface;
-use Spryker\Shared\Kernel\Communication\Application;
 use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
 
 /**
  * @method \FondOfSpryker\Zed\Contentful\ContentfulConfig getConfig()
  * @method \FondOfSpryker\Zed\Contentful\Business\ContentfulFacadeInterface getFacade()
+ * @method \FondOfSpryker\Zed\Contentful\Persistence\ContentfulRepositoryInterface getRepository()
  */
 class ContentfulCommunicationFactory extends AbstractCommunicationFactory
 {
     /**
      * @return \FondOfSpryker\Shared\Contentful\Twig\ContentfulTwigExtension
+     *
+     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function createContentfulTwigExtension(): ContentfulTwigExtension
     {
-        return new ContentfulTwigExtension($this->createBuilder(), $this->createUrlFormatter(), $this->getApplication()['locale']);
+        return new ContentfulTwigExtension($this->createBuilder(), $this->createUrlFormatter(), $this->getLocaleFacade()->getCurrentLocale()->getLocaleName());
     }
 
     /**
@@ -72,19 +77,29 @@ class ContentfulCommunicationFactory extends AbstractCommunicationFactory
     }
 
     /**
+     * @return \Generated\Shared\Transfer\StoreTransfer
+     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
+     */
+    public function getStore(): StoreTransfer
+    {
+        return $this->getStoreFacade()->getCurrentStore();
+    }
+
+    /**
      * @return \FondOfSpryker\Shared\Contentful\Renderer\RendererInterface
      */
     protected function createDefaultRenderer(): RendererInterface
     {
-        return new DefaultRenderer($this->getApplication());
+        return new ZedRenderer($this->getTwigRenderer());
     }
 
     /**
-     * @return \Spryker\Shared\Kernel\Communication\Application
+     * @return \FondOfSpryker\Zed\Contentful\Dependency\Renderer\ContentfulToRendererInterface
+     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
-    public function getApplication(): Application
+    public function getTwigRenderer(): ContentfulToRendererInterface
     {
-        return $this->getProvidedDependency(ContentfulDependencyProvider::PLUGIN_APPLICATION);
+        return $this->getProvidedDependency(ContentfulDependencyProvider::RENDERER);
     }
 
     /**
@@ -96,10 +111,22 @@ class ContentfulCommunicationFactory extends AbstractCommunicationFactory
     }
 
     /**
-     * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToEventBehaviorFacadeInterface
+     * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToLocaleFacadeInterface
+     *
+     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
-    public function getEventBehaviourFacade(): ContentfulToEventBehaviorFacadeInterface
+    public function getLocaleFacade(): ContentfulToLocaleFacadeInterface
     {
-        return $this->getProvidedDependency(ContentfulDependencyProvider::FACADE_EVENT_BEHAVIOUR);
+        return $this->getProvidedDependency(ContentfulDependencyProvider::FACADE_LOCALE);
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToStoreFacadeInterface
+     *
+     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
+     */
+    public function getStoreFacade(): ContentulToStoreFacadeInterface
+    {
+        return $this->getProvidedDependency(ContentfulDependencyProvider::FACADE_STORE);
     }
 }

@@ -2,14 +2,14 @@
 
 namespace FondOfSpryker\Zed\Contentful\Persistence;
 
-interface ContentfulEntryQueryContainerInterface
+interface ContentfulQueryContainerInterface
 {
     /**
      * @param string $contentfulEntryId
      *
-     * @return \Orm\Zed\ContentfulPage\Persistence\FosContentfulEntry|null
+     * @return mixed
      */
-    public function queryContentfulEntryByEntryId(string $contentfulEntryId): ?FosContentfulEntry;
+    public function queryContentfulEntryByEntryId(string $contentfulEntryId);
 
     /**
      * @param array $contentfulEntryIds

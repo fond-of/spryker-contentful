@@ -27,7 +27,7 @@ class NavigationItemCategoryMapper implements NavigationItemMapperInterface
     public function createNavigationItem(array $navigation): NavigationItemInterface
     {
         $customText = '';
-        if (\array_key_exists(static::KEY_CUSTOM_TEXT, $navigation)) {
+        if (array_key_exists(static::KEY_CUSTOM_TEXT, $navigation)) {
             $customText = $navigation[static::KEY_CUSTOM_TEXT];
         }
 
@@ -43,10 +43,10 @@ class NavigationItemCategoryMapper implements NavigationItemMapperInterface
      */
     public function isNavigationItemArrayValid(array $navigation): bool
     {
-        if (!\array_key_exists(static::KEY_CATEGORY_ID, $navigation)) {
+        if (!array_key_exists(static::KEY_CATEGORY_ID, $navigation)) {
             return false;
         }
 
-        return \is_numeric($navigation[static::KEY_CATEGORY_ID]);
+        return is_numeric($navigation[static::KEY_CATEGORY_ID]);
     }
 }

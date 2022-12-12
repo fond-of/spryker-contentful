@@ -4,7 +4,7 @@ namespace FondOfSpryker\Shared\Contentful\Renderer;
 
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 
-class DefaultRenderer extends AbstractRenderer
+class DefaultRenderer extends AbstractYvesRenderer
 {
     protected const RENDERER_TYPE_DEFAULT = 'defaultRenderer';
 

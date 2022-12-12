@@ -39,11 +39,11 @@ class NavigationItemCustomMapper implements NavigationItemMapperInterface
      */
     public function isNavigationItemArrayValid(array $navigation): bool
     {
-        if (\array_key_exists(static::KEY_CUSTOM_TEXT, $navigation) === false) {
+        if (array_key_exists(static::KEY_CUSTOM_TEXT, $navigation) === false) {
             return false;
         }
 
-        if (\array_key_exists(static::KEY_URL, $navigation) === false) {
+        if (array_key_exists(static::KEY_URL, $navigation) === false) {
             return false;
         }
 

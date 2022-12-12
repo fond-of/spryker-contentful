@@ -1,4 +1,5 @@
 <?php
+
 namespace FondOfSpryker\Shared\Contentful\Twig;
 
 use FondOfSpryker\Shared\Contentful\Builder\BuilderInterface;
@@ -12,7 +13,7 @@ class ContentfulTwigExtension extends TwigExtension
     private const IMAGE_MAX_WIDTH = 2000;
 
     /**
-     * @var \FondOfSpryker\Yves\Contentful\Builder\BuilderInterface
+     * @var \FondOfSpryker\Shared\Contentful\Builder\BuilderInterface 
      */
     private $builder;
 
@@ -28,7 +29,7 @@ class ContentfulTwigExtension extends TwigExtension
 
     /**
      * @param \FondOfSpryker\Shared\Contentful\Builder\BuilderInterface $builder
-     * @param \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface|string $urlFormatter
+     * @param \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface $urlFormatter
      * @param string $currentLocale
      */
     public function __construct(BuilderInterface $builder, UrlFormatterInterface $urlFormatter, string $currentLocale)
@@ -39,7 +40,7 @@ class ContentfulTwigExtension extends TwigExtension
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function getFunctions()
     {

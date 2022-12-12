@@ -3,6 +3,7 @@
 namespace FondOfSpryker\Yves\Contentful;
 
 use Aptoma\Twig\Extension\MarkdownExtension;
+use FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface;
 use FondOfSpryker\Shared\Contentful\Builder\Builder;
 use FondOfSpryker\Shared\Contentful\Builder\BuilderInterface;
 use FondOfSpryker\Shared\Contentful\Renderer\DefaultRenderer;
@@ -30,17 +31,12 @@ use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeCollect
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeFactory;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeFactoryInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeMapperInterface;
-use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\BlogCategoryResourceCreator;
-use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\BlogHomeResourceCreator;
-use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\BlogPostResourceCreator;
-use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\BlogTagResourceCreator;
-use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\PageResourceCreator;
-use FondOfSpryker\Yves\Contentful\Router\ResourceCreator\ResourceCreatorInterface;
 use Spryker\Client\CategoryStorage\CategoryStorageClientInterface;
 use Spryker\Client\Search\SearchClientInterface;
 use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Shared\Kernel\Communication\Application;
 use Spryker\Yves\Kernel\AbstractFactory;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * @method \FondOfSpryker\Client\Contentful\ContentfulClientInterface getClient()
@@ -48,8 +44,6 @@ use Spryker\Yves\Kernel\AbstractFactory;
 class ContentfulFactory extends AbstractFactory
 {
     /**
-     * @throws
-     *
      * @return \FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulPageSearchClientInterface
      */
     public function getContentfulPageSearchClient(): ContentfulToContentfulPageSearchClientInterface
@@ -58,11 +52,28 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
+     * @return \FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface
+     * @throws \Spryker\Yves\Kernel\Exception\Container\ContainerKeyNotFoundException
+     */
+    public function getTwigRenderer(): ContentfulToRendererInterface
+    {
+        return $this->getProvidedDependency(ContentfulDependencyProvider::RENDERER);
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\RequestStack
+     */
+    public function getRequestStack(): RequestStack
+    {
+        return $this->getProvidedDependency(ContentfulDependencyProvider::SERVICE_REQUEST_STACK);
+    }
+
+    /**
      * @return \FondOfSpryker\Shared\Contentful\Twig\ContentfulTwigExtension
      */
     public function createContentfulTwigExtension(): ContentfulTwigExtension
     {
-        return new ContentfulTwigExtension($this->createBuilder(), $this->createUrlFormatter(), $this->getApplication()['locale']);
+        return new ContentfulTwigExtension($this->createBuilder(), $this->createUrlFormatter(), $this->getLocale());
     }
 
     /**
@@ -94,30 +105,7 @@ class ContentfulFactory extends AbstractFactory
      */
     protected function createDefaultRenderer(): RendererInterface
     {
-        return new DefaultRenderer($this->getApplication());
-    }
-
-    /**
-     * Called from ContentfulRouter.
-     *
-     * @return \FondOfSpryker\Yves\Contentful\Router\ResourceCreator\ResourceCreatorInterface[]
-     */
-    public function getResourceCreator(): array
-    {
-        return [
-            new BlogHomeResourceCreator(),
-            new BlogCategoryResourceCreator(),
-            new BlogPostResourceCreator(),
-            new BlogTagResourceCreator(),
-        ];
-    }
-
-    /**
-     * @return \FondOfSpryker\Yves\Contentful\Router\ResourceCreator\ResourceCreatorInterface
-     */
-    public function createPageResourceCreator(): ResourceCreatorInterface
-    {
-        return new PageResourceCreator();
+        return new DefaultRenderer($this->getTwigRenderer());
     }
 
     /**
@@ -125,7 +113,7 @@ class ContentfulFactory extends AbstractFactory
      */
     protected function createNavigationRenderer(): RendererInterface
     {
-        return new NavigationRenderer($this->getApplication(), $this->createNavigationMapper());
+        return new NavigationRenderer($this->getTwigRenderer(), $this->createNavigationMapper());
     }
 
     /**
@@ -193,7 +181,7 @@ class ContentfulFactory extends AbstractFactory
      */
     protected function createNavigationNodeFactory(): NavigationNodeFactoryInterface
     {
-        return new NavigationNodeFactory($this->getApplication(), $this->createNavigationNodeCollection(), $this->createNavigationNodeMapper());
+        return new NavigationNodeFactory($this->getRequestStack(), $this->createNavigationNodeCollection(), $this->createNavigationNodeMapper());
     }
 
     /**
@@ -229,12 +217,11 @@ class ContentfulFactory extends AbstractFactory
      */
     protected function createNavigationNodeCategoryMapper(): NavigationNodeMapperInterface
     {
-        $foo = $this->getContentfulPageSearchClient();
-
         return new NavigationNodeCategoryMapper(
             $this->getCategoryStorageClient(),
             $this->getContentfulPageSearchClient(),
-            $this->getApplication()['locale']
+            $this->getLocale(),
+            $this->getStoreClient(),
         );
     }
 
@@ -243,12 +230,10 @@ class ContentfulFactory extends AbstractFactory
      */
     protected function createNavigationNodeContentfulPageMapper(): NavigationNodeMapperInterface
     {
-        return new NavigationNodeContentfulPageMapper($this->getClient(), $this->getApplication()['locale']);
+        return new NavigationNodeContentfulPageMapper($this->getClient(), $this->getLocale());
     }
 
     /**
-     * @throws
-     *
      * @return \Spryker\Client\Store\StoreClientInterface
      */
     public function getStoreClient(): StoreClientInterface
@@ -257,8 +242,6 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @throws
-     *
      * @return \Spryker\Client\CategoryStorage\CategoryStorageClientInterface
      */
     protected function getCategoryStorageClient(): CategoryStorageClientInterface
@@ -267,8 +250,6 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @throws
-     *
      * @return \Aptoma\Twig\Extension\MarkdownExtension
      */
     public function getMarkdownTwigExtension(): MarkdownExtension
@@ -277,18 +258,14 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @throws
-     *
-     * @return \Spryker\Shared\Kernel\Communication\Application
+     * @return string
      */
-    public function getApplication(): Application
+    public function getLocale(): string
     {
-        return $this->getProvidedDependency(ContentfulDependencyProvider::PLUGIN_APPLICATION);
+        return $this->getProvidedDependency(ContentfulDependencyProvider::SERVICE_LOCALE);
     }
 
     /**
-     * @throws
-     *
      * @return \Spryker\Client\Search\SearchClientInterface
      */
     public function getSearchClient(): SearchClientInterface

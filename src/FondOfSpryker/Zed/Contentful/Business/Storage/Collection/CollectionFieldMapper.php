@@ -32,7 +32,7 @@ class CollectionFieldMapper implements TypeFieldMapperInterface
         $field = new CollectionField($contentfulField->getId());
         $fieldValues = $contentfulField->getValue();
 
-        if (\is_array($fieldValues) === false) {
+        if (is_array($fieldValues) === false) {
             return $field;
         }
 

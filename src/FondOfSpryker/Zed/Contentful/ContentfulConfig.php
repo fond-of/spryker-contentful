@@ -44,8 +44,6 @@ class ContentfulConfig extends AbstractBundleConfig
     }
 
     /**
-     * @throws
-     *
      * @return string
      */
     public function getFieldNameActive(): string
@@ -54,8 +52,6 @@ class ContentfulConfig extends AbstractBundleConfig
     }
 
     /**
-     * @throws
-     *
      * @return string
      */
     public function getFieldNameIdentifier(): string

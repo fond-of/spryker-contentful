@@ -72,8 +72,6 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @throws
-     *
      * @return \Spryker\Client\Storage\StorageClientInterface;
      */
     protected function getStorage(): StorageClientInterface

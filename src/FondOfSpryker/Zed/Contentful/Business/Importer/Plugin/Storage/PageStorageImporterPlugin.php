@@ -36,8 +36,6 @@ class PageStorageImporterPlugin extends IdentifierStorageImporterPlugin
     protected $contentfulQuery;
 
     /**
-     * PageStorageImporterPlugin constructor.
-     *
      * @param \Spryker\Shared\KeyBuilder\KeyBuilderInterface $keyBuilder
      * @param \Spryker\Client\Storage\StorageClientInterface $storageClient
      * @param \FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface $urlFormatter
@@ -59,8 +57,6 @@ class PageStorageImporterPlugin extends IdentifierStorageImporterPlugin
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface $contentfulEntry
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
-     *
-     * @throws
      *
      * @return void
      */
@@ -122,6 +118,6 @@ class PageStorageImporterPlugin extends IdentifierStorageImporterPlugin
             $storeLocaleRoutePrefixes[] = $storeRouteLocalePrefix;
         }
 
-        return \array_shift($storeLocaleRoutePrefixes);
+        return array_shift($storeLocaleRoutePrefixes);
     }
 }
