@@ -95,7 +95,7 @@ class Builder implements BuilderInterface
      * @param array $fields
      * @param string $locale
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getFieldsRecursive(array $fields, string $locale): array
     {

@@ -32,6 +32,7 @@ class ContentfulTwigPlugin extends AbstractPlugin implements TwigPluginInterface
      * @var string
      */
     protected const TWIG_FUNCTION_GET_CONTENTFUL_ENTRY = 'getContentfulEntry';
+    
     /**
      * @var string
      */
