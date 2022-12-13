@@ -87,13 +87,14 @@ class Builder implements BuilderInterface
         return json_encode([
             'id' => $response->getId(),
             'content_type' => $response->getContentType(),
-            'fields' => $fields
+            'fields' => $fields,
         ]);
     }
 
     /**
      * @param array $fields
      * @param string $locale
+     *
      * @return string[]
      */
     public function getFieldsRecursive(array $fields, string $locale): array
@@ -116,7 +117,6 @@ class Builder implements BuilderInterface
             }
 
             $field['type'] = $key;
-
         }
 
         return $fields;
