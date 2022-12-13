@@ -6,8 +6,7 @@ suites:
 settings:
   shuffle: true
   lint: true
-
-bootstrap: _bootstrap.php
+  bootstrap: _bootstrap.php
 
 paths:
   tests: tests
@@ -18,7 +17,7 @@ paths:
 coverage:
   enabled: true
   include:
-    - src/*.php
+    - src/FondOfSpryker/*.php
 
 modules:
   enabled:
@@ -37,4 +36,3 @@ env:
           generate_transfer: true
           generate_map_classes: true
           generate_propel_classes: true
-  monorepo:
