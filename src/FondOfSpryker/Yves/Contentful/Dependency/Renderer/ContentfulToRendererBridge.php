@@ -2,8 +2,6 @@
 
 namespace FondOfSpryker\Yves\Contentful\Dependency\Renderer;
 
-use Generated\Shared\Transfer\LocaleTransfer;
-use Spryker\Zed\Glossary\Communication\Plugin\TwigTranslatorPlugin;
 use Twig\Environment;
 
 class ContentfulToRendererBridge implements ContentfulToRendererInterface

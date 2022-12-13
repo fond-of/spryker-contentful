@@ -2,8 +2,6 @@
 
 namespace FondOfSpryker\Yves\Contentful\Dependency\Renderer;
 
-use Generated\Shared\Transfer\LocaleTransfer;
-
 interface ContentfulToRendererInterface
 {
     /**
