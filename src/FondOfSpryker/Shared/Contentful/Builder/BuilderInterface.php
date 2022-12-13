@@ -21,4 +21,12 @@ interface BuilderInterface
      * @return array<string>
      */
     public function getContentfulEntry(string $entryId, string $locale, array $options = []): array;
+
+    /**
+     * @param string $entryId
+     * @param string $locale
+     *
+     * @return string
+     */
+    public function getContentfulEntryRecursive(string $entryId, string $locale): string;
 }

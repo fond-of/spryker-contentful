@@ -32,6 +32,7 @@ class ContentfulTwigPlugin extends AbstractPlugin implements TwigPluginInterface
      * @var string
      */
     protected const TWIG_FUNCTION_GET_CONTENTFUL_ENTRY = 'getContentfulEntry';
+    protected const TWIG_FUNCTION_GET_CONTENTFUL_ENTRY_RECURSIVE = 'getContentfulEntryRecursive';
 
     /**
      * @var string
@@ -159,6 +160,20 @@ class ContentfulTwigPlugin extends AbstractPlugin implements TwigPluginInterface
             return $this
                 ->getFactory()
                 ->createContentfulTwigExtension()->getContentfulEntry($entryId, $options, $locale);
+        });
+    }
+
+    /**
+     * @param \Twig\Environment $twig
+     *
+     * @return \Twig\TwigFunction
+     */
+    protected function createGetContentfulEntryRecursiveFunction(Environment $twig): TwigFunction
+    {
+        return new TwigFunction(static::TWIG_FUNCTION_GET_CONTENTFUL_ENTRY_RECURSIVE, function (string $entryId, ?string $locale = null) {
+            return $this
+                ->getFactory()
+                ->createContentfulTwigExtension()->getContentfulEntryRecursive($entryId, $locale);
         });
     }
 
