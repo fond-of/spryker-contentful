@@ -7,12 +7,12 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
     /**
      * @var string
      */
-    private const KEY_CHILDREN = 'children';
+    protected const KEY_CHILDREN = 'children';
 
     /**
      * @var string
      */
-    private const KEY_TYPE = 'type';
+    protected const KEY_TYPE = 'type';
 
     /**
      * @var array<\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemMapperInterface>
@@ -35,7 +35,7 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
     }
 
     /**
-     * @param array<string> $navigation
+     * @param array<<array<string>> $navigation
      *
      * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemCollectionInterface
      */

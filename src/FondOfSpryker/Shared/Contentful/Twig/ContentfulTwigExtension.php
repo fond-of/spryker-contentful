@@ -13,7 +13,7 @@ class ContentfulTwigExtension extends TwigExtension
     /**
      * @var int
      */
-    private const IMAGE_MAX_WIDTH = 2000;
+    protected const IMAGE_MAX_WIDTH = 2000;
 
     /**
      * @var \FondOfSpryker\Shared\Contentful\Builder\BuilderInterface
