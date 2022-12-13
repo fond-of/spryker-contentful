@@ -6,6 +6,9 @@ use Contentful\Delivery\Resource\Asset;
 
 class CollectionAssetField implements CollectionFieldInterface
 {
+    /**
+     * @var string
+     */
     public const TYPE = 'Asset';
 
     /**
@@ -22,7 +25,7 @@ class CollectionAssetField implements CollectionFieldInterface
     }
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     public function getAsset(): array
     {
@@ -42,7 +45,7 @@ class CollectionAssetField implements CollectionFieldInterface
     }
 
     /**
-     * @return mixed[]
+     * @return array<mixed>
      */
     public function jsonSerialize(): array
     {

@@ -13,6 +13,9 @@ use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
 class PageStorageImporterPlugin extends IdentifierStorageImporterPlugin
 {
+    /**
+     * @var string
+     */
     public const CONTENT_TYPE_ID = 'page';
 
     /**

@@ -24,7 +24,7 @@ class EntryStorageImporterPlugin extends AbstractStorageImporterPlugin
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryInterface $entry
      * @param string $locale
      *
-     * @return string[]
+     * @return array<string>
      */
     protected function createStorageValue(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): array
     {

@@ -7,7 +7,7 @@ interface BuilderInterface
     /**
      * @param string $entryId
      * @param string $locale
-     * @param string[] $additionalParameters
+     * @param array<string> $additionalParameters
      *
      * @return string
      */
@@ -16,9 +16,9 @@ interface BuilderInterface
     /**
      * @param string $entryId
      * @param string $locale
-     * @param string[] $options
+     * @param array<string> $options
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getContentfulEntry(string $entryId, string $locale, array $options = []): array;
 }

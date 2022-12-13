@@ -29,7 +29,7 @@ class ContentfulTwigServiceProvider extends AbstractPlugin implements ServicePro
                 $twig->addExtension($factory->getMarkdownTwigExtension());
 
                 return $twig;
-            })
+            }),
         );
     }
 

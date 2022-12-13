@@ -1,0 +1,7 @@
+parameters:
+    level: 5
+    reportUnmatchedIgnoredErrors: false
+    scanDirectories:
+        - src/Orm/Zed
+    ignoreErrors:
+        - '#.* on an unknown class Generated\\(Client|Glue|Service|Yves|Zed)\\.*#'

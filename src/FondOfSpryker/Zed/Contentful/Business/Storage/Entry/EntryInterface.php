@@ -19,7 +19,7 @@ interface EntryInterface extends JsonSerializable
     public function getContentType(): string;
 
     /**
-     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface[]
+     * @return array<\FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface>
      */
     public function getFields(): array;
 

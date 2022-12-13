@@ -4,6 +4,9 @@ namespace FondOfSpryker\Zed\Contentful\Business\Storage\Collection;
 
 class CollectionTextField implements CollectionFieldInterface
 {
+    /**
+     * @var string
+     */
     public const TYPE = 'Text';
 
     /**
@@ -36,7 +39,7 @@ class CollectionTextField implements CollectionFieldInterface
     }
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     public function jsonSerialize(): array
     {

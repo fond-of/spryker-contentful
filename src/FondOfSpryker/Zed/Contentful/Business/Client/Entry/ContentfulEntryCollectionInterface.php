@@ -5,12 +5,12 @@ namespace FondOfSpryker\Zed\Contentful\Business\Client\Entry;
 interface ContentfulEntryCollectionInterface
 {
     /**
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface[]
+     * @return array<\FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface>
      */
     public function getAll(): array;
 
     /**
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface[] $contentfulEntries
+     * @param array<\FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface> $contentfulEntries
      *
      * @return void
      */

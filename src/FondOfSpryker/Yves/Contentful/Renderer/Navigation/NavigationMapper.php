@@ -9,6 +9,9 @@ use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 
 class NavigationMapper implements NavigationMapperInterface
 {
+    /**
+     * @var string
+     */
     private const FIELD_NAME_JSON_NAVIGATION = 'items';
 
     /**
@@ -45,9 +48,9 @@ class NavigationMapper implements NavigationMapperInterface
     }
 
     /**
-     * @param string[] $fields
+     * @param array<string> $fields
      *
-     * @return string[]
+     * @return array<string>
      */
     protected function extractNavigationJsonArray(array $fields): array
     {

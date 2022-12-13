@@ -17,7 +17,7 @@ interface NavigationNodeInterface
     public function addChild(NavigationNodeInterface $node): void;
 
     /**
-     * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeInterface[]
+     * @return array<\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeInterface>
      */
     public function getChildren(): array;
 

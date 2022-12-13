@@ -6,6 +6,9 @@ use FondOfSpryker\Zed\Contentful\Business\Storage\Field\AbstractField;
 
 class BooleanField extends AbstractField
 {
+    /**
+     * @var string
+     */
     public const TYPE = 'Boolean';
 
     /**
@@ -40,7 +43,7 @@ class BooleanField extends AbstractField
     }
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     public function jsonSerialize(): array
     {

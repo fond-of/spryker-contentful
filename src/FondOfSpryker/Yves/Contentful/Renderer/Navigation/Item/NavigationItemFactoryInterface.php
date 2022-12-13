@@ -5,7 +5,7 @@ namespace FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item;
 interface NavigationItemFactoryInterface
 {
     /**
-     * @param string[] $navigationItemsArray
+     * @param array<string> $navigationItemsArray
      *
      * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemCollectionInterface
      */

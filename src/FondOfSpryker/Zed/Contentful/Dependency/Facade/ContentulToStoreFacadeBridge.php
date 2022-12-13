@@ -13,9 +13,7 @@ class ContentulToStoreFacadeBridge implements ContentulToStoreFacadeInterface
     protected $storeFacade;
 
     /**
-     * ContentulToStoreFacadeBridge constructor.
-     *
-     * @param  \Spryker\Zed\Store\Business\StoreFacadeInterface  $storeFacade
+     * @param \Spryker\Zed\Store\Business\StoreFacadeInterface $storeFacade
      */
     public function __construct(StoreFacadeInterface $storeFacade)
     {

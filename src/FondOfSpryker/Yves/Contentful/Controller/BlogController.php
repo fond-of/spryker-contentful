@@ -38,7 +38,7 @@ class BlogController extends AbstractController
                 'blogPosts' => $searchResults['results'],
                 'pagination' => $searchResults['pagination'],
                 'paginationPath' => $request->getPathInfo(),
-            ]
+            ],
         ));
     }
 
@@ -72,7 +72,7 @@ class BlogController extends AbstractController
                 'blogPosts' => $searchResults['results'],
                 'pagination' => $searchResults['pagination'],
                 'paginationPath' => $request->getPathInfo(),
-            ]
+            ],
         ));
     }
 
@@ -102,7 +102,7 @@ class BlogController extends AbstractController
                 'blogPosts' => $searchResults['results'],
                 'pagination' => $searchResults['pagination'],
                 'paginationPath' => $request->getPathInfo(),
-            ]
+            ],
         ));
     }
 }

@@ -17,16 +17,56 @@ use Spryker\Zed\Kernel\Container;
 
 class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
 {
+    /**
+     * @var string
+     */
     public const TWIG_MARKDOWN = 'TWIG_MARKDOWN';
+
+    /**
+     * @var string
+     */
     public const STORAGE_CLIENT = 'STORAGE_CLIENT';
+
+    /**
+     * @var string
+     */
     public const FACADE_LOCALE = 'FACADE_LOCALE';
+
+    /**
+     * @var string
+     */
     public const FACADE_STORE = 'FACADE_STORE';
+
+    /**
+     * @var string
+     */
     public const CLIENT_STORE = 'CLIENT_STORE';
+
+    /**
+     * @var string
+     */
     public const CLIENT = 'CLIENT';
+
+    /**
+     * @var string
+     */
     public const CONTENTFUL_STORAGE_FACADE = 'CONTENTFUL_STORAGE_FACADE';
+
+    /**
+     * @var string
+     */
     public const CONTENTFUL_PAGE_SEARCH_FACADE = 'CONTENTFUL_PAGE_SEARCH_FACADE';
+
+    /**
+     * @var string
+     */
     public const FACADE_EVENT_BEHAVIOUR = 'FACADE_EVENT_BEHAVIOUR';
+
+    /**
+     * @var string
+     */
     public const STORE = 'STORE';
+
     /**
      * @var string
      */
@@ -139,7 +179,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container[static::CONTENTFUL_STORAGE_FACADE] = function (Container $container) {
             return new ContentfulToContentfulStorageFacadeBridge(
-                $container->getLocator()->contentfulStorage()->facade()
+                $container->getLocator()->contentfulStorage()->facade(),
             );
         };
 
@@ -155,7 +195,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container[static::CONTENTFUL_PAGE_SEARCH_FACADE] = function (Container $container) {
             return new ContentulToContentfulPageSearchBridge(
-                $container->getLocator()->contentfulPageSearch()->facade()
+                $container->getLocator()->contentfulPageSearch()->facade(),
             );
         };
 
@@ -171,7 +211,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container[static::FACADE_EVENT_BEHAVIOUR] = function (Container $container) {
             return new ContentfulToEventBehaviorFacadeBridge(
-                $container->getLocator()->eventBehavior()->facade()
+                $container->getLocator()->eventBehavior()->facade(),
             );
         };
 
@@ -187,7 +227,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container[static::FACADE_LOCALE] = function (Container $container) {
             return new ContentfulToLocaleFacadeBridge(
-                $container->getLocator()->locale()->facade()
+                $container->getLocator()->locale()->facade(),
             );
         };
 
@@ -203,7 +243,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container[static::FACADE_STORE] = function (Container $container) {
             return new ContentulToStoreFacadeBridge(
-                $container->getLocator()->store()->facade()
+                $container->getLocator()->store()->facade(),
             );
         };
 
@@ -223,8 +263,6 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
 
         return $container;
     }
-
-
 
     /**
      * @param \Spryker\Zed\Kernel\Container $container

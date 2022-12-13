@@ -2,10 +2,8 @@
 
 namespace FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node;
 
-use FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemCollectionInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface;
-use Spryker\Shared\Kernel\Communication\Application;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class NavigationNodeFactory implements NavigationNodeFactoryInterface
@@ -21,7 +19,7 @@ class NavigationNodeFactory implements NavigationNodeFactoryInterface
     private $collection;
 
     /**
-     * @var \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeMapperInterface[]
+     * @var array<\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeMapperInterface>
      */
     private $mapper;
 

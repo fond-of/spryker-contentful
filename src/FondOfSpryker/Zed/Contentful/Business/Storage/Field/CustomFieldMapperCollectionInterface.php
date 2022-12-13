@@ -12,7 +12,7 @@ interface CustomFieldMapperCollectionInterface
     public function add(CustomFieldMapperInterface $customFieldMapper): void;
 
     /**
-     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\CustomFieldMapperInterface[]
+     * @return array<\FondOfSpryker\Zed\Contentful\Business\Storage\Field\CustomFieldMapperInterface>
      */
     public function getAll(): array;
 }

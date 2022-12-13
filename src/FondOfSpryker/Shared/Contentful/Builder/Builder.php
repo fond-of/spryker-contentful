@@ -20,13 +20,13 @@ class Builder implements BuilderInterface
     protected $defaultRenderer;
 
     /**
-     * @var \FondOfSpryker\Shared\Contentful\Renderer\RendererInterface[]
+     * @var array<\FondOfSpryker\Shared\Contentful\Renderer\RendererInterface>
      */
     protected $renderer;
 
     /**
      * @param \FondOfSpryker\Client\Contentful\ContentfulClientInterface $client
-     * @param \FondOfSpryker\Shared\Contentful\Renderer\RendererInterface[] $renderer
+     * @param array<\FondOfSpryker\Shared\Contentful\Renderer\RendererInterface> $renderer
      * @param \FondOfSpryker\Shared\Contentful\Renderer\RendererInterface $defaultRenderer
      */
     public function __construct(ContentfulClientInterface $client, array $renderer, RendererInterface $defaultRenderer)
@@ -39,7 +39,7 @@ class Builder implements BuilderInterface
     /**
      * @param string $entryId
      * @param string $locale
-     * @param string[] $additionalParameters
+     * @param array<string> $additionalParameters
      *
      * @return string
      */
@@ -58,9 +58,9 @@ class Builder implements BuilderInterface
      *
      * @param string $entryId
      * @param string $locale
-     * @param string[] $options
+     * @param array<string> $options
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getContentfulEntry(string $entryId, string $locale, array $options = []): array
     {

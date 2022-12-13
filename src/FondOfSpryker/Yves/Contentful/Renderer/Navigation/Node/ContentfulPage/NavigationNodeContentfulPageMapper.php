@@ -87,7 +87,7 @@ class NavigationNodeContentfulPageMapper implements NavigationNodeMapperInterfac
     protected function getContentfulNavigationUrlByEntryId(NavigationItemContentfulPage $item): ContentfulNavigationUrlResponseTransfer
     {
         $request = $this->createContentfulNavigationUrlRequest($item->getEntryId());
-        
+
         return $this->getContentfulNavigationUrlBy($request);
     }
 

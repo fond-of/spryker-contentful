@@ -4,22 +4,29 @@ namespace FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item;
 
 class NavigationItemFactory implements NavigationItemFactoryInterface
 {
+    /**
+     * @var string
+     */
     private const KEY_CHILDREN = 'children';
+
+    /**
+     * @var string
+     */
     private const KEY_TYPE = 'type';
 
     /**
-     * @var \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemMapperInterface[]
+     * @var array<\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemMapperInterface>
      */
     private $mapper;
 
     /**
-     * @var \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemCollectionInterface 
+     * @var \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemCollectionInterface
      */
     private $collection;
 
     /**
      * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemCollectionInterface $collection
-     * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemMapperInterface[] $mapper
+     * @param array<\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemMapperInterface> $mapper
      */
     public function __construct(NavigationItemCollectionInterface $collection, array $mapper)
     {
@@ -28,7 +35,7 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
     }
 
     /**
-     * @param string[] $navigation
+     * @param array<string> $navigation
      *
      * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemCollectionInterface
      */
@@ -49,7 +56,7 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
     }
 
     /**
-     * @param string[] $navigation
+     * @param array<string> $navigation
      *
      * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface|null
      */
@@ -93,7 +100,7 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
     }
 
     /**
-     * @param string[] $navigation
+     * @param array<string> $navigation
      *
      * @return bool
      */
@@ -103,7 +110,7 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
     }
 
     /**
-     * @param string[] $navigation
+     * @param array<string> $navigation
      *
      * @return string
      */
@@ -113,7 +120,7 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
     }
 
     /**
-     * @param string[] $navigation
+     * @param array<string> $navigation
      *
      * @return bool
      */
@@ -125,9 +132,9 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
     }
 
     /**
-     * @param string[] $navigation
+     * @param array<string> $navigation
      *
-     * @return string[]
+     * @return array<string>
      */
     protected function getChildren(array $navigation): array
     {

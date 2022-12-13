@@ -17,7 +17,7 @@ class NavigationItemCustom implements NavigationItemInterface
     protected $customText;
 
     /**
-     * @var \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface[]
+     * @var array<\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface>
      */
     private $children = [];
 
@@ -40,7 +40,7 @@ class NavigationItemCustom implements NavigationItemInterface
     }
 
     /**
-     * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface[]
+     * @return array<\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface>
      */
     public function getChildren(): array
     {

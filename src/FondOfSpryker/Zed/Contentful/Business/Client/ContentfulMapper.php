@@ -78,7 +78,7 @@ class ContentfulMapper implements ContentfulMapperInterface
     /**
      * @param \Contentful\Delivery\Resource\Entry $entry
      *
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface[]
+     * @return array<\FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface>
      */
     protected function createContentfulFields(Entry $entry): array
     {

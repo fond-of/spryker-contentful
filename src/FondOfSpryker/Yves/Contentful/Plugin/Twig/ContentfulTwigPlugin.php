@@ -13,10 +13,30 @@ use Twig\TwigFunction;
  */
 class ContentfulTwigPlugin extends AbstractPlugin implements TwigPluginInterface
 {
+    /**
+     * @var string
+     */
     protected const TWIG_FUNCTION_CONTENTFUL_ENTRY = 'contentfulEntry';
+
+    /**
+     * @var string
+     */
     protected const TWIG_FUNCTION_CONTENTFUL_URL = 'contentfulUrl';
+
+    /**
+     * @var string
+     */
     protected const TWIG_FUNCTION_CONTENTFUL_IMAGE = 'contentfulImage';
+
+    /**
+     * @var string
+     */
     protected const TWIG_FUNCTION_GET_CONTENTFUL_ENTRY = 'getContentfulEntry';
+
+    /**
+     * @var string
+     */
+    protected const TWIG_FUNCTION_GET_CONTENTFUL_ENTRY_RECURSIVE = 'getContentfulEntryRecursive';
 
     /**
      * {@inheritDoc}
@@ -48,6 +68,7 @@ class ContentfulTwigPlugin extends AbstractPlugin implements TwigPluginInterface
         $twig->addFunction($this->createContentfulUrlFunction($twig));
         $twig->addFunction($this->createContentfulImageFunction($twig));
         $twig->addFunction($this->createGetContentfulEntryFunction($twig));
+        $twig->addFunction($this->createGetContentfulEntryRecursiveFunction($twig));
 
         return $twig;
     }
@@ -92,7 +113,7 @@ class ContentfulTwigPlugin extends AbstractPlugin implements TwigPluginInterface
             },
             [
                 'is_safe' => ['html'],
-            ]
+            ],
         );
     }
 
@@ -123,7 +144,7 @@ class ContentfulTwigPlugin extends AbstractPlugin implements TwigPluginInterface
                 return $this
                     ->getFactory()
                     ->createContentfulTwigExtension()->resizeContentfulImage($url, $width, $height);
-            }
+            },
         );
     }
 

@@ -28,8 +28,6 @@ class ContentfulCommunicationFactory extends AbstractCommunicationFactory
 {
     /**
      * @return \FondOfSpryker\Shared\Contentful\Twig\ContentfulTwigExtension
-     *
-     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function createContentfulTwigExtension(): ContentfulTwigExtension
     {
@@ -69,7 +67,7 @@ class ContentfulCommunicationFactory extends AbstractCommunicationFactory
     }
 
     /**
-     * @return \FondOfSpryker\Shared\Contentful\Renderer\RendererInterface[]
+     * @return array<\FondOfSpryker\Shared\Contentful\Renderer\RendererInterface>
      */
     protected function getRenderer(): array
     {
@@ -78,7 +76,6 @@ class ContentfulCommunicationFactory extends AbstractCommunicationFactory
 
     /**
      * @return \Generated\Shared\Transfer\StoreTransfer
-     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function getStore(): StoreTransfer
     {
@@ -95,7 +92,6 @@ class ContentfulCommunicationFactory extends AbstractCommunicationFactory
 
     /**
      * @return \FondOfSpryker\Zed\Contentful\Dependency\Renderer\ContentfulToRendererInterface
-     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function getTwigRenderer(): ContentfulToRendererInterface
     {
@@ -112,8 +108,6 @@ class ContentfulCommunicationFactory extends AbstractCommunicationFactory
 
     /**
      * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToLocaleFacadeInterface
-     *
-     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function getLocaleFacade(): ContentfulToLocaleFacadeInterface
     {
@@ -122,8 +116,6 @@ class ContentfulCommunicationFactory extends AbstractCommunicationFactory
 
     /**
      * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToStoreFacadeInterface
-     *
-     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function getStoreFacade(): ContentulToStoreFacadeInterface
     {

@@ -6,6 +6,9 @@ use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 
 class DefaultRenderer extends AbstractYvesRenderer
 {
+    /**
+     * @var string
+     */
     protected const RENDERER_TYPE_DEFAULT = 'defaultRenderer';
 
     /**
@@ -18,9 +21,9 @@ class DefaultRenderer extends AbstractYvesRenderer
 
     /**
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
-     * @param string[] $additionalPlaceholders
+     * @param array<string> $additionalPlaceholders
      *
-     * @return string[]
+     * @return array<string>
      */
     protected function getPlaceholders(ContentfulEntryResponseTransfer $response, array $additionalPlaceholders = []): array
     {

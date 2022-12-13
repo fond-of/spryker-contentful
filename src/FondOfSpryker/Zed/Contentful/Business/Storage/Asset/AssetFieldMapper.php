@@ -30,8 +30,11 @@ class AssetFieldMapper implements TypeFieldMapperInterface
      *
      * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface
      */
-    public function createField(ContentfulEntryInterface $contentfulEntry, ContentfulFieldInterface $contentfulField, FieldMapperLocatorInterface $mapperLocator): FieldInterface
-    {
+    public function createField(
+        ContentfulEntryInterface $contentfulEntry,
+        ContentfulFieldInterface $contentfulField,
+        FieldMapperLocatorInterface $mapperLocator
+    ): FieldInterface {
         if ($contentfulField instanceof ContentfulAssetInterface) {
             return new AssetField($contentfulField->getId(), $contentfulField->getValue(), $contentfulField->getTitle(), $contentfulField->getDescription());
         }

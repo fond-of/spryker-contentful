@@ -6,6 +6,9 @@ use FondOfSpryker\Zed\Contentful\Business\Storage\Field\AbstractField;
 
 class AssetField extends AbstractField
 {
+    /**
+     * @var string
+     */
     public const TYPE = 'Asset';
 
     /**
@@ -70,7 +73,7 @@ class AssetField extends AbstractField
     }
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     public function jsonSerialize(): array
     {

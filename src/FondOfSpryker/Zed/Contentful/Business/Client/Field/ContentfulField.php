@@ -6,12 +6,39 @@ use Contentful\Delivery\Resource\ContentType\Field;
 
 class ContentfulField implements ContentfulFieldInterface
 {
+    /**
+     * @var string
+     */
     public const FIELD_TYPE_LINK = 'Link';
+
+    /**
+     * @var string
+     */
     public const FIELD_TYPE_ASSET = 'Asset';
+
+    /**
+     * @var string
+     */
     public const FIELD_TYPE_TEXT = 'Text';
+
+    /**
+     * @var string
+     */
     public const FIELD_TYPE_BOOLEAN = 'Boolean';
+
+    /**
+     * @var string
+     */
     public const FIELD_TYPE_ENTRY = 'Entry';
+
+    /**
+     * @var string
+     */
     public const FIELD_TYPE_OBJECT = 'Object';
+
+    /**
+     * @var string
+     */
     public const FIELD_TYPE_ARRAY = 'Array';
 
     /**

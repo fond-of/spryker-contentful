@@ -5,7 +5,7 @@ namespace FondOfSpryker\Zed\Contentful\Business\Client\Entry;
 class ContentfulEntryCollection implements ContentfulEntryCollectionInterface
 {
     /**
-     * @var \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface[]
+     * @var array<\FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface>
      */
     private $entries;
 
@@ -15,7 +15,7 @@ class ContentfulEntryCollection implements ContentfulEntryCollectionInterface
     }
 
     /**
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface[]
+     * @return array<\FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface>
      */
     public function getAll(): array
     {
@@ -23,7 +23,7 @@ class ContentfulEntryCollection implements ContentfulEntryCollectionInterface
     }
 
     /**
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface[] $contentfulEntries
+     * @param array<\FondOfSpryker\Zed\Contentful\Business\Client\Entry\ContentfulEntryInterface> $contentfulEntries
      *
      * @return void
      */

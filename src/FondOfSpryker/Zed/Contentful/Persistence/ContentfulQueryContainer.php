@@ -9,6 +9,9 @@ use Spryker\Zed\Kernel\Persistence\AbstractQueryContainer;
  */
 class ContentfulQueryContainer extends AbstractQueryContainer implements ContentfulQueryContainerInterface
 {
+    /**
+     * @var string
+     */
     protected const COL_CONTENTFUL_ENTRY_ID = 'entryId';
 
     /**

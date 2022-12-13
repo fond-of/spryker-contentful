@@ -27,7 +27,7 @@ interface ContentfulClientInterface
      * @param string $url
      * @param string $localeName
      *
-     * @return string[]|null
+     * @return array<string>|null
      */
     public function matchUrl(string $url, string $localeName): ?array;
 }

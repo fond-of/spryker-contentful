@@ -19,7 +19,7 @@ class Entry implements EntryInterface
     private $contentType;
 
     /**
-     * @var \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface[]
+     * @var array<\FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface>
      */
     private $fields;
 
@@ -57,7 +57,7 @@ class Entry implements EntryInterface
     }
 
     /**
-     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface[]
+     * @return array<\FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface>
      */
     public function getFields(): array
     {
@@ -99,7 +99,7 @@ class Entry implements EntryInterface
     }
 
     /**
-     * @return \DateTimeInterface
+     * @return DateTimeInterface
      */
     public function getModifiedAt(): DateTimeInterface
     {
@@ -107,7 +107,7 @@ class Entry implements EntryInterface
     }
 
     /**
-     * @param \DateTimeInterface $modifiedAt
+     * @param DateTimeInterface $modifiedAt
      *
      * @return void
      */
@@ -117,7 +117,7 @@ class Entry implements EntryInterface
     }
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     public function jsonSerialize()
     {

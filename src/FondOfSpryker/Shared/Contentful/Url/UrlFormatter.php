@@ -12,7 +12,7 @@ class UrlFormatter implements UrlFormatterInterface
     private $storeClient;
 
     /**
-     * @var string[]
+     * @var array<string>
      */
     private $availableLocaleIsoCodesForCurrentStore;
 
@@ -79,7 +79,7 @@ class UrlFormatter implements UrlFormatterInterface
      */
     protected function canIFormat(string $url): bool
     {
-        if (empty($url)) {
+        if (!$url) {
             return false;
         }
 
@@ -193,7 +193,7 @@ class UrlFormatter implements UrlFormatterInterface
     /**
      * @param string $path
      *
-     * @return string[]
+     * @return array<string>
      */
     protected function tokenize(string $path): array
     {

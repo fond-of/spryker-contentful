@@ -27,8 +27,11 @@ class FieldMapperLocator implements FieldMapperLocatorInterface
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperCollectionInterface $typeFieldMapperCollection
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Field\CustomFieldMapperCollectionInterface $customFieldMapperCollection
      */
-    public function __construct(FieldMapperInterface $defaultFieldMapper, TypeFieldMapperCollectionInterface $typeFieldMapperCollection, CustomFieldMapperCollectionInterface $customFieldMapperCollection)
-    {
+    public function __construct(
+        FieldMapperInterface $defaultFieldMapper,
+        TypeFieldMapperCollectionInterface $typeFieldMapperCollection,
+        CustomFieldMapperCollectionInterface $customFieldMapperCollection
+    ) {
         $this->defaultFieldMapper = $defaultFieldMapper;
         $this->typeFieldMapperCollection = $typeFieldMapperCollection;
         $this->customFieldMapperCollection = $customFieldMapperCollection;

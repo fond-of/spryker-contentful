@@ -4,6 +4,9 @@ namespace FondOfSpryker\Zed\Contentful\Business\Storage\Collection;
 
 class CollectionReferenceField implements CollectionFieldInterface
 {
+    /**
+     * @var string
+     */
     public const TYPE = 'Reference';
 
     /**
@@ -36,7 +39,7 @@ class CollectionReferenceField implements CollectionFieldInterface
     }
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     public function jsonSerialize(): array
     {

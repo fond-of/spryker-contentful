@@ -10,7 +10,7 @@ interface NavigationItemInterface
     public function getType(): string;
 
     /**
-     * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface[]
+     * @return array<\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface>
      */
     public function getChildren(): array;
 
