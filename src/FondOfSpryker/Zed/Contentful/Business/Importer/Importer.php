@@ -74,9 +74,10 @@ class Importer implements ImporterInterface
     public function importAllEntries(): int
     {
         $resourceArray = $this->contentfulAPIClient->findAllEntries();
+        $totals = $resourceArray->getTotal();
 
-        if ($resourceArray->getTotal() > 1000) {
-            for ($i = 0; $i < $resourceArray->getTotal(); $i += 1000) {
+        if ($totals > 1000) {
+            for ($i = 0; $i < $totals; $i += 1000) {
                 $res = $this->contentfulAPIClient->findAllEntries($i);
                 $this->importResource($res->getItems());
             }

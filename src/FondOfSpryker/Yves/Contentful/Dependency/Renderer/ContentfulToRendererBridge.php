@@ -31,26 +31,4 @@ class ContentfulToRendererBridge implements ContentfulToRendererInterface
     {
         return $this->twigEnvironment->render($template, $options);
     }
-
-    /**
-     * @param \Generated\Shared\Transfer\LocaleTransfer $localeTransfer
-     *
-     * @return void
-     */
-    public function setLocaleTransfer(LocaleTransfer $localeTransfer): void
-    {
-        $translator = $this->getTranslator();
-        $translator->setLocaleTransfer($localeTransfer);
-    }
-
-    /**
-     * @return \Spryker\Zed\Glossary\Communication\Plugin\TwigTranslatorPlugin
-     */
-    protected function getTranslator(): TwigTranslatorPlugin
-    {
-        /** @var \Spryker\Zed\Glossary\Communication\Plugin\TwigTranslatorPlugin $translator */
-        $translator = $this->twigEnvironment->getExtension(TwigTranslatorPlugin::class);
-
-        return $translator;
-    }
 }

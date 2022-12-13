@@ -91,7 +91,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \Orm\Zed\Contentful\Persistence\FosContentfulQuery
      */
-    protected function createFosContentfulQuery(): FosContentfulQuery
+    protected function getFosContentfulQuery(): FosContentfulQuery
     {
         return FosContentfulQuery::create();
     }
@@ -107,7 +107,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
             $this->createUrlFormatter(),
             $this->getConfig()->getFieldNameActive(),
             $this->getConfig()->getFieldNameIdentifier(),
-            $this->createFosContentfulQuery(),
+            $this->getFosContentfulQuery(),
         );
     }
 
@@ -128,7 +128,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
             $this->createIdentifierKeyBuilder(),
             $this->getStorageClient(),
             $this->createUrlFormatter(),
-            $this->createFosContentfulQuery(),
+            $this->getFosContentfulQuery(),
         );
     }
 
@@ -141,7 +141,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
             $this->createEntryKeyBuilder(),
             $this->getStorageClient(),
             $this->getConfig()->getFieldNameActive(),
-            $this->createFosContentfulQuery(),
+            $this->getFosContentfulQuery(),
         );
     }
 
@@ -156,7 +156,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
             $this->createUrlFormatter(),
             $this->getConfig()->getFieldNameActive(),
             $this->getConfig()->getFieldNameIdentifier(),
-            $this->createFosContentfulQuery(),
+            $this->getFosContentfulQuery(),
         );
     }
 

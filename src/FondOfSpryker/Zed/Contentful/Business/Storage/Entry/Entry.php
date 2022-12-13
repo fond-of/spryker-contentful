@@ -99,7 +99,7 @@ class Entry implements EntryInterface
     }
 
     /**
-     * @return DateTimeInterface
+     * @return \DateTimeInterface
      */
     public function getModifiedAt(): DateTimeInterface
     {
@@ -107,7 +107,7 @@ class Entry implements EntryInterface
     }
 
     /**
-     * @param DateTimeInterface $modifiedAt
+     * @param \DateTimeInterface $modifiedAt
      *
      * @return void
      */

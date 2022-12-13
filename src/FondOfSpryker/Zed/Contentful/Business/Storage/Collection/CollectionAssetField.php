@@ -12,7 +12,7 @@ class CollectionAssetField implements CollectionFieldInterface
     public const TYPE = 'Asset';
 
     /**
-     * var \Contentful\Delivery\Resource\Asset
+     * @var \Contentful\Delivery\Resource\Asset
      */
     private $asset;
 
