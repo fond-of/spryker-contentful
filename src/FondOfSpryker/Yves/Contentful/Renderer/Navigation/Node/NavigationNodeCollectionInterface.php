@@ -5,7 +5,7 @@ namespace FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node;
 interface NavigationNodeCollectionInterface
 {
     /**
-     * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeInterface[]
+     * @return array<\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeInterface>
      */
     public function getNodes(): array;
 

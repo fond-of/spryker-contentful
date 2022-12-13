@@ -26,8 +26,11 @@ class ObjectFieldMapper implements TypeFieldMapperInterface
      *
      * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface
      */
-    public function createField(ContentfulEntryInterface $contentfulEntry, ContentfulFieldInterface $contentfulField, FieldMapperLocatorInterface $mapperLocator): FieldInterface
-    {
+    public function createField(
+        ContentfulEntryInterface $contentfulEntry,
+        ContentfulFieldInterface $contentfulField,
+        FieldMapperLocatorInterface $mapperLocator
+    ): FieldInterface {
         $content = $contentfulField->getValue();
         if (is_array($content)) {
             $content = json_encode($content);

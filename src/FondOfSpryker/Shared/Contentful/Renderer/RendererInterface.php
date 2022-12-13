@@ -13,7 +13,7 @@ interface RendererInterface
 
     /**
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
-     * @param string[] $additionalParameters
+     * @param array<string> $additionalParameters
      *
      * @return string
      */
@@ -21,9 +21,9 @@ interface RendererInterface
 
     /**
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
-     * @param string[] $options
+     * @param array<string> $options
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getRawEntry(ContentfulEntryResponseTransfer $response, array $options = []): array;
 }

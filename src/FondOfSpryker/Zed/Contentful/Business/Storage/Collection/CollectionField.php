@@ -6,16 +6,19 @@ use FondOfSpryker\Zed\Contentful\Business\Storage\Field\AbstractField;
 
 class CollectionField extends AbstractField
 {
+    /**
+     * @var string
+     */
     public const TYPE = 'Array';
 
     /**
-     * @var \FondOfSpryker\Zed\Contentful\Business\Storage\Collection\CollectionFieldInterface[]
+     * @var array<\FondOfSpryker\Zed\Contentful\Business\Storage\Collection\CollectionFieldInterface>
      */
     private $fields;
 
     /**
      * @param string $name
-     * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Collection\CollectionFieldInterface[] $fields
+     * @param array<\FondOfSpryker\Zed\Contentful\Business\Storage\Collection\CollectionFieldInterface> $fields
      */
     public function __construct(string $name, array $fields = [])
     {
@@ -32,7 +35,7 @@ class CollectionField extends AbstractField
     }
 
     /**
-     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Collection\CollectionFieldInterface[]
+     * @return array<\FondOfSpryker\Zed\Contentful\Business\Storage\Collection\CollectionFieldInterface>
      */
     public function getFields(): array
     {
@@ -50,7 +53,7 @@ class CollectionField extends AbstractField
     }
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     public function jsonSerialize(): array
     {

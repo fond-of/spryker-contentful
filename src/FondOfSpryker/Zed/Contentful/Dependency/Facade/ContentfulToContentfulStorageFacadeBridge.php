@@ -7,13 +7,12 @@ use FondOfSpryker\Zed\ContentfulStorage\Business\ContentfulStorageFacadeInterfac
 class ContentfulToContentfulStorageFacadeBridge implements ContentfulToContentfulStorageFacadeInterface
 {
     /**
-     * @var \FondOfSpryker\Zed\ContentfulStorage\Business\ContentfulStorageFacadeInterface 
+     * @var \FondOfSpryker\Zed\ContentfulStorage\Business\ContentfulStorageFacadeInterface
      */
     protected $contentfulStorageFacade;
 
     /**
-     * ContentfulToContentfulStorageFacadeBridge constructor.
-     * @param  \FondOfSpryker\Zed\ContentfulStorage\Business\ContentfulStorageFacadeInterface  $contentfulStorageFacade
+     * @param \FondOfSpryker\Zed\ContentfulStorage\Business\ContentfulStorageFacadeInterface $contentfulStorageFacade
      */
     public function __construct(ContentfulStorageFacadeInterface $contentfulStorageFacade)
     {

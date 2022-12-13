@@ -15,9 +15,24 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ContentfulConsole extends Console
 {
+    /**
+     * @var string
+     */
     private const COMMAND_NAME = 'contentful:import';
+
+    /**
+     * @var string
+     */
     private const DESCRIPTION = 'Imports the contentful entries and saves it in the spryker storage.';
+
+    /**
+     * @var string
+     */
     private const OPTION_IMPORT_ALL = 'all';
+
+    /**
+     * @var string
+     */
     private const ARGUMENT_ENTRY_ID = 'entryId';
 
     /**

@@ -40,7 +40,7 @@ class ContentfulEntryStorageReader implements ContentfulEntryStorageReaderInterf
         $storageData = $this->storageClient->get($storageKey);
 
         $response = new ContentfulEntryResponseTransfer();
-        if (empty($storageData)) {
+        if (!$storageData) {
             $response->setSuccessful(false);
             $response->setErrorMessage(sprintf('ContentfulEntry not found: "%s"', $storageKey));
 

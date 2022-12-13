@@ -64,7 +64,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
             $this->createContentfulMapper(),
             $this->createEntryMapper(),
             $this->getImporterPlugins(),
-            $this->getConfig()->getLocaleMapping()
+            $this->getConfig()->getLocaleMapping(),
         );
     }
 
@@ -77,7 +77,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface[]
+     * @return array<\FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface>
      */
     protected function getImporterPlugins(): array
     {
@@ -91,7 +91,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \Orm\Zed\Contentful\Persistence\FosContentfulQuery
      */
-    protected function createFosContentfulQuery(): FosContentfulQuery
+    protected function getFosContentfulQuery(): FosContentfulQuery
     {
         return FosContentfulQuery::create();
     }
@@ -107,7 +107,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
             $this->createUrlFormatter(),
             $this->getConfig()->getFieldNameActive(),
             $this->getConfig()->getFieldNameIdentifier(),
-            $this->createFosContentfulQuery()
+            $this->getFosContentfulQuery(),
         );
     }
 
@@ -128,7 +128,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
             $this->createIdentifierKeyBuilder(),
             $this->getStorageClient(),
             $this->createUrlFormatter(),
-            $this->createFosContentfulQuery()
+            $this->getFosContentfulQuery(),
         );
     }
 
@@ -141,7 +141,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
             $this->createEntryKeyBuilder(),
             $this->getStorageClient(),
             $this->getConfig()->getFieldNameActive(),
-            $this->createFosContentfulQuery()
+            $this->getFosContentfulQuery(),
         );
     }
 
@@ -156,7 +156,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
             $this->createUrlFormatter(),
             $this->getConfig()->getFieldNameActive(),
             $this->getConfig()->getFieldNameIdentifier(),
-            $this->createFosContentfulQuery()
+            $this->getFosContentfulQuery(),
         );
     }
 
@@ -176,7 +176,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
         return new FieldMapperLocator(
             $this->createDefaultFieldMapper(),
             $this->createTypeFieldMapperCollection(),
-            $this->createCustomFieldMapperCollection()
+            $this->createCustomFieldMapperCollection(),
         );
     }
 
@@ -310,7 +310,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
             $this->getConfig()->getAccessToken(),
             $this->getConfig()->getSpaceId(),
             'master',
-            $this->createDefaultClientOptions()
+            $this->createDefaultClientOptions(),
         );
     }
 
@@ -319,8 +319,7 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
      */
     protected function createDefaultClientOptions(): ClientOptions
     {
-        return
-            (new ClientOptions())
+        return (new ClientOptions())
                 ->withDefaultLocale($this->getConfig()->getDefaultLocale());
     }
 
@@ -358,18 +357,14 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
 
     /**
      * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToStoreFacadeInterface
-     *
-     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function getStoreFacade(): ContentulToStoreFacadeInterface
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::FACADE_STORE);
     }
 
-
     /**
      * @return \Generated\Shared\Transfer\StoreTransfer
-     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function getStore(): StoreTransfer
     {

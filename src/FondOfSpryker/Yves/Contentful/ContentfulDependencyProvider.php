@@ -13,16 +13,41 @@ use Spryker\Yves\Kernel\Container;
 
 class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
 {
+    /**
+     * @var string
+     */
     public const TWIG_MARKDOWN = 'TWIG_MARKDOWN';
+
+    /**
+     * @var string
+     */
     public const CATEGORY_STORAGE_CLIENT = 'CATEGORY_STORAGE_CLIENT';
+
+    /**
+     * @var string
+     */
     public const CLIENT_STORE = 'CLIENT_STORE';
+
+    /**
+     * @var string
+     */
     public const SEARCH_CLIENT = 'SEARCH_CLIENT';
+
+    /**
+     * @var string
+     */
     public const SERVICE_LOCALE = 'locale';
+
+    /**
+     * @var string
+     */
     public const CLIENT_CONTENFUL_PAGE_SEARCH = 'CLIENT_CONTENFUL_PAGE_SEARCH';
+
     /**
      * @var string
      */
     public const SERVICE_REQUEST_STACK = 'request_stack';
+
     /**
      * @var string
      */
@@ -146,7 +171,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container[static::SEARCH_CLIENT] = function (Container $container) {
             return new ContentfulToSearchClientBridge(
-                $container->getLocator()->search()->client()
+                $container->getLocator()->search()->client(),
             );
         };
 
@@ -162,7 +187,7 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container[static::CLIENT_CONTENFUL_PAGE_SEARCH] = function (Container $container) {
             return new ContentfulToContentfulPageSearchClientBridge(
-                $container->getLocator()->contentfulPageSearch()->client()
+                $container->getLocator()->contentfulPageSearch()->client(),
             );
         };
 

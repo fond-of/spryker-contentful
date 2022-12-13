@@ -27,8 +27,11 @@ class LinkFieldMapper implements TypeFieldMapperInterface
      *
      * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface
      */
-    public function createField(ContentfulEntryInterface $contentfulEntry, ContentfulFieldInterface $contentfulField, FieldMapperLocatorInterface $mapperLocator): FieldInterface
-    {
+    public function createField(
+        ContentfulEntryInterface $contentfulEntry,
+        ContentfulFieldInterface $contentfulField,
+        FieldMapperLocatorInterface $mapperLocator
+    ): FieldInterface {
         $mapper = null;
         if ($contentfulField instanceof ContentfulAssetInterface) {
             $mapper = $mapperLocator->locateFieldMapperByFieldType(ContentfulField::FIELD_TYPE_ASSET);
@@ -41,7 +44,7 @@ class LinkFieldMapper implements TypeFieldMapperInterface
         if ($mapper === null) {
             $mapper = $mapperLocator->locateFieldMapperByFieldType(ContentfulField::FIELD_TYPE_TEXT);
         }
-        
+
         return $mapper->createField($contentfulEntry, $contentfulField, $mapperLocator);
     }
 }

@@ -18,6 +18,9 @@ use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
 class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements ImporterPluginInterface
 {
+    /**
+     * @var string
+     */
     public const ENTRY_TYPE_ID_EXTEND_WITH = '-identifier';
 
     /**
@@ -85,7 +88,7 @@ class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements Im
     {
         $identifier = $this->getIdentifierFieldContent($entry);
 
-        if (empty($identifier)) {
+        if (!$identifier) {
             return;
         }
 
@@ -93,7 +96,7 @@ class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements Im
 
         $key = $this->createStorageKey(
             $this->createUrl($identifier, $routePrefixLocale),
-            $locale
+            $locale,
         );
 
         if (!$this->isValid($contentfulEntry, $entry, $locale)) {
@@ -182,7 +185,7 @@ class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements Im
             return false;
         }
 
-        return !empty($this->getIdentifierFieldContent($entry));
+        return (bool)$this->getIdentifierFieldContent($entry);
     }
 
     /**

@@ -13,9 +13,7 @@ class ContentfulToLocaleFacadeBridge implements ContentfulToLocaleFacadeInterfac
     protected $localeFacade;
 
     /**
-     * ContentfulToLocaleFacadeBridge constructor.
-     *
-     * @param  \Spryker\Zed\Locale\Business\LocaleFacadeInterface  $localeFacade
+     * @param \Spryker\Zed\Locale\Business\LocaleFacadeInterface $localeFacade
      */
     public function __construct(LocaleFacadeInterface $localeFacade)
     {

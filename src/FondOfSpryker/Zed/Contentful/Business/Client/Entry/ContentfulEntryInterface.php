@@ -24,12 +24,12 @@ interface ContentfulEntryInterface
     public function getContentTypeId(): string;
 
     /**
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface[]
+     * @return array<\FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface>
      */
     public function getFields(): array;
 
     /**
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface[] $fields
+     * @param array<\FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface> $fields
      *
      * @return void
      */

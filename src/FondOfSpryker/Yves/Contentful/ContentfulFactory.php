@@ -3,7 +3,6 @@
 namespace FondOfSpryker\Yves\Contentful;
 
 use Aptoma\Twig\Extension\MarkdownExtension;
-use FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface;
 use FondOfSpryker\Shared\Contentful\Builder\Builder;
 use FondOfSpryker\Shared\Contentful\Builder\BuilderInterface;
 use FondOfSpryker\Shared\Contentful\Renderer\DefaultRenderer;
@@ -12,6 +11,7 @@ use FondOfSpryker\Shared\Contentful\Twig\ContentfulTwigExtension;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatter;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
 use FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulPageSearchClientInterface;
+use FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategoryMapper;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\ContentfulPage\NavigationItemContentfulPageMapper;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Custom\NavigationItemCustomMapper;
@@ -34,7 +34,6 @@ use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeMapperI
 use Spryker\Client\CategoryStorage\CategoryStorageClientInterface;
 use Spryker\Client\Search\SearchClientInterface;
 use Spryker\Client\Store\StoreClientInterface;
-use Spryker\Shared\Kernel\Communication\Application;
 use Spryker\Yves\Kernel\AbstractFactory;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -53,7 +52,6 @@ class ContentfulFactory extends AbstractFactory
 
     /**
      * @return \FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererInterface
-     * @throws \Spryker\Yves\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function getTwigRenderer(): ContentfulToRendererInterface
     {
@@ -93,7 +91,7 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @return \FondOfSpryker\Shared\Contentful\Renderer\RendererInterface[]
+     * @return array<\FondOfSpryker\Shared\Contentful\Renderer\RendererInterface>
      */
     protected function getRenderer(): array
     {
@@ -133,7 +131,7 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemMapperInterface[]
+     * @return array<\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemMapperInterface>
      */
     protected function createNavigationItemMapper(): array
     {
@@ -193,7 +191,7 @@ class ContentfulFactory extends AbstractFactory
     }
 
     /**
-     * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeMapperInterface[]
+     * @return array<\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeMapperInterface>
      */
     protected function createNavigationNodeMapper(): array
     {

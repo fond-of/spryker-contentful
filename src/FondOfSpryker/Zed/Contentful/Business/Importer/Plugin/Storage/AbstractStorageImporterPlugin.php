@@ -131,7 +131,7 @@ abstract class AbstractStorageImporterPlugin extends AbstractWriterPlugin implem
      *
      * @throws
      *
-     * @return string[]
+     * @return array<string>
      */
     abstract protected function createStorageValue(ContentfulEntryInterface $contentfulEntry, EntryInterface $entry, string $locale): array;
 }

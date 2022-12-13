@@ -38,15 +38,16 @@ abstract class AbstractRenderer implements RendererInterface
             if ($this->isEnvironmentProduction()) {
                 return '';
             }
+
             throw $throwable;
         }
     }
 
     /**
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
-     * @param string[] $options
+     * @param array<string> $options
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getRawEntry(ContentfulEntryResponseTransfer $response, array $options = []): array
     {
@@ -75,10 +76,10 @@ abstract class AbstractRenderer implements RendererInterface
 
     /**
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
-     * @param string[] $placeholders
-     * @param string[] $additionalPlaceholders
+     * @param array<string> $placeholders
+     * @param array<string> $additionalPlaceholders
      *
-     * @return string[]
+     * @return array<string>
      */
     protected function mergeAdditionalPlaceholders(ContentfulEntryResponseTransfer $response, array $placeholders, array $additionalPlaceholders)
     {
@@ -87,7 +88,7 @@ abstract class AbstractRenderer implements RendererInterface
 
     /**
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
-     * @param string[] $additionalPlaceholders
+     * @param array<string> $additionalPlaceholders
      *
      * @return bool
      */
@@ -98,7 +99,7 @@ abstract class AbstractRenderer implements RendererInterface
 
     /**
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
-     * @param string[] $additionalPlaceholders
+     * @param array<string> $additionalPlaceholders
      *
      * @return string
      */
@@ -128,9 +129,9 @@ abstract class AbstractRenderer implements RendererInterface
 
     /**
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
-     * @param string[] $additionalPlaceholders
+     * @param array<string> $additionalPlaceholders
      *
-     * @return string[]
+     * @return array<string>
      */
     abstract protected function getPlaceholders(ContentfulEntryResponseTransfer $response, array $additionalPlaceholders = []): array;
 }

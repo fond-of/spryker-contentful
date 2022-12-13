@@ -11,7 +11,7 @@ interface ContentfulToSearchClientInterface
      * @param array $resultFormatters
      * @param array $requestParameters
      *
-     * @return array|\Elastica\ResultSet
+     * @return \Elastica\ResultSet|array
      */
     public function search(QueryInterface $searchQuery, array $resultFormatters = [], array $requestParameters = []);
 }

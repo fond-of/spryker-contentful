@@ -13,7 +13,7 @@ class ContentfulEntry implements ContentfulEntryInterface
     private $entry;
 
     /**
-     * @var \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface[]
+     * @var array<\FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface>
      */
     private $fields = [];
 
@@ -52,7 +52,7 @@ class ContentfulEntry implements ContentfulEntryInterface
     }
 
     /**
-     * @param \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface[] $fields
+     * @param array<\FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface> $fields
      *
      * @return void
      */
@@ -62,7 +62,7 @@ class ContentfulEntry implements ContentfulEntryInterface
     }
 
     /**
-     * @return \FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface[]
+     * @return array<\FondOfSpryker\Zed\Contentful\Business\Client\Field\ContentfulFieldInterface>
      */
     public function getFields(): array
     {

@@ -6,6 +6,9 @@ use FondOfSpryker\Zed\Contentful\Business\Storage\Field\AbstractField;
 
 class TextField extends AbstractField
 {
+    /**
+     * @var string
+     */
     public const TYPE = 'Text';
 
     /**
@@ -40,7 +43,7 @@ class TextField extends AbstractField
     }
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     public function jsonSerialize(): array
     {

@@ -8,6 +8,9 @@ use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
 
 class NavigationRenderer extends AbstractYvesRenderer
 {
+    /**
+     * @var string
+     */
     protected const RENDERER_TYPE = 'Navigation';
 
     /**
@@ -45,9 +48,9 @@ class NavigationRenderer extends AbstractYvesRenderer
 
     /**
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
-     * @param string[] $additionalPlaceholders
+     * @param array<string> $additionalPlaceholders
      *
-     * @return string[]
+     * @return array<string>
      */
     protected function getPlaceholders(ContentfulEntryResponseTransfer $response, array $additionalPlaceholders = []): array
     {

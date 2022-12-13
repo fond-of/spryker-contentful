@@ -4,10 +4,6 @@
   "license": "MIT",
   "authors": [
     {
-      "name": "Markus Nörenberg",
-      "email": "noerenberg.markus@gmail.com"
-    },
-    {
       "name": "Daniel Rose",
       "email": "daniel-rose@gmx.de"
     },
@@ -21,22 +17,23 @@
     }
   ],
   "require": {
-    "php": ">=7.3",
-    "spryker/twig": "^3.8.2",
-    "spryker/storage": "^3.14.0",
-    "spryker/locale": "^3.3.0",
-    "spryker/store": "^1.12.1",
-    "contentful/contentful": "^6.0.0",
+    "php": ">=7.4",
+    "ext-json": "*",
     "aptoma/twig-markdown": "2.0.0",
-    "michelf/php-markdown": "1.9"
+    "contentful/contentful": "^6.0.0",
+    "michelf/php-markdown": "1.9",
+    "spryker/category-storage": "^2.4",
+    "spryker/event-behavior": "^1.24",
+    "spryker/key-builder": "^1.1",
+    "spryker/locale": "^3.3.0",
+    "spryker/storage": "^3.14.0",
+    "spryker/store": "^1.12.1",
+    "spryker/twig": "^3.8.2"
   },
   "require-dev": {
-    "spryker/code-sniffer": "^0.14.7",
-    "codeception/codeception": "^2.5",
-    "mikey179/vfsstream": "^1.6",
-    "phpro/grumphp": "^0.14",
-    "sebastian/phpcpd": "^4.1",
-    "php-coveralls/php-coveralls": "^2.0"
+    "fond-of-codeception/spryker": "^1.0",
+    "spryker/code-sniffer": "*",
+    "spryker-sdk/phpstan-spryker": "*"
   },
   "suggest": {
     "fond-of-spryker/contentful-router": "Allows to route to contentful pages in spryker"
@@ -50,7 +47,15 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "FondOfSpryker\\": "tests/FondOfSpryker/"
+      "FondOfSpryker\\": "tests/FondOfSpryker/",
+      "Generated\\":"src/Generated/",
+      "Orm\\Zed\\": "src/Orm/Zed/"
+    }
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
     }
   }
 }

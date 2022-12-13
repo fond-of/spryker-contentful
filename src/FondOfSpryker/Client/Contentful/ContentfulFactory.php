@@ -24,7 +24,7 @@ class ContentfulFactory extends AbstractFactory
     {
         return new ContentfulEntryStorageReader(
             $this->getStorage(),
-            $this->createEntryKeyBuilder()
+            $this->createEntryKeyBuilder(),
         );
     }
 
@@ -43,7 +43,7 @@ class ContentfulFactory extends AbstractFactory
     {
         return new ContentfulNavigationStorageReader(
             $this->getStorage(),
-            $this->createNavigationUrlKeyBuilder()
+            $this->createNavigationUrlKeyBuilder(),
         );
     }
 

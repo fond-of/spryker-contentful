@@ -7,8 +7,19 @@ use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemMapperI
 
 class NavigationItemContentfulPageMapper implements NavigationItemMapperInterface
 {
+    /**
+     * @var string
+     */
     public const TYPE = 'page';
+
+    /**
+     * @var string
+     */
     private const KEY_CONTENTFUL_ENTRY_ID = 'typeId';
+
+    /**
+     * @var string
+     */
     private const KEY_CUSTOM_TEXT = 'customText';
 
     /**
@@ -20,7 +31,7 @@ class NavigationItemContentfulPageMapper implements NavigationItemMapperInterfac
     }
 
     /**
-     * @param string[] $navigation
+     * @param array<string> $navigation
      *
      * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface
      */
@@ -38,7 +49,7 @@ class NavigationItemContentfulPageMapper implements NavigationItemMapperInterfac
     }
 
     /**
-     * @param string[] $navigation
+     * @param array<string> $navigation
      *
      * @return bool
      */

@@ -5,7 +5,7 @@ namespace FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item;
 interface NavigationItemCollectionInterface
 {
     /**
-     * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface[]
+     * @return array<\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface>
      */
     public function getItems(): array;
 

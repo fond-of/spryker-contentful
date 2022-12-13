@@ -6,6 +6,9 @@ use FondOfSpryker\Zed\Contentful\Business\Storage\Field\AbstractField;
 
 class ReferenceField extends AbstractField
 {
+    /**
+     * @var string
+     */
     public const TYPE = 'Reference';
 
     /**
@@ -40,7 +43,7 @@ class ReferenceField extends AbstractField
     }
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     public function jsonSerialize(): array
     {

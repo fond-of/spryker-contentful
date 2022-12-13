@@ -23,7 +23,7 @@ class ContentfulToContentfulPageSearchClientBridge implements ContentfulToConten
      * @param string $searchString
      * @param array $requestParameters
      *
-     * @return array|\Elastica\ResultSet
+     * @return \Elastica\ResultSet|array
      */
     public function contentfulBlogCategorySearch(string $searchString, array $requestParameters)
     {

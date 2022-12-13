@@ -5,12 +5,12 @@ namespace FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node;
 class NavigationNodeCollection implements NavigationNodeCollectionInterface
 {
     /**
-     * @var \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeInterface[]
+     * @var array<\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeInterface>
      */
     private $nodes = [];
 
     /**
-     * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeInterface[]
+     * @return array<\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeInterface>
      */
     public function getNodes(): array
     {

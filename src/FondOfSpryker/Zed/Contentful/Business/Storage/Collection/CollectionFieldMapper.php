@@ -27,8 +27,11 @@ class CollectionFieldMapper implements TypeFieldMapperInterface
      *
      * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\FieldInterface
      */
-    public function createField(ContentfulEntryInterface $contentfulEntry, ContentfulFieldInterface $contentfulField, FieldMapperLocatorInterface $mapperLocator): FieldInterface
-    {
+    public function createField(
+        ContentfulEntryInterface $contentfulEntry,
+        ContentfulFieldInterface $contentfulField,
+        FieldMapperLocatorInterface $mapperLocator
+    ): FieldInterface {
         $field = new CollectionField($contentfulField->getId());
         $fieldValues = $contentfulField->getValue();
 
@@ -39,11 +42,13 @@ class CollectionFieldMapper implements TypeFieldMapperInterface
         foreach ($fieldValues as $fieldValue) {
             if ($fieldValue instanceof ContentfulEntryInterface && $contentfulField->getItemsLinkType() === ContentfulField::FIELD_TYPE_ENTRY) {
                 $field->addField(new CollectionReferenceField($fieldValue->getId()));
+
                 continue;
             }
 
             if ($fieldValue instanceof Asset && $contentfulField->getItemsLinkType() === ContentfulField::FIELD_TYPE_ASSET) {
                 $field->addField(new CollectionAssetField($fieldValue));
+
                 continue;
             }
 

@@ -27,12 +27,12 @@ class Importer implements ImporterInterface
     protected $entryMapper;
 
     /**
-     * @var \FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface[]
+     * @var array<\FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface>
      */
     protected $importerPlugins;
 
     /**
-     * @var string[]
+     * @var array<string>
      */
     protected $localeMapping;
 
@@ -40,11 +40,16 @@ class Importer implements ImporterInterface
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulAPIClientInterface $contentfulAPIClient
      * @param \FondOfSpryker\Zed\Contentful\Business\Client\ContentfulMapperInterface $contentfulMapper
      * @param \FondOfSpryker\Zed\Contentful\Business\Storage\Entry\EntryMapperInterface $entryMapper
-     * @param \FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface[] $importerPlugins
-     * @param string[] $localeMapping
+     * @param array<\FondOfSpryker\Zed\Contentful\Business\Importer\Plugin\ImporterPluginInterface> $importerPlugins
+     * @param array<string> $localeMapping
      */
-    public function __construct(ContentfulAPIClientInterface $contentfulAPIClient, ContentfulMapperInterface $contentfulMapper, EntryMapperInterface $entryMapper, array $importerPlugins, array $localeMapping)
-    {
+    public function __construct(
+        ContentfulAPIClientInterface $contentfulAPIClient,
+        ContentfulMapperInterface $contentfulMapper,
+        EntryMapperInterface $entryMapper,
+        array $importerPlugins,
+        array $localeMapping
+    ) {
         $this->contentfulAPIClient = $contentfulAPIClient;
         $this->contentfulMapper = $contentfulMapper;
         $this->entryMapper = $entryMapper;
@@ -69,9 +74,10 @@ class Importer implements ImporterInterface
     public function importAllEntries(): int
     {
         $resourceArray = $this->contentfulAPIClient->findAllEntries();
+        $totals = $resourceArray->getTotal();
 
-        if ($resourceArray->getTotal() > 1000) {
-            for ($i = 0; $i < $resourceArray->getTotal(); $i += 1000) {
+        if ($totals > 1000) {
+            for ($i = 0; $i < $totals; $i += 1000) {
                 $res = $this->contentfulAPIClient->findAllEntries($i);
                 $this->importResource($res->getItems());
             }

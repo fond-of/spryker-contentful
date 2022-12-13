@@ -37,7 +37,7 @@ class ContentfulClient extends AbstractClient implements ContentfulClientInterfa
      * @param string $url
      * @param string $localeName
      *
-     * @return string[]|null
+     * @return array<string>|null
      */
     public function matchUrl(string $url, string $localeName): ?array
     {

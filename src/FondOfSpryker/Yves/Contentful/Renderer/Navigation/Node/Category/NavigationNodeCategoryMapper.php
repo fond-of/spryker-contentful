@@ -104,7 +104,7 @@ class NavigationNodeCategoryMapper implements NavigationNodeMapperInterface
     }
 
     /**
-     * @param  \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategory  $item
+     * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategory $item
      *
      * @return \Generated\Shared\Transfer\CategoryNodeStorageTransfer
      */

@@ -10,10 +10,13 @@ use Twig_SimpleFunction;
 
 class ContentfulTwigExtension extends TwigExtension
 {
-    private const IMAGE_MAX_WIDTH = 2000;
+    /**
+     * @var int
+     */
+    protected const IMAGE_MAX_WIDTH = 2000;
 
     /**
-     * @var \FondOfSpryker\Shared\Contentful\Builder\BuilderInterface 
+     * @var \FondOfSpryker\Shared\Contentful\Builder\BuilderInterface
      */
     private $builder;
 
@@ -49,12 +52,13 @@ class ContentfulTwigExtension extends TwigExtension
             new Twig_SimpleFunction('contentfulEntry', [$this, 'renderContentfulEntry'], ['is_safe' => ['html']]),
             new Twig_SimpleFunction('contentfulImage', [$this, 'resizeContentfulImage']),
             new Twig_SimpleFunction('getContentfulEntry', [$this, 'getContentfulEntry']),
+            new Twig_SimpleFunction('getContentfulEntryRecursive', [$this, 'getContentfulEntryRecursive']),
         ];
     }
 
     /**
      * @param string $entryId
-     * @param string[] $additionalParameters
+     * @param array<string> $additionalParameters
      * @param string|null $locale
      *
      * @return string
@@ -66,10 +70,10 @@ class ContentfulTwigExtension extends TwigExtension
 
     /**
      * @param string $entryId
-     * @param string[] $options
+     * @param array<string> $options
      * @param string|null $locale
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getContentfulEntry(string $entryId, array $options = [], ?string $locale = null): array
     {
@@ -86,7 +90,7 @@ class ContentfulTwigExtension extends TwigExtension
     {
         return $this->urlFormatter->format(
             $url,
-            $this->getLocaleRoutePrefixesByAppLocale($locale ?? $this->currentLocale)
+            $this->getLocaleRoutePrefixesByAppLocale($locale ?? $this->currentLocale),
         );
     }
 
@@ -99,7 +103,7 @@ class ContentfulTwigExtension extends TwigExtension
      */
     public function resizeContentfulImage($url, ?int $width = null, ?int $height = null): string
     {
-        if (empty($url)) {
+        if (!$url) {
             return '';
         }
 
@@ -134,7 +138,7 @@ class ContentfulTwigExtension extends TwigExtension
             $storeLocaleRoutePrefixes[] = $storeRouteLocalePrefix;
         }
 
-        if (empty($storeLocaleRoutePrefixes)) {
+        if (!$storeLocaleRoutePrefixes) {
             return $fallbackRouteLocale;
         }
 

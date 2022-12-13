@@ -1,8 +1,7 @@
 # fond-of-spryker/contentful
-[![PHP from Travis config](https://img.shields.io/travis/php-v/symfony/symfony.svg)](https://php.net/)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://packagist.org/packages/fond-of-spryker/contentful)
 
-A Spryker-Contentful connector. 
+A Spryker-Contentful connector.
 Import content from contentful to storage and updates it via cronjob.
 
 ## Install
@@ -26,7 +25,7 @@ $this->application->addRouter((new ContentfulRouter())->setSsl(false));
 new ContentfulConsole(),
 ```
 
-### 4. Add configs to your shop config file or in config/Shared/config_default.php 
+### 4. Add configs to your shop config file or in config/Shared/config_default.php
 Example configuration
 ```
 // API-Key

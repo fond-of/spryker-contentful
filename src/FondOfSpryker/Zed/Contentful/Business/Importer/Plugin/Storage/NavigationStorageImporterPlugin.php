@@ -80,7 +80,7 @@ class NavigationStorageImporterPlugin extends AbstractWriterPlugin implements Im
     {
         $identifier = $this->getIdentifierFieldContent($entry);
 
-        if (empty($identifier)) {
+        if (!$identifier) {
             return;
         }
 
@@ -140,7 +140,7 @@ class NavigationStorageImporterPlugin extends AbstractWriterPlugin implements Im
 
     /**
      * @param string $key
-     * @param string[] $value
+     * @param array<string> $value
      *
      * @return void
      */
@@ -154,7 +154,7 @@ class NavigationStorageImporterPlugin extends AbstractWriterPlugin implements Im
      * @param string $identifier
      * @param string $routeLocalePrefix
      *
-     * @return string[]
+     * @return array<string>
      */
     protected function createStorageValue(EntryInterface $entry, string $identifier, string $routeLocalePrefix): array
     {
@@ -188,11 +188,11 @@ class NavigationStorageImporterPlugin extends AbstractWriterPlugin implements Im
             return false;
         }
 
-        if (empty($this->getIdentifierFieldContent($entry))) {
+        if (!$this->getIdentifierFieldContent($entry)) {
             return false;
         }
 
-        if (empty($this->getTitleFieldContent($entry))) {
+        if (!$this->getTitleFieldContent($entry)) {
             return false;
         }
 

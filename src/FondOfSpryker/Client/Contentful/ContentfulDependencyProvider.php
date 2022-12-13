@@ -7,12 +7,24 @@ use Spryker\Client\Kernel\Container;
 
 class ContentfulDependencyProvider extends AbstractDependencyProvider
 {
+    /**
+     * @var string
+     */
     public const KV_STORAGE = 'KV_STORAGE';
 
+    /**
+     * @var string
+     */
     public const CLIENT_SEARCH = 'CLIENT_SEARCH';
 
+    /**
+     * @var string
+     */
     public const CONTENTFUL_SEARCH_QUERY_PLUGIN = 'CONTENTFUL_SEARCH_QUERY_PLUGIN';
 
+    /**
+     * @var string
+     */
     public const CONTENTFUL_SEARCH_QUERY_EXPANDER_PLUGINS = 'CONTENTFUL_SEARCH_QUERY_EXPANDER_PLUGINS';
 
     /**

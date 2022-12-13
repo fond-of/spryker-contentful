@@ -12,7 +12,7 @@ class NavigationItemCategory implements NavigationItemInterface
     protected $categoryId;
 
     /**
-     * @var \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface[]
+     * @var array<\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface>
      */
     protected $children = [];
 
@@ -40,7 +40,7 @@ class NavigationItemCategory implements NavigationItemInterface
     }
 
     /**
-     * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface[]
+     * @return array<\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface>
      */
     public function getChildren(): array
     {

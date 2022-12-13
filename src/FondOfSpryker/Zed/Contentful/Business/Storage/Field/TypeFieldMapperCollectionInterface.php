@@ -12,7 +12,7 @@ interface TypeFieldMapperCollectionInterface
     public function add(TypeFieldMapperInterface $typeFieldMapper): void;
 
     /**
-     * @return \FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface[]
+     * @return array<\FondOfSpryker\Zed\Contentful\Business\Storage\Field\TypeFieldMapperInterface>
      */
     public function getAll(): array;
 }

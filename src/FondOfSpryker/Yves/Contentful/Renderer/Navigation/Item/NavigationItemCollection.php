@@ -5,12 +5,12 @@ namespace FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item;
 class NavigationItemCollection implements NavigationItemCollectionInterface
 {
     /**
-     * @var \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface[]
+     * @var array<\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface>
      */
     private $items = [];
 
     /**
-     * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface[]
+     * @return array<\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface>
      */
     public function getItems(): array
     {
