@@ -22,6 +22,7 @@
     "aptoma/twig-markdown": "2.0.0",
     "contentful/contentful": "^6.0.0",
     "michelf/php-markdown": "1.9",
+    "spryker/event-behavior": "^1.24",
     "spryker/key-builder": "^1.1",
     "spryker/locale": "^3.3.0",
     "spryker/storage": "^3.14.0",
