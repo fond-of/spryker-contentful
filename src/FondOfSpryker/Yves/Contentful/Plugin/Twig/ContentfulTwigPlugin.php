@@ -165,6 +165,20 @@ class ContentfulTwigPlugin extends AbstractPlugin implements TwigPluginInterface
     /**
      * @param \Twig\Environment $twig
      *
+     * @return \Twig\TwigFunction
+     */
+    protected function createGetContentfulEntryRecursiveFunction(Environment $twig): TwigFunction
+    {
+        return new TwigFunction(static::TWIG_FUNCTION_GET_CONTENTFUL_ENTRY_RECURSIVE, function (string $entryId, ?string $locale = null) {
+            return $this
+                ->getFactory()
+                ->createContentfulTwigExtension()->getContentfulEntryRecursive($entryId, $locale);
+        });
+    }
+
+    /**
+     * @param \Twig\Environment $twig
+     *
      * @return \Twig\Environment
      */
     protected function addMarkdownTwigFilter(Environment $twig): Environment

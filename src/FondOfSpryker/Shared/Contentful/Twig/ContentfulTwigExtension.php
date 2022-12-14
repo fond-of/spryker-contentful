@@ -81,6 +81,17 @@ class ContentfulTwigExtension extends TwigExtension
     }
 
     /**
+     * @param string $entryId
+     * @param string|null $locale
+     *
+     * @return string
+     */
+    public function getContentfulEntryRecursive(string $entryId, ?string $locale = null): string
+    {
+        return $this->builder->getContentfulEntryRecursive($entryId, $locale ?? $this->currentLocale);
+    }
+
+    /**
      * @param string $url
      * @param string|null $locale
      *

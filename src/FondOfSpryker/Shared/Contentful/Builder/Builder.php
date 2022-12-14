@@ -72,6 +72,57 @@ class Builder implements BuilderInterface
     }
 
     /**
+     * @param string $entryId
+     * @param string $locale
+     *
+     * @return string
+     */
+    public function getContentfulEntryRecursive(string $entryId, string $locale): string
+    {
+        $request = $this->createRequest($entryId, $locale);
+        $response = $this->client->getEntryBy($request);
+        $fields = $response->getFields();
+        $fields = $this->getFieldsRecursive($fields, $locale);
+
+        return json_encode([
+            'id' => $response->getId(),
+            'content_type' => $response->getContentType(),
+            'fields' => $fields,
+        ]);
+    }
+
+    /**
+     * @param array $fields
+     * @param string $locale
+     *
+     * @return array<string>
+     */
+    public function getFieldsRecursive(array $fields, string $locale): array
+    {
+        foreach ($fields as $key => &$field) {
+            if ($field['type'] !== 'Array') {
+                continue;
+            }
+
+            foreach ($field['value'] as &$item) {
+                if ($item['type'] !== 'Reference') {
+                    continue;
+                }
+                $r = $this->client->getEntryBy($this->createRequest($item['value'], $locale));
+                $f = $r->getFields();
+                $f = $this->getFieldsRecursive($f, $locale);
+                $r->setFields($f);
+                $item['value'] = $r->toArray();
+                $item['type'] = $r->getContentType();
+            }
+
+            $field['type'] = $key;
+        }
+
+        return $fields;
+    }
+
+    /**
      * @param \Generated\Shared\Transfer\ContentfulEntryResponseTransfer $response
      *
      * @return \FondOfSpryker\Shared\Contentful\Renderer\RendererInterface
