@@ -70,7 +70,9 @@ class PageStorageImporterPlugin extends IdentifierStorageImporterPlugin
         }
 
         $routePrefixLocale = $this->getLocaleRoutePrefixesByAppLocale($locale);
-        $identifier = $entry->getField(ContentfulConstants::FIELD_IDENTIFIER)->getContent();
+        /** @var \FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextField $field */
+        $field = $entry->getField(ContentfulConstants::FIELD_IDENTIFIER);
+        $identifier = $field->getContent();
         $url = $this->createUrl($identifier, $routePrefixLocale);
         $storageKey = $this->createStorageKey($url, $locale);
 

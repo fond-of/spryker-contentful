@@ -12,7 +12,7 @@ class NavigationMapper implements NavigationMapperInterface
     /**
      * @var string
      */
-    private const FIELD_NAME_JSON_NAVIGATION = 'items';
+    protected const FIELD_NAME_JSON_NAVIGATION = 'items';
 
     /**
      * @var \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemFactoryInterface
@@ -48,9 +48,9 @@ class NavigationMapper implements NavigationMapperInterface
     }
 
     /**
-     * @param array<string> $fields
+     * @param array<array<string>> $fields
      *
-     * @return array<string>
+     * @return array<array<string>>
      */
     protected function extractNavigationJsonArray(array $fields): array
     {

@@ -15,12 +15,12 @@ class NavigationItemCustomMapper implements NavigationItemMapperInterface
     /**
      * @var string
      */
-    private const KEY_URL = 'url';
+    protected const KEY_URL = 'url';
 
     /**
      * @var string
      */
-    private const KEY_CUSTOM_TEXT = 'customText';
+    protected const KEY_CUSTOM_TEXT = 'customText';
 
     /**
      * @return string
@@ -31,7 +31,7 @@ class NavigationItemCustomMapper implements NavigationItemMapperInterface
     }
 
     /**
-     * @param array<string> $navigation
+     * @param array<mixed> $navigation
      *
      * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface
      */
@@ -44,7 +44,7 @@ class NavigationItemCustomMapper implements NavigationItemMapperInterface
     }
 
     /**
-     * @param array<string> $navigation
+     * @param array<mixed> $navigation
      *
      * @return bool
      */

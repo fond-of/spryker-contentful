@@ -3,7 +3,6 @@
 namespace FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\Category;
 
 use FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulPageSearchClientInterface;
-use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategory;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategoryMapper;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNode;
@@ -86,6 +85,10 @@ class NavigationNodeCategoryMapper implements NavigationNodeMapperInterface
      */
     public function isNavigationItemValid(NavigationItemInterface $item): bool
     {
+        if (!method_exists($item, 'getCategoryId')) {
+            return false;
+        }
+
         if (is_numeric($item->getCategoryId()) === false) {
             return false;
         }
@@ -104,12 +107,13 @@ class NavigationNodeCategoryMapper implements NavigationNodeMapperInterface
     }
 
     /**
-     * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategory $item
+     * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface $item
      *
      * @return \Generated\Shared\Transfer\CategoryNodeStorageTransfer
      */
-    protected function getCategoryStorageNodeByItem(NavigationItemCategory $item): CategoryNodeStorageTransfer
+    protected function getCategoryStorageNodeByItem(NavigationItemInterface $item): CategoryNodeStorageTransfer
     {
+        /** @var \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Category\NavigationItemCategory $item */
         return $this->client->getCategoryNodeById($item->getCategoryId(), $this->currentLocale, $this->storeClient->getCurrentStore()->getName());
     }
 }

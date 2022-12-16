@@ -2,8 +2,8 @@
 
 namespace FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\ContentfulPage;
 
+use Exception;
 use FondOfSpryker\Client\Contentful\ContentfulClientInterface;
-use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\ContentfulPage\NavigationItemContentfulPage;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\ContentfulPage\NavigationItemContentfulPageMapper;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNode;
@@ -67,6 +67,10 @@ class NavigationNodeContentfulPageMapper implements NavigationNodeMapperInterfac
      */
     public function isNavigationItemValid(NavigationItemInterface $item): bool
     {
+        if (!method_exists($item, 'getEntryId')) {
+            return false;
+        }
+
         if (empty($item->getEntryId())) {
             return false;
         }
@@ -80,12 +84,18 @@ class NavigationNodeContentfulPageMapper implements NavigationNodeMapperInterfac
     }
 
     /**
-     * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\ContentfulPage\NavigationItemContentfulPage $item
+     * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface $item
+     *
+     * @throws \Exception
      *
      * @return \Generated\Shared\Transfer\ContentfulNavigationUrlResponseTransfer
      */
-    protected function getContentfulNavigationUrlByEntryId(NavigationItemContentfulPage $item): ContentfulNavigationUrlResponseTransfer
+    protected function getContentfulNavigationUrlByEntryId(NavigationItemInterface $item): ContentfulNavigationUrlResponseTransfer
     {
+        if (!method_exists($item, 'getEntryId')) {
+            throw new Exception('Can\'t get Entry ID on navigation item');
+        }
+
         $request = $this->createContentfulNavigationUrlRequest($item->getEntryId());
 
         return $this->getContentfulNavigationUrlBy($request);

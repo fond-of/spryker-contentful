@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\Custom;
 
+use Exception;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Custom\NavigationItemCustomMapper;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNode;
@@ -21,10 +22,16 @@ class NavigationNodeCustomMapper implements NavigationNodeMapperInterface
     /**
      * @param \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\Custom\NavigationItemCustom|\FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface $item
      *
+     * @throws \Exception
+     *
      * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeInterface
      */
     public function createNavigationNode(NavigationItemInterface $item): NavigationNodeInterface
     {
+        if (!method_exists($item, 'getUrl')) {
+            throw new Exception('Can\'t get Url on navigation item');
+        }
+
         return new NavigationNode($item->getCustomText(), $item->getUrl(), $item->getType());
     }
 
@@ -35,6 +42,10 @@ class NavigationNodeCustomMapper implements NavigationNodeMapperInterface
      */
     public function isNavigationItemValid(NavigationItemInterface $item): bool
     {
+        if (!method_exists($item, 'getUrl')) {
+            return false;
+        }
+
         if (empty($item->getUrl())) {
             return false;
         }

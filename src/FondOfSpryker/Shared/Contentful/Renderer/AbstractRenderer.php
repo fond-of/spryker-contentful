@@ -32,6 +32,10 @@ abstract class AbstractRenderer implements RendererInterface
         $placeholders = $this->getPlaceholders($response, $additionalPlaceholders);
         $placeholders = $this->mergeAdditionalPlaceholders($response, $placeholders, $additionalPlaceholders);
 
+        if (!method_exists($this, 'getTwigEnvironment')) {
+            return '';
+        }
+
         try {
             return $this->getTwigEnvironment()->render($this->getTemplatePath($response), $placeholders);
         } catch (Throwable $throwable) {
