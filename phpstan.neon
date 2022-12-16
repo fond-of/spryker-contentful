@@ -5,3 +5,4 @@ parameters:
         - src/Orm/Zed
     ignoreErrors:
         - '#.* on an unknown class Generated\\(Client|Glue|Service|Yves|Zed)\\.*#'
+        - '#.*\\ContentfulPageSearch\\.*#'

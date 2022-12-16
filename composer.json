@@ -21,7 +21,6 @@
     "ext-json": "*",
     "aptoma/twig-markdown": "2.0.0",
     "contentful/contentful": "^6.0.0",
-    "fond-of-spryker/contentful-page-search": "dev-master",
     "michelf/php-markdown": "1.9",
     "spryker/category-storage": "^2.4",
     "spryker/event-behavior": "^1.24",
