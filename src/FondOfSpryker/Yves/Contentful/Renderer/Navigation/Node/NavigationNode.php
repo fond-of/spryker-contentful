@@ -25,7 +25,7 @@ class NavigationNode implements NavigationNodeInterface
     private $type;
 
     /**
-     * @var string
+     * @var int
      */
     private $level;
 

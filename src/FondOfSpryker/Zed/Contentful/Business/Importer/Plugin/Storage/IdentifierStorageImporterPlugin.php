@@ -16,6 +16,9 @@ use Spryker\Client\Storage\StorageClientInterface;
 use Spryker\Shared\Kernel\Store;
 use Spryker\Shared\KeyBuilder\KeyBuilderInterface;
 
+/**
+ * @method \FondOfSpryker\Zed\Contentful\Business\ContentfulBusinessFactory getFactory()
+ */
 class IdentifierStorageImporterPlugin extends AbstractWriterPlugin implements ImporterPluginInterface
 {
     /**

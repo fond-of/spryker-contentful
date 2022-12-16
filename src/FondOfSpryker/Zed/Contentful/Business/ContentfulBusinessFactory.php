@@ -38,8 +38,6 @@ use FondOfSpryker\Zed\Contentful\Business\Storage\Object\ObjectFieldMapper;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Reference\ReferenceFieldMapper;
 use FondOfSpryker\Zed\Contentful\Business\Storage\Text\TextFieldMapper;
 use FondOfSpryker\Zed\Contentful\ContentfulDependencyProvider;
-use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulToContentfulStorageFacadeInterface;
-use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToContentfulPageSearchInterface;
 use FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToStoreFacadeInterface;
 use Generated\Shared\Transfer\StoreTransfer;
 use Orm\Zed\Contentful\Persistence\FosContentfulQuery;
@@ -337,22 +335,6 @@ class ContentfulBusinessFactory extends AbstractBusinessFactory
     public function getStoreClient(): StoreClientInterface
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::CLIENT_STORE);
-    }
-
-    /**
-     * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentfulPageSearchFacadeInterface
-     */
-    public function getContentfulStorageFacade(): ContentfulToContentfulStorageFacadeInterface
-    {
-        return $this->getProvidedDependency(ContentfulDependencyProvider::CONTENTFUL_STORAGE_FACADE);
-    }
-
-    /**
-     * @return \FondOfSpryker\Zed\Contentful\Dependency\Facade\ContentulToContentfulPageSearchInterface
-     */
-    public function getContentfulSearchPageFacade(): ContentulToContentfulPageSearchInterface
-    {
-        return $this->getProvidedDependency(ContentfulDependencyProvider::CONTENTFUL_PAGE_SEARCH_FACADE);
     }
 
     /**

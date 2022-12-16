@@ -32,7 +32,6 @@ use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeFactory
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeFactoryInterface;
 use FondOfSpryker\Yves\Contentful\Renderer\Navigation\Node\NavigationNodeMapperInterface;
 use Spryker\Client\CategoryStorage\CategoryStorageClientInterface;
-use Spryker\Client\Search\SearchClientInterface;
 use Spryker\Client\Store\StoreClientInterface;
 use Spryker\Yves\Kernel\AbstractFactory;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -261,13 +260,5 @@ class ContentfulFactory extends AbstractFactory
     public function getLocale(): string
     {
         return $this->getProvidedDependency(ContentfulDependencyProvider::SERVICE_LOCALE);
-    }
-
-    /**
-     * @return \Spryker\Client\Search\SearchClientInterface
-     */
-    public function getSearchClient(): SearchClientInterface
-    {
-        return $this->getProvidedDependency(ContentfulDependencyProvider::SEARCH_CLIENT);
     }
 }

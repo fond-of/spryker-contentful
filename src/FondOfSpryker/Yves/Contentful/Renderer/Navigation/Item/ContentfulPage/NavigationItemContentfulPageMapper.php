@@ -15,12 +15,12 @@ class NavigationItemContentfulPageMapper implements NavigationItemMapperInterfac
     /**
      * @var string
      */
-    private const KEY_CONTENTFUL_ENTRY_ID = 'typeId';
+    protected const KEY_CONTENTFUL_ENTRY_ID = 'typeId';
 
     /**
      * @var string
      */
-    private const KEY_CUSTOM_TEXT = 'customText';
+    protected const KEY_CUSTOM_TEXT = 'customText';
 
     /**
      * @return string
@@ -31,7 +31,7 @@ class NavigationItemContentfulPageMapper implements NavigationItemMapperInterfac
     }
 
     /**
-     * @param array<string> $navigation
+     * @param array<mixed> $navigation
      *
      * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface
      */
@@ -49,7 +49,7 @@ class NavigationItemContentfulPageMapper implements NavigationItemMapperInterfac
     }
 
     /**
-     * @param array<string> $navigation
+     * @param array<mixed> $navigation
      *
      * @return bool
      */

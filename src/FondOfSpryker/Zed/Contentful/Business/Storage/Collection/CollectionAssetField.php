@@ -29,10 +29,13 @@ class CollectionAssetField implements CollectionFieldInterface
      */
     public function getAsset(): array
     {
+        /** @var \Contentful\Core\File\File $file */
+        $file = $this->asset->getFile();
+
         return [
             'title' => $this->asset->getTitle(),
             'description' => $this->asset->getDescription(),
-            'url' => $this->asset->getFile()->getUrl(),
+            'url' => $file->getUrl(),
         ];
     }
 

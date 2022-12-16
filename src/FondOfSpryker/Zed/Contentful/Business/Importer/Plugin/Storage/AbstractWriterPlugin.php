@@ -13,7 +13,7 @@ use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 
 /**
  * @method \FondOfSpryker\Zed\Contentful\ContentfulConfig getConfig()
- * @method \Pyz\Zed\Contentful\Business\ContentfulBusinessFactory getFactory()
+ * @method \FondOfSpryker\Zed\Contentful\Business\ContentfulBusinessFactory getFactory()
  */
 abstract class AbstractWriterPlugin extends AbstractPlugin
 {

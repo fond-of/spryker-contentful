@@ -5,7 +5,6 @@ namespace FondOfSpryker\Yves\Contentful;
 use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
 use Aptoma\Twig\Extension\MarkdownExtension;
 use FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToContentfulPageSearchClientBridge;
-use FondOfSpryker\Yves\Contentful\Dependency\Client\ContentfulToSearchClientBridge;
 use FondOfSpryker\Yves\Contentful\Dependency\Renderer\ContentfulToRendererBridge;
 use Spryker\Shared\Kernel\ContainerInterface;
 use Spryker\Yves\Kernel\AbstractBundleDependencyProvider;
@@ -27,11 +26,6 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
      * @var string
      */
     public const CLIENT_STORE = 'CLIENT_STORE';
-
-    /**
-     * @var string
-     */
-    public const SEARCH_CLIENT = 'SEARCH_CLIENT';
 
     /**
      * @var string
@@ -157,22 +151,6 @@ class ContentfulDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container[static::CATEGORY_STORAGE_CLIENT] = function (Container $container) {
             return $container->getLocator()->categoryStorage()->client();
-        };
-
-        return $container;
-    }
-
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
-    protected function getSearchClient(Container $container): Container
-    {
-        $container[static::SEARCH_CLIENT] = function (Container $container) {
-            return new ContentfulToSearchClientBridge(
-                $container->getLocator()->search()->client(),
-            );
         };
 
         return $container;

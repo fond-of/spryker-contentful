@@ -35,14 +35,14 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
     }
 
     /**
-     * @param array<<array<string>> $navigation
+     * @param array<mixed> $navigationItemsArray
      *
      * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemCollectionInterface
      */
-    public function build(array $navigation): NavigationItemCollectionInterface
+    public function build(array $navigationItemsArray): NavigationItemCollectionInterface
     {
         $this->collection->clear();
-        foreach ($navigation as $navigationChild) {
+        foreach ($navigationItemsArray as $navigationChild) {
             // create navigation items recursively
             $item = $this->createNavigationItemRecursive($navigationChild);
             if ($item === null) {
@@ -56,7 +56,7 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
     }
 
     /**
-     * @param array<string> $navigation
+     * @param array<mixed> $navigation
      *
      * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface|null
      */
@@ -100,7 +100,7 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
     }
 
     /**
-     * @param array<string> $navigation
+     * @param array<mixed> $navigation
      *
      * @return bool
      */
@@ -110,7 +110,7 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
     }
 
     /**
-     * @param array<string> $navigation
+     * @param array<mixed> $navigation
      *
      * @return string
      */
@@ -120,7 +120,7 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
     }
 
     /**
-     * @param array<string> $navigation
+     * @param array<mixed> $navigation
      *
      * @return bool
      */
@@ -132,9 +132,9 @@ class NavigationItemFactory implements NavigationItemFactoryInterface
     }
 
     /**
-     * @param array<string> $navigation
+     * @param array<mixed> $navigation
      *
-     * @return array<string>
+     * @return array<mixed>
      */
     protected function getChildren(array $navigation): array
     {

@@ -19,4 +19,4 @@ codeception:
 	./vendor/bin/codecept run --env standalone
 
 .PHONY: ci
-ci: phpcs codeception
+ci: phpcs codeception phpstan

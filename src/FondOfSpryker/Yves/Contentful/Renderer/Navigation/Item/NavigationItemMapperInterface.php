@@ -10,14 +10,14 @@ interface NavigationItemMapperInterface
     public function getType(): string;
 
     /**
-     * @param array<string> $navigation
+     * @param array<mixed> $navigation
      *
      * @return \FondOfSpryker\Yves\Contentful\Renderer\Navigation\Item\NavigationItemInterface
      */
     public function createNavigationItem(array $navigation): NavigationItemInterface;
 
     /**
-     * @param array<string> $navigation
+     * @param array<mixed> $navigation
      *
      * @return bool
      */
