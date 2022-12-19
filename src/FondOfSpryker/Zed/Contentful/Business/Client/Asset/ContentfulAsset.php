@@ -86,10 +86,13 @@ class ContentfulAsset implements ContentfulAssetInterface
      */
     public function getValue()
     {
+        if ($this->asset === null) {
+            return null;
+        }
         /** @var \Contentful\Core\File\File $file */
         $file = $this->asset->getFile();
 
-        if ($this->asset !== null && $this->asset->getFile() !== null) {
+        if ($file !== null) {
             return $file->getUrl();
         }
 
