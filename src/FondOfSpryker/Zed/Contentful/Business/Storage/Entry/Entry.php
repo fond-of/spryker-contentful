@@ -119,7 +119,7 @@ class Entry implements EntryInterface
     /**
      * @return array<string>
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize()
     {
         $fields = [];
         foreach ($this->getFields() as $field) {
