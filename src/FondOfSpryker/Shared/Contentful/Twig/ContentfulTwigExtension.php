@@ -6,7 +6,7 @@ use FondOfSpryker\Shared\Contentful\Builder\BuilderInterface;
 use FondOfSpryker\Shared\Contentful\Url\UrlFormatterInterface;
 use Spryker\Shared\Kernel\Store;
 use Spryker\Shared\Twig\TwigExtension;
-use Twig_SimpleFunction;
+use Twig\TwigFunction;
 
 class ContentfulTwigExtension extends TwigExtension
 {
@@ -48,11 +48,11 @@ class ContentfulTwigExtension extends TwigExtension
     public function getFunctions()
     {
         return [
-            new Twig_SimpleFunction('contentfulUrl', [$this, 'formatContentfulUrl']),
-            new Twig_SimpleFunction('contentfulEntry', [$this, 'renderContentfulEntry'], ['is_safe' => ['html']]),
-            new Twig_SimpleFunction('contentfulImage', [$this, 'resizeContentfulImage']),
-            new Twig_SimpleFunction('getContentfulEntry', [$this, 'getContentfulEntry']),
-            new Twig_SimpleFunction('getContentfulEntryRecursive', [$this, 'getContentfulEntryRecursive']),
+            new TwigFunction('contentfulUrl', [$this, 'formatContentfulUrl']),
+            new TwigFunction('contentfulEntry', [$this, 'renderContentfulEntry'], ['is_safe' => ['html']]),
+            new TwigFunction('contentfulImage', [$this, 'resizeContentfulImage']),
+            new TwigFunction('getContentfulEntry', [$this, 'getContentfulEntry']),
+            new TwigFunction('getContentfulEntryRecursive', [$this, 'getContentfulEntryRecursive']),
         ];
     }
 
