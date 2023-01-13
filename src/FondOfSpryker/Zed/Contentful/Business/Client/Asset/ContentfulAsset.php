@@ -95,6 +95,8 @@ class ContentfulAsset implements ContentfulAssetInterface
         if ($file !== null) {
             return $file->getUrl();
         }
+
+        return null;
     }
 
     /**
