@@ -19,9 +19,8 @@
   "require": {
     "php": ">=7.4",
     "ext-json": "*",
-    "aptoma/twig-markdown": "2.0.0",
+    "aptoma/twig-markdown": "^3.4.0",
     "contentful/contentful": "^6.0.0",
-    "michelf/php-markdown": "1.9",
     "spryker/category-storage": "^2.4",
     "spryker/event-behavior": "^1.24",
     "spryker/key-builder": "^1.1",
