@@ -24,7 +24,7 @@
     "spryker/category-storage": "^2.4",
     "spryker/event-behavior": "^1.24",
     "spryker/key-builder": "^1.1",
-    "spryker/locale": "^3.3.0",
+    "spryker/locale": "^3.0.0 || ^4.0.0",
     "spryker/storage": "^3.14.0",
     "spryker/store": "^1.12.1",
     "spryker/twig": "^3.8.2"
