@@ -6,9 +6,12 @@ use FondOfSpryker\Client\Contentful\ContentfulClientInterface;
 use FondOfSpryker\Shared\Contentful\Renderer\RendererInterface;
 use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
+use Spryker\Shared\Log\LoggerTrait;
 
 class Builder implements BuilderInterface
 {
+    use LoggerTrait;
+
     /**
      * @var \FondOfSpryker\Client\Contentful\ContentfulClientInterface
      */
@@ -67,6 +70,10 @@ class Builder implements BuilderInterface
         $request = $this->createRequest($entryId, $locale);
         $response = $this->client->getEntryBy($request);
         $renderer = $this->findRendererFor($response);
+
+        if ($response->getId() === null) {
+            $this->getLogger()->error('Contentful entry not found', ['entryId' => $entryId, 'locale' => $locale]);
+        }
 
         return $renderer->getRawEntry($response, $options);
     }
