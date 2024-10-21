@@ -72,7 +72,7 @@ class Builder implements BuilderInterface
         $renderer = $this->findRendererFor($response);
 
         if ($response->getId() === null) {
-            $this->getLogger()->error('Contentful entry not found', ['entryId' => $entryId, 'locale' => $locale]);
+            $this->getLogger()->debug('Contentful entry not found', ['entryId' => $entryId, 'locale' => $locale]);
         }
 
         return $renderer->getRawEntry($response, $options);
