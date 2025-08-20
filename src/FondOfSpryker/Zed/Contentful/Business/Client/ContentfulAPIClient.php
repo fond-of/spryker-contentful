@@ -24,12 +24,23 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
     }
 
     /**
+     * @return string
+     */
+    protected function getBrand(): string
+    {
+        $storePieces = explode('_', APPLICATION_STORE);
+
+        return strtolower($storePieces[0]);
+    }
+
+    /**
      * @return \Contentful\Core\Resource\ResourceArray
      */
     public function findLastChangedEntries(): ResourceArray
     {
         $query = new Query();
         $query->where('sys.updatedAt[gte]', (new DateTime())->modify('-10 minutes'));
+        $query->where('metadata.tags.sys.id[in]', $this->getBrand());
         $query->setLimit(1000);
         $query->setLocale('*');
 
@@ -45,6 +56,7 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
     {
         $query = new Query();
         $query->where('sys.id[match]', $entryId);
+        $query->where('metadata.tags.sys.id[in]', $this->getBrand());
         $query->setLimit(10);
         $query->setLocale('*');
 
@@ -60,6 +72,7 @@ class ContentfulAPIClient implements ContentfulAPIClientInterface
     {
         $query = new Query();
         $query->where('sys.createdAt[gte]', new DateTime('2010-01-01 00:00:00'));
+        $query->where('metadata.tags.sys.id[in]', $this->getBrand());
         $query->setLimit(1000);
         $query->setLocale('*');
 
