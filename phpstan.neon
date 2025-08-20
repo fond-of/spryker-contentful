@@ -6,3 +6,4 @@ parameters:
     ignoreErrors:
         - '#.* on an unknown class Generated\\(Client|Glue|Service|Yves|Zed)\\.*#'
         - '#.*\\ContentfulPageSearch\\.*#'
+        - '#Constant APPLICATION_STORE not found.#'
