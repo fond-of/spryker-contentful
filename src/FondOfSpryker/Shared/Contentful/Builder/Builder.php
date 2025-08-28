@@ -107,6 +107,20 @@ class Builder implements BuilderInterface
     public function getFieldsRecursive(array $fields, string $locale): array
     {
         foreach ($fields as $key => &$field) {
+            if ($field['type'] === 'Reference') {
+                if ($field['value'] === null) {
+                    continue;
+                }
+                $r = $this->client->getEntryBy($this->createRequest($field['value'], $locale));
+                $f = $r->getFields();
+                $f = $this->getFieldsRecursive($f, $locale);
+                $r->setFields($f);
+                $field['value'] = $r->toArray();
+                $field['type'] = $r->getContentType();
+
+                continue;
+            }
+
             if ($field['type'] !== 'Array') {
                 continue;
             }
