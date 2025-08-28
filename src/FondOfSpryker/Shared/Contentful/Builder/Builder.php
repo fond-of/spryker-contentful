@@ -6,9 +6,12 @@ use FondOfSpryker\Client\Contentful\ContentfulClientInterface;
 use FondOfSpryker\Shared\Contentful\Renderer\RendererInterface;
 use Generated\Shared\Transfer\ContentfulEntryRequestTransfer;
 use Generated\Shared\Transfer\ContentfulEntryResponseTransfer;
+use Spryker\Shared\Log\LoggerTrait;
 
 class Builder implements BuilderInterface
 {
+    use LoggerTrait;
+
     /**
      * @var \FondOfSpryker\Client\Contentful\ContentfulClientInterface
      */
@@ -68,6 +71,10 @@ class Builder implements BuilderInterface
         $response = $this->client->getEntryBy($request);
         $renderer = $this->findRendererFor($response);
 
+        if ($response->getId() === null) {
+            $this->getLogger()->debug('Contentful entry not found', ['entryId' => $entryId, 'locale' => $locale]);
+        }
+
         return $renderer->getRawEntry($response, $options);
     }
 
@@ -100,6 +107,20 @@ class Builder implements BuilderInterface
     public function getFieldsRecursive(array $fields, string $locale): array
     {
         foreach ($fields as $key => &$field) {
+            if ($field['type'] === 'Reference') {
+                if ($field['value'] === null) {
+                    continue;
+                }
+                $r = $this->client->getEntryBy($this->createRequest($field['value'], $locale));
+                $f = $r->getFields();
+                $f = $this->getFieldsRecursive($f, $locale);
+                $r->setFields($f);
+                $field['value'] = $r->toArray();
+                $field['type'] = $r->getContentType();
+
+                continue;
+            }
+
             if ($field['type'] !== 'Array') {
                 continue;
             }
